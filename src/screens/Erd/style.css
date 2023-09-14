@@ -1,0 +1,24 @@
+.erd-container {
+    width: calc(100% );
+    height: calc(100vh - 100px);
+    position: relative;
+}
+
+.react-flow {
+    background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-filled));
+}
+
+.react-flow__controls-button {
+    background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+    fill: var(--mantine-color-text);
+    border-bottom: 1px solid var(--mantine-color-text);
+}
+
+.react-flow__minimap {
+    background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-5));
+}
+
+.react-flow__attribution {
+    background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-5));
+
+}

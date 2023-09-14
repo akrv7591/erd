@@ -1,0 +1,13 @@
+
+.tableRow {
+    cursor: grab;
+    border-radius: 5px;
+    outline: none
+}
+
+.tableRowDrag {
+    cursor: grabbing;
+    border-radius: 5px;
+    outline: 1px solid #00d0ff;
+    background-color: var(--_card-bg);
+}

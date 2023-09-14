@@ -1,0 +1,18 @@
+.floatingPath {
+    transition: stroke-width 0.3s;
+    stroke-width: 3px;
+    stroke: var(--mantine-color-text)
+}
+
+.floatingPath svg {
+    /*stroke-width: 10px;*/
+    stroke: red
+}
+
+.floatingPath:hover {
+    stroke: var(--mantine-primary-color-filled)
+}
+
+.floatingPath.selected {
+    stroke: #bd1dc2 !important;
+}
