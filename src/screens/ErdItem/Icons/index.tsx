@@ -1,4 +1,4 @@
-import {OneToOne} from "./OneToOne";
+import {One} from "./One";
 import {Many} from "./Many";
 import React from "react";
 
@@ -7,7 +7,7 @@ export const defaultStyles: React.CSSProperties = {position: 'absolute', top: 0,
 const Icons = () => {
   return (
     <>
-      <OneToOne />
+      <One />
       <Many />
     </>
   )

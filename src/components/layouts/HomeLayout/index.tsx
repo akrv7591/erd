@@ -1,7 +1,7 @@
 import {Outlet} from "react-router-dom";
 
-export default function ErdLayout() {
+export default function HomeLayout () {
   return (
-      <Outlet  />
+    <Outlet />
   )
 }

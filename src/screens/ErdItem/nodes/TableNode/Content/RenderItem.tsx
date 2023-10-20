@@ -34,13 +34,14 @@ const RenderItem = React.memo(({isDragged, props, value}: RenderItemParams<IColu
             onMouseEnter={
               () => {
                 flowStoreApi.setState({nodesDraggable: false, paneDragging: false})
-                reactFlow.fitView({
-                  duration: 200,
-                  minZoom: 1,
-                  maxZoom: 1,
-                  nodes: [node!]
-                })
-
+                if (reactFlow.getZoom() !== 1) {
+                  reactFlow.fitView({
+                    duration: 200,
+                    minZoom: 1,
+                    maxZoom: 1,
+                    nodes: [node!]
+                  })
+                }
               }}
             onMouseLeave={() => flowStoreApi.setState({nodesDraggable: true, paneDragging: true})}
           />

@@ -34,6 +34,7 @@ export const handleAddRelationAtom = atom(null, (get, set, args: Connection) => 
           column: voca.snakeCase(get(sourceNode.data).tableName+voca.titleCase(column.column)),
           foreignKey: true,
           primary: false,
+          autoIncrement: false,
           unique: true
         })}
       )])
@@ -50,7 +51,9 @@ export const handleAddRelationAtom = atom(null, (get, set, args: Connection) => 
           ...column,
           column: voca.snakeCase(get(sourceNode.data).tableName+voca.titleCase(column.column)),
           primary: false,
-          foreignKey: true
+          foreignKey: true,
+          unique: false,
+          autoIncrement: false,
         })}
       )])
       break
@@ -63,6 +66,8 @@ export const handleAddRelationAtom = atom(null, (get, set, args: Connection) => 
           ...columnData,
           primary: false,
           foreignKey: true,
+          unique: false,
+          autoIncrement: false,
           column: voca.snakeCase(columnData.tableName + "_" + columnData.column)
         })
       }))
@@ -80,7 +85,6 @@ export const handleAddRelationAtom = atom(null, (get, set, args: Connection) => 
 
       set(nodesAtom, cur => [...cur, newNode])
       edges = columnsCombined.map(column => {
-        console.log(id + column.id)
         return {
           source: column.tableId,
           target: id,
