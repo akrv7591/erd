@@ -9,7 +9,7 @@ import '@mantine/notifications/styles.css';
 function App() {
 
   return (
-    <MantineProvider theme={theme} >
+    <MantineProvider theme={theme} defaultColorScheme={"dark"}>
       <Notifications />
       <RouterProvider router={router}/>
     </MantineProvider>
