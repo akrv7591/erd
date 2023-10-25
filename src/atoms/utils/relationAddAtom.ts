@@ -6,13 +6,13 @@ import {RELATIONS} from "../../constants/relations";
 import voca from "voca";
 import {IColumn} from "../columnAtom";
 import {IData} from "../../providers/TableDataProvider";
-import {edgesAtoms} from "../edgesAtoms";
+import {edgesAtoms, edgesUpdateAtom} from "../edgesAtoms";
 import {INode, nodesAtom} from "../nodesAtoms";
 
-export const handleAddRelationAtom = atom(null, (get, set, args: Connection) => {
+export const handleAddRelationAtom = atom(null, (get, set, {connection, erdUuid}: {connection: Connection, erdUuid: string}) => {
   const nodes = get(nodesAtom)
-  const targetNode = nodes.find(node => node.id === args.target)!
-  const sourceNode = nodes.find(node => node.id === args.source)!
+  const targetNode = nodes.find(node => node.id === connection.target)!
+  const sourceNode = nodes.find(node => node.id === connection.source)!
 
   if (targetNode.id === sourceNode.id) return
 
@@ -93,6 +93,12 @@ export const handleAddRelationAtom = atom(null, (get, set, args: Connection) => 
         }
       })
   }
-  set(edgesAtoms, cur => [...cur, ...edges])
+
+  const curEdges = get(edgesAtoms)
+  console.log(curEdges)
+  set(edgesUpdateAtom, {
+    edges: [...curEdges, ...edges],
+    erdUuid
+  })
   set(toolAtom, 'grab')
 })

@@ -4,7 +4,10 @@
   "private": true,
   "dependencies": {
     "@mantine/core": "^7.0.0-beta.5",
+    "@mantine/form": "^7.1.5",
     "@mantine/hooks": "^7.0.0-beta.5",
+    "@mantine/modals": "^7.1.5",
+    "@mantine/notifications": "^7.1.5",
     "@tabler/icons-react": "^2.34.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -14,7 +17,10 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/uuid": "^9.0.4",
+    "dayjs": "^1.11.10",
     "jotai": "^2.4.2",
+    "jotai-optics": "^0.3.1",
+    "optics-ts": "^2.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-movable": "^3.0.4",
@@ -51,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/voca": "^1.4.3",
     "postcss": "^8.4.29",
     "postcss-preset-mantine": "^1.7.0",

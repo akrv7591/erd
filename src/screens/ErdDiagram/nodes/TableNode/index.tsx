@@ -10,8 +10,7 @@ import {dragPaneAtom} from "../../../../atoms/toolAtom";
 import Header from "./Header";
 import Relations from "./Relations";
 
-interface Props extends NodeProps<IDataAtom> {
-}
+interface Props extends NodeProps<IDataAtom> {}
 
 const TableNode = React.memo((props: Props) => {
   const setDragPane = useSetAtom(dragPaneAtom)

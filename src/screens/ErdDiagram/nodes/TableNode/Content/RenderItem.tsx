@@ -89,7 +89,7 @@ const RenderItem = React.memo(({isDragged, props, value}: RenderItemParams<IColu
       <Table.Td>
         <Input
           defaultValue={data.comment}
-          placeholder={"Column name"}
+          placeholder={"Comment"}
           onChange={e => setData(cur => ({...cur, comment: e.target.value}))}
         />
       </Table.Td>

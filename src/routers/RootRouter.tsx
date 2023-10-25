@@ -1,35 +1,45 @@
-import {createBrowserRouter, Outlet} from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import Home from "screens/Home";
-import ErdLayout from "components/layouts/ErdItemLayout";
-import ErdItem from "../screens/ErdItem";
+import ErdLayout from "components/layouts/ErdDiagramLayout";
+import Erd from "../screens/ErdDiagram";
 import HomeLayout from "../components/layouts/HomeLayout";
-import ErdList from "../screens/Erd";
+import ErdList from "screens/ErdList";
+import ErdListLayout from "../components/layouts/ErdListLayout";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout/>,
-    children: [
-      {
-        index: true,
-        element: <Home/>
-      }, {
-        path: "erd",
-        element: <Outlet/>,
-        children: [{
+    children:
+      [
+        {
           index: true,
-          element: <ErdList/>
-        }, {
-          path: ":erdUuid",
+          element: <Home/>
+        },
+        {
+          path: "erd",
+          element: <ErdListLayout/>,
+          children:
+            [
+              {
+                index: true,
+                element: <ErdList/>
+              }
+            ]
+        },
+        {
+          path: "erd/:erdUuid",
           element: <ErdLayout/>,
-          children: [{
-            index: true,
-            element: <ErdItem/>
-          }]
-        }]
-      }
-    ]
+          children:
+            [
+              {
+                index: true,
+                element: <Erd/>
+              }
+            ]
+        }
+      ]
   }
 ])
 
