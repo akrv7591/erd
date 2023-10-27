@@ -5,6 +5,7 @@ import Erd from "../screens/ErdDiagram";
 import HomeLayout from "../components/layouts/HomeLayout";
 import ErdList from "screens/ErdList";
 import ErdListLayout from "../components/layouts/ErdListLayout";
+import {ReactFlowProvider} from "reactflow";
 
 
 export const router = createBrowserRouter([
@@ -30,7 +31,11 @@ export const router = createBrowserRouter([
         },
         {
           path: "erd/:erdUuid",
-          element: <ErdLayout/>,
+          element: (
+            <ReactFlowProvider>
+              <ErdLayout/>,
+            </ReactFlowProvider>
+          ),
           children:
             [
               {

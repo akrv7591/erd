@@ -7,7 +7,7 @@ export default function ThemeToggle() {
   const isDark = colorScheme === "dark"
 
   return (
-    <ActionIcon onClick={toggleColorScheme}>
+    <ActionIcon onClick={toggleColorScheme} variant={"light"}>
       {
         isDark
           ? <IconSun stroke={1}/>

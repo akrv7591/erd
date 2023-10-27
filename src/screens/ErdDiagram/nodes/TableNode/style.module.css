@@ -1,15 +1,19 @@
 .box {
-    /*background-color: light-dark(var(--mantine-color-red-2), var(--mantine-color-pink-7));*/
     min-width: 400px;
     min-height: 100px;
     width: 100%;
-    /*padding: 10px;*/
     height: 100%;
     position: relative;
 }
 
 .card {
     height: calc(100% - 50px);
+    outline: 2px solid var(--mantine-color-dark-6) !important;
+    transition: 0.3s;
+
+    &:hover {
+        outline: 2px solid var(--mantine-primary-color-filled-hover) !important;
+    }
 }
 
 .cardSelected {

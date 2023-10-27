@@ -7,7 +7,8 @@ import ReactFlow, {
   ConnectionLineType,
   Controls,
   MiniMap,
-  ReactFlowProvider,
+  Node,
+  OnNodesChange,
   useReactFlow
 } from 'reactflow';
 import 'reactflow/dist/style.css';
@@ -22,8 +23,12 @@ import Icons from "./Icons";
 import {handleAddRelationAtom} from "../../atoms/utils/relationAddAtom";
 import {nodeAddAtom} from "../../atoms/utils/nodeAddAtom";
 import {useParams} from "react-router-dom";
+import {useErdAtom} from "../../providers/ErdProvider";
+import {IData} from "../../providers/TableDataProvider";
 
-const ErdFlow = () => {
+const ErdDiagram = () => {
+  const erdAtom = useErdAtom()
+  const erd = useAtomValue(erdAtom)
   const [nodes] = useAtom(nodesAtom)
   const [edges, setEdges] = useAtom(edgesUpdateAtom)
   const setNode = useSetAtom(setNodes)
@@ -33,6 +38,20 @@ const ErdFlow = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const handleAddRelation = useSetAtom(handleAddRelationAtom)
   const params = useParams<{ erdUuid: string }>()
+  const onNodesChange: OnNodesChange = changedNodes => setNode({
+    erdUuid: params.erdUuid as string,
+    nodes: applyNodeChanges(changedNodes, nodes)
+  })
+  const getColor = React.useCallback((node: Node<IData>) => {
+    const minimapNode = erd.nodes.find(n => n.id === node.id)
+
+    if (minimapNode) {
+      return minimapNode.data.color
+    } else {
+      return "red"
+    }
+
+  }, [erd.nodes])
 
   return (
     <div className={"erd-container"} ref={reactFlowWrapper}>
@@ -41,11 +60,10 @@ const ErdFlow = () => {
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        fitView={true}
+        fitViewOptions={{nodes}}
         edgeTypes={edgeTypes}
-        onNodesChange={changedNodes => setNode({
-          erdUuid: params.erdUuid as string,
-          nodes: applyNodeChanges(changedNodes, nodes)
-        })}
+        onNodesChange={onNodesChange}
         onEdgesChange={changedEdges => setEdges({
           erdUuid: params.erdUuid as string,
           edges: applyEdgeChanges(changedEdges, edges)
@@ -62,19 +80,11 @@ const ErdFlow = () => {
         proOptions={{hideAttribution: true}}
       >
         <Controls/>
-        <MiniMap zoomable pannable nodeStrokeWidth={20}/>
+        <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={getColor}/>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
       </ReactFlow>
     </div>
   );
 }
 
-
-export default function ErdDiagram() {
-  return (
-    <ReactFlowProvider>
-      <ErdFlow/>
-    </ReactFlowProvider>
-
-  )
-}
+export default ErdDiagram

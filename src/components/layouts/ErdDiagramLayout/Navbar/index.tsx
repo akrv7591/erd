@@ -70,6 +70,8 @@ export default function Navbar() {
   return (
     <Stack w={"100%"}>
       <SegmentedControl
+        variant={"light"}
+        color={"var(--mantine-color-blue-light)"}
         data={data}
         value={tool}
         onChange={(v: ITools) => {

@@ -32,8 +32,10 @@ export default function ErdList() {
       <Group mt={20} justify={"space-between"}>
         <TextInput
           onChange={e => setSearch(e.target.value)}
+          autoFocus
           placeholder={"Search"}
-          rightSection={<IconSearch stroke={1}/>}/>
+          rightSection={<IconSearch stroke={1}/>}
+        />
         <Button leftSection={<IconPlus stroke={1}/>} onClick={() => modal.open('create')}>
           add
         </Button>

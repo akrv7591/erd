@@ -14,31 +14,35 @@ export interface IErd {
   edges: Edge[]
 }
 
-interface ISerErdArgs {
+interface ISetErdArgs {
   type: ModalType;
   data: IErd;
 }
 
-const unknownData = localStorage.getItem("erds") || "[]"
-let defaultErdData: IErd[]
-try {
-  const arr = JSON.parse(unknownData) as IErd[]
+export const getErdData = () => {
+  const unknownData = localStorage.getItem("erds") || "[]"
+  let defaultErdData: IErd[]
+  try {
+    const arr = JSON.parse(unknownData) as IErd[]
 
-  if (Array.isArray(arr)) {
-    defaultErdData = arr
-  } else {
+    if (Array.isArray(arr)) {
+      defaultErdData = arr
+    } else {
+      defaultErdData = []
+    }
+  } catch (e) {
+    console.warn("local storage erd data is not valid")
     defaultErdData = []
   }
-} catch (e) {
-  console.warn("local storage erd data is not valid")
-  defaultErdData = []
+
+  return defaultErdData
+
 }
 
-
-export const erdsAtom = atomWithStorage("erds", defaultErdData)
+export const erdsAtom = atomWithStorage("erds", getErdData())
 export const setErds = atom(
   get => get(erdsAtom),
-  (get, set, args: ISerErdArgs) => {
+  (get, set, args: ISetErdArgs) => {
     const {type, data} = args
     let erds: IErd[] = get(erdsAtom)
     switch (type) {

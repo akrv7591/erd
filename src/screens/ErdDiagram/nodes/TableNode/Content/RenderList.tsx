@@ -22,7 +22,7 @@ const RenderList = React.memo(({isDragged, children, props, rowLength}: Props) =
           <Table.Td w={40}></Table.Td>
           <Table.Td w={40}></Table.Td>
           <Table.Td maw={200} miw={200}>Column</Table.Td>
-          <Table.Td maw={200} miw={200}>Data type</Table.Td>
+          <Table.Td maw={150} miw={150} width={150}>Data type</Table.Td>
           <Table.Td miw={40}>PK</Table.Td>
           <Table.Td miw={40}>NN</Table.Td>
           <Table.Td miw={40}>UQ</Table.Td>

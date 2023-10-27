@@ -1,4 +1,4 @@
-import {createTheme, Tooltip} from "@mantine/core";
+import {ActionIcon, Button, createTheme, Tooltip} from "@mantine/core";
 
 export const theme = createTheme({
   components: {
@@ -8,6 +8,16 @@ export const theme = createTheme({
           transition: "pop",
           duration: 300
         }
+      }
+    }),
+    Button: Button.extend({
+      defaultProps: {
+        variant: "light"
+      }
+    }),
+    ActionIcon: ActionIcon.extend({
+      defaultProps: {
+        variant: "light"
       }
     })
   }

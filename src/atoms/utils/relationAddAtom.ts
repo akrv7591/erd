@@ -59,6 +59,7 @@ export const handleAddRelationAtom = atom(null, (get, set, {connection, erdUuid}
       break
     case RELATIONS.MANY_TO_MANY:
       const targetPrimaryColumns = get(get(targetNode.data).columns).filter(columnAtom => get(columnAtom).primary).map(columnAtom => ({...get(columnAtom), tableName: get(targetNode.data).tableName, id: v4(), tableId: targetNode.id}))
+      if (targetPrimaryColumns.length === 0) return;
       const columnsCombined = [...targetPrimaryColumns, ...sourcePrimaryColumns]
       const id = v4();
       const columns = atom<PrimitiveAtom<IColumn>[]>(columnsCombined.map(columnData => {
@@ -95,7 +96,6 @@ export const handleAddRelationAtom = atom(null, (get, set, {connection, erdUuid}
   }
 
   const curEdges = get(edgesAtoms)
-  console.log(curEdges)
   set(edgesUpdateAtom, {
     edges: [...curEdges, ...edges],
     erdUuid

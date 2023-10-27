@@ -15,7 +15,7 @@ export const nodeAddAtom = atom(null, (get, set, {e, reactFlowWrapper, project})
       const {top, left} = reactFlowWrapper.current.getBoundingClientRect();
       const id = v4();
       const columns = atom<PrimitiveAtom<IColumn>[]>([])
-      const dataAtom = atom<IData>({tableName: `table_${get(nodesAtom).length}`, columns, color: "dark-grey"})
+      const dataAtom = atom<IData>({tableName: `table_${get(nodesAtom).length}`, columns, color: "var(--mantine-color-dark-6)"})
       const newNode: INode = {
         id,
         type: "tableNode",

@@ -1,13 +1,14 @@
-import {ActionIcon, Card, Grid, Group, Image, Stack, Title} from "@mantine/core";
+import {ActionIcon, Card, Grid, Group, Image, Stack, Text, Title, Tooltip} from "@mantine/core";
 import {IErd, setErds} from "../../../atoms/erdsAtom";
 import styles from "./style.module.css"
 import {useModal} from "../../../hooks/useModal";
 import AddModal from "../AddModal";
 import {PrimitiveAtom, useAtomValue, useSetAtom} from "jotai";
-import {IconChartTreemap, IconEdit, IconTrash} from "@tabler/icons-react";
+import {IconChartTreemap, IconEdit, IconTable, IconTrash} from "@tabler/icons-react";
 import {notifications} from "@mantine/notifications";
 import {MouseEventHandler} from "react";
 import {useNavigate} from "react-router-dom";
+import dayjs from "dayjs";
 
 interface Props {
   erdAtom: PrimitiveAtom<IErd>
@@ -55,14 +56,25 @@ export default function Erd({erdAtom}: Props) {
           <Group>
             <IconChartTreemap stroke={1}/>
             <Title order={4}> {erd.name}</Title>
-            <ActionIcon onClick={onUpdate} color={"var(--mantine-color-green-filled)"} ml={'auto'}>
+            <ActionIcon onClick={onUpdate}  ml={'auto'}>
               <IconEdit  stroke={1}/>
             </ActionIcon>
-            <ActionIcon onClick={onDelete} color={"var(--mantine-color-red-filled)"}>
+            <ActionIcon onClick={onDelete} >
               <IconTrash  stroke={1}/>
             </ActionIcon>
           </Group>
           <Image mih={"200px"} h={"200px"}/>
+          <Group justify={"space-between"}>
+            <Tooltip label={`${erd.nodes.length} tables`}>
+              <Group gap={2}>
+                <Text>{erd.nodes.length}</Text>
+                <IconTable stroke={1} size={20}/>
+              </Group>
+            </Tooltip>
+            <Text size={"sm"}>
+              {dayjs(erd.createdAt).format("YYYY-MM-DD")}
+            </Text>
+          </Group>
         </Stack>
       </Card>
     </Grid.Col>

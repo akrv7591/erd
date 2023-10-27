@@ -45,8 +45,6 @@ function FloatingEdge({id, source, target, markerEnd, style, ...rest}: EdgeProps
     targetY: ty,
   });
 
-  console.log({selected: rest.selected})
-
 
   return (
     <>

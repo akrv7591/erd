@@ -33,6 +33,7 @@ const Content = React.memo(() => {
     <Stack>
       <List
         values={columns}
+        lockVertically
         onChange={onChange}
         renderList={params => <RenderList rowLength={columns.length} {...params} />}
         renderItem={params => <RenderItem key={params.index} {...params} />}
