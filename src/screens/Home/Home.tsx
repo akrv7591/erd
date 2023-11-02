@@ -1,12 +1,11 @@
 import {Button, Container, Text, ThemeIcon, Title, List, rem, Group, Image} from "@mantine/core";
-import React from "react";
 import classes from "./style.module.css";
 import { IconCheck } from "@tabler/icons-react";
 import {Link} from "react-router-dom";
 import {PROJECT} from "../../constants/project";
 import {Helmet} from "react-helmet-async";
 
-export default function Index() {
+export default function Home() {
   return (
     <Container size="1400">
       <Helmet>

@@ -1,20 +1,20 @@
 import {createBrowserRouter, Outlet, RouteObject} from "react-router-dom";
-import Home from "screens/Home";
-import ErdDiagramLayout from "components/layouts/ErdDiagramLayout";
 // import Erd from "../screens/ErdDiagram";
 import Erd from "../screens/ErdDiagramTest";
 import HomeLayout from "../components/layouts/HomeLayout";
-import ErdList from "screens/ErdList";
 import ErdListLayout from "../components/layouts/ErdListLayout";
 import ErdProvider from "../providers/ErdProvider";
 import ErdLayout from "../components/layouts/ErdLayout";
-import NotFound from "screens/NotFound";
 import SignIn from "../screens/Auth/SignIn";
 import SignUp from "../screens/Auth/SignUp";
 
 import AuthLayout from "../components/layouts/AuthLayout";
 import SendEmailVerification from "../screens/Auth/SendEmailVerification";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
+import Home from "../screens/Home/Home";
+import NotFound from "../screens/NotFound";
+import ErdList from "../screens/ErdList";
+import ErdDiagramLayout from "../components/layouts/ErdDiagramLayout";
 
 const NotFoundRoute: RouteObject = {
   path: "*",
