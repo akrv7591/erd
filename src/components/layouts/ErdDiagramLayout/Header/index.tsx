@@ -1,11 +1,12 @@
-import { Group, Text} from "@mantine/core";
-import ThemeToggle from "components/common/ThemeToggle";
+import {Group} from "@mantine/core";
+import Logo from "./Logo";
+import Title from "./Title";
 
 export default function Header() {
   return (
-    <Group align={"center"} justify={"space-between"} p={"10px"} h={"100%"}>
-      <Text>ERD</Text>
-      <ThemeToggle />
+    <Group align={"center"} px={"10px"} h={"100%"}>
+      <Logo/>
+      <Title />
     </Group>
   )
 }

@@ -5,14 +5,24 @@ import {MantineProvider} from "@mantine/core";
 import {theme} from "./config/theme";
 import {Notifications} from "@mantine/notifications";
 import '@mantine/notifications/styles.css';
+import {QueryClient, QueryClientProvider} from "react-query";
+import {HelmetProvider} from 'react-helmet-async';
+// import {CookiesProvider} from "react-cookie";
+
+const queryClient = new QueryClient()
 
 function App() {
-
   return (
-    <MantineProvider theme={theme} defaultColorScheme={"dark"}>
-      <Notifications />
-      <RouterProvider router={router}/>
-    </MantineProvider>
+    // <CookiesProvider defaultSetOptions={{ path: '/' }}>
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider theme={theme} defaultColorScheme={"dark"}>
+          <Notifications position={"top-right"}/>
+          <HelmetProvider>
+            <RouterProvider router={router}/>
+          </HelmetProvider>
+        </MantineProvider>
+      </QueryClientProvider>
+    // </CookiesProvider>
   );
 }
 

@@ -7,10 +7,9 @@ import {
   IconSelectAll,
   IconTablePlus
 } from "@tabler/icons-react";
-import {useAtom, useAtomValue} from 'jotai'
-import {ITools, toolAtom} from "../../../../atoms/toolAtom";
 import React from "react";
-import {nodesAtom} from "../../../../atoms/nodesAtoms";
+import {useErdDiagramStore} from "../../../../hooks/erd/useErdDiagramStore";
+import {ITools} from "../../../../types/erd-node";
 
 
 const data: {
@@ -46,12 +45,12 @@ const data: {
   }]
 
 const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data.map(({label, icon: Icon, value}) => {
-  const disabled = ['one-to-one', 'one-to-many', 'many-to-many',].includes(value) && nodesCount  < 2
+  const disabled = ['one-to-one', 'one-to-many', 'many-to-many',].includes(value) && nodesCount < 2
   return {
     disabled,
     value: value,
     label: (
-      <Tooltip label={disabled? "Need 2 or more tables to have relations": label} position={'right'}>
+      <Tooltip label={disabled ? "Need 2 or more tables to have relations" : label} position={'right'}>
         <Box style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
           <Icon size={30} stroke={1}/>
         </Box>
@@ -62,9 +61,7 @@ const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data
 })
 
 export default function Navbar() {
-  const [tool, setTool] = useAtom(toolAtom)
-  const nodes = useAtomValue(nodesAtom)
-
+  const [nodes, tool, setTool] = useErdDiagramStore(state => ([state.nodes, state.tool, state.setTool]))
   const data = generateSegmentData(nodes.length)
 
   return (
@@ -74,8 +71,8 @@ export default function Navbar() {
         color={"var(--mantine-color-blue-light)"}
         data={data}
         value={tool}
-        onChange={(v: ITools) => {
-          setTool(v)
+        onChange={(v) => {
+          setTool(v as ITools)
         }}
         orientation={'vertical'}
         fullWidth/>

@@ -1,18 +1,8 @@
 import {Button, Group, Popover, Stack, Text, Textarea} from "@mantine/core";
 import {IconDatabaseExport} from "@tabler/icons-react";
 import React from "react";
-import {MysqlParser, Table} from "../../../../../utility/MySqlParser";
 
 export default function Export() {
-  const [importedTables, setImportedTables] = React.useState<Table[]>([])
-
-  const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    const parser = new MysqlParser()
-    const tables = parser.parse(e.target.value)
-    setImportedTables(tables)
-
-    console.log(importedTables)
-  }
   return (
     <Popover
       width={"100%"}
@@ -34,7 +24,7 @@ export default function Export() {
               Import MySql
             </Text>
           </Group>
-          <Textarea onChange={onChange} rows={10}/>
+          <Textarea rows={10}/>
         </Stack>
       </Popover.Dropdown>
     </Popover>

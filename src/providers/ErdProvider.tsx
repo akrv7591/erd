@@ -1,44 +1,43 @@
 import React from "react";
-import {Atom, useAtomValue, useSetAtom} from "jotai";
-import {erdsAtom, IErd} from "../atoms/erdsAtom";
-import {useParams} from "react-router-dom";
-import {selectAtom} from "jotai/utils";
-import {setJsonNodes} from "../atoms/nodesAtoms";
-import {edgesUpdateAtom} from "../atoms/edgesAtoms";
+import {IErd, useErdStore} from "../stores/useErdStore";
+import {Navigate, useParams} from "react-router-dom";
+import {ReactFlowProvider} from "reactflow";
+import {validate} from "uuid";
 import {useOnMount} from "../hooks/useOnMount";
+import LoadingBackdrop from "../components/common/LoadingBackdrop";
 
-const ErdContext = React.createContext<Atom<IErd>>({} as Atom<IErd>)
-export const useErdAtom = () => React.useContext(ErdContext)
+const ErdContext = React.createContext<IErd>({} as IErd)
+export const useErd = () => React.useContext(ErdContext)
 
-const ErdProvider = (props: React.PropsWithChildren) => {
-  const params = useParams<{ erdUuid: string }>()
-  const erdAtom = React.useMemo(() => {
-    return selectAtom(erdsAtom, (erds) => erds.find(erd => erd.id === params.erdUuid)!)
-  }, [params.erdUuid])
-  const erd = useAtomValue(erdAtom)
-  const setNodes = useSetAtom(setJsonNodes)
-  const setEdges = useSetAtom(edgesUpdateAtom)
-  const [mounted, setMounted] = React.useState(false)
+export default function ErdProvider(props: React.PropsWithChildren) {
+  const {erdUuid} = useParams()
+  const [getErd, initiated, init] = useErdStore(state => [state.getErd, state.initiated, state.init])
+  const [erd, setErd] = React.useState<IErd>()
 
   useOnMount(() => {
-    setNodes({
-      erdUuid: erd.id,
-      nodes: erd.nodes
-    })
-    setEdges({
-      erdUuid: erd.id,
-      edges: erd.edges || []
-    })
-    setMounted(true)
+    if (!initiated) {
+      init()
+    }
+
+    setErd(getErd(erdUuid as string))
   })
 
-  if (!mounted) return null
+  console.log({erd})
+
+  if (!validate(erdUuid as string)) {
+    return <Navigate to={"/"}/>
+  }
+
+  if (!initiated) return <LoadingBackdrop />
+
+  console.log("RENDERING")
 
   return (
-    <ErdContext.Provider value={erdAtom}>
-      {props.children}
+
+    <ErdContext.Provider value={getErd(erdUuid as string)}>
+      <ReactFlowProvider>
+        {props.children}
+      </ReactFlowProvider>
     </ErdContext.Provider>
   )
 }
-
-export default ErdProvider

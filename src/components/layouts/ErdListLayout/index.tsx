@@ -1,29 +1,22 @@
 import {Outlet} from "react-router-dom";
 import {AppShell} from "@mantine/core";
 import Header from "./Header";
-import {useSetAtom} from "jotai";
-import {erdsAtom, getErdData} from "../../../atoms/erdsAtom";
 import React from "react";
-import {useOnMount} from "../../../hooks/useOnMount";
+import Navbar from "./Navbar";
 
 export default function ErdListLayout() {
-  const setErd = useSetAtom(erdsAtom)
-  const [mounted, setMounted] = React.useState(false)
-
-  useOnMount(() => {
-    setErd(getErdData())
-    setMounted(true)
-  })
-
-  if (!mounted) return null
-
+  console.log("ERD_LIST MOUNTED")
   return (
     <AppShell
       header={{height: 70}}
+      navbar={{width: 300, breakpoint: "sm"}}
     >
       <AppShell.Header>
         <Header/>
       </AppShell.Header>
+      <AppShell.Navbar>
+        <Navbar />
+      </AppShell.Navbar>
       <AppShell.Main>
         <Outlet/>
       </AppShell.Main>

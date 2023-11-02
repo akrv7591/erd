@@ -21,6 +21,7 @@ const getTitle = (title: string, type: ModalType) => {
 
 export const useModal = (props: Props) => {
   const [opened, setOpened] = React.useState(props.initialOpen)
+  const [loading, setLoading] = React.useState(false)
   const [type, setType] = React.useState(props.initialType)
   const onClose = () => setOpened(cur => !cur)
   const open = (type: ModalType = 'view') => setOpened(() => {
@@ -30,11 +31,13 @@ export const useModal = (props: Props) => {
   const title = getTitle(props.baseTitle, type)
   return {
     modalProps: {
+      loading,
       opened,
       onClose,
       title,
       type
     },
+    setLoading,
     open,
   }
 }

@@ -1,3 +1,5 @@
+import { format } from 'sql-formatter';
+
 type Column = {
   name: string;
   type: string;
@@ -20,12 +22,21 @@ export type Table = {
 };
 
 export class MysqlParser {
-  parse(sql: string): Table[] {
+  private sql: string
+
+  constructor(sql: string) {
+    this.sql = format(sql, {
+      language: "mysql",
+    })
+  }
+  parse(): Table[] {
     const tables: Table[] = [];
     let match: RegExpExecArray | null;
 
-    const createTableRegex = /CREATE TABLE `([^`]+)` \(([^;]+)\);/g;
-    while ((match = createTableRegex.exec(sql.trim()))) {
+    // const createTableRegex = /CREATE TABLE `([^`]+)` \(([^;]+)\);/g;
+    const createTableRegex = /CREATE TABLE\s+`([^`]+)`\s+\(([\s\S]+?)\)\s*;/g;
+
+    while ((match = createTableRegex.exec(this.sql))) {
       const tableName = match[1].trim();
       const columnText = match[2].trim();
 
@@ -33,8 +44,10 @@ export class MysqlParser {
       tables.push({name: tableName, columns});
     }
 
-    const alterTableRegex = /ALTER TABLE `([^`]+)` ADD CONSTRAINT `([^`]+)` (PRIMARY KEY|FOREIGN KEY) \(([^)]+)\)(?:\nREFERENCES `([^`]+)` \(([^)]+)\))?;/g;
-    while ((match = alterTableRegex.exec(sql.trim()))) {
+    // const alterTableRegex = /ALTER TABLE `([^`]+)` ADD CONSTRAINT `([^`]+)` (PRIMARY KEY|FOREIGN KEY) \(([^)]+)\)(?:\nREFERENCES `([^`]+)` \(([^)]+)\))?;/g;
+    const alterTableRegex = /ALTER TABLE\s+`([^`]+)`\s+ADD CONSTRAINT\s+`([^`]+)`\s+(PRIMARY KEY|FOREIGN KEY)\s+\(`([^)]+)`\)\s*(?:REFERENCES\s+`([^`]+)`\s+\(`([^)]+)`\))?;/g;
+
+    while ((match = alterTableRegex.exec(this.sql.trim()))) {
       const tableName = match[1].trim();
       const type = match[3].trim();
       const columnNames = match[4].split(",").map(s => s.trim().replace(/`/g, ""));

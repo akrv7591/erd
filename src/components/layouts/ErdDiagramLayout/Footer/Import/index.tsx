@@ -1,4 +1,4 @@
-import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Textarea, Title} from "@mantine/core";
+import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Title} from "@mantine/core";
 import {IconDatabaseImport} from "@tabler/icons-react";
 import React from "react";
 import {MysqlParser, Table} from "../../../../../utility/MySqlParser";
@@ -21,12 +21,14 @@ export default function Import() {
   const [opened, {close, toggle}] = useDisclosure(false)
 
   const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    const parser = new MysqlParser()
-    const tables = parser.parse(e.target.value)
-    setImportedTables(tables)
-
-    console.log(importedTables)
+    setTimeout(() => {
+      const parser = new MysqlParser(e.target.value)
+      const tables = parser.parse()
+      setImportedTables(tables)
+      console.log(importedTables)
+    }, 500)
   }
+
   return (
     <Popover
       width={"50%"}
@@ -44,20 +46,26 @@ export default function Import() {
         </Button>
       </Popover.Target>
       <Popover.Dropdown>
-        <Stack>
-          <Group>
-            <Title order={4}>
-              Import
-            </Title>
-            <Select
-              placeholder={"Select db"}
-              data={selectValue}
-              defaultValue={'MySQL'}
+        <form >
+          <Stack>
+            <Group>
+              <Title order={4}>
+                Import
+              </Title>
+              <Select
+                placeholder={"Select db"}
+                data={selectValue}
+                defaultValue={'MySQL'}
+              />
+              <CloseButton ml={'auto'} onClick={close}/>
+            </Group>
+            <textarea
+              rows={10}
+              onChange={onChange}
+              onPaste={onChange as any}
             />
-            <CloseButton ml={'auto'} onClick={close}/>
-          </Group>
-          <Textarea onChange={onChange} rows={10}/>
-        </Stack>
+          </Stack>
+        </form>
       </Popover.Dropdown>
     </Popover>
   )

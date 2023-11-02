@@ -1,41 +1,43 @@
 import {ActionIcon, Card, Grid, Group, Image, Stack, Text, Title, Tooltip} from "@mantine/core";
-import {IErd, setErds} from "../../../atoms/erdsAtom";
 import styles from "./style.module.css"
 import {useModal} from "../../../hooks/useModal";
 import AddModal from "../AddModal";
-import {PrimitiveAtom, useAtomValue, useSetAtom} from "jotai";
 import {IconChartTreemap, IconEdit, IconTable, IconTrash} from "@tabler/icons-react";
 import {notifications} from "@mantine/notifications";
 import {MouseEventHandler} from "react";
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
+import {IErd, useErdStore} from "../../../stores/useErdStore";
 
 interface Props {
-  erdAtom: PrimitiveAtom<IErd>
+  erd: IErd
 }
 
-const updateNotice = () => notifications.show({
+const updateNotice = (name: string) => notifications.show({
   title: "Erd",
-  message: "Erd updated successfully",
+  message: `${name} updated successfully`,
   color: "var(--mantine-color-green-filled)"
 })
 
-const deleteNotice = () => notifications.show({
+const deleteNotice = (name: string) => notifications.show({
   title: "Erd",
-  message: "Erd deleted successfully",
+  message: `${name} deleted successfully`,
   color: "var(--mantine-color-red-filled)"
 })
 
 
-export default function Erd({erdAtom}: Props) {
-  const erd = useAtomValue(erdAtom)
+export default function Erd({erd}: Props) {
   const modal = useModal({initialType: "update", initialOpen: false, baseTitle: erd.name})
-  const setErd = useSetAtom(setErds)
+  const setErd = useErdStore(state => state.setErd)
   const navigate = useNavigate()
 
-  const onSubmit = (data: IErd) => {
-    setErd({type: modal.modalProps.type, data})
-    modal.modalProps.type === "update"? updateNotice(): deleteNotice()
+  const onSubmit = async (data: IErd) => {
+    modal.setLoading(true)
+    await setErd(data, modal.modalProps.type, () => {
+      modal.modalProps.type === "update" ? updateNotice(data.name) : deleteNotice(data.name);
+      modal.setLoading(false)
+    })
+
   }
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
@@ -49,18 +51,18 @@ export default function Erd({erdAtom}: Props) {
   const navigateToErd = () => navigate(erd.id)
 
   return (
-    <Grid.Col span={{xs: 12, md: 3}}>
-      <AddModal data={erd} {...modal.modalProps} onSubmit={onSubmit}/>
+    <Grid.Col span={{xs: 12, sm: 3}}>
+      <AddModal data={erd} {...modal.modalProps} onSubmit={onSubmit} key={JSON.stringify(erd)}/>
       <Card className={styles.box} onClick={navigateToErd}>
         <Stack>
           <Group>
             <IconChartTreemap stroke={1}/>
             <Title order={4}> {erd.name}</Title>
-            <ActionIcon onClick={onUpdate}  ml={'auto'}>
-              <IconEdit  stroke={1}/>
+            <ActionIcon onClick={onUpdate} ml={'auto'}>
+              <IconEdit stroke={1}/>
             </ActionIcon>
-            <ActionIcon onClick={onDelete} >
-              <IconTrash  stroke={1}/>
+            <ActionIcon onClick={onDelete}>
+              <IconTrash stroke={1}/>
             </ActionIcon>
           </Group>
           <Image mih={"200px"} h={"200px"}/>

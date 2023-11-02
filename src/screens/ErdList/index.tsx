@@ -1,33 +1,38 @@
 import {Button, Container, Grid, Group, TextInput} from "@mantine/core";
-import {atom, useAtomValue, useSetAtom} from "jotai";
-import {erdsAtom, IErd, setErds} from "../../atoms/erdsAtom";
 import Erd from "./Erd";
 import AddModal from "./AddModal";
 import {useModal} from "../../hooks/useModal";
 import {IconPlus, IconSearch} from "@tabler/icons-react";
 import React from "react";
 import {notifications} from "@mantine/notifications";
-import {splitAtom} from "jotai/utils";
+import {IErd, useErdStore} from "../../stores/useErdStore";
+import {Helmet} from "react-helmet-async";
 
-const successNotice = () => notifications.show({
+const successNotice = (name: string) => notifications.show({
   title: "Erd",
-  message: "Erd added successfully"
+  message: `${name} Erd added successfully`
 })
 
-const searchErds = atom(null, (get, set, search: string) => set(erdsAtom, curErds => curErds.filter(erd => erd.name.toLowerCase().includes(search.toLowerCase()))))
-const erdAtomsAtom = splitAtom(erdsAtom)
 
 export default function ErdList() {
-  const setSearch = useSetAtom(searchErds)
-  const setErd = useSetAtom(setErds)
-  const erdAtoms = useAtomValue(erdAtomsAtom)
+  const [search, setSearch] = React.useState("")
+  const [erds, setErd] = useErdStore(state => [state.erds, state.setErd])
   const modal = useModal({initialOpen: false, baseTitle: "Erd", initialType: "view"})
-  const onSubmit = (data: IErd) => {
-    setErd({type: modal.modalProps.type, data})
-    successNotice()
+  const filteredErd = erds.filter(erd => erd.name.toLowerCase().includes(search.toLowerCase()))
+
+  const onSubmit = async (data: IErd) => {
+    modal.setLoading(true)
+    await setErd(data, modal.modalProps.type, () => {
+      modal.setLoading(false)
+      successNotice(data.name)
+    })
+
   }
   return (
-    <Container miw={{sm: "100%", lg: "1500px"}}>
+    <Container size={"xl"}>
+      <Helmet>
+        <title>Erd list</title>
+      </Helmet>
       <AddModal {...modal.modalProps} onSubmit={onSubmit}/>
       <Group mt={20} justify={"space-between"}>
         <TextInput
@@ -41,7 +46,7 @@ export default function ErdList() {
         </Button>
       </Group>
       <Grid mt={20} style={{overflow: "visible"}}>
-        {erdAtoms.map(erdAtom => <Erd key={String(erdAtom)} erdAtom={erdAtom}/>)}
+        {filteredErd.map(erd => <Erd key={erd.id} erd={erd}/>)}
       </Grid>
     </Container>
   )
