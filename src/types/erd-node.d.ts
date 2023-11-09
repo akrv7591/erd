@@ -5,20 +5,21 @@ export type ITools = 'grab' | 'add-table' | 'select-all' | 'one-to-one' | 'one-t
 
 export interface IErdNodeColumn {
   id: string;
-  column: string;
+  name: string;
   primary: boolean;
-  dataType: string;
+  type: string;
   foreignKey: boolean;
   selected: boolean;
-  notNull: boolean;
+  null: boolean;
   unique: boolean;
   unsigned: boolean;
   autoIncrement: boolean;
   comment: string;
+  order: number;
 }
 
 interface IErdNodeData {
-  tableName: string;
+  name: string;
   color: string;
   columns: IErdNodeColumn[]
 }

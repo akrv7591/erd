@@ -82,14 +82,10 @@ export const useErdStore = create<IUseErdStore>()((set, getState) => ({
     erds: state.erds.map(erd => erd.id !== erdUuid ? erd : ({...erd, nodes, edges}))
   })),
   init: async () => {
-    console.log("INITING_ERD")
     set({
       erds: initiateErdData(),
       initiated: true
     })
-
-    console.log("END_INITING_ERD")
-
   }
 }))
 

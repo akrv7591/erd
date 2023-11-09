@@ -1,40 +1,19 @@
 import React from "react";
-import {IErd, useErdStore} from "../stores/useErdStore";
-import {Navigate, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {ReactFlowProvider} from "reactflow";
-import {validate} from "uuid";
-import {useOnMount} from "../hooks/useOnMount";
-import LoadingBackdrop from "../components/common/LoadingBackdrop";
+import {IErd} from "../types/data/erd";
 
 const ErdContext = React.createContext<IErd>({} as IErd)
 export const useErd = () => React.useContext(ErdContext)
 
 export default function ErdProvider(props: React.PropsWithChildren) {
-  const {erdUuid} = useParams()
-  const [getErd, initiated, init] = useErdStore(state => [state.getErd, state.initiated, state.init])
-  const [erd, setErd] = React.useState<IErd>()
-
-  useOnMount(() => {
-    if (!initiated) {
-      init()
-    }
-
-    setErd(getErd(erdUuid as string))
-  })
-
-  console.log({erd})
-
-  if (!validate(erdUuid as string)) {
-    return <Navigate to={"/"}/>
-  }
-
-  if (!initiated) return <LoadingBackdrop />
+  const erd = useLocation().state.erd as IErd
 
   console.log("RENDERING")
 
   return (
 
-    <ErdContext.Provider value={getErd(erdUuid as string)}>
+    <ErdContext.Provider value={erd}>
       <ReactFlowProvider>
         {props.children}
       </ReactFlowProvider>

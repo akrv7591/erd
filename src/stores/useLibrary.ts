@@ -1,0 +1,23 @@
+import {create} from "zustand";
+import {ITeam} from "../types/data/team";
+
+export interface ILibraryState {
+  team: ITeam | null
+}
+
+export interface ILibraryViews {
+
+}
+
+export interface ILibraryActions {
+  setTeam: (team: ILibraryState['team']) => void
+}
+
+export type ILibraryStore = ILibraryState & ILibraryViews & ILibraryActions
+
+export const useLibraryStore = create<ILibraryStore>()((setState, getState, store) => ({
+  team: null,
+
+  // Actions
+  setTeam: team => setState({team})
+}))

@@ -2,14 +2,15 @@ import {IErdNodeColumn} from "../../types/erd-node";
 
 export const DEFAULT_COLUMN_DATA: IErdNodeColumn = {
   id: "",
-  column: "",
-  dataType: "",
+  name: "",
+  type: "",
   primary: false,
   foreignKey: false,
   selected: false,
-  notNull: false,
+  null: false,
   unique: false,
   unsigned: false,
   autoIncrement: false,
-  comment: ""
+  comment: "",
+  order: 0
 }

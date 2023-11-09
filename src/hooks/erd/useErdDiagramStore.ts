@@ -1,10 +1,13 @@
 import {create} from "zustand";
 import {IErdNode, IErdNodeColumn, IErdNodeData, ITools} from "../../types/erd-node";
 import {v4} from "uuid";
-import {Connection, Edge, Project} from "reactflow";
+import {applyNodeChanges, Connection, Edge, Node, NodeChange, Project} from "reactflow";
 import voca from "voca";
 import {RELATIONS} from "../../constants/relations";
 import {useErdStore} from "../../stores/useErdStore";
+import {ITable} from "../../types/data/table";
+import erdApi from "../../api/erdApi.tsx";
+import {createId} from "@paralleldrive/cuid2";
 
 interface IAddNodeProps {
   e: any
@@ -13,7 +16,7 @@ interface IAddNodeProps {
 }
 
 export interface IErdDiagramStore {
-  erdUuid: string;
+  erdId: string;
   tool: ITools;
   dragPane: boolean;
   nodes: IErdNode[];
@@ -26,15 +29,15 @@ export interface IErdDiagramStore {
   setTool: (tool: ITools) => void
   addNode: (props: IAddNodeProps) => void
   deleteNode: (nodeId: string) => void
-  setNodeData: (nodeId: string, data: IErdNodeData) => void
   setConnection: (connection: Connection) => void
   setDragPane: (dragPane: boolean) => void
-  setErdUuid: (erdUuid: string) => void
+  setErdId: (erdId: string) => void
   setState: (state: Partial<IErdDiagramStore>) => void
+  setNodeChanges: (nodeChanges: NodeChange[]) => void
 }
 
 export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
-  erdUuid: "",
+  erdId: "",
   tool: "grab",
   dragPane: true,
   nodes: [],
@@ -55,31 +58,25 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
 
     if (targetIsPane && reactFlowWrapper.current) {
       const {top, left} = reactFlowWrapper.current.getBoundingClientRect();
-      const id = v4();
+      const id = createId();
       const columns: IErdNodeColumn[] = []
       const data: IErdNodeData = ({
-        tableName: `table_${state.nodes.length}`,
+        name: `table_${state.nodes.length}`,
         columns,
         color: "var(--mantine-color-dark-6)"
       })
-      const newNode: IErdNode = {
+      const newNode = {
         id,
         type: "tableNode",
         position: project({x: e.clientX - left - 75, y: e.clientY - top}),
         data: data
       };
-      return {nodes: [...state.nodes, newNode], tool: "grab"}
+      return {nodes: [...state.nodes, newNode], tool: "grab"} as Partial<IErdDiagramStore>
     }
 
     return {tool: "grab"}
   }),
   deleteNode: (nodeId) => set(state => ({nodes: state.nodes.filter(node => node.id !== nodeId)})),
-  setNodeData: (nodeId, data) => set(state => ({
-    nodes: state.nodes.map(n => n.id !== nodeId ? n : ({
-      ...n,
-      data: data
-    }))
-  })),
   setConnection: (connection) => set(state => {
     const nodes = state.nodes
     const targetNode = nodes.find(node => node.id === connection.target)!
@@ -90,7 +87,7 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
     const targetColumns = targetNode.data.columns
     const sourcePrimaryColumns = sourceNode.data.columns.filter(column => column.primary).map(column => ({
       ...column,
-      tableName: sourceNode.data.tableName,
+      tableName: sourceNode.data.name,
       id: v4(),
       tableId: sourceNode.id
     }))
@@ -109,7 +106,7 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
           })
           return {
             ...column,
-            column: voca.snakeCase(sourceNode.data.tableName + voca.titleCase(column.column)),
+            name: voca.snakeCase(sourceNode.data.name + voca.titleCase(column.name)),
             foreignKey: true,
             primary: false,
             autoIncrement: false,
@@ -127,7 +124,7 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
             })
             return {
               ...column,
-              column: voca.snakeCase(sourceNode.data.tableName + voca.titleCase(column.column)),
+              name: voca.snakeCase(sourceNode.data.name + voca.titleCase(column.name)),
               primary: false,
               foreignKey: true,
               unique: false,
@@ -139,7 +136,7 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
       case RELATIONS.MANY_TO_MANY:
         const targetPrimaryColumns = targetNode.data.columns.filter(column => column.primary).map(column => ({
           ...column,
-          tableName: targetNode.data.tableName,
+          tableName: targetNode.data.name,
           id: v4(),
           tableId: targetNode.id
         }))
@@ -152,11 +149,11 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
           foreignKey: true,
           unique: false,
           autoIncrement: false,
-          column: voca.snakeCase(columnData.tableName + "_" + columnData.column)
+          name: voca.snakeCase(columnData.tableName + "_" + columnData.name)
         })))
 
-        const dataAtom = {
-          tableName: sourceNode.data.tableName + "_" + targetNode.data.tableName,
+        const data: IErdNodeData = {
+          name: sourceNode.data.name + "_" + targetNode.data.name,
           columns,
           color: "var(--mantine-color-dark-6)"
         }
@@ -167,7 +164,7 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
             x: Math.abs(sourceNode.position.x - targetNode.position.x),
             y: Math.abs(sourceNode.position.y - targetNode.position.y)
           },
-          data: dataAtom
+          data: data
         };
 
         newNodes.push(newNode)
@@ -185,23 +182,60 @@ export const useErdDiagramStore = create<IErdDiagramStore>()((set) => ({
     return {...state, edges: [...state.edges, ...newEdges], nodes: [...state.nodes, ...newNodes], tool: "grab"}
   }),
   setDragPane: (dragPane: boolean) => set({dragPane}),
-  setErdUuid: (erdUuid) => set({erdUuid}),
-  setState: (state) => set(state)
+  setErdId: (erdId) => set({erdId}),
+  setState: (state) => set(state),
+  setNodeChanges: (nodeChanges: NodeChange[]) => {
+    set(({nodes: oldNodes, erdId}) => {
+        const nodesToUpdate: any[] = []
+        nodeChanges.forEach((node) => {
+          // @ts-ignore
+          switch (node.type) {
+            case "reset":
+              const {columns, ...d} = node.item.data
+              nodesToUpdate.push({
+                erdId,
+                id: node.item.id,
+                type: node.item.type,
+                position: node.item.position,
+                data: d
+              })
+              break
+            case "position":
+              const {id, type, position, data} = oldNodes.find(oldNode => oldNode.id === node.id)!
+
+              if (position && node.position && position !== node.position) {
+                const {columns, ...d} = data
+                nodesToUpdate.push({
+                  erdId,
+                  id,
+                  type,
+                  position: node.position!,
+                  data: d
+                })
+              }
+
+              break
+
+            default:
+              // console.log(node)
+          }
+        })
+
+      if (nodesToUpdate.length > 0) {
+        erdApi.put(`/v1/erd/${erdId}/table/bulk`, {
+          tableList: nodesToUpdate
+        })
+          .then(res => {
+            console.log(res.status)
+          })
+      }
+
+      return ({nodes: applyNodeChanges(nodeChanges, oldNodes)})
+    })
+  }
 }))
 
-useErdDiagramStore.subscribe(state => {
+useErdDiagramStore.subscribe((state, prevState) => {
 
-  if (!state.erdUuid) return
-  useErdStore.setState(erdState => ({
-    ...erdState, erds: erdState.erds.map(erd => {
-
-      if (state.erdUuid !== erd.id) return erd
-
-      return {
-        ...erd,
-        nodes: state.nodes,
-        edges: state.edges
-      }
-    })
-  }))
+  // console.log(state)
 })

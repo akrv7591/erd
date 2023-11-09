@@ -1,20 +1,20 @@
 import {createBrowserRouter, Outlet, RouteObject} from "react-router-dom";
-// import Erd from "../screens/ErdDiagram";
-import Erd from "../screens/ErdDiagramTest";
+import Erd from "../screens/ErdDiagram";
 import HomeLayout from "../components/layouts/HomeLayout";
-import ErdListLayout from "../components/layouts/ErdListLayout";
+import LibraryLayout from "../components/layouts/LibraryLayout";
 import ErdProvider from "../providers/ErdProvider";
 import ErdLayout from "../components/layouts/ErdLayout";
 import SignIn from "../screens/Auth/SignIn";
 import SignUp from "../screens/Auth/SignUp";
-
 import AuthLayout from "../components/layouts/AuthLayout";
 import SendEmailVerification from "../screens/Auth/SendEmailVerification";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Home from "../screens/Home/Home";
 import NotFound from "../screens/NotFound";
-import ErdList from "../screens/ErdList";
+import Library from "../screens/Library";
 import ErdDiagramLayout from "../components/layouts/ErdDiagramLayout";
+import VerifyEmail from "../screens/VerifyEmail";
+import PasswordOTP from "../screens/PasswordOTP.tsx";
 
 const NotFoundRoute: RouteObject = {
   path: "*",
@@ -59,7 +59,7 @@ export const router = createBrowserRouter(
       ]
     },
     {
-      path: "erd",
+      path: "library",
       element: (
         <ProtectedRoute>
           <ErdLayout/>
@@ -69,33 +69,40 @@ export const router = createBrowserRouter(
         [
           {
             path: "",
-            element: <ErdListLayout/>,
+            element: <LibraryLayout/>,
             children: [
               {
                 index: true,
-                element: <ErdList/>
+                element: <Library/>
               },
               NotFoundRoute
             ]
-          },
-          {
-            path: ":erdUuid",
-            element: (
-              <ErdProvider>
-                <ErdDiagramLayout/>
-              </ErdProvider>
-            ),
-            children:
-              [
-                {
-                  index: true,
-                  element: <Erd/>
-                },
-                NotFoundRoute
-              ]
-          },
+          }, {}, {
+          path: ":erdId",
+          element: (
+            <ErdProvider>
+              <ErdDiagramLayout/>
+            </ErdProvider>
+          ),
+          children:
+            [
+              {
+                index: true,
+                element: <Erd/>
+              },
+              NotFoundRoute
+            ]
+        },
           NotFoundRoute
         ]
+    },
+    {
+      path: "verify-email/:emailUuid",
+      element: <VerifyEmail/>
+    },
+    {
+      path: "password-otp",
+      element: <PasswordOTP />
     }
   ])
 

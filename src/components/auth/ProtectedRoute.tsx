@@ -4,14 +4,13 @@ import {Navigate} from "react-router-dom";
 import {notifications} from "@mantine/notifications";
 
 export default function ProtectedRoute(props: React.PropsWithChildren) {
-  const authorized = useAuthStore(state => state.authorized)
+  const authorization = useAuthStore(state => state.getAuthorization())
 
-  if (!authorized) {
-    notifications.clean()
+  if (!authorization) {
     notifications.show({
       title: "Authorization",
       message: "Oops. Login is required",
-      color: "red"
+      color: "red",
     })
     return <Navigate to={"/auth"}/>
   }

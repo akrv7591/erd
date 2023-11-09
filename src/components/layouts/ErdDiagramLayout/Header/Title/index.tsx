@@ -20,7 +20,7 @@ export default function Title() {
 
   return (
     <form onSubmit={form.onSubmit((data) => {
-      setErd({...erd, name: data.name}, "update");
+      // setErd({...erd, name: data.name}, "update");
       setEditable(cur => !cur)
     })}>
       {editable

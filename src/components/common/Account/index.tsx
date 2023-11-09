@@ -1,4 +1,4 @@
-import {Avatar, Group, Menu, rem, Text, UnstyledButton} from "@mantine/core";
+import {Avatar, Button, Group, Menu, rem, Text, UnstyledButton} from "@mantine/core";
 import {
   IconArrowsLeftRight,
   IconLogout,
@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 import {notifications} from "@mantine/notifications";
 
 export default function Account() {
-  const [user, logout] = useAuthStore(state => [state.user, state.logout])
+  const [user, logout] = useAuthStore(state => [state.getAuthorization(), state.logout])
   const navigate = useNavigate()
   const onLogout = () => logout(() => {
     navigate("/")
@@ -26,14 +26,14 @@ export default function Account() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <UnstyledButton variant={"subtle"} size={"lg"}>
+        <Button variant={"transparent"} size={"sm"}>
           <Group gap={"5px"}>
             <Avatar size={30}>
               <IconUser size={15} stroke={1}/>
             </Avatar>
             <Text ml={"5px"} size={"sm"} c={"var(--mantine-color-text)"}>{user?.name}</Text>
           </Group>
-        </UnstyledButton>
+        </Button>
       </Menu.Target>
 
       <Menu.Dropdown>

@@ -4,9 +4,11 @@ import {Navigate, Outlet} from "react-router-dom";
 import {useAuthStore} from "../../../stores/useAuthStore";
 
 export default function AuthLayout() {
-  const authorized = useAuthStore(state => state.authorized)
+  const user = useAuthStore(state => state.getAuthorization())
 
-  if (authorized) return <Navigate to={"/"} />
+  console.log(user)
+
+  if (user) return <Navigate to={"/"} />
 
   return (
     <Container fluid className={classes.root}>

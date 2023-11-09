@@ -4,18 +4,19 @@ import {useDisclosure} from "@mantine/hooks";
 import classes from "./styles.module.css"
 import {useAuthStore} from "../../../../stores/useAuthStore";
 import Account from "../../../common/Account";
+import Logo from "../../../common/Logo.tsx";
 
 export default function Header() {
   const [opened, {toggle}] = useDisclosure();
-  const authorized = useAuthStore(state => state.authorized)
+  const authorizedUser = useAuthStore(state => state.getAuthorization())
 
   return (
-    <Group h="100%" px="xl" justify={"space-between"} align={"center"}>
+    <Group h="100%" px="20" justify={"space-between"} align={"center"}>
       <Group>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm"/>
-        <Title order={4}>
-          ERD
-        </Title>
+        <Link to={"/"}>
+          <Logo />
+        </Link>
       </Group>
       <Group>
         <NavLink to={""} className={({isActive}) => isActive ? classes.activeLink : classes.link}>
@@ -26,7 +27,7 @@ export default function Header() {
         </NavLink>
       </Group>
       <Group gap={5}>
-        {authorized
+        {authorizedUser
           ? <Account/>
           : (
             <Link to={"auth"}>

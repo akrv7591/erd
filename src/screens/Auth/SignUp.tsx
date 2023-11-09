@@ -15,7 +15,7 @@ import {
 } from '@mantine/core';
 import {GoogleButton} from './GoogleButton';
 import {PROJECT} from "../../constants/project";
-import {erdApi} from "../../api/erdApi";
+import erdApi from "../../api/erdApi";
 import {useMutation} from "react-query";
 import {NotificationData, notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
