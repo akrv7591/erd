@@ -2,6 +2,8 @@ import axios from "axios";
 import httpStatus from "http-status";
 import {errors} from "jose";
 import StorageUtils from "../utility/StorageUtils.ts";
+import {useAuthStore} from "../stores/useAuthStore.ts";
+import {router} from "../routers/RootRouter.tsx";
 
 const baseURL = "http://127.0.0.1:3001/api"
 
@@ -45,6 +47,8 @@ erdApi.interceptors.response.use(
       case httpStatus.FORBIDDEN:
         switch (response.data.message){
           case errors.JWTExpired.code:
+            console.log("trying to refresh token")
+
             await refreshToken()
             return erdApi.request(response.config)
         }
@@ -52,6 +56,9 @@ erdApi.interceptors.response.use(
 
       case httpStatus.UNAUTHORIZED:
         StorageUtils.removeAuthorization()
+        useAuthStore.getState().logout()
+        console.log("navigating to home")
+        await router.navigate("/")
         return Promise.reject(err)
 
     }

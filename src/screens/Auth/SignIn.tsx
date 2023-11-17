@@ -20,7 +20,6 @@ import {notifications} from "@mantine/notifications";
 import {useNavigate} from "react-router-dom";
 import {useAuthStore} from "../../stores/useAuthStore";
 import {Helmet} from 'react-helmet-async';
-import {useCookies} from "react-cookie";
 
 interface DataProps {
   email: string,

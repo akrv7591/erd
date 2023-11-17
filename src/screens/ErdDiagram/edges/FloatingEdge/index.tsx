@@ -24,7 +24,7 @@ const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
 }
 
 
-function FloatingEdge({id, source, target, markerEnd, style, ...rest}: EdgeProps) {
+function FloatingEdge({id, source, target, markerEnd, style}: EdgeProps) {
   const sourceNode = useStore(useCallback((store) => store.nodeInternals.get(source), [source]));
   const targetNode = useStore(useCallback((store) => store.nodeInternals.get(target), [target]));
 

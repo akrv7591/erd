@@ -24,4 +24,6 @@ interface IErdNodeData {
   columns: IErdNodeColumn[]
 }
 
-interface IErdNode extends Node<IErdNodeData> {}
+interface IErdNode extends Node<IErdNodeData> {
+  updatedAt?: Date
+}

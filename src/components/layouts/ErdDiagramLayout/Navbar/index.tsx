@@ -7,7 +7,6 @@ import {
   IconSelectAll,
   IconTablePlus
 } from "@tabler/icons-react";
-import React from "react";
 import {useErdDiagramStore} from "../../../../hooks/erd/useErdDiagramStore";
 import {ITools} from "../../../../types/erd-node";
 

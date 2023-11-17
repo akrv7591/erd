@@ -1,6 +1,6 @@
 import React from "react";
-import {IErdNode, IErdNodeColumn, IErdNodeData} from "../types/erd-node";
-import {useNodeId, useReactFlow} from "reactflow";
+import {IErdNode, IErdNodeColumn} from "../types/erd-node";
+import {Edge, useNodeId, useReactFlow} from "reactflow";
 import {DEFAULT_COLUMN_DATA} from "../constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {useMutation} from "react-query";
@@ -9,25 +9,13 @@ import {useParams} from "react-router-dom";
 import httpStatus from "http-status";
 import {arrayMove, OnChangeMeta} from "react-movable";
 import isEqual from "lodash/isEqual";
-
-
-interface IErdTableDataContextProps {
-  data: IErdNodeData
-  setData: React.Dispatch<React.SetStateAction<IErdNodeData>>
-  addColumn: (type: "primary" | "default") => void
-  setColumn: (updatedColumn: IErdNodeColumn) => void
-  deleteSelectedColumns: () => void
-  reorderColumns: (meta: OnChangeMeta) => void
-}
-
-const ErdTableDataContext = React.createContext<IErdTableDataContextProps>({} as IErdTableDataContextProps)
-
-type IColumnMutationType = "put" | "delete"
+import {ErdTableDataContext, IColumnMutationType} from "../contexts/ErdTableDataContext.ts";
 
 interface IColumnMutationData {
   column: IErdNodeColumn
   type: IColumnMutationType
 }
+
 
 const columnMutationFn = (erdId: string, nodeId: string, data: IErdNodeColumn, type: IColumnMutationType) => {
   switch (type) {
@@ -53,13 +41,11 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
     onSuccess: res => {
       switch (res.status) {
         case httpStatus.CREATED:
-          console.log("column created")
           break
         case httpStatus.OK:
-          console.log("column updated")
       }
     },
-    onError: (error) => console.log("column mutation error")
+    onError: () => console.log("column mutation error")
   })
   const addColumn = (type: "primary" | "default") => {
     setData(curData => {
@@ -92,10 +78,18 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
     }))
   }
   const deleteSelectedColumns = () => {
+    const edgesToDelete: Edge[] = []
     setData(cur => {
       cur.columns = cur.columns.reduce((list, column) => {
         if (column.selected) {
           columnMutation.mutate({column, type: "delete"})
+
+          const edge = reactFlow.getEdges().find(edge => edge.id.includes(column.id))
+
+          if (edge) {
+            edgesToDelete.push(edge)
+          }
+
         } else {
           list.push(column)
         }
@@ -103,6 +97,10 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
       }, [] as IErdNodeColumn[])
 
       return cur
+    })
+
+    reactFlow.deleteElements({
+      edges: edgesToDelete
     })
   }
   const reorderColumns = (meta: OnChangeMeta) => {
@@ -132,4 +130,3 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
   )
 })
 
-export const useErdTableData = () => React.useContext(ErdTableDataContext)

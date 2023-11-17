@@ -5,7 +5,7 @@ import React from "react";
 import {useNodeId, useReactFlow, useStoreApi} from "reactflow";
 import styles from "./style.module.css"
 import {IErdNodeColumn} from "../../../../../types/erd-node";
-import {useErdTableData} from "../../../../../providers/ErdTableDataProvider";
+import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
 
 
 const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
@@ -54,7 +54,7 @@ const RenderItem = React.memo(({isDragged, props, value: data}: RenderItemParams
         </ActionIcon>
       </Table.Td>
       <Table.Td>
-        <Checkbox checked={data.selected} onChange={(e) => setData('selected', e.target.checked)}/>
+        <Checkbox defaultChecked={data.selected} onChange={(e) => setData('selected', e.target.checked)}/>
       </Table.Td>
       <Table.Td>
         <Center>

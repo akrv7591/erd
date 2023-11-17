@@ -1,14 +1,12 @@
 import {ActionIcon, Group, Text, TextInput} from "@mantine/core";
-import {useErdStore} from "../../../../../stores/useErdStore";
 import {IconCheck, IconEdit} from "@tabler/icons-react";
 import React from "react";
 import {useForm} from "@mantine/form";
 import styles from "./style.module.css"
-import {useErd} from "../../../../../providers/ErdProvider";
+import {useErd} from "../../../../../contexts/ErdContext.ts";
 
 export default function Title() {
   const erd = useErd()
-  const setErd = useErdStore(state => state.setErd)
   const [editable, setEditable] = React.useState(false)
   const form = useForm({
     initialValues: {
@@ -19,7 +17,7 @@ export default function Title() {
   if (!erd) return null
 
   return (
-    <form onSubmit={form.onSubmit((data) => {
+    <form onSubmit={form.onSubmit(() => {
       // setErd({...erd, name: data.name}, "update");
       setEditable(cur => !cur)
     })}>

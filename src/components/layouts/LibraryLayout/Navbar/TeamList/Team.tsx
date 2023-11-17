@@ -40,20 +40,18 @@ export default function Team({team}: Props) {
 
       {
         isAdmin && (
-          <Box className={classes.teamSettingIcon}>
-            <Tooltip label={"Team settings"}>
+          <Tooltip label={"Team settings"}>
+            <Box className={classes.teamSettingIcon}>
               <ActionIcon onClick={e => {
                 e.stopPropagation()
                 modal.open("update")
               }}>
                 <IconSettings stroke={1} size={15}/>
               </ActionIcon>
-            </Tooltip>
-          </Box>
+            </Box>
+          </Tooltip>
         )
       }
-
-
     </Group>
   )
 }

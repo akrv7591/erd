@@ -3,7 +3,7 @@ import {useNodeId, useReactFlow} from "reactflow";
 import {ActionIcon, ColorPicker, ColorSwatch, Group, Menu, TextInput, Tooltip} from "@mantine/core";
 import {IconCheck, IconColorPicker, IconEdit, IconTable} from "@tabler/icons-react";
 import {useForm} from "@mantine/form";
-import {useErdTableData} from "../../../../../providers/ErdTableDataProvider";
+import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
 
 const Header = () => {
   const [allowEdit, setAllowEdit] = React.useState(false)

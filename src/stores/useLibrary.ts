@@ -15,7 +15,7 @@ export interface ILibraryActions {
 
 export type ILibraryStore = ILibraryState & ILibraryViews & ILibraryActions
 
-export const useLibraryStore = create<ILibraryStore>()((setState, getState, store) => ({
+export const useLibraryStore = create<ILibraryStore>()((setState) => ({
   team: null,
 
   // Actions

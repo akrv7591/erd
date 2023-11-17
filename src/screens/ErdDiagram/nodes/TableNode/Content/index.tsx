@@ -4,7 +4,7 @@ import {List} from "react-movable";
 import {IconTrash} from "@tabler/icons-react";
 import RenderList from "./RenderList";
 import RenderItem from "./RenderItem";
-import {useErdTableData} from "../../../../../providers/ErdTableDataProvider";
+import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
 
 const Content = React.memo(() => {
   const {data, deleteSelectedColumns, reorderColumns} = useErdTableData()

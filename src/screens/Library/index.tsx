@@ -2,7 +2,6 @@ import {ActionIcon, Container, Grid, Group, Loader, Text, Tooltip} from "@mantin
 import ErdModal from "./ErdModal";
 import {useModal} from "../../hooks/useModal";
 import {IconError404, IconPlus} from "@tabler/icons-react";
-import React from "react";
 import {Helmet} from "react-helmet-async";
 import {useQuery} from "react-query";
 import {IListQuery, useListQuery} from "../../hooks/useListQuery.ts";

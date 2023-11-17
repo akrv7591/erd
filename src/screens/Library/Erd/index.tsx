@@ -1,7 +1,7 @@
 import {ActionIcon, Card, Grid, Group, Image, Stack, Text, Title} from "@mantine/core";
 import styles from "./style.module.css"
 import {useModal} from "../../../hooks/useModal";
-import {IconChartTreemap, IconEdit, IconTable, IconTrash} from "@tabler/icons-react";
+import {IconChartTreemap, IconEdit, IconTrash} from "@tabler/icons-react";
 import {MouseEventHandler} from "react";
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";

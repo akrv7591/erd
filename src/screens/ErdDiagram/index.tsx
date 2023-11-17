@@ -1,6 +1,5 @@
-import React, {useRef} from 'react';
+import {useRef} from 'react';
 import ReactFlow, {
-  applyEdgeChanges,
   Background,
   BackgroundVariant,
   ConnectionLineType,
@@ -14,17 +13,32 @@ import {defaultEdgeOptions, edgeTypes} from "./edges";
 import {nodeTypes} from "./nodes";
 import Icons from "./Icons";
 import {useErdDiagramStore} from "../../hooks/erd/useErdDiagramStore";
-import {useOnMount} from "../../hooks/useOnMount";
 import {Helmet} from "react-helmet-async";
 
-const ErdDiagram = () => {
-  const [nodes, edges, setNodeChanges, setEdges, setConnection, addNode, dragPane] = useErdDiagramStore(state => [state.nodes, state.edges, state.setNodeChanges, state.setEdges, state.setConnection, state.addNode, state.dragPane])
+const useErdDiagramSelectors = () => {
+  const nodes = useErdDiagramStore(state => state.nodes);
+  const edges = useErdDiagramStore(state => state.edges);
+  const setNodeChanges = useErdDiagramStore(state => state.setNodeChanges)
+  const setEdgeChanges = useErdDiagramStore(state => state.setEdgeChanges)
+  const setConnection = useErdDiagramStore(state => state.setConnection)
+  const addNode = useErdDiagramStore(state => state.addNode)
+  const dragPane = useErdDiagramStore(state => state.dragPane)
 
+  return {
+    nodes,
+    edges,
+    setNodeChanges,
+    setEdgeChanges,
+    setConnection,
+    addNode,
+    dragPane,
+  }
+}
+
+const ErdDiagram = () => {
+  const store = useErdDiagramSelectors()
   const {project} = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
-
-  useOnMount(() => {
-  })
 
   return (
     <div className={"erd-container"} ref={reactFlowWrapper}>
@@ -33,17 +47,18 @@ const ErdDiagram = () => {
       </Helmet>
       <Icons/>
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={store.nodes}
+        edges={store.edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        onNodesChange={setNodeChanges}
-        onEdgesChange={changedEdges => setEdges(applyEdgeChanges(changedEdges, edges))}
+        onNodesDelete={(nodes) => console.log(nodes)}
+        onNodesChange={store.setNodeChanges}
+        onEdgesChange={store.setEdgeChanges}
         edgesUpdatable={false}
         nodesDraggable={true}
-        panOnDrag={dragPane}
-        onClick={e => addNode({e, reactFlowWrapper, project})}
-        onConnect={setConnection}
+        panOnDrag={store.dragPane}
+        onClick={e => store.addNode({e, reactFlowWrapper, project})}
+        onConnect={store.setConnection}
         connectionLineType={ConnectionLineType.Straight}
         fitView
         minZoom={0.1}

@@ -1,19 +1,27 @@
 import {ITable} from "./table";
-import {IApiList} from "./util";
-import {ITeam} from "./team";
 
 export interface IRelation {
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  type: string;
   source: string;
   target: string;
+  createdAt: string;
+  markerEnd: string;
 
   // Foreign key
-  tableId: string;
+  erdId: string;
 
   // Relations
-  table?: ITable
+  erd?: ITable
+}
+
+export interface ICRelation {
+  id: string;
+  source: string;
+  target: string;
+  createdAt?: string;
+  markerEnd: string;
+
+  // Foreign key
+  erdId?: string;
 }
 

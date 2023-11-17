@@ -1,7 +1,6 @@
 import {Outlet} from "react-router-dom";
 import {AppShell, Group, Text} from "@mantine/core";
 import Header from "./Header";
-import React from "react";
 import Navbar from "./Navbar";
 import Aside from "./Aside";
 import {useAuthStore} from "../../../stores/useAuthStore.ts";

@@ -1,6 +1,5 @@
 import {Button, Group, Popover, Stack, Text, Textarea} from "@mantine/core";
 import {IconDatabaseExport} from "@tabler/icons-react";
-import React from "react";
 
 export default function Export() {
   return (

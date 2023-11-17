@@ -1,4 +1,4 @@
-import {Avatar, Button, Group, Menu, rem, Text, UnstyledButton} from "@mantine/core";
+import {Avatar, Button, Group, Menu, rem, Text} from "@mantine/core";
 import {
   IconArrowsLeftRight,
   IconLogout,

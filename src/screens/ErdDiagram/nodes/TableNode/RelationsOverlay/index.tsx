@@ -4,8 +4,8 @@ import React from "react";
 import {Center, Overlay, Title} from "@mantine/core";
 import {RELATIONS} from "../../../../../constants/relations";
 import {useErdDiagramStore} from "../../../../../hooks/erd/useErdDiagramStore";
-import {useErdTableData} from "../../../../../providers/ErdTableDataProvider";
 import {IErdNodeData} from "../../../../../types/erd-node";
+import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
 
 const sourceStyle = {zIndex: 2, backgroundColor: "rgba(4,35,54,0.4)"};
 const targetStyle = {zIndex: 1, backgroundColor: "rgba(6,91,63,0.4)"}

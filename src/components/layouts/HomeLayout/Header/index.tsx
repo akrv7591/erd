@@ -1,4 +1,4 @@
-import {Burger, Button, Group, Title} from "@mantine/core";
+import {Burger, Button, Group} from "@mantine/core";
 import {Link, NavLink} from "react-router-dom";
 import {useDisclosure} from "@mantine/hooks";
 import classes from "./styles.module.css"

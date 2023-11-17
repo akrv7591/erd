@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {IAuthorizationUser} from "../types/data/user";
 import {decodeJwt} from "jose";
+import {router} from "../routers/RootRouter.tsx";
 
 
 export interface IAuthState {
@@ -62,6 +63,8 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
   logout: (callback) => {
     localStorage.removeItem("Authorization")
     setState(initialState)
+    console.log("logging out")
+    router.navigate("/").then(a => console.log(a))
 
     if (callback) {
       callback()
