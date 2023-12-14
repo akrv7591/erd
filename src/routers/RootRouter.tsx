@@ -2,7 +2,6 @@ import {createBrowserRouter, Outlet, RouteObject} from "react-router-dom";
 import Erd from "../screens/ErdDiagram";
 import HomeLayout from "../components/layouts/HomeLayout";
 import LibraryLayout from "../components/layouts/LibraryLayout";
-import ErdProvider from "../providers/ErdProvider";
 import ErdLayout from "../components/layouts/ErdLayout";
 import SignIn from "../screens/Auth/SignIn";
 import SignUp from "../screens/Auth/SignUp";
@@ -15,6 +14,7 @@ import Library from "../screens/Library";
 import ErdDiagramLayout from "../components/layouts/ErdDiagramLayout";
 import VerifyEmail from "../screens/VerifyEmail";
 import PasswordOTP from "../screens/PasswordOTP.tsx";
+import MultiplayerProvider from "../providers/MultiplayerProvider.tsx";
 
 const NotFoundRoute: RouteObject = {
   path: "*",
@@ -80,9 +80,9 @@ export const router = createBrowserRouter(
           }, {}, {
           path: ":erdId",
           element: (
-            <ErdProvider>
-              <ErdDiagramLayout/>
-            </ErdProvider>
+            <MultiplayerProvider>
+                <ErdDiagramLayout/>
+            </MultiplayerProvider>
           ),
           children:
             [

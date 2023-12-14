@@ -8,23 +8,23 @@
 
 .card {
     height: calc(100% - 50px);
-    outline: 2px solid var(--mantine-color-dark-6) !important;
     transition: 0.3s;
+    outline: 3px solid var(--mantine-primary-color-filled-hover) !important;
 
     &:hover {
-        outline: 2px solid var(--mantine-primary-color-filled-hover) !important;
+        outline: 5px solid var(--mantine-primary-color-filled-hover) !important;
     }
 }
 
 .cardSelected {
     height: calc(100% - 50px);
-    outline: 2px solid var(--mantine-primary-color-filled) !important;
+    outline: 7px solid var(--mantine-primary-color-filled) !important;
 }
 
 .source {
     width: 100%;
     height: 100%;
-    background: blue;
+    background: var(--mantine-primary-color-light);
     position: absolute;
     top: 0;
     left: 0;
@@ -56,7 +56,7 @@
 .customHandle {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 255, 0.38);
+    background: var(--mantine-primary-color-light);
     position: absolute;
     top: 0;
     left: 0;

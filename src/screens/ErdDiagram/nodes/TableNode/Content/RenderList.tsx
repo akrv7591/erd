@@ -1,21 +1,17 @@
-import {RenderListParams} from "react-movable";
-import {Collapse, Table, Text} from "@mantine/core";
+import {Table} from "@mantine/core";
 import React from "react";
+import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
+import {Collapse, Text} from "@mantine/core";
 
-interface Props extends RenderListParams {
-  rowLength: number
-}
-
-const RenderList = React.memo(({isDragged, children, props, rowLength}: Props) => {
+const RenderList = React.memo(React.forwardRef<any, any>((props, ref) => {
+  const {data} = useErdTableData()
   return (
-    <Table style={{cursor: isDragged ? "grab" : undefined,}} withRowBorders >
-          <Table.Caption>
-            <Collapse in={!rowLength}>
-
-              <Text>No columns</Text>
-            </Collapse>
-
-          </Table.Caption>
+    <Table withRowBorders>
+      <Table.Caption>
+        <Collapse in={data.columns.length === 0}>
+          <Text>No columns</Text>
+        </Collapse>
+      </Table.Caption>
       <Table.Thead>
         <Table.Tr>
           <Table.Td w={40}></Table.Td>
@@ -31,12 +27,12 @@ const RenderList = React.memo(({isDragged, children, props, rowLength}: Props) =
           <Table.Td miw={200}>Comment</Table.Td>
         </Table.Tr>
       </Table.Thead>
-      <Table.Tbody {...props}>
-        {children}
+      <Table.Tbody ref={ref}>
+        {props.children}
       </Table.Tbody>
     </Table>
   )
-})
+}))
 
 
 export default RenderList

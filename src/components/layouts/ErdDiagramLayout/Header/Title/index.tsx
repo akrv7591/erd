@@ -3,22 +3,19 @@ import {IconCheck, IconEdit} from "@tabler/icons-react";
 import React from "react";
 import {useForm} from "@mantine/form";
 import styles from "./style.module.css"
-import {useErd} from "../../../../../contexts/ErdContext.ts";
+import {useErdDiagramStore} from "../../../../../stores/useErdDiagramStore.ts";
 
 export default function Title() {
-  const erd = useErd()
   const [editable, setEditable] = React.useState(false)
+  const name = useErdDiagramStore(state => state.name)
   const form = useForm({
     initialValues: {
-      name: erd.name
-    }
+      name
+    },
   })
-
-  if (!erd) return null
 
   return (
     <form onSubmit={form.onSubmit(() => {
-      // setErd({...erd, name: data.name}, "update");
       setEditable(cur => !cur)
     })}>
       {editable
@@ -32,7 +29,7 @@ export default function Title() {
           )}
         />
         : <Group>
-          <Text className={styles.title}>{form.values.name}</Text>
+          <Text className={styles.title}>{name}</Text>
           <ActionIcon onClick={() => setEditable(cur => !cur)}>
             <IconEdit stroke={1}/>
           </ActionIcon>

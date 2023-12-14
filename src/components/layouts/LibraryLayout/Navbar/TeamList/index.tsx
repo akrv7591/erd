@@ -1,7 +1,7 @@
 import erdApi from "../../../../../api/erdApi.tsx";
 import {IPaginatedTeam} from "../../../../../types/data/team";
 import {useQuery} from "react-query";
-import {Loader, Pagination, Stack, Text} from "@mantine/core";
+import {Button, Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import Team from "./Team.tsx";
 import SearchInput from "../../../../common/SearchInput.tsx";
@@ -14,16 +14,11 @@ const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/team", {
 
 export default function TeamList() {
   const {params, setParams} = useListQuery()
-  const setTeam = useLibraryStore(state => state.setTeam)
   const {data, status} = useQuery<IPaginatedTeam>({
     queryKey: ['teamList', params],
     queryFn: () => teamQueryFunction(params),
-    onSuccess: data => {
-      if (data.rows.length > 0) {
-        setTeam(data.rows[0])
-      }
-    }
   })
+  const [team, setTeam] = useLibraryStore(state => [state.team, state.setTeam])
 
   const Content = () => {
     switch (status) {
@@ -38,6 +33,7 @@ export default function TeamList() {
 
         return (
           <>
+            <Button size={"xs"} variant={team ? "subtle" : "light"} fullWidth onClick={() => setTeam(null)}>All </Button>
             {data.rows.map(team => <Team key={team.id} team={team}/>)}
           </>
         )
@@ -50,7 +46,7 @@ export default function TeamList() {
         size={"xs"}
         mb={"lg"}
         w={"100%"}
-        onChange={(q) => setParams({ q, offset: 0})}
+        onChange={(q) => setParams({q, offset: 0})}
         placeholder={"Search team"}/>
       <Content/>
       <Pagination

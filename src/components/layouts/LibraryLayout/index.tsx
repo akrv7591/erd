@@ -4,15 +4,17 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import Aside from "./Aside";
 import {useAuthStore} from "../../../stores/useAuthStore.ts";
+import {useLibraryStore} from "../../../stores/useLibrary.ts";
 
 export default function ErdListLayout() {
   const user = useAuthStore(state => state.getAuthorization())
+  const team = useLibraryStore(state => state.team)
 
   return (
     <AppShell
       header={{height: 60}}
       navbar={{width: 250, breakpoint: "sm"}}
-      aside={{width: 250, breakpoint: "sm"}}
+      {...team && {aside:{width: 250, breakpoint: "sm"}}}
     >
       <AppShell.Header>
         <Header/>
@@ -24,9 +26,9 @@ export default function ErdListLayout() {
               <AppShell.Navbar>
                 <Navbar/>
               </AppShell.Navbar>
-              <AppShell.Aside>
-                <Aside/>
-              </AppShell.Aside>
+              {team && <AppShell.Aside>
+                  <Aside/>
+              </AppShell.Aside>}
               <AppShell.Main>
                 <Outlet/>
               </AppShell.Main>

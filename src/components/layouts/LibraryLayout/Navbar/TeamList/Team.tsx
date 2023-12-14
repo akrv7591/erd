@@ -22,7 +22,7 @@ export default function Team({team}: Props) {
   })
   return (
     <Group
-      onClick={() => setTeam(team)}
+      onClick={() => setTeam(selectedTeam === team? null: team)}
       className={selectedTeam === team ? classes.teamActive : classes.team}
       wrap={"nowrap"}
       gap={0}

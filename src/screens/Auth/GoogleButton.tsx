@@ -1,5 +1,8 @@
-import { Button, ButtonProps } from '@mantine/core';
+import {Button, ButtonProps} from '@mantine/core';
 import React from "react";
+import {useGoogleLogin} from "@react-oauth/google";
+import {useAuthStore} from "../../stores/useAuthStore.ts";
+import {SocialLogin} from "../../constants/auth.ts";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -31,5 +34,10 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef<'button'>) {
-  return <Button leftSection={<GoogleIcon />} variant="default" {...props} />;
+  const socialLogin = useAuthStore(state => state.socialLogin)
+  const login = useGoogleLogin({
+    onSuccess: tokenResponse => socialLogin(SocialLogin.GOOGLE, tokenResponse),
+    onError: () => console.log("Login failed")
+  })
+  return <Button onClick={() => login()} leftSection={<GoogleIcon />} variant="default" {...props} />;
 }

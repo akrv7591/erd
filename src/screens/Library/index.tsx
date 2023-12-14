@@ -9,16 +9,19 @@ import erdApi from "../../api/erdApi.tsx";
 import {IPaginatedErd} from "../../types/data/erd";
 import Erd from "./Erd";
 import SearchInput from "../../components/common/SearchInput.tsx";
+import {useLibraryStore} from "../../stores/useLibrary.ts";
+import React from "react";
 
 const listQueryFunction = async (params: IListQuery) => erdApi.get("/v1/erd", {params}).then(res => res.data)
 
 
 export default function Library() {
   const modal = useModal({initialOpen: false, baseTitle: "Erd", initialType: "view"})
-  const {params, setParams} = useListQuery()
+  const team = useLibraryStore(state => state.team)
+  const {params, setParams} = useListQuery({teamId: team?.id})
 
   const {data, status, isSuccess} = useQuery<IPaginatedErd>({
-    queryKey: ['erdList', params],
+    queryKey: ['erdList', params, team],
     queryFn: () => listQueryFunction(params)
   })
 
@@ -35,6 +38,10 @@ export default function Library() {
     }
   }
 
+  React.useEffect(() => {
+    setParams(({teamId: team?.id}))
+  }, [team])
+
   return (
     <Container fluid>
       <Helmet>
@@ -43,7 +50,7 @@ export default function Library() {
       <ErdModal {...modal.modalProps} />
       <Group justify={"space-between"} mt={"10px"}>
         <Text size={"sm"} c={"dimmed"}>
-          Er diagrams
+          {team? team.name + "'s": "All"} er diagrams
         </Text>
         <Tooltip label={"Create erd"}>
           <ActionIcon onClick={() => modal.open('create')}>

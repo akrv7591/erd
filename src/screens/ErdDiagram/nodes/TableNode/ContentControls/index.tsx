@@ -27,6 +27,7 @@ export default function ContentControls() {
           </ActionIcon>
         </ActionIcon.Group>
         <ButtonWithConfirm
+          isDanger
           target={(
             <Tooltip label={"Delete table"}>
               <ActionIcon color={"var(--mantine-color-red-6)"} variant={"filled"}>

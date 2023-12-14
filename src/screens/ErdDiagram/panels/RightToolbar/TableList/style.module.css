@@ -1,0 +1,6 @@
+.listWrapper {
+    max-height: calc(100vh - 120px);
+    //width: 400px;
+    overflow: scroll;
+    row-gap: 5px;
+}

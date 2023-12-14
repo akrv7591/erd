@@ -5,9 +5,18 @@
     outline: none
 }
 
+.tableRow:hover {
+    border-radius: 5px;
+}
+
 .tableRowDrag {
     cursor: grabbing;
     border-radius: 5px;
-    outline: 1px solid #00d0ff;
-    background-color: var(--_card-bg);
+    background-color: var(--mantine-color-dark-7) !important;
+    outline: 1px solid var(--mantine-primary-color-light);
+    position: relative;
+}
+
+.ghostRowClass {
+    opacity: 0;
 }

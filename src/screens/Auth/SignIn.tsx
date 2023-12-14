@@ -17,9 +17,10 @@ import {PROJECT} from "../../constants/project";
 import erdApi from "../../api/erdApi";
 import {useMutation} from "react-query";
 import {notifications} from "@mantine/notifications";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useAuthStore} from "../../stores/useAuthStore";
 import {Helmet} from 'react-helmet-async';
+import {useOnMount} from "../../hooks/useOnMount.ts";
 
 interface DataProps {
   email: string,
@@ -28,38 +29,42 @@ interface DataProps {
 
 const signInUser = (data: Omit<DataProps, 'name' | 'terms'>) => erdApi.post("/v1/auth/signin", data)
 
-const signingSuccess = async (callback: VoidFunction) => {
+export const signingSuccess = () => {
   notifications.show({
     title: "Signed in successfully",
     message: "Welcome",
-    onOpen: callback
   })
 }
 
-const signingError = async (callback: VoidFunction) => {
+export const signingError = () => {
   notifications.show({
     title: "Authentication failed",
     message: "Username or password is wrong",
     color: "red",
-    onOpen: callback
   })
 }
 
-
 export default function SignIn(props: PaperProps) {
   const navigate = useNavigate()
-  // const {} = useCookies(['refreshToken'])
+  const location = useLocation()
   const init = useAuthStore(state => state.init)
   const mutation = useMutation({
     mutationFn: signInUser,
-    onError: () => signingError(() => {
+    onError: () => {
       form.reset()
-    }),
-    onSuccess: (res) => signingSuccess(() => {
+      signingError()
+    },
+    onSuccess: async (res) => {
       localStorage.setItem("Authorization", res.data.accessToken)
-      console.log(document.cookie)
-      init(() => navigate("../erd", {relative: "path"}))
-    }),
+      signingSuccess()
+      init()
+    },
+  })
+
+  useOnMount(() => {
+    if (location.state?.alert) {
+      notifications.show(location.state.alert)
+    }
   })
 
   const form = useForm({
@@ -89,7 +94,7 @@ export default function SignIn(props: PaperProps) {
 
       <Tooltip label={"Feature not implemented yet"}>
         <Group grow mb="md" mt="md">
-          <GoogleButton data-disabled radius="xl">Google</GoogleButton>
+          <GoogleButton radius="xl">Google</GoogleButton>
         </Group>
       </Tooltip>
 

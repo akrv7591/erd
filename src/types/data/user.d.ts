@@ -2,6 +2,8 @@ import {JWTPayload} from "jose";
 import {IApiList} from "./util";
 import {IUserTeam} from "./user-team";
 import {ITeam} from "./team";
+import {IErd} from "./erd";
+import {IUserErd} from "./user-erd";
 
 export interface IAuthorizationUser extends JWTPayload{
   id: string
@@ -21,11 +23,16 @@ export interface IUser {
   updatedAt: string
 
   //Relations
-  teams: IUserTeam[]
+  teams: ITeamWithThrough[]
+  erds: IErdWithThrough[]
 }
 
-interface IUserTeam extends ITeam{
+interface ITeamWithThrough extends ITeam{
   UserTeam: IUserTeam
+}
+
+interface IErdWithThrough extends IErd {
+  UserErd: IUserErd
 }
 
 export interface IPaginatedUser extends IApiList<IUser> {}

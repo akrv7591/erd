@@ -1,23 +1,5 @@
-import {IColumn} from "./column";
-import {IErd} from "./erd";
-import {XYPosition, Node} from "reactflow";
+import {IErdNode} from "../erd-node";
 
-export interface ITable extends Node{
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+export interface ITable extends IErdNode{
 
-  name: string;
-  color: string;
-  position: XYPosition;
-  type: string;
-
-  data: any;
-
-  // Foreign key
-  erdId: string;
-
-  // Relations
-  erd?: IErd
-  columns?: IColumn[]
 }

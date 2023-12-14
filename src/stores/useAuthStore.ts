@@ -2,6 +2,9 @@ import {create} from "zustand";
 import {IAuthorizationUser} from "../types/data/user";
 import {decodeJwt} from "jose";
 import {router} from "../routers/RootRouter.tsx";
+import {SocialLogin} from "../constants/auth.ts";
+import erdApi from "../api/erdApi.tsx";
+import {signingError, signingSuccess} from "../screens/Auth/SignIn.tsx";
 
 
 export interface IAuthState {
@@ -16,9 +19,12 @@ export interface IAuthView {
   getAuthorization: () => IAuthorizationUser | null | undefined
 }
 
+type SocialLoginType = SocialLogin.GOOGLE
+
 export interface IAuthActions {
   setAccessToken: (accessToken: string) => void
   init: (callback?: VoidFunction) => void
+  socialLogin: (type: SocialLoginType, authObjs: any) => Promise<void>
   logout: (callback?: VoidFunction) => void
 }
 
@@ -44,12 +50,35 @@ const parseAuthorization = () => {
   return state
 }
 
-export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((setState) => ({
+export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((setState, getState) => ({
   ...initialState,
   //Views
   getAuthorization: () => parseAuthorization().decoded,
   // Actions
   setAccessToken: accessToken => setState({accessToken}),
+  socialLogin: async (type, authObjs) => {
+    let loginSuccess = false
+
+    switch (type){
+      case SocialLogin.GOOGLE:
+        try {
+          const res = await erdApi.post("/v1/auth/google", authObjs)
+          localStorage.setItem("Authorization", res.data.accessToken)
+          loginSuccess = true
+        } catch (e) {
+          loginSuccess = false
+        }
+    }
+
+    if (loginSuccess) {
+      getState().init()
+      signingSuccess()
+    } else {
+      signingError()
+    }
+  },
+
+
   init: (callback) => {
     const state = parseAuthorization()
 
@@ -64,10 +93,10 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
     localStorage.removeItem("Authorization")
     setState(initialState)
     console.log("logging out")
-    router.navigate("/").then(a => console.log(a))
-
-    if (callback) {
-      callback()
-    }
+    router.navigate("/").then(() => {
+      if (callback) {
+        callback()
+      }
+    })
   }
 }))

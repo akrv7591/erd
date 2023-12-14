@@ -7,7 +7,7 @@ import {
   IconSelectAll,
   IconTablePlus
 } from "@tabler/icons-react";
-import {useErdDiagramStore} from "../../../../hooks/erd/useErdDiagramStore";
+import {useErdDiagramStore} from "../../../../stores/useErdDiagramStore.ts";
 import {ITools} from "../../../../types/erd-node";
 
 
@@ -60,7 +60,7 @@ const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data
 })
 
 export default function Navbar() {
-  const [nodes, tool, setTool] = useErdDiagramStore(state => ([state.nodes, state.tool, state.setTool]))
+  const [nodes, tool, setTool] = useErdDiagramStore(state => ([state.tables, state.tool, state.setTool]))
   const data = generateSegmentData(nodes.length)
 
   return (

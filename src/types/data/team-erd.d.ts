@@ -1,19 +1,20 @@
 import {IErd} from "./erd";
-import {IUser} from "./user";
+import {ITeam} from "./team";
 
-export interface IUserErd {
+export interface ITeamErd {
   createdAt: Date
   updatedAt: Date
+
+  // Permissions
   canRead: boolean
   canWrite: boolean
   canDelete: boolean
-  isAdmin: boolean
 
   //Foreign keys
-  userId: string
+  teamId: string
   erdId: string
 
   //Relations
-  user?: IUser
+  team?: ITeam
   erd?: IErd
 }

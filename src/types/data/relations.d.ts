@@ -1,6 +1,7 @@
 import {ITable} from "./table";
+import {Edge} from "reactflow";
 
-export interface IRelation {
+export interface IRelation extends Edge{
   id: string;
   source: string;
   target: string;

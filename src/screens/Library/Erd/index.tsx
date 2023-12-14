@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import {IErd} from "../../../types/data/erd";
 import ErdModal from "../ErdModal";
 import TableCount from "./TableCount.tsx";
+import {useAuthStore} from "../../../stores/useAuthStore.ts";
 
 interface Props {
   erd: IErd
@@ -16,7 +17,9 @@ interface Props {
 
 export default function Erd({erd}: Props) {
   const modal = useModal({initialType: "update", initialOpen: false, baseTitle: erd.name})
+  const user = useAuthStore(state => state.getAuthorization())
   const navigate = useNavigate()
+  const isUserAdmin = erd.userErds?.find(u => u.userId === user?.id)?.isAdmin
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
@@ -39,12 +42,18 @@ export default function Erd({erd}: Props) {
           <Group>
             <IconChartTreemap stroke={1}/>
             <Title order={4}> {erd.name}</Title>
-            <ActionIcon onClick={onUpdate} ml={'auto'}>
-              <IconEdit stroke={1}/>
-            </ActionIcon>
-            <ActionIcon onClick={onDelete}>
-              <IconTrash stroke={1}/>
-            </ActionIcon>
+            {
+              isUserAdmin && (
+                <>
+                  <ActionIcon onClick={onUpdate} ml={'auto'}>
+                    <IconEdit stroke={1}/>
+                  </ActionIcon>
+                  <ActionIcon onClick={onDelete}>
+                    <IconTrash stroke={1}/>
+                  </ActionIcon>
+                </>
+              )
+            }
           </Group>
           <Image mih={"200px"} h={"200px"}/>
           <Group justify={"space-between"}>

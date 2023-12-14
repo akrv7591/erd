@@ -1,5 +1,5 @@
 import {Box, Card, Collapse} from "@mantine/core";
-import {NodeProps, useReactFlow} from "reactflow";
+import {NodeProps} from "reactflow";
 import styles from "./style.module.css"
 import React from "react";
 import ContentControls from "./ContentControls";
@@ -9,38 +9,31 @@ import {IErdNodeData} from "../../../../types/erd-node";
 import Header from "./Header";
 import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
-import {useErdDiagramStore} from "../../../../hooks/erd/useErdDiagramStore";
 
 interface Props extends NodeProps<IErdNodeData> {
 }
 
 const TableNode = React.memo((props: Props) => {
-  const setDragPane = useErdDiagramStore(state => state.setDragPane)
   const [opened, {open, close}] = useDisclosure(false)
-  const reactflow = useReactFlow()
-  const node = reactflow.getNode(props.id)
 
   const onMouseOver = () => {
-    setDragPane(false)
     open()
   }
 
   const onMouseOut = () => {
-    setDragPane(true)
     close()
   }
 
-  const headersIn = node ? (node.selected ? true : opened) : opened
-
+  const headersIn = props.selected ? true : opened
 
   return (
-    <ErdTableDataProvider>
-      <Box className={styles.box} onMouseOver={onMouseOver} onMouseOut={onMouseOut}>
+    <ErdTableDataProvider data={props.data} parentHtmlId={props.id}>
+      <Box className={styles.box} onMouseOver={onMouseOver} onMouseOut={onMouseOut} id={props.id}>
         <Collapse in={headersIn}>
           <ContentControls/>
         </Collapse>
         <Card
-          style={{backgroundColor: props.data.color}}
+          style={{outline: `5px solid ${props.data.color}!important`}}
           className={props.selected ? styles.cardSelected : styles.card}
           withBorder>
           <Header/>
@@ -49,7 +42,6 @@ const TableNode = React.memo((props: Props) => {
         <RelationsOverlay/>
       </Box>
     </ErdTableDataProvider>
-
   )
 })
 

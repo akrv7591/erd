@@ -3,9 +3,8 @@ import httpStatus from "http-status";
 import {errors} from "jose";
 import StorageUtils from "../utility/StorageUtils.ts";
 import {useAuthStore} from "../stores/useAuthStore.ts";
-import {router} from "../routers/RootRouter.tsx";
 
-const baseURL = "http://127.0.0.1:3001/api"
+const baseURL = import.meta.env.VITE_BASE_URL
 
 if (!baseURL) {
   throw new Error("BASE_URL in environment is required")
@@ -39,6 +38,11 @@ erdApi.interceptors.request.use(function (config) {
 
 erdApi.interceptors.response.use(
   (response) => {
+    if (response.data.count !== undefined) {
+      console.log(response.config.url, response.data.rows)
+    } else {
+      console.log(response.config.url, response.data)
+    }
     return response
   },
   async (err) => {
@@ -58,7 +62,6 @@ erdApi.interceptors.response.use(
         StorageUtils.removeAuthorization()
         useAuthStore.getState().logout()
         console.log("navigating to home")
-        await router.navigate("/")
         return Promise.reject(err)
 
     }

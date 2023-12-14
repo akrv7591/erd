@@ -5,6 +5,7 @@ export interface IListQuery {
   limit: number;
   offset: number;
   order: [string, string][]
+  [key: string]: any
 }
 
 const defaultData: IListQuery = {
@@ -14,8 +15,8 @@ const defaultData: IListQuery = {
   order: [['createdAt', "desc"]]
 }
 
-export const useListQuery = (initData: IListQuery = defaultData) => {
-  const [params, set] = useState(initData)
+export const useListQuery = (initData: Partial<IListQuery> = defaultData) => {
+  const [params, set] = useState({...defaultData, ...initData})
   const setParams = (params: Partial<IListQuery>) => set(cur => ({...cur, ...params}))
 
   return {params, setParams}

@@ -1,11 +1,14 @@
-import {Modal, Stack, Text, TextInput} from "@mantine/core";
+import {ActionIcon, InputLabel, Modal, Stack, Switch, Text, Textarea, TextInput} from "@mantine/core";
 import {ModalBaseProps} from "../../../components/common/ModalBase";
 import ModalForm from "../../../components/common/ModalForm";
 import {useForm} from "@mantine/form";
-import {useMutation, useQueryClient} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 import erdApi from "../../../api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IErd} from "../../../types/data/erd";
+import {IconMail, IconPlus} from "@tabler/icons-react";
+import React from "react";
+import UserWithPermissions from "./UserWithPermissions.tsx";
 
 interface Props extends ModalBaseProps {
   data?: IErd
@@ -27,20 +30,26 @@ const erdMutationFn = (data: IErd, type: IErdMutationMethods) => {
   }
 }
 
+const loadErdWithUsers = (erdId: string | undefined) => erdApi.get(`/v1/erd/${erdId}`).then(res => res.data)
+
 export default function ErdModal({onSubmit, data, type, ...props}: Props) {
-  const form = useForm({
-    initialValues: {
-      name: "",
-      description: "",
-      ...data && {
-        ...data
-      }
+  const form = useForm<IErd>({
+    initialValues: data
+  })
+  const userListQuery = useQuery({
+    queryKey: [data?.id],
+    queryFn: (param) => loadErdWithUsers(param.queryKey[0]),
+    onSuccess: (data) => {
+      form.setValues(data)
+      form.resetDirty(data)
     }
   })
+
+  const [newEmail, setNewEmail] = React.useState("")
   const queryClient = useQueryClient()
-  const mutation = useMutation({
-    mutationFn: ({data, type}: IErdMutationData) => erdMutationFn(data, type),
-  })
+  const mutation = useMutation({mutationFn: ({data, type}: IErdMutationData) => erdMutationFn(data, type)})
+
+  if (!form.values.users || userListQuery.isLoading) return null
 
   const handleSubmit = async (data: any) => {
     switch (type) {
@@ -105,8 +114,24 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
         })
     }
   }
+
+  const handleUserAdd = () => {
+    form.insertListItem("users", {
+      email: newEmail,
+      name: "",
+      emailVerified: null,
+      UserErd: {
+        canRead: true,
+        canWrite: false,
+        canDelete: false,
+        isAdmin: false
+      }
+    })
+
+    setNewEmail("")
+  }
   return (
-    <Modal {...props}>
+    <Modal {...props} size={"lg"}>
       <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
         {type === "delete"
           ? <Text>Are you sure to delete {data?.name}</Text>
@@ -118,10 +143,27 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
                 required
                 data-autofocus
               />
-              <TextInput
+              <Textarea
                 {...form.getInputProps("description")}
                 label={"Description"}
               />
+              <Switch label={"Public"} {...form.getInputProps("isPublic", {type: "checkbox"})} />
+              <InputLabel>
+                Users
+              </InputLabel>
+              {form.values.users!.map((user, i) => <UserWithPermissions form={form} user={user} i={i} key={user.email}/>)}
+              <TextInput
+                placeholder={"erdiagramly@mail.com"}
+                type={"email"}
+                data-autofocus
+                leftSection={<IconMail/>}
+                value={newEmail}
+                onChange={e => setNewEmail(e.target.value)}
+                rightSection={(
+                  <ActionIcon onClick={handleUserAdd}>
+                    <IconPlus/>
+                  </ActionIcon>
+                )}/>
             </Stack>
           )
         }

@@ -1,33 +1,50 @@
 import {ActionIcon, Collapse, Divider, Group, Stack, Tooltip,} from "@mantine/core";
 import React from "react";
-import {List} from "react-movable";
 import {IconTrash} from "@tabler/icons-react";
-import RenderList from "./RenderList";
-import RenderItem from "./RenderItem";
+import RenderItem from "./RenderItem.tsx";
 import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
+import {ReactSortable} from "react-sortablejs";
+import styles from "./style.module.css"
+import "./style.module.css"
+import RenderList from "./RenderList.tsx";
+import ButtonWithConfirm from "../../../../../components/common/ButtonWithConfirm";
 
 const Content = React.memo(() => {
-  const {data, deleteSelectedColumns, reorderColumns} = useErdTableData()
+  const {data, deleteSelectedColumns, setSortedColumns} = useErdTableData()
   const selectedColumns = React.useMemo(() => data.columns.filter(column => column.selected), [data.columns])
 
   return (
-    <Stack>
-      <List
-        values={data.columns}
-        lockVertically
-        onChange={reorderColumns}
-        renderList={params => <RenderList rowLength={data.columns.length} {...params} />}
-        renderItem={params => <RenderItem key={params.value.order} {...params} />}
-      />
+    <Stack style={{position: "relative"}}>
+      <ReactSortable
+        tag={RenderList}
+        list={data.columns}
+        dragClass={styles.ghostRowClass}
+        ghostClass={styles.tableRowDrag}
+        chosenClass={styles.tableRowDrag}
+        setList={setSortedColumns}
+        multiDrag
+        handle={".handle"}
+      >
+        {data.columns.map((item) => (
+          <RenderItem key={item.id + item.order} data={item}/>
+        ))}
+      </ReactSortable>
       <Divider w={"100%"}/>
 
       <Group mt={"sm"}>
         <Collapse in={selectedColumns.length > 0}>
-          <Tooltip label={`Delete ${selectedColumns.length} columns`}>
-            <ActionIcon color={"red"} onClick={deleteSelectedColumns}>
-              <IconTrash stroke={1}/>
-            </ActionIcon>
-          </Tooltip>
+          <ButtonWithConfirm
+            isDanger
+            target={(
+              <Tooltip label={`Delete ${selectedColumns.length} columns`}>
+                <ActionIcon color={"red"} variant={"filled"}>
+                  <IconTrash stroke={1}/>
+                </ActionIcon>
+              </Tooltip>
+            )}
+            message={`Do you want to delete ${selectedColumns.length} ${selectedColumns.length > 1? "columns": "column"}`}
+            onConfirm={deleteSelectedColumns}
+          />
         </Collapse>
       </Group>
     </Stack>

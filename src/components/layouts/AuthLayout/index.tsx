@@ -1,14 +1,13 @@
 import {Center, Container} from "@mantine/core";
 import classes from "./style.module.css"
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {useAuthStore} from "../../../stores/useAuthStore";
 
 export default function AuthLayout() {
   const user = useAuthStore(state => state.getAuthorization())
+  const location = useLocation()
 
-  console.log(user)
-
-  if (user) return <Navigate to={"/"} />
+  if (user) return <Navigate to={location.state?.destination? location.state.destination: "/"} />
 
   return (
     <Container fluid className={classes.root}>

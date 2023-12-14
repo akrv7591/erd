@@ -48,7 +48,7 @@ export default function Home() {
           </List>
 
           <Group mt={30}>
-            <Link to={"library"}>
+            <Link to={"library"} state={{destination: "/library"}}>
               <Button radius="xl" size="md" className={classes.control}>
                 Get started
               </Button>

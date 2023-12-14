@@ -1,21 +1,21 @@
 import {Handle, Position, useNodeId, useReactFlow, useStore} from "reactflow";
 import styles from "../style.module.css";
 import React from "react";
-import {Center, Overlay, Title} from "@mantine/core";
+import {Center, Overlay, Text, Title} from "@mantine/core";
 import {RELATIONS} from "../../../../../constants/relations";
-import {useErdDiagramStore} from "../../../../../hooks/erd/useErdDiagramStore";
+import {useErdDiagramStore} from "../../../../../stores/useErdDiagramStore.ts";
 import {IErdNodeData} from "../../../../../types/erd-node";
 import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
 
-const sourceStyle = {zIndex: 2, backgroundColor: "rgba(4,35,54,0.4)"};
-const targetStyle = {zIndex: 1, backgroundColor: "rgba(6,91,63,0.4)"}
+const sourceStyle = {zIndex: 2, backgroundColor: "var(--mantine-primary-color-light-hover)"};
+const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-light-hover)"}
 
 const RelationsOverlay = () => {
   const [tool] = useErdDiagramStore(state => [state.tool])
-  const {data} = useErdTableData()
+  const {columns} = useErdTableData()
   const reactFlow = useReactFlow()
   const connectionNodeId = useStore(state => state.connectionNodeId);
-  const isTherePrimaryKey = React.useMemo(() => data.columns.some(column => column.primary), [data])
+  const isTherePrimaryKey = React.useMemo(() => columns.some(column => column.primary), [columns])
   const id = useNodeId()
   const isTarget = connectionNodeId && connectionNodeId !== id;
   const isTherePrimaryKeyInTarget = React.useMemo(() => {
@@ -57,7 +57,7 @@ const RelationsOverlay = () => {
         type="source"
         style={isRelationConnection && isTherePrimaryKey ? sourceStyle : {}}
       >
-        {label}
+        <Text>{label}</Text>
       </Handle>
     )
   }

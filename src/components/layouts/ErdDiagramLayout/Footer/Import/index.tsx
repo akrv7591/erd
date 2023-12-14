@@ -1,4 +1,4 @@
-import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Title} from "@mantine/core";
+import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Textarea, Title} from "@mantine/core";
 import {IconDatabaseImport} from "@tabler/icons-react";
 import React from "react";
 import {MysqlParser, Table} from "../../../../../utility/MySqlParser";
@@ -17,16 +17,15 @@ const selectValue: SelectProps['data'] = [{
 }]
 
 export default function Import() {
-  const [importedTables, setImportedTables] = React.useState<Table[]>([])
+  const [_, setImportedTables] = React.useState<Table[]>([])
   const [opened, {close, toggle}] = useDisclosure(false)
 
   const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    setTimeout(() => {
-      const parser = new MysqlParser(e.target.value)
-      const tables = parser.parse()
-      setImportedTables(tables)
-      console.log(importedTables)
-    }, 500)
+    console.log(e.target.value)
+    const parser = new MysqlParser(e.target.value)
+    const tables = parser.parse()
+    setImportedTables(tables)
+    console.log(tables)
   }
 
   return (
@@ -46,7 +45,7 @@ export default function Import() {
         </Button>
       </Popover.Target>
       <Popover.Dropdown>
-        <form >
+        <form>
           <Stack>
             <Group>
               <Title order={4}>
@@ -59,7 +58,7 @@ export default function Import() {
               />
               <CloseButton ml={'auto'} onClick={close}/>
             </Group>
-            <textarea
+            <Textarea
               rows={10}
               onChange={onChange}
               onPaste={onChange as any}

@@ -1,6 +1,6 @@
 import {Group, Stack, Text,} from '@mantine/core';
 import classes from './style.module.css';
-import TeamList from "./UserList";
+import UserList from "./UserList";
 import {useLibraryStore} from "../../../../stores/useLibrary.ts";
 
 
@@ -17,7 +17,7 @@ export default function Aside() {
         </Group>
         <div className={classes.collections}>
           <Stack align={"center"} gap={"2px"}>
-            <TeamList/>
+            <UserList/>
           </Stack>
         </div>
       </div>
