@@ -15,6 +15,8 @@ import ErdDiagramLayout from "../components/layouts/ErdDiagramLayout";
 import VerifyEmail from "../screens/VerifyEmail";
 import PasswordOTP from "../screens/PasswordOTP.tsx";
 import MultiplayerProvider from "../providers/MultiplayerProvider.tsx";
+import PrivacyPolicy from "../screens/PrivacyPolicy";
+import TermsOfService from "../screens/TermsOfService";
 
 const NotFoundRoute: RouteObject = {
   path: "*",
@@ -103,6 +105,14 @@ export const router = createBrowserRouter(
     {
       path: "password-otp",
       element: <PasswordOTP />
+    },
+    {
+      path: "privacy-policy",
+      element: <PrivacyPolicy />
+    },
+    {
+      path: "terms",
+      element: <TermsOfService />
     }
   ])
 
