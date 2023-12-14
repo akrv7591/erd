@@ -5,6 +5,7 @@ import {router} from "../routers/RootRouter.tsx";
 import {SocialLogin} from "../constants/auth.ts";
 import erdApi from "../api/erdApi.tsx";
 import {signingError, signingSuccess} from "../screens/Auth/SignIn.tsx";
+import StorageUtils from "../utility/StorageUtils.ts";
 
 
 export interface IAuthState {
@@ -33,7 +34,7 @@ const initialState = {
 }
 
 const parseAuthorization = () => {
-  const accessToken = localStorage.getItem("Authorization") || ""
+  const accessToken = StorageUtils.getAuthorization()
 
   const state: Partial<IParseAuthorization> = {}
 
@@ -59,11 +60,11 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
   socialLogin: async (type, authObjs) => {
     let loginSuccess = false
 
-    switch (type){
+    switch (type) {
       case SocialLogin.GOOGLE:
         try {
           const res = await erdApi.post("/v1/auth/google", authObjs)
-          localStorage.setItem("Authorization", res.data.accessToken)
+          StorageUtils.setAuthorization(res.data.accessToken)
           loginSuccess = true
         } catch (e) {
           loginSuccess = false
@@ -90,7 +91,7 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
     }
   },
   logout: (callback) => {
-    localStorage.removeItem("Authorization")
+    StorageUtils.removeAuthorization()
     setState(initialState)
     console.log("logging out")
     router.navigate("/").then(() => {

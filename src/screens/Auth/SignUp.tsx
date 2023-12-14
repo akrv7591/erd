@@ -22,6 +22,7 @@ import httpStatus from "http-status";
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {AxiosResponse} from "axios";
 import {Helmet} from "react-helmet-async";
+import StorageUtils from "../../utility/StorageUtils.ts";
 
 interface DataProps {
   name: string,
@@ -32,7 +33,7 @@ interface DataProps {
 
 const createUser = (data: DataProps) => erdApi.post("/v1/auth/signup", data)
 const signupSuccess = async (navigate: NavigateFunction, res: AxiosResponse) => {
-  localStorage.setItem("Authorization", res.data.accessToken)
+  StorageUtils.setAuthorization(res.data.accessToken)
   navigate("/")
 }
 const signupError = async (error: any) => {

@@ -21,6 +21,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useAuthStore} from "../../stores/useAuthStore";
 import {Helmet} from 'react-helmet-async';
 import {useOnMount} from "../../hooks/useOnMount.ts";
+import StorageUtils from "../../utility/StorageUtils.ts";
 
 interface DataProps {
   email: string,
@@ -55,7 +56,7 @@ export default function SignIn(props: PaperProps) {
       signingError()
     },
     onSuccess: async (res) => {
-      localStorage.setItem("Authorization", res.data.accessToken)
+      StorageUtils.setAuthorization(res.data.accessToken)
       signingSuccess()
       init()
     },

@@ -1,8 +1,7 @@
 import axios from "axios";
-import httpStatus from "http-status";
-import {errors} from "jose";
-import StorageUtils from "../utility/StorageUtils.ts";
+import {AUTH} from "../enums/auth.ts";
 import {useAuthStore} from "../stores/useAuthStore.ts";
+import StorageUtils from "../utility/StorageUtils.ts";
 
 const baseURL = import.meta.env.VITE_BASE_URL
 
@@ -11,23 +10,22 @@ if (!baseURL) {
 }
 
 const erdApi = axios.create({
-  baseURL: baseURL+"/api",
+  baseURL: baseURL + "/api",
   withCredentials: true,
 })
 
-const refreshToken = async () => {
-  await erdApi.post<{accessToken: string}>("/v1/auth/refresh")
+
+export const refreshToken = async () => {
+  await erdApi.post<{ accessToken: string }>("/v1/auth/refresh")
     .then(res => {
       console.log(res.data)
-      localStorage.setItem("Authorization", res.data.accessToken)
-    })
-    .catch(() => {
-      localStorage.removeItem("Authorization")
+      StorageUtils.setAuthorization(res.data.accessToken)
+      useAuthStore.getState().init()
     })
 }
 
-erdApi.interceptors.request.use(function (config) {
-  const authorization = localStorage.getItem("Authorization") || sessionStorage.getItem("Authorization")
+erdApi.interceptors.request.use(async function (config) {
+  const authorization = StorageUtils.getAuthorization()
 
   if (authorization) {
     config.headers.Authorization = `Bearer ${authorization}`
@@ -37,38 +35,24 @@ erdApi.interceptors.request.use(function (config) {
 })
 
 erdApi.interceptors.response.use(
-  (response) => {
-    if (response.data.count !== undefined) {
-      console.log(response.config.url, response.data.rows)
-    } else {
-      console.log(response.config.url, response.data)
-    }
-    return response
-  },
+  (response) => response,
   async (err) => {
     const {response} = err
-    switch (response.status) {
-      case httpStatus.FORBIDDEN:
-        switch (response.data.message){
-          case errors.JWTExpired.code:
-            console.log("trying to refresh token")
 
-            await refreshToken()
-            return erdApi.request(response.config)
-        }
-        break
+    switch (response.data.code) {
+      case AUTH.ACCESS_TOKEN_EXPIRED:
+        console.log("trying to refresh token")
 
-      case httpStatus.UNAUTHORIZED:
-        StorageUtils.removeAuthorization()
+        await refreshToken()
+        console.log("REFRESH FINISHED")
+        return erdApi.request(response.config)
+
+      default:
+        console.log("APLICATION SHOULD LOGOUT")
         useAuthStore.getState().logout()
-        console.log("navigating to home")
         return Promise.reject(err)
-
     }
-
-    return Promise.reject(err)
   }
-
-  )
+)
 
 export default erdApi
