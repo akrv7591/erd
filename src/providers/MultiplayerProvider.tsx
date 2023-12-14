@@ -15,7 +15,7 @@ export default function MultiplayerProvider(props: PropsWithChildren) {
 
   React.useEffect(() => {
     if (!multiplayer) {
-      const socket = connect("http://127.0.0.1:3001")
+      const socket = connect(import.meta.env.VITE_BASE_URL)
       socket.on("connect", () => {
         const multiplayer = new MultiplayerService(socket, erdId)
 

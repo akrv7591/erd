@@ -11,7 +11,7 @@ if (!baseURL) {
 }
 
 const erdApi = axios.create({
-  baseURL,
+  baseURL: baseURL+"/api",
   withCredentials: true,
 })
 
