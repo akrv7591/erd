@@ -88,7 +88,6 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
 
   const theme = React.useMemo(() => erdTableTheme(data.color), [data.color])
 
-
   return (
     <MantineProvider
       defaultColorScheme={"dark"}

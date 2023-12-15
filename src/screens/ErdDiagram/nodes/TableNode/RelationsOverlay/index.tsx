@@ -19,7 +19,6 @@ const RelationsOverlay = () => {
   const id = useNodeId()
   const isTarget = connectionNodeId && connectionNodeId !== id;
   const isTherePrimaryKeyInTarget = React.useMemo(() => {
-
     if (!isTarget) return null
     if (!connectionNodeId) return null
     const connectionNode = reactFlow.getNode(connectionNodeId!)
@@ -43,6 +42,7 @@ const RelationsOverlay = () => {
     : 'Drag to connect';
 
   const renderSource = () => {
+    if (!isRelationConnection) return null
     if (!isConnecting && !isTherePrimaryKey && isRelationConnection) return (
       <Overlay>
         <Center h={"100%"}>
