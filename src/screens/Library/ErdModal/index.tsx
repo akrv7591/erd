@@ -131,7 +131,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
     setNewEmail("")
   }
   return (
-    <Modal {...props} size={"lg"}>
+    <Modal {...props} size={"xl"}>
       <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
         {type === "delete"
           ? <Text>Are you sure to delete {data?.name}</Text>
