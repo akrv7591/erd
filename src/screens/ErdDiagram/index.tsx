@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import React, {useRef} from 'react';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -38,8 +38,29 @@ const useErdDiagramSelectors = () => {
 const ErdDiagram = () => {
   const store = useErdDiagramSelectors()
   const reactFlowInstance = useReactFlow()
-
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
+  const onDragOver: React.DragEventHandler = React.useCallback((event) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  const onDrop: React.DragEventHandler = React.useCallback(
+    (event) => {
+      event.preventDefault();
+
+      const type = event.dataTransfer.getData('application/reactflow');
+
+      console.log({type})
+
+      // check if the dropped element is valid
+      if (typeof type === 'undefined' || !type) {
+        return;
+      }
+
+      store.addTableOnClick({e: event, reactFlowInstance})
+    },
+    [reactFlowInstance],
+  );
 
   return (
     <div className={"erd-container"} ref={reactFlowWrapper}>
@@ -55,12 +76,13 @@ const ErdDiagram = () => {
         onNodesDelete={(nodes) => console.log(nodes)}
         onNodesChange={store.setNodeChanges}
         onEdgesChange={store.setEdgeChanges}
-        onClick={e => store.addTableOnClick({e, reactFlowWrapper, reactFlowInstance})}
         onNodeDoubleClick={(_, node) => reactFlowInstance.fitView({nodes: [node], duration: 500})}
         onConnect={(connection) => store.setConnection(connection)}
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={{hideAttribution: true}}
         panOnScroll

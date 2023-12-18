@@ -20,7 +20,6 @@ import {MultiplayerService} from "../services/multiplayer/MultiplayerService.ts"
 
 interface IAddNodeProps {
   e: any
-  reactFlowWrapper: any;
   reactFlowInstance: ReactFlowInstance
 }
 
@@ -96,13 +95,11 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
 
   // Node Action
   setNodes: (tables) => set({tables}),
-  addTableOnClick: ({e, reactFlowWrapper, reactFlowInstance}) => {
-    const {tool, tables} = getState()
-    if (tool !== 'add-table') return {}
-
+  addTableOnClick: ({e, reactFlowInstance}) => {
+    const {tables} = getState()
     const targetIsPane = e.target.classList.contains('react-flow__pane');
 
-    if (targetIsPane && reactFlowWrapper.current) {
+    if (targetIsPane) {
       const id = createId();
       const columns: IErdNodeColumn[] = []
       const data: IErdNodeData = ({

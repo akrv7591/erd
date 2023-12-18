@@ -1,4 +1,4 @@
-import {Box, SegmentedControl, SegmentedControlItem, Stack, Tooltip} from "@mantine/core";
+import {ActionIcon, Box, SegmentedControl, SegmentedControlItem, Stack, Tooltip} from "@mantine/core";
 import {
   IconHandGrab,
   IconRelationManyToMany,
@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import {useErdDiagramStore} from "../../../../stores/useErdDiagramStore.ts";
 import {ITools} from "../../../../types/erd-node";
+import React from "react";
 
 
 const data: {
@@ -20,11 +21,6 @@ const data: {
     label: 'Grab',
     value: 'grab',
     icon: IconHandGrab
-  },
-  {
-    label: 'Add table',
-    value: 'add-table',
-    icon: IconTablePlus
   }, {
     label: 'Select multiple',
     value: 'select-all',
@@ -62,6 +58,10 @@ const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data
 export default function Navbar() {
   const [nodes, tool, setTool] = useErdDiagramStore(state => ([state.tables, state.tool, state.setTool]))
   const data = generateSegmentData(nodes.length)
+  const onDragStart: React.DragEventHandler<HTMLButtonElement> = (event) => {
+    event.dataTransfer.setData('application/reactflow', "tableNode");
+    event.dataTransfer.effectAllowed = 'move';
+  };
 
   return (
     <Stack w={"100%"}>
@@ -75,6 +75,9 @@ export default function Navbar() {
         }}
         orientation={'vertical'}
         fullWidth/>
+      <ActionIcon w={"40px"} h={"40px"} mx={"auto"} mt={"5px"} draggable onDragStart={onDragStart}>
+        <IconTablePlus/>
+      </ActionIcon>
     </Stack>
   )
 }
