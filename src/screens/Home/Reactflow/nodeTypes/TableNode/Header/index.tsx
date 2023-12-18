@@ -2,7 +2,6 @@ import {useNodeId, useReactFlow} from "reactflow";
 import {ColorPicker, ColorSwatch, Group, Input, Menu} from "@mantine/core";
 import {IconColorPicker, IconTable} from "@tabler/icons-react";
 import {useErdTableData} from "@/contexts/ErdTableDataContext.ts";
-import {useMultiplayer} from "@/contexts/MultiplayerContext.ts";
 import {useDisclosure} from "@mantine/hooks";
 import React from "react";
 
@@ -11,7 +10,6 @@ const Header = () => {
   const id = useNodeId() as string
   const node = reactFlow.getNode(id)
   const {data, setData} = useErdTableData()
-  const multiplayer = useMultiplayer()
   const [opened, {open, close}] = useDisclosure(false)
 
   React.useEffect(() => {
@@ -32,7 +30,6 @@ const Header = () => {
         error={!data.name}
         onChange={e => setData((cur) => {
           const name = e.target.value
-          multiplayer.handleTableData(id, "name", name)
           return {
             ...cur,
             name
@@ -48,7 +45,6 @@ const Header = () => {
         <Menu.Dropdown>
           <ColorPicker
             onChange={color => setData(cur => {
-              multiplayer.handleTableData(id, "color", color)
               return {...cur, color}
             })}
             swatchesPerRow={8}
