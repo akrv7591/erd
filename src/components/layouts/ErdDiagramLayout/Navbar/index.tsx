@@ -4,11 +4,10 @@ import {
   IconRelationManyToMany,
   IconRelationOneToMany,
   IconRelationOneToOne,
-  IconSelectAll,
   IconTablePlus
 } from "@tabler/icons-react";
-import {useErdDiagramStore} from "../../../../stores/useErdDiagramStore.ts";
-import {ITools} from "../../../../types/erd-node";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {ITools} from "@/types/erd-node";
 import React from "react";
 
 
@@ -21,10 +20,6 @@ const data: {
     label: 'Grab',
     value: 'grab',
     icon: IconHandGrab
-  }, {
-    label: 'Select multiple',
-    value: 'select-all',
-    icon: IconSelectAll
   }, {
     label: 'One to one',
     value: 'one-to-one',
@@ -76,7 +71,8 @@ export default function Navbar() {
         orientation={'vertical'}
         fullWidth/>
       <Tooltip label={"Drag and drop to add a table"}>
-        <ActionIcon variant={"default"} w={"40px"} h={"40px"} mx={"auto"} mt={"5px"} draggable onDragStart={onDragStart}>
+        <ActionIcon variant={"default"} w={"40px"} h={"40px"} mx={"auto"} mt={"5px"} draggable
+                    onDragStart={onDragStart}>
           <IconTablePlus/>
         </ActionIcon>
       </Tooltip>
