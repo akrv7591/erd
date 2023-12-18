@@ -75,9 +75,11 @@ export default function Navbar() {
         }}
         orientation={'vertical'}
         fullWidth/>
-      <ActionIcon w={"40px"} h={"40px"} mx={"auto"} mt={"5px"} draggable onDragStart={onDragStart}>
-        <IconTablePlus/>
-      </ActionIcon>
+      <Tooltip label={"Drag and drop to add a table"}>
+        <ActionIcon variant={"default"} w={"40px"} h={"40px"} mx={"auto"} mt={"5px"} draggable onDragStart={onDragStart}>
+          <IconTablePlus/>
+        </ActionIcon>
+      </Tooltip>
     </Stack>
   )
 }

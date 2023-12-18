@@ -57,7 +57,7 @@ export default function TableList() {
               opened ? close() : open()
             }}
             m={"5px"}
-            variant={opened ? 'light' : 'subtle'}
+            variant={opened ? 'filled' : 'default'}
             w={"40px"}
             h={"40px"}
           >
