@@ -1,42 +1,49 @@
 import {Burger, Button, Group} from "@mantine/core";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useDisclosure} from "@mantine/hooks";
-import classes from "./styles.module.css"
-import {useAuthStore} from "../../../../stores/useAuthStore";
-import Account from "../../../common/Account";
+import "./styles.css"
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 import Logo from "../../../common/Logo.tsx";
+import {IconBooks} from "@tabler/icons-react";
+import Account from "components/common/Account";
 
 export default function Header() {
   const [opened, {toggle}] = useDisclosure();
   const authorizedUser = useAuthStore(state => state.getAuthorization())
-
+  const onPress = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    const target = window.document.getElementById(
+      e.currentTarget.href.split("#")[1]
+    );
+    if (target) {
+      target.scrollIntoView({behavior: "smooth"});
+    }
+  };
   return (
     <Group h="100%" px="20" justify={"space-between"} align={"center"}>
       <Group>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm"/>
         <Link to={"/"}>
-          <Logo />
+          <Logo/>
         </Link>
       </Group>
       <Group>
-        <NavLink to={""} className={({isActive}) => isActive ? classes.activeLink : classes.link}>
-          Home
-        </NavLink>
-        <NavLink to={"features"} className={({isActive}) => isActive ? classes.activeLink : classes.link}>
+        <a onClick={onPress} className={"link"} href={"#first_look"} data-to-scrollspy-id="first_look">
+          First look
+        </a>
+        <a onClick={onPress} className={"link"} href={"#features"} data-to-scrollspy-id="features">
           Features
-        </NavLink>
+        </a>
       </Group>
       <Group gap={5}>
-        {authorizedUser
-          ? <Account/>
-          : (
-            <Link to={"auth"}>
-              <Button>
-                Sign in
-              </Button>
-            </Link>
-          )
-        }
+        <Link to={"library"}>
+          <Button
+            leftSection={<IconBooks/>}
+            variant={"filled"}>
+            Library
+          </Button>
+        </Link>
+        {authorizedUser && <Account/>}
       </Group>
     </Group>
   )

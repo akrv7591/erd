@@ -7,13 +7,15 @@ import {nodeTypes} from "./Reactflow/nodeTypes";
 import {defaultEdgeOptions, edgeTypes} from "./Reactflow/edgesTypes";
 import Icons from "@/screens/Home/Reactflow/Icons";
 import React from "react";
+import ScrollSpy from "react-ui-scrollspy";
+import Features from "@/screens/Home/Features";
 
 export default function Home() {
   const [nodes, setNodes] = React.useState<Node[]>(data.nodes)
 
   return (
-    <>
-      <Box className={classes.box}>
+    <ScrollSpy activeClass={"activeScroll"} scrollThrottle={60} useBoxMethod={false}>
+      <Box className={classes.box} id="first_look">
         <Helmet>
           <title>Your One-Stop Solution for Entity Relation Diagram</title>
         </Helmet>
@@ -31,18 +33,15 @@ export default function Home() {
           maxZoom={0.5}
           fitView
           preventScrolling={false}
-          onPaneScroll={e => e?.preventDefault()}
         >
           <Icons/>
           <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
-
         </ReactFlow>
       </Box>
-      <Box h={"1000px"} bg={"red"}>
-        <Text>Test</Text>
+      <Box id={"features"}>
+        <Features />
       </Box>
-    </>
-
+    </ScrollSpy>
 
   );
 }

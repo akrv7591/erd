@@ -1,0 +1,13 @@
+.link {
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.activeScroll {
+    background-color: var(--mantine-primary-color-light);
+}
