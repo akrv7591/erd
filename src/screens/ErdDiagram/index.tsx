@@ -13,7 +13,7 @@ import "./style.css"
 import {defaultEdgeOptions, edgeTypes} from "./edges";
 import {nodeTypes} from "./nodes";
 import Icons from "./Icons";
-import {useErdDiagramStore} from "../../stores/useErdDiagramStore.ts";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import {Helmet} from "react-helmet-async";
 import RightToolbar from "./panels/RightToolbar";
 

@@ -1,6 +1,5 @@
 {
-  "nodes":
-  [
+  "nodes": [
     {
       "data": {},
       "id": "jd352yt9234e9tqmo1c0cp9n",
@@ -10,8 +9,8 @@
         "y": -6861.567403945594
       },
       "dragging": false,
-      "width": 665,
-      "height": 726
+      "width": 554,
+      "height": 918
     },
     {
       "data": {
@@ -19,24 +18,23 @@
         "color": "#40c057",
         "columns": [
           {
-            "id": "f5k7s8tixo89dxvbn8xuqpwe",
-            "name": "createdAt",
-            "primary": false,
-            "type": "datetime",
+            "id": "u27dgfa3wkkybdhfvboimnlc",
+            "name": "id",
+            "primary": true,
+            "type": "varchar(255)",
             "foreignKey": false,
             "null": true,
-            "unique": false,
+            "unique": true,
             "unsigned": false,
             "autoIncrement": false,
             "comment": "",
             "order": 0,
             "tableId": "jd352yt9juge9tqmo1c0cp9n",
-            "createdAt": "2023-12-13T04:41:16.000Z",
+            "createdAt": "2023-12-13T04:40:57.000Z",
             "updatedAt": "2023-12-18T02:36:28.000Z",
-            "chosen": false,
+            "chosen": true,
             "selected": false
-          },
-          {
+          },{
             "id": "gmffu38ym51vdwg60kyvb140",
             "name": "name",
             "primary": false,
@@ -50,6 +48,24 @@
             "order": 1,
             "tableId": "jd352yt9juge9tqmo1c0cp9n",
             "createdAt": "2023-12-13T04:41:44.000Z",
+            "updatedAt": "2023-12-18T02:36:28.000Z",
+            "chosen": false,
+            "selected": false
+          },
+          {
+            "id": "f5k7s8tixo89dxvbn8xuqpwe",
+            "name": "createdAt",
+            "primary": false,
+            "type": "datetime",
+            "foreignKey": false,
+            "null": true,
+            "unique": false,
+            "unsigned": false,
+            "autoIncrement": false,
+            "comment": "",
+            "order": 7,
+            "tableId": "jd352yt9juge9tqmo1c0cp9n",
+            "createdAt": "2023-12-13T04:41:16.000Z",
             "updatedAt": "2023-12-18T02:36:28.000Z",
             "chosen": false,
             "selected": false
@@ -89,24 +105,6 @@
             "updatedAt": "2023-12-18T02:36:28.000Z",
             "chosen": false,
             "selected": false
-          },
-          {
-            "id": "u27dgfa3wkkybdhfvboimnlc",
-            "name": "id",
-            "primary": true,
-            "type": "varchar(255)",
-            "foreignKey": false,
-            "null": true,
-            "unique": true,
-            "unsigned": false,
-            "autoIncrement": false,
-            "comment": "",
-            "order": 4,
-            "tableId": "jd352yt9juge9tqmo1c0cp9n",
-            "createdAt": "2023-12-13T04:40:57.000Z",
-            "updatedAt": "2023-12-18T02:36:28.000Z",
-            "chosen": false,
-            "selected": false
           }
         ]
       },
@@ -115,8 +113,8 @@
       "color": "#40c057",
       "type": "tableNode",
       "position": {
-        "x": -6134.947843900293,
-        "y": -5963.567403945594
+        "x": -6142.947843900293,
+        "y": -5973.567403945594
       },
       "erdId": "y0id79l3f1dh75k9tfd1oa8l",
       "createdAt": "2023-12-13T04:40:34.000Z",
@@ -203,12 +201,12 @@
           "updatedAt": "2023-12-18T02:36:28.000Z"
         }
       ],
-      "width": 1020,
+      "width": 924,
       "height": 500,
       "selected": false,
       "positionAbsolute": {
-        "x": -6134.947843900293,
-        "y": -5963.567403945594
+        "x": -6142.947843900293,
+        "y": -5973.567403945594
       },
       "dragging": false
     },
@@ -217,6 +215,42 @@
         "name": "userProfile",
         "color": "#006ab9",
         "columns": [
+          {
+            "id": "gjsjj3cwb4s8fhfrndkerk0i",
+            "name": "profile_id",
+            "primary": true,
+            "type": "varchar(255)",
+            "foreignKey": true,
+            "null": true,
+            "unique": false,
+            "unsigned": false,
+            "autoIncrement": false,
+            "comment": "",
+            "order": 2,
+            "tableId": "oth94l53sl9e0rbdkewps1dw",
+            "createdAt": "2023-12-13T04:40:57.000Z",
+            "updatedAt": "2023-12-18T02:36:28.000Z",
+            "chosen": true,
+            "selected": false
+          },
+          {
+            "id": "s0mzw9fzn8gntkkr4ywqei4z",
+            "name": "user_id",
+            "primary": true,
+            "type": "varchar(255)",
+            "foreignKey": true,
+            "null": true,
+            "unique": false,
+            "unsigned": false,
+            "autoIncrement": false,
+            "comment": "",
+            "order": 3,
+            "tableId": "oth94l53sl9e0rbdkewps1dw",
+            "createdAt": "2023-12-11T09:44:25.000Z",
+            "updatedAt": "2023-12-18T02:36:28.000Z",
+            "chosen": false,
+            "selected": false
+          },
           {
             "id": "asoc3d7d1rf10sfabb2nbx07",
             "name": "updatedAt",
@@ -252,42 +286,6 @@
             "updatedAt": "2023-12-18T02:36:28.000Z",
             "chosen": false,
             "selected": false
-          },
-          {
-            "id": "gjsjj3cwb4s8fhfrndkerk0i",
-            "name": "profile_id",
-            "primary": true,
-            "type": "varchar(255)",
-            "foreignKey": true,
-            "null": true,
-            "unique": false,
-            "unsigned": false,
-            "autoIncrement": false,
-            "comment": "",
-            "order": 2,
-            "tableId": "oth94l53sl9e0rbdkewps1dw",
-            "createdAt": "2023-12-13T04:40:57.000Z",
-            "updatedAt": "2023-12-18T02:36:28.000Z",
-            "chosen": false,
-            "selected": false
-          },
-          {
-            "id": "s0mzw9fzn8gntkkr4ywqei4z",
-            "name": "user_id",
-            "primary": true,
-            "type": "varchar(255)",
-            "foreignKey": true,
-            "null": true,
-            "unique": false,
-            "unsigned": false,
-            "autoIncrement": false,
-            "comment": "",
-            "order": 3,
-            "tableId": "oth94l53sl9e0rbdkewps1dw",
-            "createdAt": "2023-12-11T09:44:25.000Z",
-            "updatedAt": "2023-12-18T02:36:28.000Z",
-            "chosen": false,
-            "selected": false
           }
         ]
       },
@@ -296,8 +294,8 @@
       "color": "#006ab9",
       "type": "tableNode",
       "position": {
-        "x": -4855.102044942914,
-        "y": -5965.315999960477
+        "x": -4767.102044942914,
+        "y": -5931.315999960477
       },
       "erdId": "y0id79l3f1dh75k9tfd1oa8l",
       "createdAt": "2023-12-18T01:21:45.000Z",
@@ -314,7 +312,7 @@
           "unsigned": false,
           "autoIncrement": false,
           "comment": "",
-          "order": 0,
+          "order": 3,
           "tableId": "oth94l53sl9e0rbdkewps1dw",
           "createdAt": "2023-12-18T02:35:26.000Z",
           "updatedAt": "2023-12-18T02:36:28.000Z"
@@ -330,7 +328,7 @@
           "unsigned": false,
           "autoIncrement": false,
           "comment": "",
-          "order": 1,
+          "order": 2,
           "tableId": "oth94l53sl9e0rbdkewps1dw",
           "createdAt": "2023-12-18T02:35:13.000Z",
           "updatedAt": "2023-12-18T02:36:28.000Z"
@@ -346,7 +344,7 @@
           "unsigned": false,
           "autoIncrement": false,
           "comment": "",
-          "order": 2,
+          "order": 0,
           "tableId": "oth94l53sl9e0rbdkewps1dw",
           "createdAt": "2023-12-13T04:40:57.000Z",
           "updatedAt": "2023-12-18T02:36:28.000Z"
@@ -362,18 +360,18 @@
           "unsigned": false,
           "autoIncrement": false,
           "comment": "",
-          "order": 3,
+          "order": 1,
           "tableId": "oth94l53sl9e0rbdkewps1dw",
           "createdAt": "2023-12-11T09:44:25.000Z",
           "updatedAt": "2023-12-18T02:36:28.000Z"
         }
       ],
-      "width": 1020,
+      "width": 924,
       "height": 435,
-      "selected": false,
+      "selected": true,
       "positionAbsolute": {
-        "x": -4855.102044942914,
-        "y": -5965.315999960477
+        "x": -4767.102044942914,
+        "y": -5931.315999960477
       },
       "dragging": false
     },
@@ -397,6 +395,42 @@
             "tableId": "ow9m7nrajetn3uax194x2wql",
             "createdAt": "2023-12-11T09:44:25.000Z",
             "updatedAt": "2023-12-18T01:12:47.000Z",
+            "chosen": false,
+            "selected": false
+          },
+          {
+            "id": "ki86yxk26d635a0v3eurfyli",
+            "name": "username",
+            "primary": false,
+            "type": "varchar(255)",
+            "foreignKey": false,
+            "null": true,
+            "unique": false,
+            "unsigned": false,
+            "autoIncrement": false,
+            "comment": "",
+            "order": 3,
+            "tableId": "ow9m7nrajetn3uax194x2wql",
+            "createdAt": "2023-12-11T09:44:43.000Z",
+            "updatedAt": "2023-12-18T01:12:47.000Z",
+            "chosen": false,
+            "selected": false
+          },
+          {
+            "id": "gmffu38ym51vdwg12kyvb140",
+            "name": "password",
+            "primary": false,
+            "type": "char(60)",
+            "foreignKey": false,
+            "null": true,
+            "unique": false,
+            "unsigned": false,
+            "autoIncrement": false,
+            "comment": "",
+            "order": 100,
+            "tableId": "jd352yt9juge9tqmo1c0cp9n",
+            "createdAt": "2023-12-13T04:41:44.000Z",
+            "updatedAt": "2023-12-18T02:36:28.000Z",
             "chosen": false,
             "selected": false
           },
@@ -437,24 +471,6 @@
             "selected": false
           },
           {
-            "id": "ki86yxk26d635a0v3eurfyli",
-            "name": "username",
-            "primary": false,
-            "type": "varchar(255)",
-            "foreignKey": false,
-            "null": true,
-            "unique": false,
-            "unsigned": false,
-            "autoIncrement": false,
-            "comment": "",
-            "order": 3,
-            "tableId": "ow9m7nrajetn3uax194x2wql",
-            "createdAt": "2023-12-11T09:44:43.000Z",
-            "updatedAt": "2023-12-18T01:12:47.000Z",
-            "chosen": false,
-            "selected": false
-          },
-          {
             "id": "wvyj385bk024nhzl2pr1t840",
             "name": "deletedAt",
             "primary": false,
@@ -479,8 +495,8 @@
       "color": "#fd7e14",
       "type": "tableNode",
       "position": {
-        "x": -4848.778803247999,
-        "y": -6776.498791221617
+        "x": -4772.778803247999,
+        "y": -6844.498791221617
       },
       "erdId": "y0id79l3f1dh75k9tfd1oa8l",
       "createdAt": "2023-12-08T04:39:09.000Z",
@@ -568,31 +584,31 @@
         }
       ],
       "dragging": false,
-      "width": 1020,
+      "width": 924,
       "height": 500,
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
-        "x": -4848.778803247999,
-        "y": -6776.498791221617
+        "x": -4772.778803247999,
+        "y": -6844.498791221617
       }
     }
   ],
-  "edges":[
+  "edges": [
     {
-      "id":"gjsjj3cwb4s8fhfrndkerk0i",
-      "source":"jd352yt9juge9tqmo1c0cp9n",
-      "target":"oth94l53sl9e0rbdkewps1dw",
-      "markerEnd":"one-to-many",
-      "erdId":"y0id79l3f1dh75k9tfd1oa8l",
-      "createdAt":"2023-12-18T01:21:45.000Z"
+      "id": "gjsjj3cwb4s8fhfrndkerk0i",
+      "source": "jd352yt9juge9tqmo1c0cp9n",
+      "target": "oth94l53sl9e0rbdkewps1dw",
+      "markerEnd": "one-to-many",
+      "erdId": "y0id79l3f1dh75k9tfd1oa8l",
+      "createdAt": "2023-12-18T01:21:45.000Z"
     },
     {
-      "id":"s0mzw9fzn8gntkkr4ywqei4z",
-      "source":"ow9m7nrajetn3uax194x2wql",
-      "target":"oth94l53sl9e0rbdkewps1dw",
-      "markerEnd":"one-to-many",
-      "erdId":"y0id79l3f1dh75k9tfd1oa8l",
-      "createdAt":"2023-12-18T01:21:45.000Z"
+      "id": "s0mzw9fzn8gntkkr4ywqei4z",
+      "source": "ow9m7nrajetn3uax194x2wql",
+      "target": "oth94l53sl9e0rbdkewps1dw",
+      "markerEnd": "one-to-many",
+      "erdId": "y0id79l3f1dh75k9tfd1oa8l",
+      "createdAt": "2023-12-18T01:21:45.000Z"
     }
   ]
 }

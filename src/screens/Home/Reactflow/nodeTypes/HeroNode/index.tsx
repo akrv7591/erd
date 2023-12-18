@@ -10,8 +10,14 @@ export default function HeroNode() {
     <div className={classes.inner}>
       <div className={classes.content}>
         <Title className={classes.title}>
-          Welcome to <span className={classes.highlight}>{PROJECT.NAME}</span> , <br/> Your One-Stop Solution for ERD
-          Design!
+          Welcome to
+          <Text
+            span
+            variant="gradient"
+            gradient={{from: 'blue', to: 'cyan'}}
+            className={classes.highlight}
+          >{PROJECT.NAME},
+          </Text> <br/> Your One-Stop Solution for Entity Relation Design!
         </Title>
         <Text c="dimmed" mt="md">
           Design, Collaborate, and Generate SQL in Minutes!
