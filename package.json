@@ -41,6 +41,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.16.0",
     "react-sortablejs": "^6.1.4",
+    "react-ui-scrollspy": "^2.3.0",
     "reactflow": "^11.10.1",
     "socket.io-client": "^4.7.2",
     "sortablejs": "^1.15.1",
@@ -50,7 +51,7 @@
     "vite-plugin-svgr": "^4.1.0",
     "voca": "^1.4.1",
     "web-vitals": "^2.1.0",
-    "yarn": "^1.22.19",
+    "yarn": "^1.22.21",
     "zustand": "^4.4.4"
   },
   "scripts": {
