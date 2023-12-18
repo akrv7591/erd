@@ -1,4 +1,4 @@
-import {Box, Text} from "@mantine/core";
+import {Box} from "@mantine/core";
 import classes from "./style.module.css";
 import {Helmet} from "react-helmet-async";
 import ReactFlow, {applyNodeChanges, Background, BackgroundVariant, Node} from "reactflow";
@@ -39,7 +39,7 @@ export default function Home() {
         </ReactFlow>
       </Box>
       <Box id={"features"}>
-        <Features />
+        <Features/>
       </Box>
     </ScrollSpy>
 
