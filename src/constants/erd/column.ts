@@ -1,7 +1,8 @@
-import {IErdNodeColumn} from "../../types/erd-node";
+import {IErdNodeColumn} from "@/types/erd-node";
 
 export const DEFAULT_COLUMN_DATA: IErdNodeColumn = {
   id: "",
+  tableId: "",
   name: "",
   type: "",
   primary: false,
