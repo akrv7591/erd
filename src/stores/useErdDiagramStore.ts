@@ -214,6 +214,7 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       data.relations.push(relation)
       mnTable.data.columns.push({
         ...column,
+        tableId: mnTable.id,
         id,
         name: voca.snakeCase(tableName + voca.titleCase(column.name)),
         order,
@@ -265,6 +266,8 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
     data.tables.forEach(table => getState().multiplayer.handleTable("add", table))
     data.columns.forEach(({tableId, column}) => getState().multiplayer.handleColumn("add", tableId, column))
     data.relations.forEach(relation => getState().multiplayer.handleRelation("add", relation))
+
+    console.log("NEW M:N COLUMNS:", data.columns)
 
     set({tool: "grab"})
   },

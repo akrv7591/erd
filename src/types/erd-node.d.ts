@@ -5,6 +5,7 @@ export type ITools = 'grab' | 'add-table' | 'select-all' | 'one-to-one' | 'one-t
 
 export interface IErdNodeColumn {
   id: string;
+  tableId: string;
   name: string;
   primary: boolean;
   type: string;

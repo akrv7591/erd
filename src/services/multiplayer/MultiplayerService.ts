@@ -38,17 +38,17 @@ export class MultiplayerService {
     switch (action) {
       case "add":
         this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE, table, () => {
-          console.log(`TABLE ${table} ADDED`)
+          console.log(`TABLE ADDED: `, table)
         })
         break
       case "update":
         this.io.emit(MULTIPLAYER_SOCKET.UPDATE_TABLE, table, () => {
-          console.log(`TABLE ${table} UPDATED`)
+          console.log(`TABLE UPDATED: `, table)
         })
         break
       case "delete":
         this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE, table, () => {
-          console.log(`TABLE ${table} DELETED`)
+          console.log(`TABLE DELETED: `, table)
         })
     }
   }
@@ -72,17 +72,17 @@ export class MultiplayerService {
     switch (action) {
       case "add":
         this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE_COLUMN, tableId, column, () => {
-          console.log(`NEW_COLUMN ${column} ADDED to ${tableId}`)
+          console.log(`NEW_COLUMN ADDED to ${tableId}: `, column)
         })
         break
       case "update":
         this.io.emit(MULTIPLAYER_SOCKET.UPDATED_TABLE_COLUMN, tableId, column, () => {
-          console.log(`UPDATED_COLUMN ${column} UPDATED`)
+          console.log(`UPDATED_COLUMN UPDATED:`, column)
         })
         break
       case "delete":
         this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE_COLUMN, tableId, column, () => {
-          console.log(`COLUMN ${column} DELETED`)
+          console.log(`COLUMN DELETED:`, column)
         })
         break
     }

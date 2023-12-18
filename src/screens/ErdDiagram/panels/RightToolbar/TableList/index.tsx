@@ -67,7 +67,7 @@ export default function TableList() {
       </Menu.Target>
       <Menu.Dropdown>
         <Stack className={classes.listWrapper} miw={400}>
-          <Table stickyHeader highlightOnHover withTableBorder>
+          <Table stickyHeader highlightOnHover>
             <Table.Thead style={{zIndex: 1}}>
               <Table.Tr>
                 <Table.Td colSpan={3}>
@@ -127,10 +127,16 @@ export default function TableList() {
               {filteredTables.map(table => (
                 <Table.Tr
                   key={table.id}
-                  bg={selectedEntities.includes(table) ? "var(--mantine-primary-color-light)" : "none"}
+                  onClick={() => reactFlow.fitView({nodes: [table], duration: 1000})}
+                  style={{
+                    cursor: "pointer",
+                    ...selectedEntities.includes(table) && {
+                      backgroundColor: "var(--mantine-primary-color-light)"
+                  }
+                }}
                 >
                   <Table.Td>
-                    <Checkbox checked={selectedEntities.includes(table)} onChange={(e) => {
+                    <Checkbox checked={selectedEntities.includes(table)} onClick={(e) => e.stopPropagation()} onChange={(e) => {
                       const checked = e.target.checked
 
                       if (checked) {
@@ -140,7 +146,7 @@ export default function TableList() {
                       }
                     }} style={{zIndex: 0, position: "relative"}}/>
                   </Table.Td>
-                  <Table.Td onClick={() => reactFlow.fitView({nodes: [table], duration: 1000})}>
+                  <Table.Td >
                     <Text>{table.data.name}</Text>
                   </Table.Td>
                   <Table.Td>
