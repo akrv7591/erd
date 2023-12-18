@@ -8,7 +8,8 @@ import {IErdNodeData} from "@/types/erd-node";
 import Header from "./Header";
 import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
-import {ErdTableDataProvider} from "@/providers/ErdTableDataProvider.tsx";
+import {ErdTableDataProvider} from "@/screens/Home/Reactflow/nodeTypes/TableNode/DataProvider.tsx";
+
 interface Props extends NodeProps<IErdNodeData> {
 }
 

@@ -1,0 +1,70 @@
+.box {
+    min-width: 400px;
+    min-height: 100px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.card {
+    height: calc(100% - 50px);
+    transition: 0.3s;
+    outline: 3px solid var(--mantine-primary-color-filled-hover) !important;
+
+    &:hover {
+        outline: 5px solid var(--mantine-primary-color-filled-hover) !important;
+    }
+}
+
+.cardSelected {
+    height: calc(100% - 50px);
+    outline: 7px solid var(--mantine-primary-color-filled) !important;
+}
+
+.source {
+    width: 100%;
+    height: 100%;
+    background: var(--mantine-primary-color-light);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    opacity: 0.1;
+}
+
+.sourceConnecting {
+    z-index: -1;
+}
+
+.target {
+    width: 100%;
+    height: 100%;
+    background: #bd1dc2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    opacity: 0.5;
+}
+
+.targetConnecting {
+    z-index: -1;
+}
+
+.customHandle {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0;
+    transform: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: -1;
+    font-size: 30px;
+}

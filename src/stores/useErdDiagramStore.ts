@@ -279,12 +279,12 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       nodeChanges.forEach((node) => {
         switch (node.type) {
           case "reset":
-            // nodesToUpdate.push({
-            //   erdId,
-            //   id: node.item.id,
-            //   type: node.item.type,
-            //   position: node.item.position,
-            // })
+            nodesToUpdate.push({
+              erdId,
+              id: node.item.id,
+              type: node.item.type,
+              position: node.item.position,
+            })
             break
           case "position":
             const {id, type, position} = oldNodes.find(oldNode => oldNode.id === node.id)!

@@ -6,12 +6,11 @@ export default function HomeLayout() {
   return (
     <AppShell
       header={{height: 60}}
-      padding="md"
     >
       <AppShell.Header>
         <Header/>
       </AppShell.Header>
-      <AppShell.Main>
+      <AppShell.Main p={0} pt={"60"}>
         <Outlet/>
       </AppShell.Main>
     </AppShell>

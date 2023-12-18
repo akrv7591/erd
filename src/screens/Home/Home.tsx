@@ -1,66 +1,44 @@
-import {Button, Container, Text, ThemeIcon, Title, List, rem, Group, Image} from "@mantine/core";
+import {Box} from "@mantine/core";
 import classes from "./style.module.css";
-import { IconCheck } from "@tabler/icons-react";
-import {Link} from "react-router-dom";
-import {PROJECT} from "../../constants/project";
 import {Helmet} from "react-helmet-async";
+import ReactFlow, {applyNodeChanges, Background, BackgroundVariant, Node} from "reactflow";
+import data from "./data.json";
+import {nodeTypes} from "./Reactflow/nodeTypes";
+import {defaultEdgeOptions, edgeTypes} from "./Reactflow/edgesTypes";
+import Icons from "@/screens/Home/Reactflow/Icons";
+import React from "react";
 
 export default function Home() {
+  const [nodes, setNodes] = React.useState<Node[]>(data.nodes)
+
+  console.log(nodes)
+
   return (
-    <Container size="1400">
+    <Box className={classes.box}>
       <Helmet>
         <title>Home</title>
       </Helmet>
-      <div className={classes.inner}>
-        <div className={classes.content}>
-          <Title className={classes.title}>
-            Welcome to <span className={classes.highlight} >{PROJECT.NAME}</span> , <br /> Your One-Stop Solution for ERD Design!
-          </Title>
-          <Text c="dimmed" mt="md">
-            Design, Collaborate, and Generate SQL in Minutes!
-          </Text>
 
-          <List
-            mt={30}
-            spacing="sm"
-            size="sm"
-            icon={
-              <ThemeIcon size={20} radius="xl">
-                <IconCheck style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
-              </ThemeIcon>
-            }
-          >
-            <List.Item>
-              <b>Intuitive Drag-and-Drop Interface</b> – Create entities, attributes, and relationships with a simple drag-and-drop motion.
-            </List.Item>
-            <List.Item>
-              <b>Collaboration Made Easy:</b> – Share your ERD designs with team members and get real-time updates.
-            </List.Item>
-            <List.Item>
-              <b>Auto-Generate SQL</b> – Convert your ERD into SQL code with a single click.
-            </List.Item>
-            <List.Item>
-              <b>Save and Export</b> – Save your progress and export your diagrams in multiple formats, including PNG, JPEG, and PDF.
-            </List.Item>
-            <List.Item>
-              <b>Templates and Examples</b> – Get started quickly with our built-in templates and example diagrams.
-            </List.Item>
-          </List>
+      <ReactFlow
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        defaultNodes={nodes}
+        defaultEdges={data.edges}
+        defaultEdgeOptions={defaultEdgeOptions}
+        onNodesChange={changedNodes => {
+          setNodes(applyNodeChanges(changedNodes, nodes))
+        }}
+        minZoom={0.1}
+        fitView
+        fitViewOptions={{minZoom: 0.5, maxZoom: 0.5}}
+      >
+        <Icons/>
+        <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
 
-          <Group mt={30}>
-            <Link to={"library"} state={{destination: "/library"}}>
-              <Button radius="xl" size="md" className={classes.control}>
-                Get started
-              </Button>
-            </Link>
-            {/*<Button variant="default" radius="xl" size="md" className={classes.control}>*/}
-            {/*  Source code*/}
-            {/*</Button>*/}
-          </Group>
-        </div>
-        <Image src={null} className={classes.image} width={400} height={400}/>
-      </div>
-    </Container>
+      </ReactFlow>
+    </Box>
+
+
   );
 }
 

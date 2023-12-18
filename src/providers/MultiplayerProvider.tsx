@@ -26,7 +26,7 @@ export default function MultiplayerProvider(props: PropsWithChildren) {
       // Function to execute before page unload
       const handleBeforeUnload = () => {
         multiplayer.leaveRoom(userId)
-        multiplayer.io.disconnect()
+        console.log("LEAVING A ROOM")
         resetFlow()
         setMultiplayer(null)
       };
@@ -36,6 +36,7 @@ export default function MultiplayerProvider(props: PropsWithChildren) {
       // Cleanup function
       return () => {
         window.removeEventListener('beforeunload', handleBeforeUnload);
+        console.log("UNMOUNTING")
         handleBeforeUnload()
       };
     }
