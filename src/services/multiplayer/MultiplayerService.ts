@@ -1,13 +1,17 @@
 import {Socket} from "socket.io-client";
-import {MULTIPLAYER_SOCKET} from "../../constants/multiplayer.ts";
-import {IErdNode} from "../../types/erd-node";
-import {useErdDiagramStore} from "../../stores/useErdDiagramStore.ts";
-import {ICColumn} from "../../types/data/column";
+import {MULTIPLAYER_SOCKET} from "@/constants/multiplayer.ts";
+import {IErdNode} from "@/types/erd-node";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {ICColumn} from "@/types/data/column";
 import {Edge} from "reactflow";
 import {orderBy} from "lodash";
 
 type IHandlerAction = "add" | "update" | "delete"
-
+interface ResponseData {
+  type: MULTIPLAYER_SOCKET
+  status: "ok" | "failed"
+  data: any
+}
 export class MultiplayerService {
   readonly io: Socket
   private readonly id: string
@@ -18,52 +22,71 @@ export class MultiplayerService {
     this.initListeners()
   }
 
-  // User
-  joinRoom(userId: string) {
-    this.io.emit(MULTIPLAYER_SOCKET.ADD_PLAYER, this.id, userId, (roomData: any) => {
-      console.log("USER JOINED, TOTAL_USERS", roomData.players.length)
-      console.log(roomData)
-      useErdDiagramStore.setState({...roomData, multiplayer: this})
-    })
+  onError(error: Error) {
+    console.error(error)
   }
 
-  leaveRoom(userId: string) {
-    this.io.emit(MULTIPLAYER_SOCKET.REMOVE_PLAYER, this.id, userId, () => {
-      useErdDiagramStore.setState(cur => ({players: cur.players.filter(player => player.id !== userId)}))
-    })
+  onCallback = ({status, type, data}: ResponseData) => {
+    if (status !== "ok") {
+      return console.error(type, ": ", status)
+    }
+    switch (type) {
+      case MULTIPLAYER_SOCKET.ADD_PLAYER:
+          console.log(data)
+          useErdDiagramStore.setState({...data, multiplayer: this})
+        break
+      case MULTIPLAYER_SOCKET.REMOVE_PLAYER:
+          useErdDiagramStore.setState(cur => ({players: cur.players.filter(player => player.id !== data)}))
+        break
+      case MULTIPLAYER_SOCKET.ADD_TABLE:
+        break
+      case MULTIPLAYER_SOCKET.UPDATE_TABLE:
+        break
+      case MULTIPLAYER_SOCKET.DELETE_TABLE:
+        break
+      case MULTIPLAYER_SOCKET.ADD_RELATION:
+        break
+      case MULTIPLAYER_SOCKET.DELETE_RELATION:
+        break
+      case MULTIPLAYER_SOCKET.ADD_TABLE_COLUMN:
+        break
+      case MULTIPLAYER_SOCKET.UPDATED_TABLE_COLUMN:
+        break
+      case MULTIPLAYER_SOCKET.DELETE_TABLE_COLUMN:
+        break
+      case MULTIPLAYER_SOCKET.SET_TABLE_DATA:
+        break
+      case MULTIPLAYER_SOCKET.SUBSCRIBE_TO_TABLE_DATE:
+        break
+
+    }
   }
+
+  // User
+  joinRoom = (userId: string) => this.io.emit(MULTIPLAYER_SOCKET.ADD_PLAYER, this.id, userId, this.onCallback)
+  leaveRoom = (userId: string) => this.io.emit(MULTIPLAYER_SOCKET.REMOVE_PLAYER, this.id, userId, this.onCallback)
 
   // Table
   handleTable(action: IHandlerAction, table: IErdNode | string) {
     switch (action) {
       case "add":
-        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE, table, () => {
-          console.log(`TABLE ADDED: `, table)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE, table, this.onCallback)
         break
       case "update":
-        this.io.emit(MULTIPLAYER_SOCKET.UPDATE_TABLE, table, () => {
-          console.log(`TABLE UPDATED: `, table)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.UPDATE_TABLE, table, this.onCallback)
         break
       case "delete":
-        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE, table, () => {
-          console.log(`TABLE DELETED: `, table)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE, table, this.onCallback)
     }
   }
 
   handleRelation(action: IHandlerAction, relation: Edge | string) {
     switch (action) {
       case "add":
-        this.io.emit(MULTIPLAYER_SOCKET.ADD_RELATION, relation, () => {
-          console.log(`ADDED ${relation} successfully`)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.ADD_RELATION, relation, this.onCallback)
         break
       case "delete":
-        this.io.emit(MULTIPLAYER_SOCKET.DELETE_RELATION, relation, () => {
-          console.log(`DELETED ${relation} relation`)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.DELETE_RELATION, relation, this.onCallback)
         break
     }
   }
@@ -71,34 +94,20 @@ export class MultiplayerService {
   handleColumn(action: IHandlerAction, tableId: string, column: ICColumn | string) {
     switch (action) {
       case "add":
-        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE_COLUMN, tableId, column, () => {
-          console.log(`NEW_COLUMN ADDED to ${tableId}: `, column)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE_COLUMN, tableId, column, this.onCallback)
         break
       case "update":
-        this.io.emit(MULTIPLAYER_SOCKET.UPDATED_TABLE_COLUMN, tableId, column, () => {
-          console.log(`UPDATED_COLUMN UPDATED:`, column)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.UPDATED_TABLE_COLUMN, tableId, column, this.onCallback)
         break
       case "delete":
-        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE_COLUMN, tableId, column, () => {
-          console.log(`COLUMN DELETED:`, column)
-        })
+        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE_COLUMN, tableId, column, this.onCallback)
         break
     }
   }
 
-  handleTableData(tableId: string, key: string, value: string) {
-    this.io.emit(MULTIPLAYER_SOCKET.SET_TABLE_DATA, tableId, key, value, () => {
-      console.log("TABLE DATA SUCCESSFULLY UPDATED")
-    })
-  }
+  handleTableData = (tableId: string, key: string, value: string) => this.io.emit(MULTIPLAYER_SOCKET.SET_TABLE_DATA, tableId, key, value, this.onCallback)
+  subscribeToTableData = (tableId: string) => this.io.emit(MULTIPLAYER_SOCKET.SUBSCRIBE_TO_TABLE_DATE, tableId, this.onCallback)
 
-  subscribeToTableData(tableId: string) {
-    this.io.emit(MULTIPLAYER_SOCKET.SUBSCRIBE_TO_TABLE_DATE, tableId, () => {
-      console.log(`SUBSCRIBED TO ${tableId} DATA`)
-    })
-  }
 
 
   private initListeners() {
@@ -151,7 +160,7 @@ export class MultiplayerService {
       useErdDiagramStore.setState(cur => ({
         tables: cur.tables.map(table => {
           if (table.id === tableId) {
-            const columns = orderBy(table.data.columns.map(c => c.id === column.id? column: c), 'order', 'asc')
+            const columns = orderBy(table.data.columns.map(c => c.id === column.id ? column : c), 'order', 'asc')
             return {
               ...table,
               data: {
