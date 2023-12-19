@@ -6,7 +6,8 @@ import ReactFlow, {
   Controls,
   MiniMap,
   SelectionMode,
-  useReactFlow
+  useOnViewportChange,
+  useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import "./style.css"
@@ -15,7 +16,6 @@ import {nodeTypes} from "./nodes";
 import Icons from "./Icons";
 import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import {Helmet} from "react-helmet-async";
-import RightToolbar from "./panels/RightToolbar";
 
 const useErdDiagramSelectors = () => {
   const nodes = useErdDiagramStore(state => state.getNodes());
@@ -24,6 +24,8 @@ const useErdDiagramSelectors = () => {
   const setEdgeChanges = useErdDiagramStore(state => state.setEdgeChanges)
   const setConnection = useErdDiagramStore(state => state.setConnection)
   const addTableOnClick = useErdDiagramStore(state => state.addTableOnClick)
+  const setSubscribedTo = useErdDiagramStore(state => state.setSubscribedTo)
+  const subscribedTo = useErdDiagramStore(state => state.subscribedTo)
 
   return {
     nodes,
@@ -32,17 +34,32 @@ const useErdDiagramSelectors = () => {
     setEdgeChanges,
     setConnection,
     addTableOnClick,
+    setSubscribedTo,
+    subscribedTo
   }
 }
 
+
 const ErdDiagram = () => {
   const store = useErdDiagramSelectors()
+  const multiplayer = useErdDiagramStore(state => state.multiplayer)
+  const viewport = useErdDiagramStore(state => state.viewport)
   const reactFlowInstance = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
+  useOnViewportChange({onChange: (viewport) => multiplayer.handleSubscribeData("viewport", viewport)})
+
   const onDragOver: React.DragEventHandler = React.useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
+
+
+  React.useEffect(() => {
+    if (viewport && store.subscribedTo) {
+      reactFlowInstance.setViewport(viewport)
+    }
+  }, [viewport, store.subscribedTo, reactFlowInstance.setViewport])
+
 
   const onDrop: React.DragEventHandler = React.useCallback(
     (event) => {
@@ -63,7 +80,7 @@ const ErdDiagram = () => {
   );
 
   return (
-    <div className={"erd-container"} ref={reactFlowWrapper}>
+    <div className={"erd-container"} ref={reactFlowWrapper} style={store.subscribedTo? {border: "2px solid var(--mantine-primary-color-filled)"}: {border: "2px solid transparent"}}>
       <Helmet>
         <title>Erd diagram</title>
       </Helmet>
@@ -90,8 +107,9 @@ const ErdDiagram = () => {
         fitView
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}
+        onClick={() => store.setSubscribedTo(null)}
       >
-        <RightToolbar/>
+        {/*<RightToolbar/>*/}
         <Controls/>
         <MiniMap style={{right: "50px"}} zoomable pannable nodeStrokeWidth={20} nodeColor={node => node.data.color}/>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>

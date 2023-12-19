@@ -4,6 +4,7 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import {ReactFlowProvider} from "reactflow";
+import Aside from "components/layouts/ErdDiagramLayout/Aside";
 
 export default function ErdDiagramLayout() {
   const {erdId} = useParams<{ erdId: string }>()
@@ -15,6 +16,7 @@ export default function ErdDiagramLayout() {
       header={{height: 50}}
       navbar={{width: 50, breakpoint: "none"}}
       footer={{height: 50}}
+      aside={{width: 50, breakpoint: "none"}}
     >
       <AppShell.Header>
         <Header/>
@@ -22,6 +24,9 @@ export default function ErdDiagramLayout() {
       <AppShell.Navbar>
         <Navbar/>
       </AppShell.Navbar>
+      <AppShell.Aside>
+        <Aside />
+      </AppShell.Aside>
       <AppShell.Main>
         <ReactFlowProvider>
           <Outlet/>

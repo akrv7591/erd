@@ -3,8 +3,9 @@ import {MULTIPLAYER_SOCKET} from "@/constants/multiplayer.ts";
 import {IErdNode} from "@/types/erd-node";
 import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import {ICColumn} from "@/types/data/column";
-import {Edge} from "reactflow";
+import {Edge, Viewport} from "reactflow";
 import {orderBy} from "lodash";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 
 type IHandlerAction = "add" | "update" | "delete"
 interface ResponseData {
@@ -21,12 +22,7 @@ export class MultiplayerService {
     this.id = id
     this.initListeners()
   }
-
-  onError(error: Error) {
-    console.error(error)
-  }
-
-  onCallback = ({status, type, data}: ResponseData) => {
+  onCallback = (dataCallback?: Function) => ({status, type, data}: ResponseData) => {
     if (status !== "ok") {
       return console.error(type, ": ", status)
     }
@@ -37,6 +33,15 @@ export class MultiplayerService {
         break
       case MULTIPLAYER_SOCKET.REMOVE_PLAYER:
           useErdDiagramStore.setState(cur => ({players: cur.players.filter(player => player.id !== data)}))
+        break
+      case MULTIPLAYER_SOCKET.SUBSCRIBE_TO_PLAYER:
+        dataCallback!({status, type, data})
+        break
+      case MULTIPLAYER_SOCKET.UNSUBSCRIBE_TO_PLAYER:
+        dataCallback!({status, type, data})
+        break
+      case MULTIPLAYER_SOCKET.ON_USER_VIEWPORT_CHANGE:
+        console.log("VIEWPORT_CHANGE_CALLBACK")
         break
       case MULTIPLAYER_SOCKET.ADD_TABLE:
         break
@@ -63,30 +68,37 @@ export class MultiplayerService {
   }
 
   // User
-  joinRoom = (userId: string) => this.io.emit(MULTIPLAYER_SOCKET.ADD_PLAYER, this.id, userId, this.onCallback)
-  leaveRoom = (userId: string) => this.io.emit(MULTIPLAYER_SOCKET.REMOVE_PLAYER, this.id, userId, this.onCallback)
-
+  joinRoom = (userId: string) => this.io.emit(MULTIPLAYER_SOCKET.ADD_PLAYER, this.id, userId, this.onCallback())
+  leaveRoom = (userId: string) => this.io.emit(MULTIPLAYER_SOCKET.REMOVE_PLAYER, this.id, userId, this.onCallback())
+  subscribeToPlayer = (targetPlayerId: string, dataCallback: Function) => this.io.emit(MULTIPLAYER_SOCKET.SUBSCRIBE_TO_PLAYER, useAuthStore.getState().getAuthorization()?.id, targetPlayerId, this.onCallback(dataCallback))
+  unsubscribeToPlayer = (targetPlayerId: string, dataCallback: Function) => this.io.emit(MULTIPLAYER_SOCKET.UNSUBSCRIBE_TO_PLAYER, useAuthStore.getState().getAuthorization()?.id, targetPlayerId, this.onCallback(dataCallback))
+  handleSubscribeData = (type: "viewport" | "mouse", data: any) => {
+    switch (type) {
+      case "viewport":
+        this.io.emit(MULTIPLAYER_SOCKET.ON_USER_VIEWPORT_CHANGE, useAuthStore.getState().getAuthorization()?.id, data, this.onCallback())
+    }
+  }
   // Table
   handleTable(action: IHandlerAction, table: IErdNode | string) {
     switch (action) {
       case "add":
-        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE, table, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE, table, this.onCallback())
         break
       case "update":
-        this.io.emit(MULTIPLAYER_SOCKET.UPDATE_TABLE, table, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.UPDATE_TABLE, table, this.onCallback())
         break
       case "delete":
-        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE, table, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE, table, this.onCallback())
     }
   }
 
   handleRelation(action: IHandlerAction, relation: Edge | string) {
     switch (action) {
       case "add":
-        this.io.emit(MULTIPLAYER_SOCKET.ADD_RELATION, relation, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.ADD_RELATION, relation, this.onCallback())
         break
       case "delete":
-        this.io.emit(MULTIPLAYER_SOCKET.DELETE_RELATION, relation, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.DELETE_RELATION, relation, this.onCallback())
         break
     }
   }
@@ -94,19 +106,19 @@ export class MultiplayerService {
   handleColumn(action: IHandlerAction, tableId: string, column: ICColumn | string) {
     switch (action) {
       case "add":
-        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE_COLUMN, tableId, column, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.ADD_TABLE_COLUMN, tableId, column, this.onCallback())
         break
       case "update":
-        this.io.emit(MULTIPLAYER_SOCKET.UPDATED_TABLE_COLUMN, tableId, column, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.UPDATED_TABLE_COLUMN, tableId, column, this.onCallback())
         break
       case "delete":
-        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE_COLUMN, tableId, column, this.onCallback)
+        this.io.emit(MULTIPLAYER_SOCKET.DELETE_TABLE_COLUMN, tableId, column, this.onCallback())
         break
     }
   }
 
-  handleTableData = (tableId: string, key: string, value: string) => this.io.emit(MULTIPLAYER_SOCKET.SET_TABLE_DATA, tableId, key, value, this.onCallback)
-  subscribeToTableData = (tableId: string) => this.io.emit(MULTIPLAYER_SOCKET.SUBSCRIBE_TO_TABLE_DATE, tableId, this.onCallback)
+  handleTableData = (tableId: string, key: string, value: string) => this.io.emit(MULTIPLAYER_SOCKET.SET_TABLE_DATA, tableId, key, value, this.onCallback())
+  subscribeToTableData = (tableId: string) => this.io.emit(MULTIPLAYER_SOCKET.SUBSCRIBE_TO_TABLE_DATE, tableId, this.onCallback())
 
 
 
@@ -117,6 +129,9 @@ export class MultiplayerService {
     })
     this.io.on(MULTIPLAYER_SOCKET.REMOVE_PLAYER, removedPlayerId => {
       useErdDiagramStore.setState(cur => ({players: cur.players.filter(player => player.id !== removedPlayerId)}))
+    })
+    this.io.on(MULTIPLAYER_SOCKET.ON_USER_VIEWPORT_CHANGE, (data: Viewport) => {
+      useErdDiagramStore.getState().setViewport(data)
     })
 
     // Table listeners

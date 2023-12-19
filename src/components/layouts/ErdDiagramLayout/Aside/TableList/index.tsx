@@ -13,23 +13,22 @@ import {
 } from "@mantine/core";
 import {IconList, IconTrash} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
-import {useErdDiagramStore} from "../../../../../stores/useErdDiagramStore.ts";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import classes from "./style.module.css";
 import React from "react";
-import SearchInput from "../../../../../components/common/SearchInput.tsx";
-import {useReactFlow} from "reactflow";
-import {IErdNode} from "../../../../../types/erd-node";
-import ButtonWithConfirm from "../../../../../components/common/ButtonWithConfirm";
+import SearchInput from "@/components/common/SearchInput.tsx";
+import {IErdNode} from "@/types/erd-node";
+import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 
 export default function TableList() {
   const [opened, {open, close}] = useDisclosure()
   const [selectedEntities, setSelectedEntities] = React.useState<IErdNode[]>([])
   const tables = useErdDiagramStore(state => state.tables)
+  const multiplayer = useErdDiagramStore(state => state.multiplayer)
   const [search, setSearch] = React.useState("")
   const filteredTables = React.useMemo(() => tables.filter(t => t.data.name.toLowerCase().includes(search.toLowerCase())), [search, tables])
-  const reactFlow = useReactFlow()
   const onSelectedDelete = React.useCallback(() => {
-    reactFlow.deleteElements({nodes: selectedEntities})
+    selectedEntities.forEach(entity => multiplayer.handleTable("delete", entity))
     setSelectedEntities([])
   }, [selectedEntities, setSelectedEntities])
 
@@ -113,7 +112,7 @@ export default function TableList() {
                           color={"var(--mantine-color-red-filled)"}
                           leftSection={<IconTrash/>}
                         >
-                          Delete {selectedEntities.length} {selectedEntities.length > 1? "entities": "entity"}
+                          Delete {selectedEntities.length} {selectedEntities.length > 1 ? "entities" : "entity"}
                         </Button>
                       )}
                       message={`Do you really want to delete ${selectedEntities.length} entities?`}
@@ -127,26 +126,27 @@ export default function TableList() {
               {filteredTables.map(table => (
                 <Table.Tr
                   key={table.id}
-                  onClick={() => reactFlow.fitView({nodes: [table], duration: 1000})}
+                  // onClick={() => reactFlow.fitView({nodes: [table], duration: 1000})}
                   style={{
                     cursor: "pointer",
                     ...selectedEntities.includes(table) && {
                       backgroundColor: "var(--mantine-primary-color-light)"
-                  }
-                }}
+                    }
+                  }}
                 >
                   <Table.Td>
-                    <Checkbox checked={selectedEntities.includes(table)} onClick={(e) => e.stopPropagation()} onChange={(e) => {
-                      const checked = e.target.checked
+                    <Checkbox checked={selectedEntities.includes(table)} onClick={(e) => e.stopPropagation()}
+                              onChange={(e) => {
+                                const checked = e.target.checked
 
-                      if (checked) {
-                        setSelectedEntities(cur => [...cur, table])
-                      } else {
-                        setSelectedEntities(cur => cur.filter(t => t.id !== table.id))
-                      }
-                    }} style={{zIndex: 0, position: "relative"}}/>
+                                if (checked) {
+                                  setSelectedEntities(cur => [...cur, table])
+                                } else {
+                                  setSelectedEntities(cur => cur.filter(t => t.id !== table.id))
+                                }
+                              }} style={{zIndex: 0, position: "relative"}}/>
                   </Table.Td>
-                  <Table.Td >
+                  <Table.Td>
                     <Text>{table.data.name}</Text>
                   </Table.Td>
                   <Table.Td>

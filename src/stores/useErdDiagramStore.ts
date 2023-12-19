@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {IErdNode, IErdNodeColumn, IErdNodeData, ITools} from "../types/erd-node";
+import {IErdNode, IErdNodeColumn, IErdNodeData, ITools} from "@/types/erd-node";
 import {
   applyEdgeChanges,
   applyNodeChanges,
@@ -7,15 +7,15 @@ import {
   Edge,
   EdgeChange,
   NodeChange,
-  ReactFlowInstance
+  ReactFlowInstance, Viewport
 } from "reactflow";
 import voca from "voca";
 import {RELATIONS} from "../constants/relations.ts";
 import {createId} from "@paralleldrive/cuid2";
-import {ICRelation} from "../types/data/relations";
-import {ICColumn} from "../types/data/column";
-import {IErd} from "../types/data/erd";
-import {IUser} from "../types/data/user";
+import {ICRelation} from "@/types/data/relations";
+import {ICColumn} from "@/types/data/column";
+import {IErd} from "@/types/data/erd";
+import {IUser} from "@/types/data/user";
 import {MultiplayerService} from "../services/multiplayer/MultiplayerService.ts";
 
 interface IAddNodeProps {
@@ -31,10 +31,12 @@ interface IConnectionData {
 
 export interface IErdDiagramState extends Omit<IErd, 'users' | 'relations' | 'tables'> {
   tool: ITools;
-  players: IUser[],
-  tables: IErdNode[],
-  relations: Edge[],
-  multiplayer: MultiplayerService
+  players: IUser[];
+  tables: IErdNode[];
+  relations: Edge[];
+  multiplayer: MultiplayerService;
+  subscribedTo: IUser | null
+  viewport: Viewport | null
 }
 
 export interface IErdDiagramViews {
@@ -45,6 +47,7 @@ export interface IErdDiagramViews {
 
 export interface IErDiagramActions {
   // Actions
+  setViewport: (viewport: Viewport) => void
 
   // Node actions
   setNodes: (nodes: IErdNode[]) => void
@@ -58,6 +61,7 @@ export interface IErDiagramActions {
   addOneToOneRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
   addOneToManyRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
   addManyToManyRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
+  setSubscribedTo: (userOrNull: IErdDiagramState['subscribedTo']) => void
 
   // Tools
   setTool: (tool: ITools) => void
@@ -73,6 +77,8 @@ const initialState: IErdDiagramState = {
   name: "",
   isPublic: false,
   description: "",
+  subscribedTo: null,
+  viewport: {x: 0, y: 0, zoom: 1},
 
   //Relations
   tables: [],
@@ -349,5 +355,39 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       }
     })
   },
+  setSubscribedTo: async (userOrNull) => {
+    const {subscribedTo, multiplayer} = getState()
+    let newSubscribeTo: IErdDiagramState['subscribedTo']
+
+    // Unsubscribe > Subscribe
+    if (subscribedTo) {
+      // Unsubscribe
+      await new Promise((res) => {
+        multiplayer.unsubscribeToPlayer(subscribedTo.id, (data: any) => {
+          if (data?.status === "ok") {
+            res(null)
+          }
+        })
+      })
+    }
+
+    if (userOrNull === null) {
+      newSubscribeTo = null
+    } else {
+      // subscribe
+      newSubscribeTo = await new Promise((res) => {
+          multiplayer.subscribeToPlayer(userOrNull.id, (data: any) => {
+            if (data?.status === "ok") {
+              res(userOrNull)
+            }
+          })
+        }
+      )
+    }
+
+    set({subscribedTo: newSubscribeTo, viewport: null})
+
+  },
+  setViewport: (viewport) => set({viewport}),
   reset: () => set(initialState)
 }))
