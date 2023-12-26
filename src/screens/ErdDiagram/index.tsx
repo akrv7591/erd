@@ -36,7 +36,6 @@ const ErdDiagram = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
 
-
   console.log({subscribers})
 
   useOnViewportChange({
@@ -71,6 +70,13 @@ const ErdDiagram = () => {
     }
   }, [reactFlowWrapper])
 
+  const onCursorMove = React.useCallback((e: React.MouseEvent) => {
+      playground.player(Player.mouseChange, reactFlowInstance.screenToFlowPosition({
+        x: e.clientX,
+        y: e.clientY
+      }))
+  }, [playground])
+
 
   return (
     <div className={"erd-container"} ref={reactFlowWrapper}
@@ -99,14 +105,10 @@ const ErdDiagram = () => {
         panOnScroll
         selectionOnDrag
         fitView
+        onNodeDrag={onCursorMove}
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}
-        onMouseMove={e => {
-          playground.player(Player.mouseChange, reactFlowInstance.screenToFlowPosition({
-            x: e.clientX,
-            y: e.clientY
-          }))
-        }}
+        onMouseMove={onCursorMove}
 
         onClick={() => {
           if (subscribedTo) {
@@ -115,7 +117,7 @@ const ErdDiagram = () => {
           }
         }}
       >
-        <PlayerCursor />
+        <PlayerCursor/>
         <Controls/>
         <MiniMap style={{right: "50px"}} zoomable pannable nodeStrokeWidth={20} nodeColor={node => node.data.color}/>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
