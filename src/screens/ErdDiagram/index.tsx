@@ -70,13 +70,6 @@ const ErdDiagram = () => {
     }
   }, [reactFlowWrapper])
 
-  const onCursorMove = React.useCallback((e: React.MouseEvent) => {
-      playground.player(Player.mouseChange, reactFlowInstance.screenToFlowPosition({
-        x: e.clientX,
-        y: e.clientY
-      }))
-  }, [playground])
-
 
   return (
     <div className={"erd-container"} ref={reactFlowWrapper}
@@ -105,10 +98,20 @@ const ErdDiagram = () => {
         panOnScroll
         selectionOnDrag
         fitView
-        onNodeDrag={onCursorMove}
+        onNodeDrag={(e) => {
+          playground.player(Player.mouseChange, reactFlowInstance.screenToFlowPosition({
+            x: e.clientX,
+            y: e.clientY
+          }))
+        }}
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}
-        onMouseMove={onCursorMove}
+        onMouseMove={(e) => {
+          playground.player(Player.mouseChange, reactFlowInstance.screenToFlowPosition({
+            x: e.clientX,
+            y: e.clientY
+          }))
+        }}
 
         onClick={() => {
           if (subscribedTo) {

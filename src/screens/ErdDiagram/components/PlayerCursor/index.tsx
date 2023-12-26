@@ -12,8 +12,6 @@ export default function PlayerCursor() {
   return players.filter(player => player.id !== authorizedUser?.id && player.cursorPosition).map(player => {
     const position = reactflow.flowToScreenPosition(player.cursorPosition)
 
-    console.log(position)
-
     return (
       <Box style={{
         position: "fixed",
