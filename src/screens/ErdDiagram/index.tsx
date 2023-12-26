@@ -14,39 +14,38 @@ import "./style.css"
 import {defaultEdgeOptions, edgeTypes} from "./edges";
 import {nodeTypes} from "./nodes";
 import Icons from "./Icons";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import {Helmet} from "react-helmet-async";
+import {Player} from "@/enums/playground.ts";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import PlayerCursor from "@/screens/ErdDiagram/components/PlayerCursor";
 
-const useErdDiagramSelectors = () => {
+
+const ErdDiagram = () => {
   const nodes = useErdDiagramStore(state => state.getNodes());
   const edges = useErdDiagramStore(state => state.getEdges());
   const setNodeChanges = useErdDiagramStore(state => state.setNodeChanges)
   const setEdgeChanges = useErdDiagramStore(state => state.setEdgeChanges)
   const setConnection = useErdDiagramStore(state => state.setConnection)
-  const addTableOnClick = useErdDiagramStore(state => state.addTableOnClick)
-  const setSubscribedTo = useErdDiagramStore(state => state.setSubscribedTo)
+  const nodeOnDragAdd = useErdDiagramStore(state => state.nodeOnDragAdd)
   const subscribedTo = useErdDiagramStore(state => state.subscribedTo)
-
-  return {
-    nodes,
-    edges,
-    setNodeChanges,
-    setEdgeChanges,
-    setConnection,
-    addTableOnClick,
-    setSubscribedTo,
-    subscribedTo
-  }
-}
-
-
-const ErdDiagram = () => {
-  const store = useErdDiagramSelectors()
-  const multiplayer = useErdDiagramStore(state => state.multiplayer)
+  const playground = useErdDiagramStore(state => state.playground)
+  const subscribers = useErdDiagramStore(state => state.subscribers)
   const viewport = useErdDiagramStore(state => state.viewport)
+
   const reactFlowInstance = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
-  useOnViewportChange({onChange: (viewport) => multiplayer.handleSubscribeData("viewport", viewport)})
+
+
+
+  console.log({subscribers})
+
+  useOnViewportChange({
+    onChange: (viewport) => {
+      if (subscribers.length > 0) {
+        playground.player(Player.viewpointChange, viewport)
+      }
+    }
+  })
 
   const onDragOver: React.DragEventHandler = React.useCallback((event) => {
     event.preventDefault();
@@ -55,51 +54,46 @@ const ErdDiagram = () => {
 
 
   React.useEffect(() => {
-    if (viewport && store.subscribedTo) {
+    if (viewport && subscribedTo) {
       reactFlowInstance.setViewport(viewport)
     }
-  }, [viewport, store.subscribedTo, reactFlowInstance.setViewport])
+  }, [viewport, subscribedTo, reactFlowInstance.setViewport])
 
-
-  const onDrop: React.DragEventHandler = React.useCallback(
-    (event) => {
-      event.preventDefault();
-
-      const type = event.dataTransfer.getData('application/reactflow');
-
-      console.log({type})
-
-      // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
-        return;
+  React.useEffect(() => {
+    if (reactFlowWrapper) {
+      const onBlur = () => {
+        playground.player(Player.mouseChange, null)
       }
+      window.addEventListener('blur', onBlur)
+      return () => {
+        window.removeEventListener('blur', onBlur)
+      }
+    }
+  }, [reactFlowWrapper])
 
-      store.addTableOnClick({e: event, reactFlowInstance})
-    },
-    [reactFlowInstance],
-  );
 
   return (
-    <div className={"erd-container"} ref={reactFlowWrapper} style={store.subscribedTo? {border: "2px solid var(--mantine-primary-color-filled)"}: {border: "2px solid transparent"}}>
+    <div className={"erd-container"} ref={reactFlowWrapper}
+         style={subscribedTo ? {border: "2px solid var(--mantine-primary-color-filled)"} : {border: "2px solid transparent"}}>
       <Helmet>
-        <title>Erd diagram</title>
+        <title>Erdiagramly</title>
       </Helmet>
       <Icons/>
       <ReactFlow
-        nodes={store.nodes}
-        edges={store.edges}
+        nodes={nodes}
+        edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         onNodesDelete={(nodes) => console.log(nodes)}
-        onNodesChange={store.setNodeChanges}
-        onEdgesChange={store.setEdgeChanges}
+        onNodesChange={setNodeChanges}
+        onEdgesChange={setEdgeChanges}
         onNodeDoubleClick={(_, node) => reactFlowInstance.fitView({nodes: [node], duration: 500})}
-        onConnect={(connection) => store.setConnection(connection)}
+        onConnect={(connection) => setConnection(connection)}
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
         onDragOver={onDragOver}
-        onDrop={onDrop}
+        onDrop={nodeOnDragAdd({reactFlowInstance})}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={{hideAttribution: true}}
         panOnScroll
@@ -107,9 +101,21 @@ const ErdDiagram = () => {
         fitView
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}
-        onClick={() => store.setSubscribedTo(null)}
+        onMouseMove={e => {
+          playground.player(Player.mouseChange, reactFlowInstance.screenToFlowPosition({
+            x: e.clientX,
+            y: e.clientY
+          }))
+        }}
+
+        onClick={() => {
+          if (subscribedTo) {
+            console.log("subscribedTo")
+            playground.player(Player.unsubscribe, subscribedTo)
+          }
+        }}
       >
-        {/*<RightToolbar/>*/}
+        <PlayerCursor />
         <Controls/>
         <MiniMap style={{right: "50px"}} zoomable pannable nodeStrokeWidth={20} nodeColor={node => node.data.color}/>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>

@@ -7,7 +7,8 @@ import {
   Edge,
   EdgeChange,
   NodeChange,
-  ReactFlowInstance, Viewport
+  ReactFlowInstance,
+  Viewport
 } from "reactflow";
 import voca from "voca";
 import {RELATIONS} from "../constants/relations.ts";
@@ -16,33 +17,41 @@ import {ICRelation} from "@/types/data/relations";
 import {ICColumn} from "@/types/data/column";
 import {IErd} from "@/types/data/erd";
 import {IUser} from "@/types/data/user";
-import {MultiplayerService} from "../services/multiplayer/MultiplayerService.ts";
+import {PlaygroundService, ResponseData} from "services/multiplayer/playground-service.ts";
+import {CallbackDataStatus, Column, Player, Playground, Relation, Table} from "@/enums/playground.ts";
+import {notifications} from "@mantine/notifications";
+import {orderBy} from "lodash";
+import React from "react";
 
 interface IAddNodeProps {
-  e: any
   reactFlowInstance: ReactFlowInstance
 }
 
 interface IConnectionData {
   relations: Edge[]
-  columns: { tableId: string, column: ICColumn }[]
+  columns: ICColumn[]
   tables: IErdNode[]
+}
+
+export interface IPlayer extends IUser {
+  cursorPosition: any
 }
 
 export interface IErdDiagramState extends Omit<IErd, 'users' | 'relations' | 'tables'> {
   tool: ITools;
-  players: IUser[];
+  players: IPlayer[];
   tables: IErdNode[];
   relations: Edge[];
-  multiplayer: MultiplayerService;
-  subscribedTo: IUser | null
-  viewport: Viewport | null
+  playground: PlaygroundService;
+  subscribedTo: IUser | null;
+  viewport: Viewport | null;
+  subscribers: IUser[];
 }
 
 export interface IErdDiagramViews {
-  getNodeData: (nodeId: string) => IErdNodeData
-  getNodes: () => IErdNode[]
-  getEdges: () => Edge[]
+  getNodeData: (nodeId: string) => IErdNodeData;
+  getNodes: () => IErdNode[];
+  getEdges: () => Edge[];
 }
 
 export interface IErDiagramActions {
@@ -50,21 +59,21 @@ export interface IErDiagramActions {
   setViewport: (viewport: Viewport) => void
 
   // Node actions
-  setNodes: (nodes: IErdNode[]) => void
   setNodeChanges: (nodeChanges: NodeChange[]) => void
-  addTableOnClick: (props: IAddNodeProps) => void
+  // setNodeChanges: React.DragEventHandler
+
+  nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
 
   // Relation actions
-  setEdges: (edges: Edge[]) => void
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
   setConnection: (connection: Connection) => void
   addOneToOneRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
   addOneToManyRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
   addManyToManyRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
-  setSubscribedTo: (userOrNull: IErdDiagramState['subscribedTo']) => void
 
   // Tools
   setTool: (tool: ITools) => void
+  handlePlaygroundResponse: (res: ResponseData<Playground>) => void
 
   // Other
   reset: () => void
@@ -79,13 +88,14 @@ const initialState: IErdDiagramState = {
   description: "",
   subscribedTo: null,
   viewport: {x: 0, y: 0, zoom: 1},
+  subscribers: [],
 
   //Relations
   tables: [],
   relations: [],
   players: [],
   tool: "grab",
-  multiplayer: {} as MultiplayerService,
+  playground: {} as any,
 }
 
 type IErdDiagram = IErdDiagramState & IErdDiagramViews & IErDiagramActions
@@ -100,9 +110,17 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
 
 
   // Node Action
-  setNodes: (tables) => set({tables}),
-  addTableOnClick: ({e, reactFlowInstance}) => {
+  nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {
+    e.preventDefault();
+
+    const type = e.dataTransfer.getData('application/reactflow');
+
+    // check if the dropped element is valid
+    if (typeof type === 'undefined' || !type) {
+      return;
+    }
     const {tables} = getState()
+    // @ts-ignore
     const targetIsPane = e.target.classList.contains('react-flow__pane');
 
     if (targetIsPane) {
@@ -125,13 +143,12 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
         createdAt: new Date(),
       };
 
-      const {multiplayer} = getState()
-      multiplayer.handleTable("add", newNode)
+      const {playground} = getState()
+      playground.table(Table.add, newNode)
     }
   },
 
   // Relation  actions
-  setEdges: (relations) => set({relations}),
   setTool: (tool) => set({tool}),
   addOneToOneRelations: (sourceNode, targetNode, data) => {
     const foreignKeys = sourceNode.data.columns.filter(column => column.primary)
@@ -148,6 +165,7 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       const newColumn: ICColumn = {
         ...column,
         id,
+        tableId: targetNode.id,
         name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
         foreignKey: true,
         primary: false,
@@ -156,7 +174,7 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
         unique: true,
       }
       data.relations.push(relation)
-      data.columns.push({tableId: targetNode.id, column: newColumn})
+      data.columns.push(newColumn)
     })
   },
   addOneToManyRelations: (sourceNode, targetNode, data) => {
@@ -173,17 +191,15 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       }
       data.relations.push(relation)
       data.columns.push({
+        ...column,
+        id,
         tableId: targetNode.id,
-        column: {
-          ...column,
-          id,
-          name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
-          foreignKey: true,
-          order: 100 + i,
-          primary: false,
-          autoIncrement: false,
-          unique: false
-        }
+        name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
+        foreignKey: true,
+        order: 100 + i,
+        primary: false,
+        autoIncrement: false,
+        unique: false
       })
     })
   },
@@ -266,21 +282,23 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
         break
     }
 
-    data.tables.forEach(table => getState().multiplayer.handleTable("add", table))
-    data.columns.forEach(({tableId, column}) => getState().multiplayer.handleColumn("add", tableId, column))
-    data.relations.forEach(relation => getState().multiplayer.handleRelation("add", relation))
 
-    console.log("NEW M:N COLUMNS:", data.columns)
+    data.tables.forEach(table => state.playground.table(Table.add, table))
+    data.columns.forEach((column) => state.playground.column(Column.add, column))
+    data.relations.forEach(relation => state.playground.relation(Relation.add, relation))
 
     set({tool: "grab"})
   },
 
   setNodeChanges: (nodeChanges) => {
-    set(({tables: oldNodes, id: erdId}) => {
+    set(({tables: oldNodes, id: erdId, playground}) => {
       const nodesToUpdate: any[] = []
       const nodesToDelete: string[] = []
       nodeChanges.forEach((node) => {
         switch (node.type) {
+          case "add":
+            console.log({node})
+            break
           case "reset":
             nodesToUpdate.push({
               erdId,
@@ -308,13 +326,12 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
         }
       })
 
-
       nodesToUpdate.forEach(node => {
-        getState().multiplayer.handleTable("update", node)
+        playground.table(Table.update, node)
       })
 
       nodesToDelete.forEach(nodeId => {
-        getState().multiplayer.handleTable("delete", nodeId)
+        playground.table(Table.delete, nodeId)
       })
 
       return ({tables: applyNodeChanges(nodeChanges, oldNodes) as IErdNode[]})
@@ -330,15 +347,8 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
             console.log("edge added")
             break
           case "remove":
-            // erdApi.delete(`/v1/erd/${cur.id}/relation/${edge.id}$}`)
-            // targetNode = cur.tables.find(node => node.data.columns.map(column => column.id).includes(edge.id))
-            //
-            // if (targetNode) {
-            //   targetNode.data.columns = targetNode.data.columns.filter(column => column.id !== edge.id)
-            //   targetNode.updatedAt = new Date()
-            // }
             console.log(edge)
-            getState().multiplayer.handleRelation("delete", edge.id)
+            cur.playground.relation(Relation.delete, cur.relations.find(r => r.id === edge.id) as Edge)
             break
           case "reset":
             console.log("edge maybe added")
@@ -355,39 +365,111 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       }
     })
   },
-  setSubscribedTo: async (userOrNull) => {
-    const {subscribedTo, multiplayer} = getState()
-    let newSubscribeTo: IErdDiagramState['subscribedTo']
-
-    // Unsubscribe > Subscribe
-    if (subscribedTo) {
-      // Unsubscribe
-      await new Promise((res) => {
-        multiplayer.unsubscribeToPlayer(subscribedTo.id, (data: any) => {
-          if (data?.status === "ok") {
-            res(null)
-          }
-        })
+  setViewport: (viewport) => set({viewport}),
+  reset: () => set(initialState),
+  handlePlaygroundResponse: ({status, type, data}) => {
+    if (status !== CallbackDataStatus.OK) {
+      notifications.show({
+        title: `type`,
+        message: status,
+        color: "var(--mantine-color-red-filled)"
       })
-    }
-
-    if (userOrNull === null) {
-      newSubscribeTo = null
     } else {
-      // subscribe
-      newSubscribeTo = await new Promise((res) => {
-          multiplayer.subscribeToPlayer(userOrNull.id, (data: any) => {
-            if (data?.status === "ok") {
-              res(userOrNull)
-            }
-          })
+      console.log(type, ": ", data)
+
+      set(cur => {
+          switch (type) {
+            case Player.subscribe:
+              return {subscribedTo: data, viewport: null}
+
+            case Player.unsubscribe:
+              return {subscribedTo: null, viewport: null}
+
+            case Player.viewpointChange:
+              console.log({viewPort: data})
+              return {}
+
+            case Player.mouseChange:
+              return {}
+
+            case Table.add:
+              return {tables: [...cur.tables, data]}
+
+            case Table.update:
+              return {}
+
+            case Table.delete:
+              return {tables: cur.tables.filter(t => t.id !== data)}
+
+            case Table.set:
+              return {
+                tables: cur.tables.map(t => t.id === data.tableId ? {
+                  ...t,
+                  data: {...t.data, ...data.data}
+                } : t)
+              }
+
+            case Relation.add:
+              return {relations: [...cur.relations, data.relation]}
+
+            case Relation.delete:
+              return {relations: cur.relations.filter(r => r.id !== data.relation.id)}
+
+            case Column.add:
+              return {
+                tables: cur.tables.map(table => {
+                  if (table.id === data.column.tableId) {
+                    return {
+                      ...table,
+                      data: {
+                        ...table.data,
+                        columns: [...table.data.columns, data.column]
+                      }
+                    }
+                  }
+                  return table
+                })
+              }
+
+            case Column.update:
+              return {
+                tables: cur.tables.map(table => {
+                  if (table.id === data.column.tableId) {
+                    const columns = orderBy(table.data.columns.map(c => c.id === data.column.id ? data.column : c), 'order', 'asc')
+                    return {
+                      ...table,
+                      data: {
+                        ...table.data,
+                        columns
+                      }
+                    }
+                  }
+                  return table
+                })
+              }
+
+            case Column.delete:
+              return {
+                tables: cur.tables.map(table => {
+                  if (table.id === data.column.tableId) {
+                    return {
+                      ...table,
+                      data: {
+                        ...table.data,
+                        columns: table.data.columns.filter(c => c.id !== data.column.id)
+                      }
+                    }
+                  }
+                  return table
+                })
+              }
+
+            default:
+              return {}
+          }
+
         }
       )
     }
-
-    set({subscribedTo: newSubscribeTo, viewport: null})
-
-  },
-  setViewport: (viewport) => set({viewport}),
-  reset: () => set(initialState)
+  }
 }))

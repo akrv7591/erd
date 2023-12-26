@@ -1,4 +1,4 @@
-import {Box, Card, Collapse} from "@mantine/core";
+import {Box, Card, Collapse, MantineProvider} from "@mantine/core";
 import {NodeProps} from "reactflow";
 import styles from "./style.module.css"
 import React from "react";
@@ -8,13 +8,13 @@ import {IErdNodeData} from "@/types/erd-node";
 import Header from "./Header";
 import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
-import {ErdTableDataProvider} from "@/providers/ErdTableDataProvider.tsx";
+import {erdTableTheme} from "@/config/theme.ts";
+
 interface Props extends NodeProps<IErdNodeData> {
 }
 
 const TableNode = React.memo((props: Props) => {
   const [opened, {open, close}] = useDisclosure(false)
-
   const onMouseOver = () => {
     open()
   }
@@ -23,10 +23,19 @@ const TableNode = React.memo((props: Props) => {
     close()
   }
 
+
   const headersIn = props.selected ? true : opened
+  const theme = React.useMemo(() => erdTableTheme(props.data.color), [props.data.color])
+
+  if (!props.data) return null
 
   return (
-    <ErdTableDataProvider data={props.data} parentHtmlId={props.id}>
+    <MantineProvider
+      defaultColorScheme={"dark"}
+      theme={theme}
+      cssVariablesSelector={`#${props.id}`}
+      getRootElement={() => document.getElementById(props.id) || undefined}
+    >
       <Box className={styles.box} onMouseOver={onMouseOver} onMouseOut={onMouseOut} id={props.id}>
         <Collapse in={headersIn}>
           <ContentControls/>
@@ -40,7 +49,7 @@ const TableNode = React.memo((props: Props) => {
         </Card>
         <RelationsOverlay/>
       </Box>
-    </ErdTableDataProvider>
+    </MantineProvider>
   )
 })
 

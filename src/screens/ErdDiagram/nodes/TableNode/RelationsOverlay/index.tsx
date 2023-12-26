@@ -2,18 +2,19 @@ import {Handle, Position, useNodeId, useReactFlow, useStore} from "reactflow";
 import styles from "../style.module.css";
 import React from "react";
 import {Center, Overlay, Text, Title} from "@mantine/core";
-import {RELATIONS} from "../../../../../constants/relations";
-import {useErdDiagramStore} from "../../../../../stores/useErdDiagramStore.ts";
-import {IErdNodeData} from "../../../../../types/erd-node";
-import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
+import {RELATIONS} from "@/constants/relations";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {IErdNodeData} from "@/types/erd-node";
+import {useNodeData} from "@/hooks/useNodeData.ts";
 
 const sourceStyle = {zIndex: 2, backgroundColor: "var(--mantine-primary-color-light-hover)"};
 const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-light-hover)"}
 
 const RelationsOverlay = () => {
   const [tool] = useErdDiagramStore(state => [state.tool])
-  const {columns} = useErdTableData()
+  // const {columns} = useErdTableData()
   const reactFlow = useReactFlow()
+  const {columns} = useNodeData()
   const connectionNodeId = useStore(state => state.connectionNodeId);
   const isTherePrimaryKey = React.useMemo(() => columns.some(column => column.primary), [columns])
   const id = useNodeId()

@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {IAuthorizationUser} from "../types/data/user";
+import {IAuthorizationUser} from "@/types/data/user";
 import {decodeJwt} from "jose";
 import {router} from "../routers/RootRouter.tsx";
 import {SocialLogin} from "../constants/auth.ts";

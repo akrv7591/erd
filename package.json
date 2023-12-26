@@ -28,6 +28,7 @@
     "chroma-js": "^2.4.2",
     "dayjs": "^1.11.10",
     "http-status": "^1.7.3",
+    "immer": "^10.0.3",
     "jose": "^5.0.2",
     "jotai": "^2.4.2",
     "jotai-optics": "^0.3.1",

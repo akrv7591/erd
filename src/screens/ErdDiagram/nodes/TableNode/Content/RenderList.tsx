@@ -1,10 +1,9 @@
-import {Table} from "@mantine/core";
+import {Collapse, Table, Text} from "@mantine/core";
 import React from "react";
-import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
-import {Collapse, Text} from "@mantine/core";
+import {useNodeData} from "@/hooks/useNodeData.ts";
 
 const RenderList = React.memo(React.forwardRef<any, any>((props, ref) => {
-  const {data} = useErdTableData()
+  const data = useNodeData()
   return (
     <Table withRowBorders>
       <Table.Caption>

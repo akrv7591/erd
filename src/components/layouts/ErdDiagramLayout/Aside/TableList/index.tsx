@@ -19,16 +19,19 @@ import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {IErdNode} from "@/types/erd-node";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {Table as ETable} from "@/enums/playground.ts";
+import {useReactFlow} from "reactflow";
 
 export default function TableList() {
   const [opened, {open, close}] = useDisclosure()
   const [selectedEntities, setSelectedEntities] = React.useState<IErdNode[]>([])
   const tables = useErdDiagramStore(state => state.tables)
-  const multiplayer = useErdDiagramStore(state => state.multiplayer)
+  const playground = useErdDiagramStore(state => state.playground)
+  const reactflow = useReactFlow()
   const [search, setSearch] = React.useState("")
   const filteredTables = React.useMemo(() => tables.filter(t => t.data.name.toLowerCase().includes(search.toLowerCase())), [search, tables])
   const onSelectedDelete = React.useCallback(() => {
-    selectedEntities.forEach(entity => multiplayer.handleTable("delete", entity))
+    selectedEntities.forEach(entity => playground.table(ETable.delete, entity.id))
     setSelectedEntities([])
   }, [selectedEntities, setSelectedEntities])
 
@@ -126,7 +129,7 @@ export default function TableList() {
               {filteredTables.map(table => (
                 <Table.Tr
                   key={table.id}
-                  // onClick={() => reactFlow.fitView({nodes: [table], duration: 1000})}
+                  onClick={() => reactflow.fitView({nodes: [table], duration: 1000})}
                   style={{
                     cursor: "pointer",
                     ...selectedEntities.includes(table) && {
@@ -135,22 +138,26 @@ export default function TableList() {
                   }}
                 >
                   <Table.Td>
-                    <Checkbox checked={selectedEntities.includes(table)} onClick={(e) => e.stopPropagation()}
-                              onChange={(e) => {
-                                const checked = e.target.checked
+                    <Checkbox
+                      checked={selectedEntities.includes(table)}
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={(e) => {
+                        const checked = e.target.checked
 
-                                if (checked) {
-                                  setSelectedEntities(cur => [...cur, table])
-                                } else {
-                                  setSelectedEntities(cur => cur.filter(t => t.id !== table.id))
-                                }
-                              }} style={{zIndex: 0, position: "relative"}}/>
+                        if (checked) {
+                          setSelectedEntities(cur => [...cur, table])
+                        } else {
+                          setSelectedEntities(cur => cur.filter(t => t.id !== table.id))
+                        }
+                      }}
+                      style={{zIndex: 0, position: "relative"}}
+                    />
                   </Table.Td>
                   <Table.Td>
                     <Text>{table.data.name}</Text>
                   </Table.Td>
                   <Table.Td>
-                    {table.data.columns.length}
+                    {table.data.columns?.length}
                   </Table.Td>
                 </Table.Tr>
               ))}

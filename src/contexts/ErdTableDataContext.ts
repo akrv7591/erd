@@ -1,4 +1,4 @@
-import {IErdNodeColumn, IErdNodeData} from "../types/erd-node";
+import {IErdNodeColumn, IErdNodeData} from "@/types/erd-node";
 import React from "react";
 
 interface IErdTableDataContextProps {

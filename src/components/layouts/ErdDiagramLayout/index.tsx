@@ -12,29 +12,29 @@ export default function ErdDiagramLayout() {
   if (!erdId) return <Navigate to={"/"}/>
 
   return (
-    <AppShell
-      header={{height: 50}}
-      navbar={{width: 50, breakpoint: "none"}}
-      footer={{height: 50}}
-      aside={{width: 50, breakpoint: "none"}}
-    >
-      <AppShell.Header>
-        <Header/>
-      </AppShell.Header>
-      <AppShell.Navbar>
-        <Navbar/>
-      </AppShell.Navbar>
-      <AppShell.Aside>
-        <Aside />
-      </AppShell.Aside>
-      <AppShell.Main>
-        <ReactFlowProvider>
+    <ReactFlowProvider>
+      <AppShell
+        header={{height: 50}}
+        navbar={{width: 50, breakpoint: "none"}}
+        footer={{height: 50}}
+        aside={{width: 50, breakpoint: "none"}}
+      >
+        <AppShell.Header>
+          <Header/>
+        </AppShell.Header>
+        <AppShell.Navbar>
+          <Navbar/>
+        </AppShell.Navbar>
+        <AppShell.Aside>
+          <Aside/>
+        </AppShell.Aside>
+        <AppShell.Main>
           <Outlet/>
-        </ReactFlowProvider>
-      </AppShell.Main>
-      <AppShell.Footer>
-        <Footer/>
-      </AppShell.Footer>
-    </AppShell>
+        </AppShell.Main>
+        <AppShell.Footer>
+          <Footer/>
+        </AppShell.Footer>
+      </AppShell>
+    </ReactFlowProvider>
   )
 }

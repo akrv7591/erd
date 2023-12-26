@@ -14,7 +14,7 @@ import Library from "../screens/Library";
 import ErdDiagramLayout from "../components/layouts/ErdDiagramLayout";
 import VerifyEmail from "../screens/VerifyEmail";
 import PasswordOTP from "../screens/PasswordOTP.tsx";
-import MultiplayerProvider from "../providers/MultiplayerProvider.tsx";
+import PlaygroundProvider from "../providers/PlaygroundProvider.tsx";
 import PrivacyPolicy from "../screens/PrivacyPolicy";
 import TermsOfService from "../screens/TermsOfService";
 
@@ -82,9 +82,9 @@ export const router = createBrowserRouter(
           }, {}, {
           path: ":erdId",
           element: (
-            <MultiplayerProvider>
+            <PlaygroundProvider>
                 <ErdDiagramLayout/>
-            </MultiplayerProvider>
+            </PlaygroundProvider>
           ),
           children:
             [

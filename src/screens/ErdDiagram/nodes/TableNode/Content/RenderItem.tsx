@@ -1,9 +1,11 @@
 import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
 import {IconDiamondsFilled, IconGripVertical, IconKey} from "@tabler/icons-react";
 import React from "react";
-import {IErdNodeColumn} from "../../../../../types/erd-node";
-import {useErdTableData} from "../../../../../contexts/ErdTableDataContext.ts";
+import {IErdNodeColumn} from "@/types/erd-node";
 import styles from "./style.module.css"
+import {usePlayground} from "@/contexts/PlaygroundContext.ts";
+import {Column} from "@/enums/playground.ts";
+import {useNodeId} from "reactflow";
 
 
 const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
@@ -16,12 +18,15 @@ const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
 })
 
 const RenderItem = React.memo(({data}: { data: IErdNodeColumn }) => {
-  const {setColumn} = useErdTableData()
+  const playground = usePlayground()
+  const tableId = useNodeId()
+
+  if (!tableId) return null
 
   const setData = (key: string, value: any) => {
     const updatedColumn = {...data} as any
     updatedColumn[key] = value
-    setColumn(updatedColumn)
+    playground.column(Column.update, updatedColumn)
   }
 
   return (
