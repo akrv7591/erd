@@ -1,83 +1,15 @@
 import {create} from "zustand";
-import {IErdNode, IErdNodeColumn, IErdNodeData, ITools} from "@/types/erd-node";
-import {
-  applyEdgeChanges,
-  applyNodeChanges,
-  Connection,
-  Edge,
-  EdgeChange,
-  NodeChange,
-  ReactFlowInstance,
-  Viewport
-} from "reactflow";
+import {ITableNode, ITableNodeColumn, ITableNodeData} from "@/types/table-node";
+import {applyEdgeChanges, applyNodeChanges, Edge} from "reactflow";
 import voca from "voca";
 import {RELATIONS} from "../constants/relations.ts";
 import {createId} from "@paralleldrive/cuid2";
-import {ICRelation} from "@/types/data/relations";
-import {ICColumn} from "@/types/data/column";
-import {IErd} from "@/types/data/erd";
-import {IUser} from "@/types/data/user";
-import {PlaygroundService, ResponseData} from "services/multiplayer/playground-service.ts";
-import {CallbackDataStatus, Column, Player, Playground, Relation, Table} from "@/enums/playground.ts";
+import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
 import {orderBy} from "lodash";
-import React from "react";
+import {IAddNodeProps, IConnectionData, IErdDiagram, IErdDiagramState} from "@/types/playground";
+import {ICRelation} from "@/types/data/db-model-interfaces";
 
-interface IAddNodeProps {
-  reactFlowInstance: ReactFlowInstance
-}
-
-interface IConnectionData {
-  relations: Edge[]
-  columns: ICColumn[]
-  tables: IErdNode[]
-}
-
-export interface IPlayer extends IUser {
-  cursorPosition: any
-}
-
-export interface IErdDiagramState extends Omit<IErd, 'users' | 'relations' | 'tables'> {
-  tool: ITools;
-  players: IPlayer[];
-  tables: IErdNode[];
-  relations: Edge[];
-  playground: PlaygroundService;
-  subscribedTo: IUser | null;
-  viewport: Viewport | null;
-  subscribers: IUser[];
-}
-
-export interface IErdDiagramViews {
-  getNodeData: (nodeId: string) => IErdNodeData;
-  getNodes: () => IErdNode[];
-  getEdges: () => Edge[];
-}
-
-export interface IErDiagramActions {
-  // Actions
-  setViewport: (viewport: Viewport) => void
-
-  // Node actions
-  setNodeChanges: (nodeChanges: NodeChange[]) => void
-  // setNodeChanges: React.DragEventHandler
-
-  nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
-
-  // Relation actions
-  setEdgeChanges: (edgeChanges: EdgeChange[]) => void
-  setConnection: (connection: Connection) => void
-  addOneToOneRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
-  addOneToManyRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
-  addManyToManyRelations: (sourceNode: IErdNode, targetNode: IErdNode, data: IConnectionData) => void
-
-  // Tools
-  setTool: (tool: ITools) => void
-  handlePlaygroundResponse: (res: ResponseData<Playground>) => void
-
-  // Other
-  reset: () => void
-}
 
 const initialState: IErdDiagramState = {
   id: "",
@@ -98,16 +30,13 @@ const initialState: IErdDiagramState = {
   playground: {} as any,
 }
 
-type IErdDiagram = IErdDiagramState & IErdDiagramViews & IErDiagramActions
 
 export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
   ...initialState,
 
   // Views
-  getNodeData: (tableId) => getState().tables.find(table => table.id === tableId)!.data,
   getNodes: () => getState().tables,
   getEdges: () => getState().relations,
-
 
   // Node Action
   nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {
@@ -125,8 +54,8 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
 
     if (targetIsPane) {
       const id = createId();
-      const columns: IErdNodeColumn[] = []
-      const data: IErdNodeData = ({
+      const columns: ITableNodeColumn[] = []
+      const data: ITableNodeData = ({
         name: `table_${tables.length}`,
         color: "#006ab9",
         columns
@@ -158,11 +87,12 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       const id = createId()
       const relation: ICRelation = {
         id,
+        erdId: getState().id,
         source: sourceNode.id,
         target: targetNode.id,
         markerEnd: RELATIONS.ONE_TO_ONE,
       }
-      const newColumn: ICColumn = {
+      const newColumn: ITableNodeColumn = {
         ...column,
         id,
         tableId: targetNode.id,
@@ -185,6 +115,7 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       const id = createId()
       const relation: ICRelation = {
         id,
+        erdId: getState().id,
         source: sourceNode.id,
         target: targetNode.id,
         markerEnd: RELATIONS.ONE_TO_MANY,
@@ -205,7 +136,7 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
   },
   addManyToManyRelations: (sourceNode, targetNode, data) => {
 
-    const mnTable: IErdNode = {
+    const mnTable: ITableNode = {
       id: createId(),
       type: "tableNode",
       position: {
@@ -222,10 +153,11 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
 
     let order = 0
 
-    function populateColumnsAndEdges(column: IErdNodeColumn, tableName: string, nodeId: string) {
+    function populateColumnsAndEdges(column: ITableNodeColumn, tableName: string, nodeId: string) {
       const id = createId()
       const relation: ICRelation = {
         id,
+        erdId: getState().id,
         source: nodeId,
         target: mnTable.id,
         markerEnd: RELATIONS.ONE_TO_MANY,
@@ -297,7 +229,6 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
       nodeChanges.forEach((node) => {
         switch (node.type) {
           case "add":
-            console.log({node})
             break
           case "reset":
             nodesToUpdate.push({
@@ -334,27 +265,22 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
         playground.table(Table.delete, nodeId)
       })
 
-      return ({tables: applyNodeChanges(nodeChanges, oldNodes) as IErdNode[]})
+      return ({tables: applyNodeChanges(nodeChanges, oldNodes) as ITableNode[]})
     })
   },
   setEdgeChanges: (edgeChanges) => {
     set(cur => {
-      let targetNode: undefined | IErdNode
+      let targetNode: undefined | ITableNode
       edgeChanges.forEach(edge => {
-        console.log(edge)
         switch (edge.type) {
           case "add":
-            console.log("edge added")
             break
           case "remove":
-            console.log(edge)
             cur.playground.relation(Relation.delete, cur.relations.find(r => r.id === edge.id) as Edge)
             break
           case "reset":
-            console.log("edge maybe added")
             break
           case "select":
-            console.log("edge selected")
             break
         }
       })
@@ -375,7 +301,6 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
         color: "var(--mantine-color-red-filled)"
       })
     } else {
-      console.log(type, ": ", data)
 
       set(cur => {
           switch (type) {
@@ -386,7 +311,6 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
               return {subscribedTo: null, viewport: null}
 
             case Player.viewpointChange:
-              console.log({viewPort: data})
               return {}
 
             case Player.mouseChange:

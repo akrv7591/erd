@@ -4,13 +4,13 @@ import styles from "./style.module.css"
 import React from "react";
 import ContentControls from "./ContentControls";
 import {useDisclosure} from "@mantine/hooks";
-import {IErdNodeData} from "@/types/erd-node";
 import Header from "./Header";
 import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
 import {ErdTableDataProvider} from "@/screens/Home/Reactflow/nodeTypes/TableNode/DataProvider.tsx";
+import {ITableNodeData} from "@/types/table-node";
 
-interface Props extends NodeProps<IErdNodeData> {
+interface Props extends NodeProps<ITableNodeData> {
 }
 
 const TableNode = React.memo((props: Props) => {

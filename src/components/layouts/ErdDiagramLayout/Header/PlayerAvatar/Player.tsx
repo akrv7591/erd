@@ -1,11 +1,11 @@
-import {IUser} from "@/types/data/user";
 import {ActionIcon, Avatar, Tooltip} from "@mantine/core";
 import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Player} from "@/enums/playground.ts";
+import {IPlayer} from "@/types/table-node";
 
 interface Props {
-  player: IUser
+  player: IPlayer
 }
 
 export default function PlayerAvatar(props: Props) {

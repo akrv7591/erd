@@ -35,9 +35,6 @@ const ErdDiagram = () => {
   const reactFlowInstance = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
-
-  console.log({subscribers})
-
   useOnViewportChange({
     onChange: (viewport) => {
       if (subscribers.length > 0) {
@@ -83,7 +80,6 @@ const ErdDiagram = () => {
         edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        onNodesDelete={(nodes) => console.log(nodes)}
         onNodesChange={setNodeChanges}
         onEdgesChange={setEdgeChanges}
         onNodeDoubleClick={(_, node) => reactFlowInstance.fitView({nodes: [node], duration: 500})}

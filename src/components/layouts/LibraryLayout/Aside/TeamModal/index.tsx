@@ -1,5 +1,4 @@
-import {ModalBaseProps} from "../../../../common/ModalBase";
-import {ITeam} from "../../../../../types/data/team";
+import {ModalBaseProps} from "@/components/common/ModalBase";
 import {useForm} from "@mantine/form";
 import {Modal, Stack, TagsInput, Text, TextInput} from "@mantine/core";
 import ModalForm from "../../../../common/ModalForm";
@@ -7,6 +6,7 @@ import {useMutation, useQueryClient} from "react-query";
 import erdApi from "../../../../../api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
+import {ITeam} from "@/types/data/db-model-interfaces";
 
 interface Props extends ModalBaseProps {
   data?: ITeam
@@ -22,7 +22,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
       users: [],
       ...data && {
         ...data,
-        users: data.users.map(user => user.email)
+        users: data.users? data.users.map(user => user.email): []
       }
     }
   })

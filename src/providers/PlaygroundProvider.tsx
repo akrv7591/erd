@@ -4,8 +4,9 @@ import LoadingBackdrop from "../components/common/LoadingBackdrop.tsx";
 import {PlaygroundContext} from "../contexts/PlaygroundContext.ts";
 import {useAuthStore} from "../stores/useAuthStore.ts";
 import {useParams} from "react-router-dom";
-import {IPlayer, useErdDiagramStore} from "../stores/useErdDiagramStore.ts";
-import {PlaygroundService} from "services/multiplayer/playground-service.ts";
+import {useErdDiagramStore} from "../stores/useErdDiagramStore.ts";
+import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
+import {IPlayer} from "@/types/table-node";
 
 
 export default function PlaygroundProvider(props: PropsWithChildren) {

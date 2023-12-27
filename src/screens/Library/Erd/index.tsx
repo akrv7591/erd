@@ -1,14 +1,14 @@
 import {ActionIcon, Card, Grid, Group, Image, Stack, Text, Title} from "@mantine/core";
 import styles from "./style.module.css"
-import {useModal} from "../../../hooks/useModal";
+import {useModal} from "@/hooks/useModal";
 import {IconChartTreemap, IconEdit, IconTrash} from "@tabler/icons-react";
 import {MouseEventHandler} from "react";
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
-import {IErd} from "../../../types/data/erd";
 import ErdModal from "../ErdModal";
 import TableCount from "./TableCount.tsx";
-import {useAuthStore} from "../../../stores/useAuthStore.ts";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {IErd} from "@/types/data/db-model-interfaces";
 
 interface Props {
   erd: IErd
@@ -19,7 +19,7 @@ export default function Erd({erd}: Props) {
   const modal = useModal({initialType: "update", initialOpen: false, baseTitle: erd.name})
   const user = useAuthStore(state => state.getAuthorization())
   const navigate = useNavigate()
-  const isUserAdmin = erd.userErds?.find(u => u.userId === user?.id)?.isAdmin
+  const isUserAdmin = erd.userErds?.find(userErd => userErd.isAdmin && userErd.userId === user!.id)
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()

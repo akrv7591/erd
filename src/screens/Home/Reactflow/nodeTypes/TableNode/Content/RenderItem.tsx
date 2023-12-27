@@ -1,12 +1,12 @@
 import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
 import {IconDiamondsFilled, IconGripVertical, IconKey} from "@tabler/icons-react";
 import React from "react";
-import {IErdNodeColumn} from "@/types/erd-node";
-import {useErdTableData} from "@/contexts/ErdTableDataContext.ts";
+import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 import styles from "./style.module.css"
+import {ITableNodeColumn} from "@/types/table-node";
 
 
-const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
+const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
 
   if (data.primary) return <IconKey stroke={2} color={"#ffcd62"} size={20}/>
 
@@ -15,7 +15,7 @@ const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
   return <IconDiamondsFilled style={{color: "#00d0ff"}} stroke={1} size={15}/>
 })
 
-const RenderItem = React.memo(({data}: { data: IErdNodeColumn }) => {
+const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
   const {setColumn} = useErdTableData()
 
   const setData = (key: string, value: any) => {

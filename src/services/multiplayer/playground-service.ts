@@ -1,17 +1,12 @@
 import {Socket} from "socket.io-client";
-import {IErdNode} from "@/types/erd-node";
 import {Edge} from "reactflow";
 import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
-import {playerService} from "services/multiplayer/player-service.ts";
-import {tableService} from "services/multiplayer/table-service.ts";
-import {relationService} from "services/multiplayer/relation-service.ts";
-import {columnService} from "services/multiplayer/column-service.ts";
-import {ICColumn} from "@/types/data/column";
+import {playerService} from "@/services/multiplayer/player-service.ts";
+import {tableService} from "@/services/multiplayer/table-service.ts";
+import {relationService} from "@/services/multiplayer/relation-service.ts";
+import {columnService} from "@/services/multiplayer/column-service.ts";
 import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
-
-Object.entries(Player).forEach(([key, value]) => {
-  console.log({[key]: value})
-})
+import {ITableNode, ITableNodeColumn} from "@/types/table-node";
 
 export interface ResponseData<T> {
   type: T
@@ -72,7 +67,7 @@ export class PlaygroundService {
     this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
   }
 
-  public table(action: Table, data: IErdNode | string | any) {
+  public table(action: Table, data: ITableNode | string | any) {
     this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
   }
 
@@ -80,7 +75,7 @@ export class PlaygroundService {
     this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
   }
 
-  public column(action: Column,  data: ICColumn | string) {
+  public column(action: Column,  data: ITableNodeColumn | string) {
     this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
   }
 

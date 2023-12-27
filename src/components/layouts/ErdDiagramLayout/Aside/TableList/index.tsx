@@ -17,14 +17,14 @@ import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import classes from "./style.module.css";
 import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
-import {IErdNode} from "@/types/erd-node";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {Table as ETable} from "@/enums/playground.ts";
 import {useReactFlow} from "reactflow";
+import {ITableNode} from "@/types/table-node";
 
 export default function TableList() {
   const [opened, {open, close}] = useDisclosure()
-  const [selectedEntities, setSelectedEntities] = React.useState<IErdNode[]>([])
+  const [selectedEntities, setSelectedEntities] = React.useState<ITableNode[]>([])
   const tables = useErdDiagramStore(state => state.tables)
   const playground = useErdDiagramStore(state => state.playground)
   const reactflow = useReactFlow()

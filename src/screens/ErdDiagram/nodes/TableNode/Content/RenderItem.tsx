@@ -1,14 +1,14 @@
 import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
 import {IconDiamondsFilled, IconGripVertical, IconKey} from "@tabler/icons-react";
 import React from "react";
-import {IErdNodeColumn} from "@/types/erd-node";
 import styles from "./style.module.css"
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import {useNodeId} from "reactflow";
+import {ITableNodeColumn} from "@/types/table-node";
 
 
-const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
+const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
 
   if (data.primary) return <IconKey stroke={2} color={"#ffcd62"} size={20}/>
 
@@ -17,7 +17,7 @@ const ColumnTypeIcon = React.memo(({data}: { data: IErdNodeColumn }) => {
   return <IconDiamondsFilled style={{color: "#00d0ff"}} stroke={1} size={15}/>
 })
 
-const RenderItem = React.memo(({data}: { data: IErdNodeColumn }) => {
+const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
   const playground = usePlayground()
   const tableId = useNodeId()
 
@@ -26,6 +26,7 @@ const RenderItem = React.memo(({data}: { data: IErdNodeColumn }) => {
   const setData = (key: string, value: any) => {
     const updatedColumn = {...data} as any
     updatedColumn[key] = value
+
     playground.column(Column.update, updatedColumn)
   }
 

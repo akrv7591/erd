@@ -5,7 +5,7 @@ import "./styles.css"
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import Logo from "../../../common/Logo.tsx";
 import {IconBooks} from "@tabler/icons-react";
-import Account from "components/common/Account";
+import Account from "@/components/common/Account";
 
 export default function Header() {
   const [opened, {toggle}] = useDisclosure();

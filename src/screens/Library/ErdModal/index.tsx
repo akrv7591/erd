@@ -1,14 +1,14 @@
 import {ActionIcon, InputLabel, Modal, Stack, Switch, Text, Textarea, TextInput} from "@mantine/core";
-import {ModalBaseProps} from "../../../components/common/ModalBase";
+import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "../../../components/common/ModalForm";
 import {useForm} from "@mantine/form";
 import {useMutation, useQuery, useQueryClient} from "react-query";
 import erdApi from "../../../api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
-import {IErd} from "../../../types/data/erd";
 import {IconMail, IconPlus} from "@tabler/icons-react";
 import React from "react";
 import UserWithPermissions from "./UserWithPermissions.tsx";
+import {IErd} from "@/types/data/db-model-interfaces";
 
 interface Props extends ModalBaseProps {
   data?: IErd

@@ -1,6 +1,6 @@
 import {useNodeId, useReactFlow} from "reactflow";
 import {ColorPicker, ColorSwatch, Group, Input, Menu} from "@mantine/core";
-import {IconColorPicker, IconTable} from "@tabler/icons-react";
+import {IconPalette, IconTable} from "@tabler/icons-react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {useDisclosure} from "@mantine/hooks";
 import React from "react";
@@ -36,14 +36,15 @@ const Header = () => {
           playground.table(Table.set, {tableId: id, key: "name", value: name})
         }}
       />
-      <Menu closeOnClickOutside closeOnEscape opened={opened}>
+      <Menu closeOnClickOutside closeOnEscape opened={opened} withArrow>
         <Menu.Target>
-          <ColorSwatch color={data.color} ml={"auto"} onClick={opened ? close : open}>
-            <IconColorPicker style={{stroke: "2px !important"}} size={15} color={"var(--mantine-color-text)"}/>
+          <ColorSwatch color={data.color} ml={"auto"} onMouseOver={open}>
+            <IconPalette size={25} color={"var(--mantine-primary-color-0)"}/>
           </ColorSwatch>
         </Menu.Target>
-        <Menu.Dropdown>
+        <Menu.Dropdown onMouseLeave={close}>
           <ColorPicker
+
             onChange={color => {
               playground.table(Table.set, {tableId: id, key: "color", value: color})
             }}

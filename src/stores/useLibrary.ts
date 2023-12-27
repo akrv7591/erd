@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {ITeam} from "../types/data/team";
+import {ITeam} from "@/types/data/db-model-interfaces";
 
 export interface ILibraryState {
   team: ITeam | null

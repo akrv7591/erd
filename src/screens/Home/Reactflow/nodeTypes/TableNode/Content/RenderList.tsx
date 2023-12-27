@@ -1,6 +1,6 @@
 import {Table} from "@mantine/core";
 import React from "react";
-import {useErdTableData} from "@/contexts/ErdTableDataContext.ts";
+import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 import {Collapse, Text} from "@mantine/core";
 
 const RenderList = React.memo(React.forwardRef<any, any>((props, ref) => {

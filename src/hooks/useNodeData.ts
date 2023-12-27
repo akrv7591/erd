@@ -1,5 +1,5 @@
 import {useNodeId, useNodes} from "reactflow";
-import {IErdNodeData} from "@/types/erd-node";
+import {ITableNodeData} from "@/types/table-node";
 
 export const useNodeData = () => {
   const nodeId = useNodeId()
@@ -13,8 +13,7 @@ export const useNodeData = () => {
 
   if (!node) {
     throw new Error(`Node not found with id: ${nodeId}`)
-    // console.log(`Node not found with id: ${nodeId}`)
   }
 
-  return node.data as IErdNodeData
+  return node.data as ITableNodeData
 }

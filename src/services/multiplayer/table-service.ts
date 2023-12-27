@@ -1,10 +1,10 @@
 import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
 import {applyNodeChanges, NodeChange} from "reactflow";
-import {IErdNode} from "@/types/erd-node";
+import {ITableNode} from "@/types/table-node";
 
 export const tableService = () => {
 
-  function onAdd(data: IErdNode) {
+  function onAdd(data: ITableNode) {
     useErdDiagramStore.setState(cur => ({tables: [...cur.tables, data]}))
   }
 

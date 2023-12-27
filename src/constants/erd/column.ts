@@ -1,6 +1,6 @@
-import {IErdNodeColumn} from "@/types/erd-node";
+import {ITableNodeColumn} from "@/types/table-node";
 
-export const DEFAULT_COLUMN_DATA: IErdNodeColumn = {
+export const DEFAULT_COLUMN_DATA: ITableNodeColumn = {
   id: "",
   tableId: "",
   name: "",

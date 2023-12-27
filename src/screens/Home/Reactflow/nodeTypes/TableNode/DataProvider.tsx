@@ -1,15 +1,15 @@
 import React from "react";
-import {IErdNodeColumn, IErdNodeData} from "@/types/erd-node";
 import {Edge, useNodeId, useReactFlow} from "reactflow";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import isEqual from "lodash/isEqual";
-import {ErdTableDataContext} from "@/contexts/ErdTableDataContext.ts";
+import {ErdTableDataContext} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 import {MantineProvider} from "@mantine/core";
 import {erdTableTheme} from "@/config/theme.ts";
+import {ITableNodeColumn, ITableNodeData} from "@/types/table-node";
 
 interface Props extends React.PropsWithChildren {
-  data: IErdNodeData
+  data: ITableNodeData
   parentHtmlId: string
 }
 
@@ -27,7 +27,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
   }, [props.data, setData])
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: IErdNodeColumn = {...DEFAULT_COLUMN_DATA, order: 100 + data.columns.length}
+    const newColumn: ITableNodeColumn = {...DEFAULT_COLUMN_DATA, order: 100 + data.columns.length}
     newColumn.id = createId()
 
     if (type === "primary") {
@@ -38,7 +38,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
 
     setData(cur => ({...cur, columns: [...cur.columns, newColumn]}))
   }
-  const setColumn = (updatedColumn: IErdNodeColumn) => setData(cur => ({
+  const setColumn = (updatedColumn: ITableNodeColumn) => setData(cur => ({
     ...cur,
     columns: cur.columns.map(c => c.id === updatedColumn.id ? {...c, ...updatedColumn} : c)
   }))
@@ -56,7 +56,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
         list.push(column)
       }
       return list
-    }, [] as IErdNodeColumn[])
+    }, [] as ITableNodeColumn[])
 
 
     reactFlow.deleteElements({
@@ -66,7 +66,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
     setData(cur => ({...cur, columns}))
   }
 
-  const setSortedColumns = (columns: IErdNodeColumn[]) => {
+  const setSortedColumns = (columns: ITableNodeColumn[]) => {
     const orderedColumns = columns.map((column, order) => ({
       ...column,
       order: order

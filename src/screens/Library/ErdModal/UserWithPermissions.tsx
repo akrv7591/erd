@@ -1,16 +1,16 @@
 import {UseFormReturnType} from "@mantine/form";
-import {IErd, IUserWithThrough} from "../../../types/data/erd";
 import {ActionIcon, Badge, Checkbox, Group} from "@mantine/core";
 import {IconTrash, IconUser, IconUserShield} from "@tabler/icons-react";
+import {IErd, IUser} from "@/types/data/db-model-interfaces";
 
 interface Props {
   form: UseFormReturnType<IErd>
-  user: IUserWithThrough
+  user: IUser
   i: number
 }
 
 export default function UserWithPermissions({form, user, i}: Props) {
-  const isUserAdmin = user.UserErd.isAdmin
+  const isUserAdmin = user.UserErd!.isAdmin
   return (
     <Group w={"100%"} key={user.email}>
       <Badge

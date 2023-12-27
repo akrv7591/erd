@@ -1,9 +1,9 @@
 import {create} from "zustand";
 import {Edge} from "reactflow";
-import {ModalType} from "../hooks/useModal";
+import {ModalType} from "@/hooks/useModal";
 import {v4} from "uuid";
-import {IErdNode} from "../types/erd-node";
-import Timer from "../utility/Timer";
+import Timer from "@/utility/Timer";
+import {INodes} from "@/types/playground";
 
 export const initiateErdData = () => {
   const unknownData = localStorage.getItem("erds") || "[]"
@@ -30,7 +30,7 @@ export interface IErd {
   name: string;
   description: string;
   createdAt: Date;
-  nodes: IErdNode[];
+  nodes: INodes[];
   edges: Edge[];
 }
 
@@ -42,7 +42,6 @@ interface IUseErdStore {
   getErd: (erdUuid: string) => IErd;
   setErds: (erds: IErd[]) => void;
   setErd: (erd: IErd, type: ModalType, callback?: VoidFunction) => Promise<void>
-  setErdNodesAndEdges: (erdUuid: string, nodes: IErdNode[], edges: Edge[]) => void
   init: () => Promise<void>
 }
 
@@ -78,9 +77,6 @@ export const useErdStore = create<IUseErdStore>()((set, getState) => ({
     }
 
   },
-  setErdNodesAndEdges: (erdUuid, nodes, edges) => set(state => ({
-    erds: state.erds.map(erd => erd.id !== erdUuid ? erd : ({...erd, nodes, edges}))
-  })),
   init: async () => {
     set({
       erds: initiateErdData(),

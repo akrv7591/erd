@@ -2,12 +2,12 @@ import {ActionIcon, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "../../../../../components/common/ButtonWithConfirm";
 import {useNodeId, useReactFlow} from "reactflow";
-import {IErdNodeColumn} from "@/types/erd-node";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {Column} from "@/enums/playground.ts";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {useNodeData} from "@/hooks/useNodeData.ts";
+import {ITableNodeColumn} from "@/types/table-node";
 
 
 export default function ContentControls() {
@@ -18,7 +18,7 @@ export default function ContentControls() {
   const onDelete = () => deleteElements({nodes: [{id: nodeId}]})
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: IErdNodeColumn = {...DEFAULT_COLUMN_DATA, order: data.columns.length, tableId: nodeId}
+    const newColumn: ITableNodeColumn = {...DEFAULT_COLUMN_DATA, order: data.columns.length, tableId: nodeId}
     newColumn.id = createId()
 
     if (type === "primary") {

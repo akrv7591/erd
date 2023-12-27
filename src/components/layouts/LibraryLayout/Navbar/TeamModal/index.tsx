@@ -1,5 +1,4 @@
-import {ModalBaseProps} from "../../../../common/ModalBase";
-import {ITeam} from "../../../../../types/data/team";
+import {ModalBaseProps} from "@/components/common/ModalBase";
 import {useForm} from "@mantine/form";
 import {Button, Group, Modal, Stack, TagsInput, TextInput, Tooltip} from "@mantine/core";
 import ModalForm from "../../../../common/ModalForm";
@@ -8,6 +7,7 @@ import erdApi from "../../../../../api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "../../../../common/ButtonWithConfirm";
+import {ITeam} from "@/types/data/db-model-interfaces";
 
 interface Props extends ModalBaseProps {
   data?: ITeam
@@ -40,7 +40,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
       users: [],
       ...data && {
         ...data,
-        users: data.users.map(user => user.email)
+        users: data.users? data.users.map(user => user.email): []
       }
     }
   })

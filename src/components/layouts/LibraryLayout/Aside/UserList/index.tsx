@@ -4,10 +4,11 @@ import {Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import User from "./User.tsx";
 import SearchInput from "../../../../common/SearchInput.tsx";
-import {IListQuery, useListQuery} from "../../../../../hooks/useListQuery.ts";
-import {useLibraryStore} from "../../../../../stores/useLibrary.ts";
+import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
 import React from "react";
-import {IPaginatedUser} from "../../../../../types/data/user";
+import {IApiList} from "@/types/data/util";
+import {IUser} from "@/types/data/db-model-interfaces";
 
 const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/user", {
   params
@@ -17,7 +18,7 @@ export default function UserList() {
   const {params, setParams} = useListQuery()
   const team = useLibraryStore(state => state.team)
   const paramsWithTeam = React.useMemo(() => ({...params, teamId: team?.id}), [team, params])
-  const {data, status} = useQuery<IPaginatedUser>({
+  const {data, status} = useQuery<IApiList<IUser>>({
     queryKey: ['userList', paramsWithTeam],
     queryFn: () => teamQueryFunction(paramsWithTeam)
   })

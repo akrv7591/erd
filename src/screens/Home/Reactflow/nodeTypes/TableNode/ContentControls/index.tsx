@@ -2,7 +2,7 @@ import {ActionIcon, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {useNodeId, useReactFlow} from "reactflow";
-import {useErdTableData} from "@/contexts/ErdTableDataContext.ts";
+import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 
 
 export default function ContentControls() {

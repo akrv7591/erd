@@ -1,11 +1,11 @@
 import classes from "../style.module.css";
 import {ActionIcon, Avatar, Badge, Box, Group, Text, Tooltip} from "@mantine/core";
 import {IconSettings, IconUsersGroup} from "@tabler/icons-react";
-import {ITeam} from "../../../../../types/data/team";
-import {useLibraryStore} from "../../../../../stores/useLibrary.ts";
-import {useAuthStore} from "../../../../../stores/useAuthStore.ts";
-import {useModal} from "../../../../../hooks/useModal.ts";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {useModal} from "@/hooks/useModal.ts";
 import TeamModal from "../TeamModal";
+import {ITeam} from "@/types/data/db-model-interfaces";
 
 interface Props {
   team: ITeam
@@ -14,7 +14,7 @@ interface Props {
 export default function Team({team}: Props) {
   const [selectedTeam, setTeam] = useLibraryStore(state => [state.team, state.setTeam])
   const clientUser = useAuthStore(state => state.getAuthorization())
-  const isAdmin = team.users.some(user => user.UserTeam.isAdmin && user.UserTeam.userId === clientUser?.id)
+  const isAdmin = team.users!.some(user => user.UserTeam!.isAdmin && user.UserTeam!.userId === clientUser?.id)
   const modal = useModal({
     baseTitle: "Team",
     initialType: "update",

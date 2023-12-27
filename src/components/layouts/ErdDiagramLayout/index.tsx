@@ -4,7 +4,7 @@ import Header from "./Header";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import {ReactFlowProvider} from "reactflow";
-import Aside from "components/layouts/ErdDiagramLayout/Aside";
+import Aside from "@/components/layouts/ErdDiagramLayout/Aside";
 
 export default function ErdDiagramLayout() {
   const {erdId} = useParams<{ erdId: string }>()

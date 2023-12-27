@@ -1,16 +1,17 @@
 import {ActionIcon, Container, Grid, Group, Loader, Text, Tooltip} from "@mantine/core";
 import ErdModal from "./ErdModal";
-import {useModal} from "../../hooks/useModal";
+import {useModal} from "@/hooks/useModal";
 import {IconError404, IconPlus} from "@tabler/icons-react";
 import {Helmet} from "react-helmet-async";
 import {useQuery} from "react-query";
-import {IListQuery, useListQuery} from "../../hooks/useListQuery.ts";
+import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
 import erdApi from "../../api/erdApi.tsx";
-import {IPaginatedErd} from "../../types/data/erd";
 import Erd from "./Erd";
 import SearchInput from "../../components/common/SearchInput.tsx";
-import {useLibraryStore} from "../../stores/useLibrary.ts";
 import React from "react";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {IErd} from "@/types/data/db-model-interfaces";
+import {IApiList} from "@/types/data/util";
 
 const listQueryFunction = async (params: IListQuery) => erdApi.get("/v1/erd", {params}).then(res => res.data)
 
@@ -20,7 +21,7 @@ export default function Library() {
   const team = useLibraryStore(state => state.team)
   const {params, setParams} = useListQuery({teamId: team?.id})
 
-  const {data, status, isSuccess} = useQuery<IPaginatedErd>({
+  const {data, status, isSuccess} = useQuery<IApiList<IErd>>({
     queryKey: ['erdList', params, team],
     queryFn: () => listQueryFunction(params)
   })

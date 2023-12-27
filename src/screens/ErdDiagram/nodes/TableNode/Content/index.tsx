@@ -10,9 +10,11 @@ import ButtonWithConfirm from "../../../../../components/common/ButtonWithConfir
 import {useNodeId} from "reactflow";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
-import {IErdNodeColumn} from "@/types/erd-node";
 import isEqual from "lodash/isEqual";
 import {useNodeData} from "@/hooks/useNodeData.ts";
+import {orderBy} from "lodash";
+import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {ITableNodeColumn} from "@/types/table-node";
 
 const Content = React.memo(() => {
   const data = useNodeData()
@@ -26,10 +28,26 @@ const Content = React.memo(() => {
     })
   }, [selectedColumns])
 
-  const setSortedColumns = (columns: IErdNodeColumn[]) => {
-    const orderedColumns = columns.map((column, order) => ({
+  const setSortedColumns = (columns: ITableNodeColumn[]) => {
+    let orderedColumns = columns.map((column, order) => ({
       ...column,
       order: order
+    }))
+
+    // orderedColumns = orderBy(orderedColumns, 'order', 'asc')
+
+    useErdDiagramStore.setState(cur => ({
+      tables: cur.tables.map(table => {
+        if (table.id !== tableId) return table
+
+        return {
+          ...table,
+          data: {
+            ...table.data,
+            columns:  orderBy(orderedColumns, 'order', 'asc')
+          }
+        }
+      })
     }))
     const objectsNotEqual = orderedColumns.filter((newColumn) => !data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 

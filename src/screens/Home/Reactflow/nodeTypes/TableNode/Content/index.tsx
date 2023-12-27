@@ -2,7 +2,7 @@ import {ActionIcon, Collapse, Divider, Group, Stack, Tooltip,} from "@mantine/co
 import React from "react";
 import {IconTrash} from "@tabler/icons-react";
 import RenderItem from "./RenderItem.tsx";
-import {useErdTableData} from "@/contexts/ErdTableDataContext.ts";
+import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 import {ReactSortable} from "react-sortablejs";
 import styles from "./style.module.css"
 import "./style.module.css"

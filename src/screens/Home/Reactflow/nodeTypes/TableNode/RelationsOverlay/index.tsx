@@ -4,8 +4,8 @@ import React from "react";
 import {Center, Overlay, Text, Title} from "@mantine/core";
 import {RELATIONS} from "@/constants/relations";
 import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
-import {IErdNodeData} from "@/types/erd-node";
-import {useErdTableData} from "@/contexts/ErdTableDataContext.ts";
+import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
+import {ITableNodeData} from "@/types/table-node";
 
 const sourceStyle = {zIndex: 2, backgroundColor: "var(--mantine-primary-color-light-hover)"};
 const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-light-hover)"}
@@ -25,7 +25,7 @@ const RelationsOverlay = () => {
 
     if (!connectionNode) return null
 
-    const connectionNodeData = connectionNode.data as IErdNodeData
+    const connectionNodeData = connectionNode.data as ITableNodeData
 
     if (!connectionNodeData) return null
 
