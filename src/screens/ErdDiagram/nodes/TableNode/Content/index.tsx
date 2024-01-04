@@ -13,7 +13,7 @@ import {Column} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useNodeData} from "@/hooks/useNodeData.ts";
 import {orderBy} from "lodash";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ITableNodeColumn} from "@/types/table-node";
 
 const Content = React.memo(() => {
@@ -36,7 +36,7 @@ const Content = React.memo(() => {
 
     // orderedColumns = orderBy(orderedColumns, 'order', 'asc')
 
-    useErdDiagramStore.setState(cur => ({
+    usePlaygroundStore.setState(cur => ({
       tables: cur.tables.map(table => {
         if (table.id !== tableId) return table
 

@@ -1,5 +1,5 @@
 import {Stack} from "@mantine/core";
-import TableList from "@/components/layouts/ErdDiagramLayout/Aside/TableList";
+import TableList from "@/components/layouts/PlaygroundLayout/Aside/TableList";
 
 export default function Aside() {
   return (

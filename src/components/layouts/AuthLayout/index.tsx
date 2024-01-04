@@ -1,7 +1,7 @@
 import {Center, Container} from "@mantine/core";
 import classes from "./style.module.css"
 import {Navigate, Outlet, useLocation} from "react-router-dom";
-import {useAuthStore} from "../../../stores/useAuthStore";
+import {useAuthStore} from "@/stores/useAuthStore";
 
 export default function AuthLayout() {
   const user = useAuthStore(state => state.getAuthorization())

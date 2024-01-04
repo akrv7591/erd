@@ -16,21 +16,21 @@ import {nodeTypes} from "./nodes";
 import Icons from "./Icons";
 import {Helmet} from "react-helmet-async";
 import {Player} from "@/enums/playground.ts";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import PlayerCursor from "@/screens/ErdDiagram/components/PlayerCursor";
 
 
-const ErdDiagram = () => {
-  const nodes = useErdDiagramStore(state => state.getNodes());
-  const edges = useErdDiagramStore(state => state.getEdges());
-  const setNodeChanges = useErdDiagramStore(state => state.setNodeChanges)
-  const setEdgeChanges = useErdDiagramStore(state => state.setEdgeChanges)
-  const setConnection = useErdDiagramStore(state => state.setConnection)
-  const nodeOnDragAdd = useErdDiagramStore(state => state.nodeOnDragAdd)
-  const subscribedTo = useErdDiagramStore(state => state.subscribedTo)
-  const playground = useErdDiagramStore(state => state.playground)
-  const subscribers = useErdDiagramStore(state => state.subscribers)
-  const viewport = useErdDiagramStore(state => state.viewport)
+export default function Playground() {
+  const nodes = usePlaygroundStore(state => state.getNodes());
+  const edges = usePlaygroundStore(state => state.getEdges());
+  const setNodeChanges = usePlaygroundStore(state => state.setNodeChanges)
+  const setEdgeChanges = usePlaygroundStore(state => state.setEdgeChanges)
+  const setConnection = usePlaygroundStore(state => state.setConnection)
+  const nodeOnDragAdd = usePlaygroundStore(state => state.nodeOnDragAdd)
+  const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
+  const playground = usePlaygroundStore(state => state.playground)
+  const subscribers = usePlaygroundStore(state => state.subscribers)
+  const viewport = usePlaygroundStore(state => state.viewport)
 
   const reactFlowInstance = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
@@ -125,4 +125,3 @@ const ErdDiagram = () => {
   );
 }
 
-export default ErdDiagram

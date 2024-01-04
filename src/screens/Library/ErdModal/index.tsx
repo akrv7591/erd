@@ -1,14 +1,15 @@
-import {ActionIcon, InputLabel, Modal, Stack, Switch, Text, Textarea, TextInput} from "@mantine/core";
+import {Group, Modal, Select, Stack, Switch, Text, Textarea, TextInput, Tooltip} from "@mantine/core";
 import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "../../../components/common/ModalForm";
 import {useForm} from "@mantine/form";
-import {useMutation, useQuery, useQueryClient} from "react-query";
+import {useMutation, useQueryClient} from "react-query";
 import erdApi from "../../../api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
-import {IconMail, IconPlus} from "@tabler/icons-react";
-import React from "react";
-import UserWithPermissions from "./UserWithPermissions.tsx";
 import {IErd} from "@/types/data/db-model-interfaces";
+import {createId} from "@paralleldrive/cuid2";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {IconInfoCircleFilled} from "@tabler/icons-react";
+import {hasRoleAccess} from "@/utility/role-util.ts";
 
 interface Props extends ModalBaseProps {
   data?: IErd
@@ -30,26 +31,36 @@ const erdMutationFn = (data: IErd, type: IErdMutationMethods) => {
   }
 }
 
-const loadErdWithUsers = (erdId: string | undefined) => erdApi.get(`/v1/erd/${erdId}`).then(res => res.data)
+const generateDefaultFormValue = (): IErd => {
+  return {
+    id: "",
+    name: "",
+    description: "",
+    isPublic: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    teamId: ''
+  }
 
+}
 export default function ErdModal({onSubmit, data, type, ...props}: Props) {
-  const form = useForm<IErd>({
-    initialValues: data
-  })
-  const userListQuery = useQuery({
-    queryKey: [data?.id],
-    queryFn: (param) => loadErdWithUsers(param.queryKey[0]),
-    onSuccess: (data) => {
-      form.setValues(data)
-      form.resetDirty(data)
+  const team = useLibraryStore(state => state.team)
+  const teams = useLibraryStore(state => state.teams)
+
+  const form = useForm({
+    initialValues: {
+      ...data ? data : generateDefaultFormValue(),
+      ...team && {
+        teamId: team.id
+      }
+    },
+    validate: {
+      teamId: (value: string | null) => (value === null || value === "") ? "Team is required" : null
     }
   })
 
-  const [newEmail, setNewEmail] = React.useState("")
   const queryClient = useQueryClient()
   const mutation = useMutation({mutationFn: ({data, type}: IErdMutationData) => erdMutationFn(data, type)})
-
-  if (!form.values.users || userListQuery.isLoading) return null
 
   const handleSubmit = async (data: any) => {
     switch (type) {
@@ -94,7 +105,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
         })
         break
       case "create":
-        mutation.mutate({data, type: "put"}, {
+        mutation.mutate({data: {...data, id: createId()}, type: "put"}, {
           onSuccess: async (res) => {
             await queryClient.refetchQueries(['erdList'])
             form.reset()
@@ -115,55 +126,42 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
     }
   }
 
-  const handleUserAdd = () => {
-    form.insertListItem("users", {
-      email: newEmail,
-      name: "",
-      emailVerified: null,
-      UserErd: {
-        canRead: true,
-        canWrite: false,
-        canDelete: false,
-        isAdmin: false
-      }
-    })
 
-    setNewEmail("")
-  }
   return (
-    <Modal {...props} size={"xl"}>
+    <Modal {...props} size={"lg"}>
       <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
         {type === "delete"
           ? <Text>Are you sure to delete {data?.name}</Text>
           : (
             <Stack>
-              <TextInput
-                {...form.getInputProps("name", {withFocus: true})}
-                label={"Name"}
-                required
-                data-autofocus
-              />
+              <Group align={"flex-end"}>
+                <TextInput
+                  {...form.getInputProps("name", {withFocus: true})}
+                  label={"Name"}
+                  required
+                  data-autofocus
+                  style={{flex: 1}}
+                />
+                <Select
+                  {...form.getInputProps("teamId", {withFocus: true})}
+                  disabled={type==="update"}
+                  label={"Team"}
+                  description={type==="update"? "You can't edit erd team": null}
+                  placeholder={"Select a team"}
+                  data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.UserTeam.role)}))}
+                  checkIconPosition={"right"}
+                />
+              </Group>
               <Textarea
                 {...form.getInputProps("description")}
                 label={"Description"}
               />
-              <Switch label={"Public"} {...form.getInputProps("isPublic", {type: "checkbox"})} />
-              <InputLabel>
-                Users
-              </InputLabel>
-              {form.values.users!.map((user, i) => <UserWithPermissions form={form} user={user} i={i} key={user.email}/>)}
-              <TextInput
-                placeholder={"erdiagramly@mail.com"}
-                type={"email"}
-                data-autofocus
-                leftSection={<IconMail/>}
-                value={newEmail}
-                onChange={e => setNewEmail(e.target.value)}
-                rightSection={(
-                  <ActionIcon onClick={handleUserAdd}>
-                    <IconPlus/>
-                  </ActionIcon>
-                )}/>
+              <Group gap={"xs"} align={"center"}>
+                <Switch label={"Public"} pr={0} {...form.getInputProps("isPublic", {type: "checkbox"})} />
+                <Tooltip label={"Accessible by anyone, but users in respective team can modify it"}>
+                  <IconInfoCircleFilled size={20}/>
+                </Tooltip>
+              </Group>
             </Stack>
           )
         }

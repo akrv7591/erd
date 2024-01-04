@@ -3,12 +3,13 @@ import {AppShell, Group, Text} from "@mantine/core";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Aside from "./Aside";
-import {useAuthStore} from "../../../stores/useAuthStore.ts";
-import {useLibraryStore} from "../../../stores/useLibrary.ts";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
 
 export default function ErdListLayout() {
   const user = useAuthStore(state => state.getAuthorization())
   const team = useLibraryStore(state => state.team)
+  const teams = useLibraryStore(state => state.teams)
 
   return (
     <AppShell
@@ -26,12 +27,17 @@ export default function ErdListLayout() {
               <AppShell.Navbar>
                 <Navbar/>
               </AppShell.Navbar>
-              {team && <AppShell.Aside>
-                  <Aside/>
-              </AppShell.Aside>}
-              <AppShell.Main>
-                <Outlet/>
-              </AppShell.Main>
+              {team && (
+                  <AppShell.Aside>
+                    <Aside/>
+                  </AppShell.Aside>
+              )}
+              {teams.length > 0 && (
+                <AppShell.Main>
+                  <Outlet/>
+                </AppShell.Main>
+              )}
+
             </>
           )
           : (

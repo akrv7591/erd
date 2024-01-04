@@ -1,8 +1,9 @@
 import {create} from "zustand";
-import {ITeam} from "@/types/data/db-model-interfaces";
+import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
 
 export interface ILibraryState {
-  team: ITeam | null
+  team: IFormTeam | null
+  teams: IFormTeam[]
 }
 
 export interface ILibraryViews {
@@ -15,8 +16,13 @@ export interface ILibraryActions {
 
 export type ILibraryStore = ILibraryState & ILibraryViews & ILibraryActions
 
-export const useLibraryStore = create<ILibraryStore>()((setState) => ({
+const libraryStoreInitialValue: ILibraryState = {
   team: null,
+  teams: [],
+}
+
+export const useLibraryStore = create<ILibraryStore>()((setState) => ({
+  ...libraryStoreInitialValue,
 
   // Actions
   setTeam: team => setState({team})

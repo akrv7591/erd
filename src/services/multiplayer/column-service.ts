@@ -1,10 +1,10 @@
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {orderBy} from "lodash";
 
 export const columnService = () => {
 
   function onAdd({column}: any) {
-    useErdDiagramStore.setState(cur => ({
+    usePlaygroundStore.setState(cur => ({
       tables: cur.tables.map(table => {
         if (table.id === column.tableId) {
           return {
@@ -21,7 +21,7 @@ export const columnService = () => {
   }
 
   function onUpdate({column}: any) {
-    useErdDiagramStore.setState(cur => ({
+    usePlaygroundStore.setState(cur => ({
       tables: cur.tables.map(table => {
         if (table.id === column.tableId) {
           const columns = orderBy(table.data.columns.map(c => c.id === column.id ? column : c), 'order', 'asc')
@@ -39,7 +39,7 @@ export const columnService = () => {
   }
 
   function onDelete({column}: any) {
-    useErdDiagramStore.setState(cur => ({
+    usePlaygroundStore.setState(cur => ({
       tables: cur.tables.map(table => {
         if (table.id === column.tableId) {
           return {

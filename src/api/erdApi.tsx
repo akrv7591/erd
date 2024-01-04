@@ -2,6 +2,7 @@ import axios from "axios";
 import {AUTH} from "../enums/auth.ts";
 import {useAuthStore} from "../stores/useAuthStore.ts";
 import StorageUtils from "../utility/StorageUtils.ts";
+import httpStatus from "http-status";
 
 const baseURL = import.meta.env.VITE_BASE_URL
 
@@ -34,10 +35,26 @@ erdApi.interceptors.request.use(async function (config) {
   return config
 })
 
+const logout = (err: Error) => {
+  useAuthStore.getState().logout()
+  return Promise.reject(err)
+}
+
 erdApi.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log(response.config.url, response.data)
+    return response
+  },
   async (err) => {
     const {response} = err
+
+    switch (response.status) {
+      case httpStatus.BAD_REQUEST:
+        return Promise.reject(err)
+      case httpStatus.INTERNAL_SERVER_ERROR:
+        return Promise.reject(err)
+    }
+
 
     switch (response.data.code) {
       case AUTH.ACCESS_TOKEN_EXPIRED:
@@ -47,10 +64,21 @@ erdApi.interceptors.response.use(
         console.log("REFRESH FINISHED")
         return erdApi.request(response.config)
 
+      case AUTH.INVALID_ACCESS_TOKEN:
+        return logout(err)
+
+      case AUTH.INVALID_AUTHORIZATION:
+        return logout(err)
+
+      case AUTH.NO_REFRESH_TOKEN_IN_COOKIES:
+        return logout(err)
+
+      case AUTH.REFRESH_TOKEN_INVALID:
+        return logout(err)
+
       default:
-        console.log("APLICATION SHOULD LOGOUT")
-        useAuthStore.getState().logout()
         return Promise.reject(err)
+
     }
   }
 )

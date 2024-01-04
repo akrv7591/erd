@@ -1,5 +1,5 @@
 import {ActionIcon, Avatar, Tooltip} from "@mantine/core";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Player} from "@/enums/playground.ts";
 import {IPlayer} from "@/types/table-node";
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export default function PlayerAvatar(props: Props) {
-  const subscribedTo = useErdDiagramStore(state => state.subscribedTo)
-  const playground = useErdDiagramStore(state => state.playground)
+  const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
+  const playground = usePlaygroundStore(state => state.playground)
   const authorizedUser = useAuthStore(state => state.getAuthorization())
   const isSubscribedPlayer = subscribedTo?.id === props.player.id
   const avatarStyle = isSubscribedPlayer? {border: "1px solid var(--mantine-primary-color-filled)", zIndex: 1}: {}

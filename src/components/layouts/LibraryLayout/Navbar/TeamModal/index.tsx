@@ -1,23 +1,25 @@
 import {ModalBaseProps} from "@/components/common/ModalBase";
-import {useForm} from "@mantine/form";
-import {Button, Group, Modal, Stack, TagsInput, TextInput, Tooltip} from "@mantine/core";
-import ModalForm from "../../../../common/ModalForm";
-import {useMutation, useQueryClient} from "react-query";
-import erdApi from "../../../../../api/erdApi.tsx";
+import {Button, Group, Modal, Stack, TextInput, Tooltip} from "@mantine/core";
+import ModalForm from "@/components/common/ModalForm";
+import {QueryFunctionContext, useMutation, useQuery, useQueryClient} from "react-query";
+import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
-import ButtonWithConfirm from "../../../../common/ButtonWithConfirm";
-import {ITeam} from "@/types/data/db-model-interfaces";
+import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import UserList from "@/components/layouts/LibraryLayout/Navbar/TeamModal/UserList.tsx";
+import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
+import {createId} from "@paralleldrive/cuid2";
+import {IUser} from "@/types/data/db-model-interfaces";
 
 interface Props extends ModalBaseProps {
-  data?: ITeam
+  data?: IFormTeam
 }
 
 
 type ITeamMutationMethods = "delete" | "put"
 
 interface IErdMutationData {
-  data: ITeam,
+  data: IFormTeam,
   type: ITeamMutationMethods
 }
 
@@ -25,28 +27,40 @@ interface IErdMutationData {
 const teamMutationFn = ({data, type}: IErdMutationData) => {
   switch (type) {
     case "put":
-      return erdApi.put<ITeam>("/v1/team", data)
+      return erdApi.put<IFormTeam>("/v1/team", data)
     case "delete":
       return erdApi.delete(`/v1/team/${data.id}`)
 
   }
 }
 
+const userListQuery = (params: QueryFunctionContext) => {
+  return erdApi.get<IUser[]>(`/v1/team/${params.queryKey[0]}/user-list`).then(response => response.data)
+}
+
 export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   const queryClient = useQueryClient()
-  const form = useForm({
+  const form = useTeamForm({
     initialValues: {
-      name: "",
-      users: [],
-      ...data && {
-        ...data,
-        users: data.users? data.users.map(user => user.email): []
-      }
+      ...data ? {
+        ...data
+      } : {
+        users: [] as IFormTeam['users'],
+        name: "",
+        id: createId()
+      } as IFormTeam,
     }
   })
   const mutation = useMutation({
     mutationFn: teamMutationFn,
   })
+
+  useQuery({
+    queryKey: [data?.id],
+    queryFn: userListQuery,
+    onSuccess: data => form.setFieldValue("users", data)
+  })
+
 
   const handleSubmit = async (data: any) => {
     switch (type) {
@@ -77,7 +91,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
         mutation.mutate({data, type: "put"}, {
           onSuccess: async () => {
             notifications.show({
-              message: `${data.name} team created successfully`
+              message: `${data.name} team updated successfully`
             })
 
             await queryClient.refetchQueries({
@@ -100,7 +114,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   }
 
   const onDelete = () => {
-    const data = form.values as unknown as ITeam
+    const data = form.values
     mutation.mutate({data, type: "delete"}, {
       onSuccess: async () => {
         notifications.show({
@@ -124,36 +138,39 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   }
 
   return (
-    <Modal {...props}>
-      <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
-        <Stack>
-          <TextInput
-            {...form.getInputProps("name", {withFocus: true})}
-            label={"Name"}
-            required
-            data-autofocus
-          />
-          <TagsInput
-            label={type === "create" ? "Send invitations to users" : "Invite new users"}
-            placeholder={"user@erdiagramly.com"}
-            description={"Type and enter to add multiple users"}
-            {...form.getInputProps("users")}
-          />
-          <Group w={"100%"} justify={"flex-end"}>
-            <Tooltip label={"Delete team"}>
+    <TeamFormProvider form={form}>
+      <Modal size={"600px"} {...props}>
+        <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
+          <Stack>
+            <TextInput
+              {...form.getInputProps("name", {withFocus: true})}
+              label={"Name"}
+              required
+              data-autofocus
+            />
+            <UserList/>
+            <Group w={"100%"} justify={"flex-end"}>
               <ButtonWithConfirm
                 target={(
-                  <Button leftSection={<IconTrash />} color={"var(--mantine-color-red-filled)"} variant={"filled"} size={"xs"}>
-                    Delete
-                  </Button>
+                  <Tooltip label={"Delete team"}>
+                    <Button
+                      leftSection={<IconTrash/>}
+                      color={"var(--mantine-color-red-filled)"}
+                      variant={"filled"}
+                      size={"xs"}
+                    >
+                      Delete
+                    </Button>
+                  </Tooltip>
                 )}
                 message={`Do you really want to delete ${form.values.name} team`}
                 onConfirm={onDelete}
               />
-            </Tooltip>
-          </Group>
-        </Stack>
-      </ModalForm>
-    </Modal>
+            </Group>
+          </Stack>
+        </ModalForm>
+      </Modal>
+    </TeamFormProvider>
+
   )
 }

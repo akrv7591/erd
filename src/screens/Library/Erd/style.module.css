@@ -1,6 +1,5 @@
 .box {
+    flex: 1;
     cursor: pointer;
-    &:hover {
-        outline: 1px solid var(--mantine-color-blue-filled);
-    }
+    height: 50px;
 }

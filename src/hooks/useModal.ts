@@ -7,6 +7,16 @@ interface Props {
   initialType: ModalType
 }
 
+export interface IUseModalType {
+  modalProps: {
+    opened: boolean
+    onClose: () => void
+    title: string
+    type: ModalType
+  },
+  open: (type: ModalType) => void
+}
+
 const getTitle = (title: string, type: ModalType) => {
   switch (type) {
     case "create":
@@ -18,7 +28,7 @@ const getTitle = (title: string, type: ModalType) => {
   }
 }
 
-export const useModal = (props: Props) => {
+export const useModal = (props: Props): IUseModalType => {
   const [opened, setOpened] = React.useState(props.initialOpen)
   const [type, setType] = React.useState(props.initialType)
   const onClose = () => setOpened(false)

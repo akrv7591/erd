@@ -5,7 +5,7 @@ import {playerService} from "@/services/multiplayer/player-service.ts";
 import {tableService} from "@/services/multiplayer/table-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
 import {columnService} from "@/services/multiplayer/column-service.ts";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ITableNode, ITableNodeColumn} from "@/types/table-node";
 
 export interface ResponseData<T> {
@@ -64,19 +64,19 @@ export class PlaygroundService {
   }
 
   public player(action: Player, data: any | string) {
-    this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
   public table(action: Table, data: ITableNode | string | any) {
-    this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
   public relation(action: Relation, data: Edge | string) {
-    this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
   public column(action: Column,  data: ITableNodeColumn | string) {
-    this.io.emit(action, data, useErdDiagramStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
 }

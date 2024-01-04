@@ -1,22 +1,22 @@
 import {createBrowserRouter, Outlet, RouteObject} from "react-router-dom";
-import Erd from "../screens/ErdDiagram";
-import HomeLayout from "../components/layouts/HomeLayout";
-import LibraryLayout from "../components/layouts/LibraryLayout";
-import ErdLayout from "../components/layouts/ErdLayout";
-import SignIn from "../screens/Auth/SignIn";
-import SignUp from "../screens/Auth/SignUp";
-import AuthLayout from "../components/layouts/AuthLayout";
-import SendEmailVerification from "../screens/Auth/SendEmailVerification";
-import ProtectedRoute from "../components/auth/ProtectedRoute";
-import Home from "../screens/Home/Home";
-import NotFound from "../screens/NotFound";
-import Library from "../screens/Library";
-import ErdDiagramLayout from "../components/layouts/ErdDiagramLayout";
-import VerifyEmail from "../screens/VerifyEmail";
-import PasswordOTP from "../screens/PasswordOTP.tsx";
-import PlaygroundProvider from "../providers/PlaygroundProvider.tsx";
-import PrivacyPolicy from "../screens/PrivacyPolicy";
-import TermsOfService from "../screens/TermsOfService";
+import Erd from "@/screens/ErdDiagram";
+import HomeLayout from "@/components/layouts/HomeLayout";
+import LibraryLayout from "@/components/layouts/LibraryLayout";
+import ErdLayout from "@/components/layouts/ErdLayout";
+import SignIn from "@/screens/Auth/SignIn";
+import SignUp from "@/screens/Auth/SignUp";
+import AuthLayout from "@/components/layouts/AuthLayout";
+import SendEmailVerification from "@/screens/Auth/SendEmailVerification";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import Home from "@/screens/Home/Home";
+import NotFound from "@/screens/NotFound";
+import Library from "@/screens/Library";
+import PlaygroundLayout from "@/components/layouts/PlaygroundLayout";
+import VerifyEmail from "@/screens/VerifyEmail";
+import PasswordOTP from "@/screens/PasswordOTP.tsx";
+import PrivacyPolicy from "@/screens/PrivacyPolicy";
+import TermsOfService from "@/screens/TermsOfService";
+import JoinTeam from "@/screens/JoinTeam";
 
 const NotFoundRoute: RouteObject = {
   path: "*",
@@ -79,13 +79,9 @@ export const router = createBrowserRouter(
               },
               NotFoundRoute
             ]
-          }, {}, {
+          }, {
           path: ":erdId",
-          element: (
-            <PlaygroundProvider>
-                <ErdDiagramLayout/>
-            </PlaygroundProvider>
-          ),
+          element: <PlaygroundLayout/>,
           children:
             [
               {
@@ -104,15 +100,23 @@ export const router = createBrowserRouter(
     },
     {
       path: "password-otp",
-      element: <PasswordOTP />
+      element: <PasswordOTP/>
     },
     {
       path: "privacy-policy",
-      element: <PrivacyPolicy />
+      element: <PrivacyPolicy/>
     },
     {
       path: "terms",
-      element: <TermsOfService />
+      element: <TermsOfService/>
+    },
+    {
+      path: "team/:joinTeamId/join",
+      element: (
+        <ProtectedRoute>
+          <JoinTeam/>
+        </ProtectedRoute>
+      )
     }
   ])
 

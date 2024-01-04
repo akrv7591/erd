@@ -1,7 +1,7 @@
 import {useQuery} from "react-query";
 import erdApi from "../../../api/erdApi.tsx";
 import {Group, Loader, Text, Tooltip} from "@mantine/core";
-import {IconExclamationCircle, IconTable} from "@tabler/icons-react";
+import {IconExclamationCircle} from "@tabler/icons-react";
 
 interface Props {
   erdId: string
@@ -16,7 +16,7 @@ export default function TableCount({erdId}: Props) {
   switch (status) {
     case "error":
       return (
-        <Tooltip label={"Some error"} >
+        <Tooltip label={"Some error"}>
           <Group gap={2}>
             <IconExclamationCircle color={"var(--mantine-color-red-light)"} stroke={1} size={20}/>
           </Group>
@@ -24,7 +24,7 @@ export default function TableCount({erdId}: Props) {
       )
     case "loading":
       return (
-        <Tooltip label={"Loading"} >
+        <Tooltip label={"Loading"}>
           <Group gap={2}>
             <Loader size={"xs"}/>
           </Group>
@@ -35,7 +35,7 @@ export default function TableCount({erdId}: Props) {
         <Tooltip label={`${data.count} tables`}>
           <Group gap={2}>
             <Text>{data.count}</Text>
-            <IconTable stroke={1} size={20}/>
+
           </Group>
         </Tooltip>
       )

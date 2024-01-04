@@ -1,3 +1,5 @@
+import {ROLE} from "@/enums/role.ts";
+
 export type Optional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>
 
 export interface IAccount {
@@ -66,13 +68,12 @@ export interface IErd {
   name: string
   description: string | null;
   isPublic: boolean;
+  teamId: string
 
   //Relations
-  users?: IUser[]
-  teams?: ITeam[]
+  team?: ITeam
   tables?: ITable[]
   relations?: IRelation[]
-  userErds?: IUserErd[]
 }
 
 
@@ -156,25 +157,6 @@ export interface ITeam {
 }
 
 
-export interface ITeamErd {
-  createdAt: Date
-  updatedAt: Date
-
-  // Permissions
-  canRead: boolean
-  canWrite: boolean
-  canDelete: boolean
-
-  //Foreign keys
-  teamId: string
-  erdId: string
-
-  //Relations
-  team?: ITeam
-  erd?: IErd
-}
-
-
 export interface IUser {
   id: string
   name: string
@@ -191,37 +173,19 @@ export interface IUser {
   resetTokens?: IResetToken[]
   teams?: ITeam[]
   UserTeam?: IUserTeam
-  UserErd?: IUserErd
 }
 
-
-export interface IUserErd {
-  // id: string
-  createdAt: Date
-  updatedAt: Date
-  canRead: boolean
-  canWrite: boolean
-  canDelete: boolean
-  isAdmin: boolean
-
-  //Foreign keys
-  userId: string
-  erdId: string
-
-  //Relations
-  user?: IUser
-  erd?: IErd
-}
 
 
 export interface IUserTeam {
   //Composite primary keys
   userId: string
   teamId: string
+  role: ROLE
+  pending: boolean
 
   createdAt: Date
   updatedAt: Date
-  isAdmin: boolean
 
   //Relations
   user?: IUser
@@ -255,13 +219,7 @@ export interface ICTable extends Optional<ITable, 'id' | 'createdAt' | 'updatedA
 export interface ICTeam extends Optional<ITeam, 'id' | 'createdAt'> {
 }
 
-export interface ICTeamErd extends Optional<ITeamErd, 'createdAt' | 'updatedAt'> {
-}
-
 export interface ICUser extends Optional<IUser, 'id' | 'createdAt' | 'updatedAt' | 'emailVerified'> {
-}
-
-export interface ICUserErd extends Optional<IUserErd, 'createdAt' | 'updatedAt' | 'canRead' | 'canWrite' | 'canDelete'> {
 }
 
 export interface ICUserTeam extends Optional<IUserTeam, 'createdAt' | 'updatedAt'> {

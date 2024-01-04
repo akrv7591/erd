@@ -16,7 +16,7 @@ export interface IConnectionData {
 }
 
 
-export interface IErdDiagramState extends Omit<IErd, 'users' | 'relations' | 'tables'>{
+export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'tables'>{
   tool: ITools;
   players: IPlayer[];
   tables: ITableNode[];
@@ -27,12 +27,12 @@ export interface IErdDiagramState extends Omit<IErd, 'users' | 'relations' | 'ta
   subscribers: IPlayer[];
 }
 
-export interface IErdDiagramViews {
+export interface IPlaygroundViews {
   getNodes: () => ITableNode[];
   getEdges: () => Edge[];
 }
 
-export interface IErDiagramActions {
+export interface IPlaygroundActions {
   // Actions
   setViewport: (viewport: Viewport) => void
 
@@ -57,6 +57,6 @@ export interface IErDiagramActions {
   reset: () => void
 }
 
-export type IErdDiagram = IErdDiagramState & IErdDiagramViews & IErDiagramActions
+export type IErdDiagram = IPlaygroundState & IPlaygroundViews & IPlaygroundActions
 
 export type INodes = ITableNode

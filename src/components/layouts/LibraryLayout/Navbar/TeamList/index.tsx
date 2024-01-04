@@ -7,7 +7,7 @@ import SearchInput from "../../../../common/SearchInput.tsx";
 import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IApiList} from "@/types/data/util";
-import {ITeam} from "@/types/data/db-model-interfaces";
+import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
 
 const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/team", {
   params
@@ -15,11 +15,14 @@ const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/team", {
 
 export default function TeamList() {
   const {params, setParams} = useListQuery()
-  const {data, status} = useQuery<IApiList<ITeam>>({
+  const {data, status} = useQuery<IApiList<IFormTeam>>({
     queryKey: ['teamList', params],
     queryFn: () => teamQueryFunction(params),
+    onSuccess: data => useLibraryStore.setState({teams: data.rows})
   })
-  const [team, setTeam] = useLibraryStore(state => [state.team, state.setTeam])
+  const team = useLibraryStore(state => state.team)
+  const setTeam = useLibraryStore(state => state.setTeam)
+
 
   const Content = () => {
     switch (status) {

@@ -1,7 +1,7 @@
 import {Group, Stack, Text,} from '@mantine/core';
 import classes from './style.module.css';
 import UserList from "./UserList";
-import {useLibraryStore} from "../../../../stores/useLibrary.ts";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
 
 
 export default function Aside() {

@@ -3,7 +3,7 @@ import styles from "../style.module.css";
 import React from "react";
 import {Center, Overlay, Text, Title} from "@mantine/core";
 import {RELATIONS} from "@/constants/relations";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 import {ITableNodeData} from "@/types/table-node";
 
@@ -11,7 +11,7 @@ const sourceStyle = {zIndex: 2, backgroundColor: "var(--mantine-primary-color-li
 const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-light-hover)"}
 
 const RelationsOverlay = () => {
-  const [tool] = useErdDiagramStore(state => [state.tool])
+  const [tool] = usePlaygroundStore(state => [state.tool])
   const {columns} = useErdTableData()
   const reactFlow = useReactFlow()
   const connectionNodeId = useStore(state => state.connectionNodeId);

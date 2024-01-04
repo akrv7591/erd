@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import {IconList, IconTrash} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import classes from "./style.module.css";
 import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
@@ -25,8 +25,8 @@ import {ITableNode} from "@/types/table-node";
 export default function TableList() {
   const [opened, {open, close}] = useDisclosure()
   const [selectedEntities, setSelectedEntities] = React.useState<ITableNode[]>([])
-  const tables = useErdDiagramStore(state => state.tables)
-  const playground = useErdDiagramStore(state => state.playground)
+  const tables = usePlaygroundStore(state => state.tables)
+  const playground = usePlaygroundStore(state => state.playground)
   const reactflow = useReactFlow()
   const [search, setSearch] = React.useState("")
   const filteredTables = React.useMemo(() => tables.filter(t => t.data.name.toLowerCase().includes(search.toLowerCase())), [search, tables])

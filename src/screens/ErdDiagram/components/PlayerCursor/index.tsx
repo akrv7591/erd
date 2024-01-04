@@ -1,11 +1,11 @@
-import {useErdDiagramStore} from "@/stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {IconPointer} from "@tabler/icons-react";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Box, Text} from "@mantine/core";
 import {useReactFlow} from "reactflow";
 
 export default function PlayerCursor() {
-  const players = useErdDiagramStore(state => state.players)
+  const players = usePlaygroundStore(state => state.players)
   const authorizedUser = useAuthStore(state => state.getAuthorization())
   const reactflow = useReactFlow()
 

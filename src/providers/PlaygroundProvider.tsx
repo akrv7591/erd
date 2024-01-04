@@ -4,14 +4,14 @@ import LoadingBackdrop from "../components/common/LoadingBackdrop.tsx";
 import {PlaygroundContext} from "../contexts/PlaygroundContext.ts";
 import {useAuthStore} from "../stores/useAuthStore.ts";
 import {useParams} from "react-router-dom";
-import {useErdDiagramStore} from "../stores/useErdDiagramStore.ts";
+import {usePlaygroundStore} from "../stores/usePlaygroundStore.ts";
 import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
 import {IPlayer} from "@/types/table-node";
 
 
 export default function PlaygroundProvider(props: PropsWithChildren) {
-  const playground = useErdDiagramStore(state => state.playground)
-  const reset = useErdDiagramStore(state => state.reset)
+  const playground = usePlaygroundStore(state => state.playground)
+  const reset = usePlaygroundStore(state => state.reset)
   const player = useAuthStore(state => state.getAuthorization())
   const playgroundId = useParams<{ erdId: string }>().erdId!
   const isLoaded = React.useMemo(() => playground instanceof PlaygroundService, [playground])
@@ -25,15 +25,14 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
       })
 
       socket.on("connect", () => {
-        console.log("CONNECT")
         const playground = new PlaygroundService(socket)
-        useErdDiagramStore.setState(cur => ({
+        usePlaygroundStore.setState(cur => ({
           playground: playground,
           players: [...cur.players, player as unknown as IPlayer]
         }))
         socket.on("data", data => {
           console.log(data)
-          useErdDiagramStore.setState(cur => ({...cur, ...data}))
+          usePlaygroundStore.setState(cur => ({...cur, ...data}))
         })
       })
 
@@ -53,11 +52,11 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
       return () => {
         window.removeEventListener('beforeunload', disconnect);
 
-
+        console.log("PLAYGROUND UNMOUNTING")
         disconnect()
       };
     }
-  }, [])
+  }, [playgroundId, playground])
 
 
   if (!isLoaded) return <LoadingBackdrop/>

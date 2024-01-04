@@ -7,11 +7,11 @@ import {createId} from "@paralleldrive/cuid2";
 import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
 import {orderBy} from "lodash";
-import {IAddNodeProps, IConnectionData, IErdDiagram, IErdDiagramState} from "@/types/playground";
+import {IAddNodeProps, IConnectionData, IErdDiagram, IPlaygroundState} from "@/types/playground";
 import {ICRelation} from "@/types/data/db-model-interfaces";
 
 
-const initialState: IErdDiagramState = {
+const initialState: IPlaygroundState = {
   id: "",
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -21,6 +21,7 @@ const initialState: IErdDiagramState = {
   subscribedTo: null,
   viewport: {x: 0, y: 0, zoom: 1},
   subscribers: [],
+  teamId: "",
 
   //Relations
   tables: [],
@@ -31,7 +32,7 @@ const initialState: IErdDiagramState = {
 }
 
 
-export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
+export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
   ...initialState,
 
   // Views
@@ -292,7 +293,10 @@ export const useErdDiagramStore = create<IErdDiagram>((set, getState) => ({
     })
   },
   setViewport: (viewport) => set({viewport}),
-  reset: () => set(initialState),
+  reset: () => {
+    console.log("RESETING STATE")
+    set(initialState)
+  },
   handlePlaygroundResponse: ({status, type, data}) => {
     if (status !== CallbackDataStatus.OK) {
       notifications.show({
