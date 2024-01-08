@@ -1,7 +1,7 @@
 import {ActionIcon, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
-import ButtonWithConfirm from "../../../../../components/common/ButtonWithConfirm";
-import {useNodeId, useReactFlow} from "reactflow";
+import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {useNodeId, useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {Column} from "@/enums/playground.ts";

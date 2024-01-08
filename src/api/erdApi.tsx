@@ -1,7 +1,7 @@
 import axios from "axios";
-import {AUTH} from "../enums/auth.ts";
-import {useAuthStore} from "../stores/useAuthStore.ts";
-import StorageUtils from "../utility/StorageUtils.ts";
+import {AUTH} from "@/enums/auth.ts";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
+import StorageUtils from "@/utility/StorageUtils.ts";
 import httpStatus from "http-status";
 
 const baseURL = import.meta.env.VITE_BASE_URL

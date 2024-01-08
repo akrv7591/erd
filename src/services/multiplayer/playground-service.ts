@@ -1,5 +1,5 @@
 import {Socket} from "socket.io-client";
-import {Edge} from "reactflow";
+import {Edge} from "@xyflow/react";
 import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
 import {tableService} from "@/services/multiplayer/table-service.ts";
@@ -19,6 +19,15 @@ export class PlaygroundService {
 
   constructor(io: Socket) {
     this.io = io
+    this.initPlayground()
+    usePlaygroundStore.setState({playground: this})
+  }
+
+  private initPlayground() {
+    this.io.on("data", data => {
+      console.log(data)
+      usePlaygroundStore.setState(cur => ({...cur, ...data}))
+    })
 
     this.initPlayerListeners()
     this.initTableListeners()
@@ -75,7 +84,7 @@ export class PlaygroundService {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
-  public column(action: Column,  data: ITableNodeColumn | string) {
+  public column(action: Column, data: ITableNodeColumn | string) {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 

@@ -1,5 +1,5 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {Edge} from "reactflow";
+import {Edge} from "@xyflow/react";
 
 export const relationService = () => {
 

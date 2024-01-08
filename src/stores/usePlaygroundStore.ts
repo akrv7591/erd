@@ -1,8 +1,8 @@
 import {create} from "zustand";
 import {ITableNode, ITableNodeColumn, ITableNodeData} from "@/types/table-node";
-import {applyEdgeChanges, applyNodeChanges, Edge} from "reactflow";
+import {applyEdgeChanges, applyNodeChanges, Edge} from "@xyflow/react";
 import voca from "voca";
-import {RELATIONS} from "../constants/relations.ts";
+import {RELATIONS} from "@/constants/relations.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
@@ -28,7 +28,7 @@ const initialState: IPlaygroundState = {
   relations: [],
   players: [],
   tool: "grab",
-  playground: {} as any,
+  playground: null as any,
 }
 
 

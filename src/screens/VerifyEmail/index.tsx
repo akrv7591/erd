@@ -1,16 +1,16 @@
 import {Button, Container, Group, Title} from "@mantine/core";
 import classes from "./style.module.css"
-import Logo from "../../components/common/Logo.tsx";
+import Logo from "@/components/common/Logo.tsx";
 import {Link, NavigateFunction, useNavigate, useParams} from "react-router-dom";
 import {useMutation} from "react-query";
-import erdApi from "../../api/erdApi.tsx";
-import {useOnMount} from "../../hooks/useOnMount.ts";
+import erdApi from "@/api/erdApi.tsx";
+import {useOnMount} from "@/hooks/useOnMount.ts";
 import {notifications} from "@mantine/notifications";
-import Timer from "../../utility/Timer.ts";
+import Timer from "@/utility/Timer.ts";
 import {AxiosResponse} from "axios";
 import {decodeJwt} from 'jose'
 import React, {useState} from "react";
-import StorageUtils from "../../utility/StorageUtils.ts";
+import StorageUtils from "@/utility/StorageUtils.ts";
 
 const verifyEmail = (tokenUuid: string | undefined) => erdApi.post(`/v1/verify-email/${tokenUuid}`)
 const onVerificationError = () => {

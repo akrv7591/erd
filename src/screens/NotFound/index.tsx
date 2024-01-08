@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import {Button, Container, Image, SimpleGrid, Text, Title} from "@mantine/core";
 import classes from './styles.module.css'
-import image from '../../assets/svgs/not-found.svg'
+import image from '@/assets/svgs/not-found.svg'
 
 export default function NotFount() {
   return (

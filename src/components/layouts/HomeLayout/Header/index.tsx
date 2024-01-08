@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {useDisclosure} from "@mantine/hooks";
 import "./styles.css"
 import {useAuthStore} from "@/stores/useAuthStore.ts";
-import Logo from "../../../common/Logo.tsx";
+import Logo from "@/components/common/Logo.tsx";
 import {IconBooks} from "@tabler/icons-react";
 import Account from "@/components/common/Account";
 

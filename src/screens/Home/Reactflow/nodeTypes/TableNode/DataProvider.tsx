@@ -1,5 +1,5 @@
 import React from "react";
-import {Edge, useNodeId, useReactFlow} from "reactflow";
+import {Edge, useNodeId, useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import isEqual from "lodash/isEqual";

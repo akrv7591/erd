@@ -1,7 +1,7 @@
 import {ActionIcon, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {useNodeId, useReactFlow} from "reactflow";
+import {useNodeId, useReactFlow} from "@xyflow/react";
 import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";
 
 

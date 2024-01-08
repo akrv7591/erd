@@ -1,9 +1,9 @@
 import {Group, Modal, Select, Stack, Switch, Text, Textarea, TextInput, Tooltip} from "@mantine/core";
 import {ModalBaseProps} from "@/components/common/ModalBase";
-import ModalForm from "../../../components/common/ModalForm";
+import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "react-query";
-import erdApi from "../../../api/erdApi.tsx";
+import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IErd} from "@/types/data/db-model-interfaces";
 import {createId} from "@paralleldrive/cuid2";

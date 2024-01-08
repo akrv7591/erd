@@ -1,5 +1,5 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {applyNodeChanges, NodeChange} from "reactflow";
+import {applyNodeChanges, NodeChange} from "@xyflow/react";
 import {ITableNode} from "@/types/table-node";
 
 export const tableService = () => {

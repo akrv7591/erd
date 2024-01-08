@@ -1,5 +1,5 @@
 import {Box, Card, Collapse} from "@mantine/core";
-import {NodeProps} from "reactflow";
+import {NodeProps} from "@xyflow/react";
 import styles from "./style.module.css"
 import React from "react";
 import ContentControls from "./ContentControls";

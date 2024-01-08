@@ -3,7 +3,7 @@ import {Navigate, Outlet, useParams,} from "react-router-dom";
 import Header from "@/components/layouts/PlaygroundLayout/Header";
 import Navbar from "@/components/layouts/PlaygroundLayout/Navbar";
 import Footer from "@/components/layouts/PlaygroundLayout/Footer";
-import {ReactFlowProvider} from "reactflow";
+import {ReactFlowProvider} from "@xyflow/react";
 import Aside from "@/components/layouts/PlaygroundLayout/Aside";
 import PlaygroundProvider from "@/providers/PlaygroundProvider.tsx";
 

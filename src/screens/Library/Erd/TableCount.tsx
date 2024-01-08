@@ -1,5 +1,5 @@
 import {useQuery} from "react-query";
-import erdApi from "../../../api/erdApi.tsx";
+import erdApi from "@/api/erdApi.tsx";
 import {Group, Loader, Text, Tooltip} from "@mantine/core";
 import {IconExclamationCircle} from "@tabler/icons-react";
 

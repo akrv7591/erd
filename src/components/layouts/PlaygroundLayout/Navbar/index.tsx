@@ -61,8 +61,8 @@ export default function Navbar() {
   return (
     <Stack w={"100%"}>
       <SegmentedControl
-        variant={"light"}
-        color={"var(--mantine-color-blue-light)"}
+        // variant={"default"}
+        // color={"var(--mantine-color-blue-light)"}
         data={data}
         value={tool}
         onChange={(v) => {
@@ -71,9 +71,17 @@ export default function Navbar() {
         orientation={'vertical'}
         fullWidth/>
       <Tooltip label={"Drag and drop to add a table"}>
-        <ActionIcon variant={"default"} w={"40px"} h={"40px"} mx={"auto"} mt={"5px"} draggable
-                    onDragStart={onDragStart}>
-          <IconTablePlus/>
+        <ActionIcon
+          variant={"default"}
+          w={"40px"}
+          h={"40px"}
+          mx={"auto"}
+          mt={"5px"}
+          draggable
+          onDragStart={onDragStart}
+          style={{border: "none"}}
+        >
+          <IconTablePlus size={20}/>
         </ActionIcon>
       </Tooltip>
     </Stack>

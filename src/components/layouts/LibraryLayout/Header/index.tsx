@@ -1,6 +1,6 @@
 import {Group} from "@mantine/core";
-import Account from "../../../common/Account";
-import Logo from "../../../common/Logo.tsx";
+import Account from "@/components/common/Account";
+import Logo from "@/components/common/Logo.tsx";
 import {Link} from "react-router-dom";
 
 export default function Header() {

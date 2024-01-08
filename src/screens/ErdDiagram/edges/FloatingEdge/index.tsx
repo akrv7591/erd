@@ -1,7 +1,6 @@
-import {useCallback} from 'react';
-import {EdgeProps, getSmoothStepPath, useStore} from 'reactflow';
+import {EdgeProps, getSmoothStepPath, useReactFlow} from '@xyflow/react';
 import {getEdgeParams} from '../../utils';
-import {RELATION_TYPE, RELATIONS} from "../../../../constants/relations";
+import {RELATION_TYPE, RELATIONS} from "@/constants/relations";
 import classes from "./style.module.css"
 
 const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
@@ -25,8 +24,9 @@ const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
 
 
 function FloatingEdge({id, source, target, markerEnd, style}: EdgeProps) {
-  const sourceNode = useStore(useCallback((store) => store.nodeInternals.get(source), [source]));
-  const targetNode = useStore(useCallback((store) => store.nodeInternals.get(target), [target]));
+  const reactflow = useReactFlow()
+  const sourceNode = reactflow.getNode(source)
+  const targetNode = reactflow.getNode(target)
 
   if (!sourceNode || !targetNode) {
     return null;

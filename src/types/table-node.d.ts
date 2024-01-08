@@ -1,4 +1,4 @@
-import {Node} from "reactflow";
+import type {Node} from "@xyflow/react";
 import {IColumn, ITable, IUser} from "@/types/data/db-model-interfaces";
 
 export type ITools = 'grab' | 'add-table' | 'select-all' | 'one-to-one' | 'one-to-many' | 'many-to-many'

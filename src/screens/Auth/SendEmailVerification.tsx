@@ -1,6 +1,6 @@
 import {Container, Text} from "@mantine/core";
 import {useMutation} from "react-query";
-import erdApi from "../../api/erdApi";
+import erdApi from "@/api/erdApi";
 import {useLocation} from "react-router-dom";
 
 export default function SendEmailVerification() {

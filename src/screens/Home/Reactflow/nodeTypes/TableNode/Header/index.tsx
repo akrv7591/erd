@@ -1,4 +1,4 @@
-import {useNodeId, useReactFlow} from "reactflow";
+import {useNodeId, useReactFlow} from "@xyflow/react";
 import {ColorPicker, ColorSwatch, Group, Input, Menu} from "@mantine/core";
 import {IconColorPicker, IconTable} from "@tabler/icons-react";
 import {useErdTableData} from "@/screens/Home/Reactflow/ErdTableDataContext.ts";

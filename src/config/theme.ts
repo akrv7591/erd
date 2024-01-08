@@ -1,5 +1,5 @@
 import {ActionIcon, Button, createTheme, Input, MantineColorsTuple, Tooltip} from "@mantine/core";
-import {generateColors} from "../utility/ColorGenerator.ts";
+import {generateColors} from "@/utility/ColorGenerator.ts";
 
 const customDark: MantineColorsTuple = [
   "#C1C2C5",

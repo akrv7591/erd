@@ -14,15 +14,15 @@ import {
   Tooltip,
 } from '@mantine/core';
 import {GoogleButton} from './GoogleButton';
-import {PROJECT} from "../../constants/project";
-import erdApi from "../../api/erdApi";
+import {PROJECT} from "@/constants/project";
+import erdApi from "@/api/erdApi";
 import {useMutation} from "react-query";
 import {NotificationData, notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
 import {NavigateFunction, useNavigate} from "react-router-dom";
 import {AxiosResponse} from "axios";
 import {Helmet} from "react-helmet-async";
-import StorageUtils from "../../utility/StorageUtils.ts";
+import StorageUtils from "@/utility/StorageUtils.ts";
 
 interface DataProps {
   name: string,
@@ -136,8 +136,13 @@ export default function SignIn(props: PaperProps) {
         </Stack>
 
         <Group justify="space-between" mt="xl">
-          <Anchor onClick={() => navigate("..", {relative: "path"})} component="button" type="button" c="dimmed"
-                  size="xs">
+          <Anchor
+            onClick={() => navigate("..", {relative: "path"})}
+            component="button"
+            type="button"
+            c="dimmed"
+            size="xs"
+          >
             Already have an account? Login
           </Anchor>
           <Button type={"submit"} radius="xl" disabled={mutation.isLoading} loading={mutation.isLoading}>

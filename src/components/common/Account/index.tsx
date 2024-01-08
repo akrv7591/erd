@@ -8,7 +8,7 @@ import {
   IconSettings,
   IconUser
 } from "@tabler/icons-react";
-import {useAuthStore} from "../../../stores/useAuthStore";
+import {useAuthStore} from "@/stores/useAuthStore";
 import {useNavigate} from "react-router-dom";
 import {notifications} from "@mantine/notifications";
 

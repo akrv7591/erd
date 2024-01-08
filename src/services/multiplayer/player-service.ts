@@ -1,5 +1,5 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {Viewport} from "reactflow";
+import {Viewport} from "@xyflow/react";
 import {IPlayer} from "@/types/table-node";
 
 export const playerService = () => {

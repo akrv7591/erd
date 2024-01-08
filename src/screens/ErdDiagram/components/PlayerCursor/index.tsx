@@ -2,7 +2,7 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {IconPointer} from "@tabler/icons-react";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Box, Text} from "@mantine/core";
-import {useReactFlow} from "reactflow";
+import {useReactFlow} from "@xyflow/react";
 
 export default function PlayerCursor() {
   const players = usePlaygroundStore(state => state.players)
@@ -13,14 +13,14 @@ export default function PlayerCursor() {
     const position = reactflow.flowToScreenPosition(player.cursorPosition)
 
     return (
-      <Box style={{
+      <Box key={player.id} style={{
         position: "fixed",
         top: position.y,
         left: position.x,
         zIndex: 1000
       }}
       >
-        <IconPointer key={player.id}/>
+        <IconPointer />
         <Text ml={30} style={{
           borderRadius: "5px",
           padding: "5px 10px",

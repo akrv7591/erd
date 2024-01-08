@@ -6,8 +6,8 @@ import {ReactSortable} from "react-sortablejs";
 import styles from "./style.module.css"
 import "./style.module.css"
 import RenderList from "./RenderList.tsx";
-import ButtonWithConfirm from "../../../../../components/common/ButtonWithConfirm";
-import {useNodeId} from "reactflow";
+import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {useNodeId} from "@xyflow/react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
@@ -33,8 +33,6 @@ const Content = React.memo(() => {
       ...column,
       order: order
     }))
-
-    // orderedColumns = orderBy(orderedColumns, 'order', 'asc')
 
     usePlaygroundStore.setState(cur => ({
       tables: cur.tables.map(table => {

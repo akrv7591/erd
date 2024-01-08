@@ -19,7 +19,7 @@ import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {Table as ETable} from "@/enums/playground.ts";
-import {useReactFlow} from "reactflow";
+import {useReactFlow} from "@xyflow/react";
 import {ITableNode} from "@/types/table-node";
 
 export default function TableList() {

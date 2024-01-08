@@ -1,7 +1,7 @@
 import {Box} from "@mantine/core";
 import classes from "./style.module.css";
 import {Helmet} from "react-helmet-async";
-import ReactFlow, {applyNodeChanges, Background, BackgroundVariant, Node} from "reactflow";
+import { ReactFlow, applyNodeChanges, Background, BackgroundVariant, Node} from "@xyflow/react";
 import data from "./data.json";
 import {nodeTypes} from "./Reactflow/nodeTypes";
 import {defaultEdgeOptions, edgeTypes} from "./Reactflow/edgesTypes";

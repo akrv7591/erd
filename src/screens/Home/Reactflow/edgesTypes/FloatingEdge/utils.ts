@@ -1,4 +1,6 @@
-import {Node, Position} from 'reactflow';
+import {Position} from '@xyflow/react';
+import type {Node} from '@xyflow/react';
+
 
 // this helper function returns the intersection point
 // of the line between the center of the intersectionNode and the target node
@@ -7,9 +9,9 @@ function getNodeIntersection(intersectionNode: Node, targetNode: Node) {
   const {
     width: intersectionNodeWidth,
     height: intersectionNodeHeight,
-    positionAbsolute: intersectionNodePosition,
   } = intersectionNode;
-  const targetPosition = targetNode.positionAbsolute!;
+  const intersectionNodePosition = intersectionNode.computed?.positionAbsolute!
+  const targetPosition = targetNode.computed?.positionAbsolute!;
 
   const w = intersectionNodeWidth! / 2;
   const h = intersectionNodeHeight! / 2;
@@ -32,7 +34,7 @@ function getNodeIntersection(intersectionNode: Node, targetNode: Node) {
 
 // returns the position (top,right,bottom or right) passed node compared to the intersection point
 function getEdgePosition(node: Node, intersectionPoint: any) {
-  const n = {...node.positionAbsolute, ...node};
+  const n = {...node.computed?.positionAbsolute, ...node};
   const nx = Math.round(n.x!);
   const ny = Math.round(n.y!);
   const px = Math.round(intersectionPoint.x);

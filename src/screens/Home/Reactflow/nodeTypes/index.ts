@@ -1,4 +1,4 @@
-import {NodeTypes} from "reactflow";
+import {NodeTypes} from "@xyflow/react";
 import TableNode from "./TableNode";
 import HeroNode from "@/screens/Home/Reactflow/nodeTypes/HeroNode";
 

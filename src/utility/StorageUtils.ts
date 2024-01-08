@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import {decodeJwt} from "jose";
-import {refreshToken} from "../api/erdApi.tsx";
+import {refreshToken} from "@/api/erdApi.tsx";
 
 export default class StorageUtils {
   static setAuthorization(authorization: string) {

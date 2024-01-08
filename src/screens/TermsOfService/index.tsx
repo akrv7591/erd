@@ -1,6 +1,6 @@
 import {Helmet} from "react-helmet-async";
 import {AppShell, Container, Title} from "@mantine/core";
-import Header from "../../components/layouts/HomeLayout/Header";
+import Header from "@/components/layouts/HomeLayout/Header";
 
 export default function TermsOfService() {
   return (

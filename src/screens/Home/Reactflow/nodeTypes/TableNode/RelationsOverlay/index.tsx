@@ -1,4 +1,4 @@
-import {Handle, Position, useNodeId, useReactFlow, useStore} from "reactflow";
+import {Handle, Position, useConnection, useNodeId, useReactFlow} from "@xyflow/react";
 import styles from "../style.module.css";
 import React from "react";
 import {Center, Overlay, Text, Title} from "@mantine/core";
@@ -14,7 +14,11 @@ const RelationsOverlay = () => {
   const [tool] = usePlaygroundStore(state => [state.tool])
   const {columns} = useErdTableData()
   const reactFlow = useReactFlow()
-  const connectionNodeId = useStore(state => state.connectionNodeId);
+  const connection = useConnection()
+
+  // const connectionNodeId = useStore(state => state.connectionNodeId);
+  const connectionNodeId = connection.endHandle?.nodeId
+
   const isTherePrimaryKey = React.useMemo(() => columns.some(column => column.primary), [columns])
   const id = useNodeId()
   const isTarget = connectionNodeId && connectionNodeId !== id;

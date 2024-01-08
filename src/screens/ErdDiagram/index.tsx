@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
-import ReactFlow, {
+import {
+  ReactFlow,
   Background,
   BackgroundVariant,
   ConnectionLineType,
@@ -8,8 +9,8 @@ import ReactFlow, {
   SelectionMode,
   useOnViewportChange,
   useReactFlow,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 import "./style.css"
 import {defaultEdgeOptions, edgeTypes} from "./edges";
 import {nodeTypes} from "./nodes";
@@ -31,7 +32,6 @@ export default function Playground() {
   const playground = usePlaygroundStore(state => state.playground)
   const subscribers = usePlaygroundStore(state => state.subscribers)
   const viewport = usePlaygroundStore(state => state.viewport)
-
   const reactFlowInstance = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
@@ -83,7 +83,10 @@ export default function Playground() {
         onNodesChange={setNodeChanges}
         onEdgesChange={setEdgeChanges}
         onNodeDoubleClick={(_, node) => reactFlowInstance.fitView({nodes: [node], duration: 500})}
-        onConnect={(connection) => setConnection(connection)}
+        onConnect={(connection) => {
+          console.log(connection)
+          setConnection(connection)
+        }}
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}

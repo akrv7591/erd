@@ -1,8 +1,8 @@
 import {Button, ButtonProps} from '@mantine/core';
 import React from "react";
 import {useGoogleLogin} from "@react-oauth/google";
-import {useAuthStore} from "../../stores/useAuthStore.ts";
-import {SocialLogin} from "../../constants/auth.ts";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {SocialLogin} from "@/constants/auth.ts";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (

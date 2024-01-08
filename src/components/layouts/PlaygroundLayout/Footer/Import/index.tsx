@@ -1,7 +1,7 @@
 import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Textarea, Title} from "@mantine/core";
 import {IconDatabaseImport} from "@tabler/icons-react";
 import React from "react";
-import {MysqlParser, Table} from "../../../../../utility/MySqlParser";
+import {MysqlParser, Table} from "@/utility/MySqlParser";
 import {useDisclosure} from "@mantine/hooks";
 
 const selectValue: SelectProps['data'] = [{

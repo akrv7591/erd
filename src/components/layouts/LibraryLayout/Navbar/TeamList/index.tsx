@@ -1,9 +1,9 @@
-import erdApi from "../../../../../api/erdApi.tsx";
+import erdApi from "@/api/erdApi.tsx";
 import {useQuery} from "react-query";
 import {Button, Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import Team from "./Team.tsx";
-import SearchInput from "../../../../common/SearchInput.tsx";
+import SearchInput from "@/components/common/SearchInput.tsx";
 import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IApiList} from "@/types/data/util";

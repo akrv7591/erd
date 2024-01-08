@@ -1,19 +1,14 @@
-import {useNodeId, useNodes} from "reactflow";
-import {ITableNodeData} from "@/types/table-node";
+import {useNodeId, useNodesData} from "@xyflow/react";
+import {ITableNode} from "@/types/table-node";
 
 export const useNodeData = () => {
   const nodeId = useNodeId()
-  const nodes = useNodes()
 
-  if (!nodeId) {
+  const dataList = useNodesData<ITableNode>([nodeId!])
+
+  if (dataList.length === 0) {
     throw new Error("useNodeData hook should be used under ReactflowProvider")
   }
 
-  const node = nodes.find(node => node.id === nodeId)
-
-  if (!node) {
-    throw new Error(`Node not found with id: ${nodeId}`)
-  }
-
-  return node.data as ITableNodeData
+  return dataList[0]
 }

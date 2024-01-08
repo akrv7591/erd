@@ -13,15 +13,15 @@ import {
   Tooltip,
 } from '@mantine/core';
 import {GoogleButton} from './GoogleButton';
-import {PROJECT} from "../../constants/project";
-import erdApi from "../../api/erdApi";
+import {PROJECT} from "@/constants/project";
+import erdApi from "@/api/erdApi";
 import {useMutation} from "react-query";
 import {notifications} from "@mantine/notifications";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useAuthStore} from "../../stores/useAuthStore";
+import {useAuthStore} from "@/stores/useAuthStore";
 import {Helmet} from 'react-helmet-async';
-import {useOnMount} from "../../hooks/useOnMount.ts";
-import StorageUtils from "../../utility/StorageUtils.ts";
+import {useOnMount} from "@/hooks/useOnMount.ts";
+import StorageUtils from "@/utility/StorageUtils.ts";
 
 interface DataProps {
   email: string,

@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./style.module.css"
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
-import {useNodeId} from "reactflow";
+import {useNodeId} from "@xyflow/react";
 import {ITableNodeColumn} from "@/types/table-node";
 
 
