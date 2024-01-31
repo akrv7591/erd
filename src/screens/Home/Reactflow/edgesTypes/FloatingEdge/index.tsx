@@ -26,18 +26,13 @@ const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
 function FloatingEdge({id, source, target, markerEnd, style}: EdgeProps) {
   const reactflow = useReactFlow()
   const sourceNode = reactflow.getNode(source)
-
   const targetNode = reactflow.getNode(target)
-
-  // const sourceNode = useStore(useCallback((store) => store.nodeInternals.get(source), [source]));
-  // const targetNode = useStore(useCallback((store) => store.nodeInternals.get(target), [target]));
 
   if (!sourceNode || !targetNode) {
     return null;
   }
 
   const {sx, sy, tx, ty, sourcePos, targetPos} = getEdgeParams(sourceNode, targetNode);
-
 
   const [edgePath] = getSmoothStepPath({
     sourceX: sx,

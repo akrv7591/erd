@@ -8,7 +8,7 @@ export const playerService = () => {
     usePlaygroundStore.setState(cur => cur.players.some(({id}) => id === player.id)? {}: {players: [...cur.players, player]})
   }
   function onLeave(playerId: string) {
-    usePlaygroundStore.setState(cur => ({players: cur.players.filter(({id}) => id !== playerId)}))
+    usePlaygroundStore.setState(cur => ({players: cur.players.filter(({id}) => id !== playerId), ...cur.subscribedTo && {subscribedTo: cur.subscribedTo.id === playerId? null: cur.subscribedTo}}))
   }
   function onSubscribe(subscriber: IPlayer) {
     usePlaygroundStore.setState(cur => cur.subscribers.some(s => s.id === subscriber.id)? {}: {subscribers: [...cur.subscribers, subscriber]})

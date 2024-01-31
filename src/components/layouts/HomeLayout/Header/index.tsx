@@ -10,15 +10,7 @@ import Account from "@/components/common/Account";
 export default function Header() {
   const [opened, {toggle}] = useDisclosure();
   const authorizedUser = useAuthStore(state => state.getAuthorization())
-  const onPress = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    const target = window.document.getElementById(
-      e.currentTarget.href.split("#")[1]
-    );
-    if (target) {
-      target.scrollIntoView({behavior: "smooth"});
-    }
-  };
+
   return (
     <Group h="100%" px="20" justify={"space-between"} align={"center"}>
       <Group>
@@ -26,14 +18,6 @@ export default function Header() {
         <Link to={"/"}>
           <Logo/>
         </Link>
-      </Group>
-      <Group>
-        <a onClick={onPress} className={"link"} href={"#first_look"} data-to-scrollspy-id="first_look">
-          First look
-        </a>
-        <a onClick={onPress} className={"link"} href={"#features"} data-to-scrollspy-id="features">
-          Features
-        </a>
       </Group>
       <Group gap={5}>
         <Link to={"library"}>

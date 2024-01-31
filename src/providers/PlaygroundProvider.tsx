@@ -6,6 +6,7 @@ import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {useParams} from "react-router-dom";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
+import {useOnMount} from "@/hooks/useOnMount.ts";
 
 
 export default function PlaygroundProvider(props: PropsWithChildren) {
@@ -14,7 +15,7 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
   const player = useAuthStore(state => state.getAuthorization())
   const playgroundId = useParams<{ erdId: string }>().erdId!
 
-  React.useEffect(() => {
+  useOnMount(() => {
     const socket = connect(import.meta.env.VITE_BASE_URL, {
       auth: {playerId: player?.id, playgroundId},
       withCredentials: true,
@@ -24,7 +25,7 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
     socket.on("connect", () => {
       new PlaygroundService(socket)
     })
-  }, [])
+  })
 
   React.useEffect(() => {
     if (!playground) {

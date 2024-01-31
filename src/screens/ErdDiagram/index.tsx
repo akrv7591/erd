@@ -7,7 +7,6 @@ import {
   Controls,
   MiniMap,
   SelectionMode,
-  useOnViewportChange,
   useReactFlow,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
@@ -34,19 +33,14 @@ export default function Playground() {
   const viewport = usePlaygroundStore(state => state.viewport)
   const reactFlowInstance = useReactFlow()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
-
-  useOnViewportChange({
-    onChange: (viewport) => {
-      if (subscribers.length > 0) {
-        playground.player(Player.viewpointChange, viewport)
-      }
-    }
-  })
-
   const onDragOver: React.DragEventHandler = React.useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
+
+  reactFlowInstance.deleteElements({
+    nodes: []
+  })
 
 
   React.useEffect(() => {
@@ -83,10 +77,7 @@ export default function Playground() {
         onNodesChange={setNodeChanges}
         onEdgesChange={setEdgeChanges}
         onNodeDoubleClick={(_, node) => reactFlowInstance.fitView({nodes: [node], duration: 500})}
-        onConnect={(connection) => {
-          console.log(connection)
-          setConnection(connection)
-        }}
+        onConnect={setConnection}
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
@@ -102,6 +93,11 @@ export default function Playground() {
             x: e.clientX,
             y: e.clientY
           }))
+        }}
+        onViewportChange={(viewport) => {
+          if (subscribers.length > 0) {
+            playground.player(Player.viewpointChange, viewport)
+          }
         }}
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}

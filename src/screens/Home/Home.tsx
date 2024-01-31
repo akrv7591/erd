@@ -1,14 +1,13 @@
 import {Box} from "@mantine/core";
 import classes from "./style.module.css";
 import {Helmet} from "react-helmet-async";
-import { ReactFlow, applyNodeChanges, Background, BackgroundVariant, Node} from "@xyflow/react";
+import {applyNodeChanges, Background, BackgroundVariant, Node, ReactFlow} from "@xyflow/react";
 import data from "./data.json";
 import {nodeTypes} from "./Reactflow/nodeTypes";
 import {defaultEdgeOptions, edgeTypes} from "./Reactflow/edgesTypes";
 import Icons from "@/screens/Home/Reactflow/Icons";
 import React from "react";
 import ScrollSpy from "react-ui-scrollspy";
-import Features from "@/screens/Home/Features";
 
 export default function Home() {
   const [nodes, setNodes] = React.useState<Node[]>(data.nodes)
@@ -37,9 +36,6 @@ export default function Home() {
           <Icons/>
           <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
         </ReactFlow>
-      </Box>
-      <Box id={"features"}>
-        <Features/>
       </Box>
     </ScrollSpy>
 
