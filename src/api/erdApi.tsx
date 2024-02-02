@@ -1,13 +1,25 @@
-import axios from "axios";
+import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {AUTH} from "@/enums/auth.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import StorageUtils from "@/utility/StorageUtils.ts";
-import httpStatus from "http-status";
 
 const baseURL = import.meta.env.VITE_BASE_URL
+const REFRESH_URL = "/v1/auth/refresh"
 
 if (!baseURL) {
   throw new Error("BASE_URL in environment is required")
+}
+
+let isRefreshing = false
+const waitList: { resolve: Function, reject: Function, config: InternalAxiosRequestConfig | Promise<AxiosResponse> }[] = []
+
+const onRefreshSettled = (success: boolean) => {
+  waitList.forEach((request) => {
+    success ? request.resolve(request.config) : request.reject(request.config)
+    waitList.pop()
+  })
+  isRefreshing = false
+
 }
 
 const erdApi = axios.create({
@@ -16,16 +28,30 @@ const erdApi = axios.create({
 })
 
 
+const handleRefresh = (config: InternalAxiosRequestConfig | Promise<AxiosResponse>) => (resolve: Function, reject: Function) => {
+  waitList.push({resolve, reject, config})
+}
+
+
 export const refreshToken = async () => {
-  await erdApi.post<{ accessToken: string }>("/v1/auth/refresh")
-    .then(res => {
-      console.log(res.data)
-      StorageUtils.setAuthorization(res.data.accessToken)
-      useAuthStore.getState().init()
-    })
+  try {
+    const res = await erdApi.post<{ accessToken: string }>(REFRESH_URL)
+    StorageUtils.setAuthorization(res.data.accessToken)
+    useAuthStore.getState().init()
+    onRefreshSettled(true)
+  } catch (e) {
+    onRefreshSettled(false)
+  }
 }
 
 erdApi.interceptors.request.use(async function (config) {
+  if (isRefreshing) {
+    return await new Promise(handleRefresh(config))
+  }
+
+  if (config.url === REFRESH_URL) {
+    isRefreshing = true
+  }
   const authorization = StorageUtils.getAuthorization()
 
   if (authorization) {
@@ -40,6 +66,7 @@ const logout = (err: Error) => {
   return Promise.reject(err)
 }
 
+
 erdApi.interceptors.response.use(
   (response) => {
     console.log(response.config.url, response.data)
@@ -48,20 +75,12 @@ erdApi.interceptors.response.use(
   async (err) => {
     const {response} = err
 
-    switch (response.status) {
-      case httpStatus.BAD_REQUEST:
-        return Promise.reject(err)
-      case httpStatus.INTERNAL_SERVER_ERROR:
-        return Promise.reject(err)
-    }
-
-
     switch (response.data.code) {
       case AUTH.ACCESS_TOKEN_EXPIRED:
-        console.log("trying to refresh token")
-
+        if (isRefreshing) {
+          return new Promise(handleRefresh(erdApi.request(response.config)))
+        }
         await refreshToken()
-        console.log("REFRESH FINISHED")
         return erdApi.request(response.config)
 
       case AUTH.INVALID_ACCESS_TOKEN:
