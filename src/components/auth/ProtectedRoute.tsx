@@ -1,8 +1,7 @@
-import React from "react";
 import {useAuthStore} from "@/stores/useAuthStore";
-import {Navigate, useLocation, useParams} from "react-router-dom";
+import {Navigate, Outlet, useLocation, useParams} from "react-router-dom";
 
-export default function ProtectedRoute(props: React.PropsWithChildren) {
+export default function ProtectedRoute() {
   const authorization = useAuthStore(state => state.getAuthorization())
   const location = useLocation()
   const params = useParams()
@@ -24,9 +23,5 @@ export default function ProtectedRoute(props: React.PropsWithChildren) {
     return <Navigate to={"/auth"} state={state}/>
   }
 
-  return (
-    <>
-      {props.children}
-    </>
-  )
+  return <Outlet/>
 }

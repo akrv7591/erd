@@ -1,5 +1,6 @@
 import {useForm} from '@mantine/form';
 import {
+  ActionIcon,
   Anchor,
   Button,
   Checkbox,
@@ -23,6 +24,7 @@ import {NavigateFunction, useNavigate} from "react-router-dom";
 import {AxiosResponse} from "axios";
 import {Helmet} from "react-helmet-async";
 import StorageUtils from "@/utility/StorageUtils.ts";
+import {IconInfoSmall} from "@tabler/icons-react";
 
 interface DataProps {
   name: string,
@@ -88,9 +90,9 @@ export default function SignIn(props: PaperProps) {
         Welcome to {PROJECT.NAME}, sign-up with
       </Text>
 
-      <Tooltip label={"Feature not implemented yet"}>
+      <Tooltip label={"Sign up with google account"}>
         <Group grow mb="md" mt="md">
-          <GoogleButton data-disabled radius="xl">Google</GoogleButton>
+          <GoogleButton radius="xl">Google</GoogleButton>
         </Group>
       </Tooltip>
 
@@ -128,11 +130,16 @@ export default function SignIn(props: PaperProps) {
             radius="md"
           />
 
-          <Checkbox
-            label="I accept terms and conditions"
-            checked={form.values.terms}
-            onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
-          />
+          <Group>
+            <Checkbox
+              label="I accept terms and conditions"
+              checked={form.values.terms}
+              onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
+            />
+            <ActionIcon component={"a"} href={"/terms"} target={"_blank"} radius={"xl"} variant={"default"} size={"sm"}>
+              <IconInfoSmall/>
+            </ActionIcon>
+          </Group>
         </Stack>
 
         <Group justify="space-between" mt="xl">

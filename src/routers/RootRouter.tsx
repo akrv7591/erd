@@ -1,122 +1,52 @@
-import {createBrowserRouter, Outlet, RouteObject} from "react-router-dom";
-import Erd from "@/screens/ErdDiagram";
-import HomeLayout from "@/components/layouts/HomeLayout";
-import LibraryLayout from "@/components/layouts/LibraryLayout";
-import ErdLayout from "@/components/layouts/ErdLayout";
+import {createBrowserRouter, createRoutesFromElements, Outlet, Route} from "react-router-dom";
 import SignIn from "@/screens/Auth/SignIn";
 import SignUp from "@/screens/Auth/SignUp";
 import AuthLayout from "@/components/layouts/AuthLayout";
-import SendEmailVerification from "@/screens/Auth/SendEmailVerification";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import Home from "@/screens/Home/Home";
+import Home from "@/screens/Home/Home.tsx";
 import NotFound from "@/screens/NotFound";
-import Library from "@/screens/Library";
-import PlaygroundLayout from "@/components/layouts/PlaygroundLayout";
-import VerifyEmail from "@/screens/VerifyEmail";
-import PasswordOTP from "@/screens/PasswordOTP.tsx";
-import PrivacyPolicy from "@/screens/PrivacyPolicy";
-import TermsOfService from "@/screens/TermsOfService";
+import Library from "@/screens/Library/Library.tsx";
+import VerifyEmail from "@/screens/VerifyEmail/VerifyEmail.tsx";
+import PrivacyPolicy from "@/screens/PrivacyPolicy/PrivacyPolicy.tsx";
+import TermsOfService from "@/screens/TermsOfService/TermsOfService.tsx";
 import JoinTeam from "@/screens/JoinTeam";
+import Playground from "@/screens/Playground/Playground.tsx";
 
-const NotFoundRoute: RouteObject = {
-  path: "*",
-  element: <NotFound/>
-}
 
 export const router = createBrowserRouter(
-  [
-    {
-      path: "",
-      element: <HomeLayout/>,
-      children: [
-        {
-          index: true,
-          element: <Home/>
-        },
-        NotFoundRoute
-      ]
-    },
-    {
-      path: "auth",
-      element: <AuthLayout/>,
-      children: [
-        {
-          index: true,
-          element: <SignIn/>
-        }, {
-          path: "sign-up",
-          element: <Outlet/>,
-          children: [
-            {
-              index: true,
-              element: <SignUp/>
-            }, {
-              path: "send-email-verification",
-              element: <SendEmailVerification/>
-            }
-          ]
-        },
+  createRoutesFromElements(
+    <Route path={""} element={<Outlet/>}>
+      {/*Home*/}
+      <Route index element={<Home/>}/>
 
-        NotFoundRoute
-      ]
-    },
-    {
-      path: "library",
-      element: (
-        <ProtectedRoute>
-          <ErdLayout/>
-        </ProtectedRoute>
-      ),
-      children:
-        [
-          {
-            path: "",
-            element: <LibraryLayout/>,
-            children: [
-              {
-                index: true,
-                element: <Library/>
-              },
-              NotFoundRoute
-            ]
-          }, {
-          path: ":erdId",
-          element: <PlaygroundLayout/>,
-          children:
-            [
-              {
-                index: true,
-                element: <Erd/>
-              },
-              NotFoundRoute
-            ]
-        },
-          NotFoundRoute
-        ]
-    },
-    {
-      path: "verify-email/:emailUuid",
-      element: <VerifyEmail/>
-    },
-    {
-      path: "password-otp",
-      element: <PasswordOTP/>
-    },
-    {
-      path: "privacy-policy",
-      element: <PrivacyPolicy/>
-    },
-    {
-      path: "terms",
-      element: <TermsOfService/>
-    },
-    {
-      path: "team/:joinTeamId/join",
-      element: (
-        <ProtectedRoute>
-          <JoinTeam/>
-        </ProtectedRoute>
-      )
-    }
-  ])
+      {/*Auth*/}
+      <Route path={"auth"} element={<AuthLayout/>}>
+        <Route index element={<SignIn/>}/>
+        <Route path={"sign-up"} element={<SignUp/>}/>
+      </Route>
+
+      {/*Library*/}
+      <Route path={"library"} element={<ProtectedRoute/>}>
+        <Route index element={<Library/>}/>
+        <Route path={":erdId"} element={<Playground/>}/>
+      </Route>
+
+      {/*Verify Email*/}
+      <Route path={"verify-email/:emailUuid"} element={<VerifyEmail/>}/>
+
+      {/*Privacy and Policy*/}
+      <Route path={"privacy-policy"} element={<PrivacyPolicy/>}/>
+
+      {/*Terms and Conditions*/}
+      <Route path={"terms"} element={<TermsOfService/>}/>
+
+      <Route path={"team/:joinTeamId/join"} element={<ProtectedRoute/>}>
+        <Route index element={<JoinTeam/>}/>
+      </Route>
+
+      {/*Not found*/}
+      <Route path={"*"} element={<NotFound/>}/>
+    </Route>
+  )
+)
 

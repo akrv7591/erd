@@ -22,9 +22,12 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*", "./dist/*", ""],
+      "@/*": ["./src/*", "./dist/*", ""]
     }
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "node_modules/cypress/types/cypress-global-vars.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

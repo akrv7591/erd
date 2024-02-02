@@ -1,4 +1,3 @@
-import Header from "@/components/layouts/LibraryLayout/Header";
 import {AppShell, Button, Center, Group, Loader, Stack, Text, Title} from "@mantine/core";
 import {Link, useParams} from "react-router-dom";
 import {QueryFunctionContext, useQuery} from "react-query";
@@ -6,6 +5,7 @@ import erdApi from "@/api/erdApi.tsx";
 import {ITeam} from "@/types/data/db-model-interfaces";
 import '@dotlottie/player-component';
 import {EMAIL_VERIFICATION_ERRORS} from "@/enums/verification-token.ts";
+import Header from "@/screens/Library/Header";
 
 
 const verifyQueryFn = (teamId: string) => erdApi.post(`/v1/verify-join-team-email/${teamId}`)
