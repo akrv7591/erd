@@ -21,18 +21,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src/"),
     }
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          // '@xyflow/react': ['@xyflow/react'],
-          // "@mantine/core": ['@mantine/core'],
-          // "axios": ["axios"],
-          // "react-ui-scrollspy": ["react-ui-scrollspy"],
-          // "react-sortablejs": ["react-sortablejs"]
-        }
-      },
-    },
-  }
-
 })
