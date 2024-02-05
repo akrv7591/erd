@@ -8,7 +8,7 @@ import Aside from "@/screens/Playground/Aside";
 import PlaygroundProvider from "@/providers/PlaygroundProvider.tsx";
 import Main from "@/screens/Playground/Main/Main.tsx";
 
-export function Component() {
+export default function Playground() {
   const {erdId} = useParams<{ erdId: string }>()
 
   if (!erdId) return <Navigate to={"/"}/>

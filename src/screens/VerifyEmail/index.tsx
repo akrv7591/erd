@@ -45,7 +45,7 @@ const onVerificationSuccess = (res: AxiosResponse, navigate: NavigateFunction, s
   })
 }
 
-export function Component() {
+export default function VerifyEmail() {
   const params = useParams<{ emailUuid: string }>()
   const [error, setError] = useState(false)
   const navigate = useNavigate()

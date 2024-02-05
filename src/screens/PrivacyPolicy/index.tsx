@@ -2,7 +2,7 @@ import {Helmet} from "react-helmet-async";
 import {AppShell, Container} from "@mantine/core";
 import Header from "@/components/common/Header/Header.tsx";
 
-export function Component() {
+export default function PrivacyPolicy() {
   return (
     <AppShell
       header={{height: 50}}>

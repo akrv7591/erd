@@ -57,7 +57,7 @@ const signupError = async (error: any) => {
 }
 
 
-export function Component(props: PaperProps) {
+export default function Signup(props: PaperProps) {
   const navigate = useNavigate()
   const mutation = useMutation({
     mutationFn: createUser,

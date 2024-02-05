@@ -3,7 +3,7 @@ import {Button, Container, Image, SimpleGrid, Text, Title} from "@mantine/core";
 import classes from './styles.module.css'
 import image from '@/assets/svgs/not-found.svg'
 
-export function Component() {
+export default function NotFound() {
   return (
     <Container className={classes.root}>
       <SimpleGrid spacing={{base: 40, sm: 80}} cols={{base: 1, sm: 2}}>

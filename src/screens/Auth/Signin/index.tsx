@@ -24,7 +24,7 @@ import StorageUtils from "@/utility/StorageUtils.ts";
 import {signingError, signingSuccess, signInUser} from "@/screens/Auth/Signin/constants.ts";
 
 
-export function Component(props: PaperProps) {
+export default function Signin (props: PaperProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const init = useAuthStore(state => state.init)

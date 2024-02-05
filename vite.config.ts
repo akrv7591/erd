@@ -25,11 +25,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          '@xyflow/react': ['@xyflow/react'],
-          "@mantine/core": ['@mantine/core'],
-          "axios": ["axios"],
-          "react-ui-scrollspy": ["react-ui-scrollspy"],
-          "react-sortablejs": ["react-sortablejs"]
+          // '@xyflow/react': ['@xyflow/react'],
+          // "@mantine/core": ['@mantine/core'],
+          // "axios": ["axios"],
+          // "react-ui-scrollspy": ["react-ui-scrollspy"],
+          // "react-sortablejs": ["react-sortablejs"]
         }
       },
     },

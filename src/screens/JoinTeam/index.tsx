@@ -100,7 +100,7 @@ const VerifyEmailAndJoinTeam = ({team}: Props) => {
 }
 
 
-export function Component() {
+export default function JoinTeam() {
   const params = useParams()
   const team = useQuery({
     queryKey: ["joinTeam", params.joinTeamId],
