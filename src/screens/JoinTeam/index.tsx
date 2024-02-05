@@ -3,7 +3,9 @@ import {Link, useParams} from "react-router-dom";
 import {QueryFunctionContext, useQuery} from "react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {ITeam} from "@/types/data/db-model-interfaces";
-import '@dotlottie/player-component';
+import {DotLottiePlayer} from '@dotlottie/react-player';
+import '@dotlottie/react-player/dist/index.css';
+
 import {EMAIL_VERIFICATION_ERRORS} from "@/enums/verification-token.ts";
 import Header from "@/screens/Library/Header";
 
@@ -56,15 +58,24 @@ const VerifyEmailAndJoinTeam = ({team}: Props) => {
     <Center>
       <Stack h={"100%"} mt={"100px"} miw={"400px"}>
         <Group justify={"center"} w={"400px"} h={"200px"}>
-          {!verifyEmail.isLoading ? <dotlottie-player
-            autoplay={true}
-            src={animationDataUrl}
-            style={{width: "200px"}}
-          /> : (
-            <Center h={"200px"} w={"200px"}>
-              <Loader size={"xl"}/>
-            </Center>
-          )}
+          {!verifyEmail.isLoading ?
+            //
+            //   <dotlottie-player
+            //   autoplay={true}
+            //   src={animationDataUrl}
+            //   style={{width: "200px"}}
+            // />
+
+            <DotLottiePlayer
+              autoplay={true}
+              src={animationDataUrl}
+              style={{width: "200px"}}
+            />
+            : (
+              <Center h={"200px"} w={"200px"}>
+                <Loader size={"xl"}/>
+              </Center>
+            )}
         </Group>
         <Group>
           <Title order={3}>{value} {team.name}</Title>
@@ -89,7 +100,7 @@ const VerifyEmailAndJoinTeam = ({team}: Props) => {
 }
 
 
-export default function JoinTeam() {
+export function Component() {
   const params = useParams()
   const team = useQuery({
     queryKey: ["joinTeam", params.joinTeamId],

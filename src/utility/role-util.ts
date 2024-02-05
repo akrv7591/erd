@@ -5,7 +5,7 @@ export const roleData = [{
   label: "Spectator"
 }, {
   value: ROLE.WRITE,
-  label: "Editor"
+  label: "Contributor"
 }, {
   value: ROLE.ADMIN,
   label: "Admin"

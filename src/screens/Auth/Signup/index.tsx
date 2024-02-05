@@ -14,9 +14,9 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import {GoogleButton} from './GoogleButton';
-import {PROJECT} from "@/constants/project";
-import erdApi from "@/api/erdApi";
+import {GoogleButton} from '../GoogleButton.tsx';
+import {PROJECT} from "@/constants/project.ts";
+import erdApi from "@/api/erdApi.tsx";
 import {useMutation} from "react-query";
 import {NotificationData, notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
@@ -57,7 +57,7 @@ const signupError = async (error: any) => {
 }
 
 
-export default function SignIn(props: PaperProps) {
+export function Component(props: PaperProps) {
   const navigate = useNavigate()
   const mutation = useMutation({
     mutationFn: createUser,

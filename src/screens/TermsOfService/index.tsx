@@ -2,7 +2,7 @@ import {Helmet} from "react-helmet-async";
 import {AppShell, Container, Title} from "@mantine/core";
 import Header from "@/components/common/Header/Header.tsx";
 
-export default function TermsOfService() {
+export function Component() {
   return (
       <AppShell
         header={{height: 50}}>

@@ -12,13 +12,13 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import {GoogleButton} from './GoogleButton';
-import {PROJECT} from "@/constants/project";
-import erdApi from "@/api/erdApi";
+import {GoogleButton} from '../GoogleButton.tsx';
+import {PROJECT} from "@/constants/project.ts";
+import erdApi from "@/api/erdApi.tsx";
 import {useMutation} from "react-query";
 import {notifications} from "@mantine/notifications";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useAuthStore} from "@/stores/useAuthStore";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Helmet} from 'react-helmet-async';
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import StorageUtils from "@/utility/StorageUtils.ts";
@@ -45,7 +45,7 @@ export const signingError = () => {
   })
 }
 
-export default function SignIn(props: PaperProps) {
+export function Component(props: PaperProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const init = useAuthStore(state => state.init)

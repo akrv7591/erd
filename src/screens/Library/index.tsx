@@ -4,7 +4,7 @@ import {useLibraryStore} from "@/stores/useLibrary.ts";
 import Content from "@/screens/Library/Content.tsx";
 
 
-export default function Library() {
+export function Component() {
   const team = useLibraryStore(state => state.team)
 
   return (

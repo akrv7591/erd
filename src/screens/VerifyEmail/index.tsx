@@ -12,7 +12,7 @@ import {decodeJwt} from 'jose'
 import React, {useState} from "react";
 import StorageUtils from "@/utility/StorageUtils.ts";
 
-const verifyEmail = (tokenUuid: string | undefined) => erdApi.post(`/v1/verify-email/${tokenUuid}`)
+const index = (tokenUuid: string | undefined) => erdApi.post(`/v1/verify-email/${tokenUuid}`)
 const onVerificationError = () => {
   notifications.show({
     title: "Email verification failed",
@@ -45,12 +45,12 @@ const onVerificationSuccess = (res: AxiosResponse, navigate: NavigateFunction, s
   })
 }
 
-export default function VerifyEmail() {
+export function Component() {
   const params = useParams<{ emailUuid: string }>()
   const [error, setError] = useState(false)
   const navigate = useNavigate()
   const mutation = useMutation({
-    mutationFn: verifyEmail,
+    mutationFn: index,
     onError: onVerificationError,
     onSuccess: (res) => onVerificationSuccess(res, navigate, setError)
   })
