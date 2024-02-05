@@ -2932,11 +2932,6 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
-harmony-reflect@^1.4.6:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/harmony-reflect/-/harmony-reflect-1.6.2.tgz#31ecbd32e648a34d030d86adb67d4d47547fe710"
-  integrity sha512-HIp/n38R9kQjDEziXyDTuW3vvoxxyxjxFzXLrBr18uB47GnSt+G9D29fqrpM5ZkspMcPICud3XsBJQ4Y2URg8g==
-
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -2980,13 +2975,6 @@ human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
-
-identity-obj-proxy@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/identity-obj-proxy/-/identity-obj-proxy-3.0.0.tgz#94d2bda96084453ef36fbc5aaec37e0f79f1fc14"
-  integrity sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==
-  dependencies:
-    harmony-reflect "^1.4.6"
 
 ignore@^5.2.0, ignore@^5.2.4:
   version "5.2.4"
@@ -3519,11 +3507,6 @@ jose@^5.0.2:
   resolved "https://registry.yarnpkg.com/jose/-/jose-5.0.2.tgz#130678e8bd47045bc65a38b053b051baaab3d4da"
   integrity sha512-YfXZO3UOHOGmDGEjYh4e6Pf1H+iiiShTH5y/DUcDquy90S8q8/yI0aBNUXokGczm9k+YuXvSO0k+nAmo77Eb1w==
 
-jotai-optics@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/jotai-optics/-/jotai-optics-0.3.1.tgz#7ff38470551429460cc41d9cd1320193665354e0"
-  integrity sha512-KibUx9IneM2hGWGIYGs/v0KCxU985lg7W2c6dt5RodJCB2XPbmok8rkkLmdVk9+fKsn2shkPMi+AG8XzHgB3+w==
-
 js-sha3@0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
@@ -3798,11 +3781,6 @@ onetime@^5.1.2:
   integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
   dependencies:
     mimic-fn "^2.1.0"
-
-optics-ts@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/optics-ts/-/optics-ts-2.4.1.tgz#de94bda2b0ed7fde5b7631283031b9699459d40d"
-  integrity sha512-HaYzMHvC80r7U/LqAd4hQyopDezC60PO2qF5GuIwALut2cl5rK1VWHsqTp0oqoJJWjiv6uXKqsO+Q2OO0C3MmQ==
 
 p-limit@^2.2.0:
   version "2.3.0"

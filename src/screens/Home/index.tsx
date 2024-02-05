@@ -14,5 +14,6 @@ export default function Home() {
         <Main/>
       </AppShell.Main>
     </AppShell>
+
   );
 }

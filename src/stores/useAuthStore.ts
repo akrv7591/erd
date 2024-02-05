@@ -3,9 +3,9 @@ import {decodeJwt} from "jose";
 import {router} from "@/routers/RootRouter.tsx";
 import {SocialLogin} from "@/constants/auth.ts";
 import erdApi from "@/api/erdApi.tsx";
-import {signingError, signingSuccess} from "@/screens/Auth/Signin";
 import StorageUtils from "@/utility/StorageUtils.ts";
 import {IAuthorizationUser} from "@/types/auth";
+import {signingError, signingSuccess} from "@/screens/Auth/Signin/constants.ts";
 
 
 export interface IAuthState {

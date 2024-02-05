@@ -14,7 +14,6 @@ import {
 } from '@mantine/core';
 import {GoogleButton} from '../GoogleButton.tsx';
 import {PROJECT} from "@/constants/project.ts";
-import erdApi from "@/api/erdApi.tsx";
 import {useMutation} from "react-query";
 import {notifications} from "@mantine/notifications";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -22,28 +21,8 @@ import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Helmet} from 'react-helmet-async';
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import StorageUtils from "@/utility/StorageUtils.ts";
+import {signingError, signingSuccess, signInUser} from "@/screens/Auth/Signin/constants.ts";
 
-interface DataProps {
-  email: string,
-  password: string
-}
-
-const signInUser = (data: Omit<DataProps, 'name' | 'terms'>) => erdApi.post("/v1/auth/signin", data)
-
-export const signingSuccess = () => {
-  notifications.show({
-    title: "Signed in successfully",
-    message: "Welcome",
-  })
-}
-
-export const signingError = () => {
-  notifications.show({
-    title: "Authentication failed",
-    message: "Username or password is wrong",
-    color: "red",
-  })
-}
 
 export function Component(props: PaperProps) {
   const navigate = useNavigate()
