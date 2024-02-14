@@ -6,7 +6,6 @@ import TableCount from "./TableCount.tsx";
 import {IErd} from "@/types/data/db-model-interfaces";
 import Actions from "@/screens/Library/Main/Erd/Actions.tsx";
 import {useTeamPermission} from "@/hooks/useTeamPermission.ts";
-import {IconExclamationCircle} from "@tabler/icons-react";
 import ErdModal from "@/screens/Library/Main/ErdModal";
 import {useModal} from "@/hooks/useModal.ts";
 import {getRoleDescription, roleData} from "@/utility/role-util.ts";
@@ -34,9 +33,8 @@ export default function Erd({erd}: Props) {
         </Table.Td>
         <Table.Td>
           <Group>
-            <Text> {erd.name}</Text>
             <Tooltip label={erd.description ? erd.description : "No description"}>
-              <IconExclamationCircle size={15}/>
+              <Text> {erd.name}</Text>
             </Tooltip>
           </Group>
         </Table.Td>

@@ -93,13 +93,13 @@
     cursor: pointer;
 
     &:hover {
-        background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-blue-light));
+        background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-blue-filled));
         color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
     }
 }
 
 .teamActive {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-blue-light));
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-blue-filled));
     color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 }
 
@@ -107,10 +107,15 @@
     width: auto;
     margin-left: 10px;
 
+    & button {
+        background-color: var(--mantine-color-blue-filled);
+        border-color: var(--mantine-color-blue-filled);
+    }
+
 }
 
 .teamSettingIcon {
-    width: 0;
-    overflow: hidden;
-    transition: .2s;
+    //width: 0;
+    //overflow: hidden;
+    //transition: .2s;
 }

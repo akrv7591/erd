@@ -25,7 +25,7 @@ export default function Navbar() {
             Teams
           </Text>
           <Tooltip label="Create team" withArrow position="right">
-            <ActionIcon onClick={openModal}>
+            <ActionIcon onClick={openModal} variant={"default"}>
               <IconPlus style={{width: rem(12), height: rem(12)}} stroke={1.5}/>
             </ActionIcon>
           </Tooltip>

@@ -13,7 +13,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@react-oauth/google": "^0.12.1",
     "@tabler/icons-react": "^2.34.0",
-    "@xyflow/react": "^12.0.0-next.3",
+    "@xyflow/react": "^12.0.0-next.8",
     "add": "^2.0.6",
     "axios": "^1.6.0",
     "chroma-js": "^2.4.2",

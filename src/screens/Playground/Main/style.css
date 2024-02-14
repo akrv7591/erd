@@ -2,6 +2,11 @@
     width: calc(100% );
     height: calc(100vh - 100px);
     position: relative;
+    border: 2px solid transparent;
+}
+
+.erd-container.subscribed {
+    border-color: var(--mantine-primary-color-filled);
 }
 
 .react-flow {

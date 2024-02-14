@@ -1,7 +1,7 @@
 import {ActionIcon, Card, Checkbox, Container, Group, Loader, Stack, Table, Text, Tooltip} from "@mantine/core";
 import ErdModal from "./ErdModal";
 import {useModal} from "@/hooks/useModal.ts";
-import {IconBolt, IconError404, IconPlus, IconTable} from "@tabler/icons-react";
+import {IconError404, IconPlus} from "@tabler/icons-react";
 import {Helmet} from "react-helmet-async";
 import {useQuery} from "react-query";
 import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
@@ -87,8 +87,12 @@ export default function Main() {
           <SearchInput onChange={q => setParams({q})} size={"xs"} placeholder={"Search erd"}/>
         </Group>
         <Card h={"calc(100vh - 175px)"}>
-          <Table mt={20} style={{overflow: "visible"}} highlightOnHover
-                 highlightOnHoverColor={"var(--mantine-color-dark-7)"}>
+          <Table
+            mt={20}
+            style={{overflow: "visible"}}
+            highlightOnHover
+            highlightOnHoverColor={"var(--mantine-color-dark-7)"}
+          >
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>
@@ -98,10 +102,7 @@ export default function Main() {
                   <Text>Name</Text>
                 </Table.Th>
                 <Table.Th>
-                  <Group gap={"5px"}>
-                    <IconTable stroke={1} size={20}/>
-                    <Text>Entities</Text>
-                  </Group>
+                  <Text>Entities</Text>
                 </Table.Th>
                 <Table.Th>
                   <Text>Created at</Text>
@@ -113,10 +114,7 @@ export default function Main() {
                   <Text>Role</Text>
                 </Table.Th>
                 <Table.Th>
-                  <Group gap={"5px"}>
-                    <IconBolt/>
-                    <Text>Actions</Text>
-                  </Group>
+                  <Text>Actions</Text>
                 </Table.Th>
               </Table.Tr>
             </Table.Thead>

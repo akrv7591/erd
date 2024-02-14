@@ -1,5 +1,5 @@
 import classes from "../style.module.css";
-import {ActionIcon, Avatar, Box, Group, Text, Tooltip} from "@mantine/core";
+import {ActionIcon, Avatar, Box, Divider, Group, Text, Tooltip} from "@mantine/core";
 import {IconSettings, IconUsersGroup} from "@tabler/icons-react";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {useModal} from "@/hooks/useModal.ts";
@@ -43,7 +43,7 @@ export default function Team({team}: Props) {
             modal.open("update")
           }}>
             <Tooltip label={"Team settings"}>
-              <ActionIcon>
+              <ActionIcon variant={selectedTeam === team ? "filled": "default"}>
                 <IconSettings stroke={1} size={15}/>
               </ActionIcon>
             </Tooltip>
@@ -51,6 +51,7 @@ export default function Team({team}: Props) {
         )}
 
       </Group>
+      <Divider w={"100%"} orientation={"horizontal"}/>
     </>
 
   )

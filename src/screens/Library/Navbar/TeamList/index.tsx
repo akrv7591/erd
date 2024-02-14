@@ -1,6 +1,6 @@
 import erdApi from "@/api/erdApi.tsx";
 import {useQuery} from "react-query";
-import {Button, Loader, Pagination, Stack, Text} from "@mantine/core";
+import {Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import Team from "./Team.tsx";
 import SearchInput from "@/components/common/SearchInput.tsx";
@@ -20,8 +20,6 @@ export default function TeamList() {
     queryFn: () => teamQueryFunction(params),
     onSuccess: data => useLibraryStore.setState({teams: data.rows})
   })
-  const setTeam = useLibraryStore(state => state.setTeam)
-
 
   const Content = () => {
     switch (status) {
@@ -33,13 +31,7 @@ export default function TeamList() {
         if (data.rows.length === 0) return (
           <Text size={"xs"} mt={"lg"}>No Teams</Text>
         )
-
-        return (
-          <>
-            <Button size={"xs"} variant={"default"} fullWidth onClick={() => setTeam(null)}>Public </Button>
-            {data.rows.map(team => <Team key={team.id} team={team}/>)}
-          </>
-        )
+        return data.rows.map(team => <Team key={team.id} team={team}/>)
     }
   }
 

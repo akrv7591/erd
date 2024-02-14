@@ -15,15 +15,13 @@ export default function Header() {
     <Group h="100%" px="20" justify={"space-between"} align={"center"}>
       <Group>
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm"/>
-        <Link to={"/"}>
-          <Logo/>
-        </Link>
+        <Logo/>
       </Group>
       <Group gap={5}>
         <Link to={"/library"} state={{destination: "/library"}}>
           <Button
             leftSection={<IconBooks/>}
-            variant={"filled"}>
+            variant={"light"}>
             Library
           </Button>
         </Link>

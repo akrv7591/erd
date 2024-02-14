@@ -1,4 +1,4 @@
-import {ActionIcon, AvatarGroup, Group, Tooltip} from "@mantine/core";
+import {ActionIcon, Avatar, Group, Tooltip} from "@mantine/core";
 import Title from "./Title";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import PlayerAvatar from "@/screens/Playground/Header/PlayerAvatar/Player.tsx";
@@ -13,9 +13,9 @@ export default function Header() {
     <Group align={"center"} px={"10px"} h={"100%"}>
       <Logo />
       <Title/>
-      <AvatarGroup ml={"auto"}>
+      <Avatar.Group ml={"auto"}>
         {players.map(player => <PlayerAvatar player={player} key={player.id}/>)}
-      </AvatarGroup>
+      </Avatar.Group>
       <Account/>
       <Tooltip label={"Exit"}>
         <Link to={"/library"}>

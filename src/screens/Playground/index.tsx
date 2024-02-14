@@ -15,7 +15,7 @@ export default function Playground() {
 
   return (
     <PlaygroundProvider>
-      <ReactFlowProvider>
+      <ReactFlowProvider initialEdges={[]} initialNodes={[]}>
         <AppShell
           header={{height: 50}}
           navbar={{width: 50, breakpoint: "none"}}
