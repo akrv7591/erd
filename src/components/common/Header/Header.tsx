@@ -20,7 +20,7 @@ export default function Header() {
         </Link>
       </Group>
       <Group gap={5}>
-        <Link to={"/library"}>
+        <Link to={"/library"} state={{destination: "/library"}}>
           <Button
             leftSection={<IconBooks/>}
             variant={"filled"}>
