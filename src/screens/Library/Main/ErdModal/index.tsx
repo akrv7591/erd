@@ -134,7 +134,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
           ? <Text>Are you sure to delete {data?.name}</Text>
           : (
             <Stack>
-              <Group align={"flex-end"}>
+              <Group align={"flex-start"}>
                 <TextInput
                   {...form.getInputProps("name", {withFocus: true})}
                   label={"Name"}

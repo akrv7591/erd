@@ -19,14 +19,13 @@ export class PlaygroundService {
 
   constructor(io: Socket) {
     this.io = io
-    this.initPlayground()
-    usePlaygroundStore.setState({playground: this})
+    this.initPlayground(this)
   }
 
-  private initPlayground() {
+  private initPlayground(playground: PlaygroundService) {
     this.io.on("data", data => {
       console.log(data)
-      usePlaygroundStore.setState(cur => ({...cur, ...data}))
+      usePlaygroundStore.setState(cur => ({...cur, ...data, playground}))
     })
 
     this.initPlayerListeners()

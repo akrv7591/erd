@@ -1,18 +1,19 @@
-import {Box, SegmentedControl, SegmentedControlItem, Stack, Tooltip} from "@mantine/core";
+import {Box, SegmentedControl, SegmentedControlItem, SegmentedControlProps, Stack, Tooltip} from "@mantine/core";
 import {IconRelationManyToMany, IconRelationOneToMany, IconRelationOneToOne, IconTablePlus} from "@tabler/icons-react";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ITools} from "@/types/table-node";
 import React from "react";
 
-
-const data: {
+interface IData {
   label: string
   value: ITools
   icon: any
   onDragStart?: React.DragEventHandler<HTMLDivElement>
-}[] = [
+}
+
+const data: IData[] = [
   {
-    label: 'Add table',
+    label: 'Drag and place to add entity',
     value: 'add-table',
     icon: IconTablePlus,
     onDragStart: (event) => {
@@ -36,22 +37,17 @@ const data: {
 const DRAWABLES = ['add-table']
 
 const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data.map(
-  ({
-     label,
-     icon: Icon,
-     value,
-     onDragStart
-   }) => {
-    const disabled = ['one-to-one', 'one-to-many', 'many-to-many',].includes(value) && nodesCount < 2
-    const isDraggable = DRAWABLES.includes(value)
+  (item) => {
+    const disabled = ['one-to-one', 'one-to-many', 'many-to-many',].includes(item.value) && nodesCount < 2
+    const isDraggable = DRAWABLES.includes(item.value)
     return {
       disabled,
-      value: value,
+      value: item.value,
       label: (
-        <Tooltip label={disabled ? "Need 2 or more tables to have relations" : label} position={'right'}>
-          <Box {...isDraggable && {draggable: true, onDragStart}}
+        <Tooltip offset={20} label={disabled ? "Need 2 or more tables to have relations" : item.label} position={'right'}>
+          <Box {...isDraggable && {draggable: true, onDragStart: item.onDragStart}}
                style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
-            <Icon size={30} stroke={1}/>
+            <item.icon size={30} stroke={1}/>
           </Box>
         </Tooltip>
 
@@ -60,17 +56,18 @@ const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data
   })
 
 export default function Navbar() {
-  const [nodes, tool, setTool] = usePlaygroundStore(state => ([state.tables, state.tool, state.setTool]))
+  const nodes = usePlaygroundStore(state => state.tables)
+  const tool = usePlaygroundStore(state => state.tool)
+  const setTool = usePlaygroundStore(state => state.setTool)
   const data = generateSegmentData(nodes.length)
+  const handleChange: SegmentedControlProps['onChange'] = (v) => setTool(v as ITools)
 
   return (
     <Stack w={"100%"}>
       <SegmentedControl
         data={data}
         value={tool}
-        onChange={(v) => {
-          setTool(v as ITools)
-        }}
+        onChange={handleChange}
         orientation={'vertical'}
         fullWidth/>
     </Stack>
