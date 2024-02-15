@@ -9,7 +9,7 @@ const RenderList = React.memo(React.forwardRef<any, any>((props, ref) => {
   const playground = usePlayground()
   const checkbox = React.useMemo(() => {
     const selected = data.columns.filter(c => c.selected)
-    const isAllChecked = selected.length === data.columns.length
+    const isAllChecked  = data.columns.length > 0 && selected.length === data.columns.length
     const isIntermediate = selected.length > 0 && !isAllChecked
 
     return {
