@@ -31,7 +31,6 @@ export const playerService = () => {
         cursorPosition
       } : p)
     }))
-    console.log(cursorPosition)
   }
 
   return {

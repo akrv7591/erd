@@ -1,7 +1,9 @@
 import {EdgeProps, getSmoothStepPath, useReactFlow} from '@xyflow/react';
 import {getEdgeParams} from '../../utils.ts';
 import {RELATION_TYPE, RELATIONS} from "@/constants/relations.ts";
-import classes from "./style.module.css"
+import "./style.css"
+import {useHover} from "@mantine/hooks";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
   const parenthesisStart = markerEnd.indexOf("#")
@@ -23,17 +25,19 @@ const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
 }
 
 
-function FloatingEdge({id, source, target, markerEnd, style}: EdgeProps) {
+function FloatingEdge(props: EdgeProps) {
   const reactflow = useReactFlow()
-  const sourceNode = reactflow.getNode(source)
-  const targetNode = reactflow.getNode(target)
+  const sourceNode = reactflow.getNode(props.source)
+  const targetNode = reactflow.getNode(props.target)
+  const {hovered, ref} = useHover<any>()
+  const {hovered: hovered2, ref: ref2} = useHover<any>()
+  const setHighlightedColumnId = usePlaygroundStore(state => state.setHighlightedColumnId)
 
   if (!sourceNode || !targetNode) {
     return null;
   }
 
   const {sx, sy, tx, ty, sourcePos, targetPos} = getEdgeParams(sourceNode, targetNode);
-
 
   const [edgePath] = getSmoothStepPath({
     sourceX: sx,
@@ -42,19 +46,32 @@ function FloatingEdge({id, source, target, markerEnd, style}: EdgeProps) {
     targetPosition: targetPos,
     targetX: tx,
     targetY: ty,
+    borderRadius: 20,
   });
 
+  if (hovered || hovered2 || props.selected) {
+    setHighlightedColumnId(props.id)
+  } else {
+    setHighlightedColumnId(null)
+  }
 
   return (
     <>
       <path
-        id={id}
-        className={`react-flow__edge-path ${classes.floatingPath}`}
+        ref={ref}
+        id={props.id}
+        className={'react-flow__edge-interaction'}
+        strokeWidth={50}
+        opacity={0}
         d={edgePath}
-        markerEnd={getMarkerEnd(markerEnd || "", targetPos, true)}
-        markerStart={getMarkerEnd(markerEnd || "", sourcePos, false)}
-        style={style}
-        stroke={"red"}
+      />
+      <path
+        ref={ref2}
+        id={props.id}
+        className={"react-flow__edge-path"}
+        d={edgePath}
+        markerEnd={getMarkerEnd(props.markerEnd || "", targetPos, true)}
+        markerStart={getMarkerEnd(props.markerEnd || "", sourcePos, false)}
       />
     </>
 

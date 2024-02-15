@@ -1,67 +1,47 @@
-import {defaultStyles} from "./index.tsx";
+import {
+  RELATIONSHIP_MARKER_DEFAULT_STYLES,
+  RELATIONSHIP_MARKER_DIRECTIONS,
+  RELATIONSHIP_MARKER_STROKE,
+  RELATIONSHIP_MARKER_STROKE_HIGHLIGHT
+} from "@/screens/Playground/Main/Icons/constants.ts";
+import {Fragment} from "react";
 
 export const One = () => {
-
-  return (
-    <>
-      <svg style={defaultStyles}>
+  return RELATIONSHIP_MARKER_DIRECTIONS.map(direction => (
+    <Fragment key={direction}>
+      <svg style={RELATIONSHIP_MARKER_DEFAULT_STYLES}>
         <defs>
           <marker
-            id="one-top"
-            viewBox="0 0 10 2"
-            markerHeight={2}
-            markerWidth={10}
-            refX={5}
-            refY={10}
-          >
-              <line y1="0.833336" x2="10" y2="0.833336" stroke="inherit"/>
-          </marker>
-        </defs>
-      </svg>
-      <svg style={defaultStyles}>
-        <defs>
-          <marker
-            id="one-right"
-            viewBox="0 0 2 10"
-            markerHeight={10}
-            markerWidth={2}
-            refX={-10}
-            refY={5}
+            id={`one-${direction}`}
+            markerWidth="12"
+            markerHeight="12"
+            orient="auto-start-reverse"
+            markerUnits={"strokeWidth"}
+            refX="10"
+            refY="5"
+            stroke={RELATIONSHIP_MARKER_STROKE}
           >
               <line x1="0.5" y1="10" x2="0.5" stroke="inherit"/>
           </marker>
         </defs>
       </svg>
-      <svg style={defaultStyles}>
+      <svg style={RELATIONSHIP_MARKER_DEFAULT_STYLES}>
         <defs>
           <marker
-            id="one-bottom"
-            viewBox="0 0 10 2"
-            markerHeight={2}
-            markerWidth={10}
-            refX={5}
-            refY={-10}
-          >
-            <line y1="0.833336" x2="10" y2="0.833336" stroke="inherit"/>
-          </marker>
-        </defs>
-      </svg>
-      <svg style={defaultStyles}>
-        <defs>
-          <marker
-            id="one-left"
-            viewBox="0 0 2 10"
-            markerHeight={10}
-            markerWidth={2}
-            refX={10}
-            refY={5}
+            id={`one-${direction}-highlighted`}
+            markerWidth="12"
+            markerHeight="12"
+            orient="auto-start-reverse"
+            markerUnits={"strokeWidth"}
+            refX="10"
+            refY="5"
+            stroke={RELATIONSHIP_MARKER_STROKE_HIGHLIGHT}
           >
             <line x1="0.5" y1="10" x2="0.5" stroke="inherit"/>
           </marker>
         </defs>
       </svg>
-    </>
-
-  )
+    </Fragment>
+  ))
 }
 

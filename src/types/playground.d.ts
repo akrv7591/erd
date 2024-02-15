@@ -25,6 +25,7 @@ export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'ta
   subscribedTo: IPlayer | null;
   viewport: Viewport | null;
   subscribers: IPlayer[];
+  highlightedColumnId: string | null;
 }
 
 export interface IPlaygroundViews {
@@ -54,6 +55,9 @@ export interface IPlaygroundActions {
   handlePlaygroundResponse: (res: ResponseData<Playground>) => void
 
   // Other
+  setHighlightedColumnId: (id: string | null) => void
+
+  // Cleanup
   reset: () => void
 }
 

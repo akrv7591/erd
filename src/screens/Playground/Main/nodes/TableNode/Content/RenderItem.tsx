@@ -1,12 +1,12 @@
 import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
 import {IconDiamondsFilled, IconGripVertical, IconKey} from "@tabler/icons-react";
-import React from "react";
+import React, {useCallback, useMemo} from "react";
 import styles from "./style.module.css"
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
 import {ITableNodeColumn} from "@/types/table-node";
-
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
 
@@ -20,18 +20,21 @@ const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
 const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
   const playground = usePlayground()
   const tableId = useNodeId()
+  const highlightedColumnId = usePlaygroundStore(state => state.highlightedColumnId)
 
   if (!tableId) return null
 
-  const setData = (key: string, value: any) => {
+  const setData = useCallback((key: string, value: any) => {
     const updatedColumn = {...data} as any
     updatedColumn[key] = value
 
     playground.column(Column.update, updatedColumn)
-  }
+  }, [playground])
+
+  const highlighted = useMemo(() => highlightedColumnId === data.id, [highlightedColumnId])
 
   return (
-    <Table.Tr className={`${styles.tableRow}`}>
+    <Table.Tr className={`${styles.tableRow} ${highlighted ? styles.border : ""}`}>
       <Table.Td className={"nopan nodrag handle"}>
         <ActionIcon variant={"transparent"}>
           <IconGripVertical stroke={1} data-movable-handle/>

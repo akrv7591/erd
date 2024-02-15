@@ -4,17 +4,18 @@ import {
   RELATIONSHIP_MARKER_STROKE,
   RELATIONSHIP_MARKER_STROKE_HIGHLIGHT
 } from "@/screens/Playground/Main/Icons/constants.ts";
+import {Fragment} from "react";
 
 export const Many = () => {
   return RELATIONSHIP_MARKER_DIRECTIONS.map(direction => (
-    <>
+    <Fragment key={direction}>
       <svg style={RELATIONSHIP_MARKER_DEFAULT_STYLES}>
         <defs>
           <marker
             id={`many-${direction}`}
             markerWidth="12"
             markerHeight="12"
-            orient="auto"
+            orient="auto-start-reverse"
             markerUnits={"strokeWidth"}
             refX="12"
             refY="6"
@@ -28,10 +29,10 @@ export const Many = () => {
       <svg style={RELATIONSHIP_MARKER_DEFAULT_STYLES}>
         <defs>
           <marker
-            id={`many-${direction}-highlight`}
+            id={`many-${direction}-highlighted`}
             markerWidth="12"
             markerHeight="12"
-            orient="auto"
+            orient="auto-start-reverse"
             markerUnits={"strokeWidth"}
             refX="12"
             refY="6"
@@ -42,7 +43,7 @@ export const Many = () => {
           </marker>
         </defs>
       </svg>
-    </>
+    </Fragment>
   ))
 }
 

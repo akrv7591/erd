@@ -1,5 +1,5 @@
 import {ActionIcon, Collapse, Divider, Group, Stack, Tooltip,} from "@mantine/core";
-import React from "react";
+import React, {useCallback} from "react";
 import {IconTrash} from "@tabler/icons-react";
 import RenderItem from "./RenderItem.tsx";
 import {ReactSortable} from "react-sortablejs";
@@ -28,7 +28,7 @@ const Content = React.memo(() => {
     })
   }, [selectedColumns])
 
-  const setSortedColumns = (columns: ITableNodeColumn[]) => {
+  const setSortedColumns = useCallback((columns: ITableNodeColumn[]) => {
     let orderedColumns = columns.map((column, order) => ({
       ...column,
       order: order
@@ -52,7 +52,7 @@ const Content = React.memo(() => {
     objectsNotEqual.forEach((column) => {
       playground.column(Column.update, column)
     })
-  }
+  }, [data.columns])
 
   return (
     <Stack style={{position: "relative"}}>

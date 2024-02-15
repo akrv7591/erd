@@ -6,6 +6,5 @@ export const edgeTypes: EdgeTypes = {
 }
 
 export const defaultEdgeOptions: DefaultEdgeOptions = {
-  style: {stroke: "var(--mantine-color-text)"},
   type: 'floating',
 }
