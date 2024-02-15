@@ -76,7 +76,7 @@ export default function VerifyEmail() {
   return (
     <Container className={classes.root}>
       <Group justify={"center"}>
-        <Logo width={200} height={200}/>
+        <Logo iconProps={{width:200, height: 200}}/>
       </Group>
       <Title order={3} className={classes.title} c={"dimmed"}>Email verification {status()}</Title>
       <Group justify="center" mt={50}>

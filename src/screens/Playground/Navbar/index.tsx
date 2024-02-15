@@ -35,28 +35,29 @@ const data: {
 
 const DRAWABLES = ['add-table']
 
-const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data.map(({
-                                                                                        label,
-                                                                                        icon: Icon,
-                                                                                        value,
-                                                                                        onDragStart
-                                                                                      }) => {
-  const disabled = ['one-to-one', 'one-to-many', 'many-to-many',].includes(value) && nodesCount < 2
-  const isDraggable = DRAWABLES.includes(value)
-  return {
-    disabled,
-    value: value,
-    label: (
-      <Tooltip label={disabled ? "Need 2 or more tables to have relations" : label} position={'right'}>
-        <Box {...isDraggable && {draggable: true, onDragStart}}
-             style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
-          <Icon size={30} stroke={1}/>
-        </Box>
-      </Tooltip>
+const generateSegmentData = (nodesCount: number): SegmentedControlItem[] => data.map(
+  ({
+     label,
+     icon: Icon,
+     value,
+     onDragStart
+   }) => {
+    const disabled = ['one-to-one', 'one-to-many', 'many-to-many',].includes(value) && nodesCount < 2
+    const isDraggable = DRAWABLES.includes(value)
+    return {
+      disabled,
+      value: value,
+      label: (
+        <Tooltip label={disabled ? "Need 2 or more tables to have relations" : label} position={'right'}>
+          <Box {...isDraggable && {draggable: true, onDragStart}}
+               style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100%"}}>
+            <Icon size={30} stroke={1}/>
+          </Box>
+        </Tooltip>
 
-    )
-  }
-})
+      )
+    }
+  })
 
 export default function Navbar() {
   const [nodes, tool, setTool] = usePlaygroundStore(state => ([state.tables, state.tool, state.setTool]))

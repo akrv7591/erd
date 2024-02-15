@@ -231,7 +231,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
         switch (node.type) {
           case "add":
             break
-          case "reset":
+          case "replace":
             nodesToUpdate.push({
               erdId,
               id: node.item.id,
@@ -279,7 +279,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
           case "remove":
             cur.playground.relation(Relation.delete, cur.relations.find(r => r.id === edge.id) as Edge)
             break
-          case "reset":
+          case "replace":
             break
           case "select":
             break
