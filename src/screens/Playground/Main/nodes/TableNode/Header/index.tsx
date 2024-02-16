@@ -1,9 +1,7 @@
 import {useNodeId, useReactFlow} from "@xyflow/react";
-import {ColorPicker, ColorSwatch, Group, Input, Menu} from "@mantine/core";
+import {ColorPicker, ColorSwatch, Group, HoverCard, Input} from "@mantine/core";
 import {IconPalette, IconTable} from "@tabler/icons-react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
-import {useDisclosure} from "@mantine/hooks";
-import React from "react";
 import {Table} from "@/enums/playground.ts";
 import {useNodeData} from "@/hooks/useNodeData.ts";
 
@@ -13,13 +11,6 @@ const Header = () => {
   const node = reactFlow.getNode(id)
   const data = useNodeData()
   const playground = usePlayground()
-  const [opened, {open, close}] = useDisclosure(false)
-
-  React.useEffect(() => {
-    if (!node?.selected) {
-      close()
-    }
-  }, [node?.selected])
 
   if (!node) return null
 
@@ -36,23 +27,22 @@ const Header = () => {
           playground.table(Table.set, {tableId: id, key: "name", value: name})
         }}
       />
-      <Menu closeOnClickOutside closeOnEscape opened={opened} withArrow>
-        <Menu.Target>
-          <ColorSwatch color={data.color} ml={"auto"} onMouseOver={open}>
+      <HoverCard>
+        <HoverCard.Target>
+          <ColorSwatch color={data.color} ml={"auto"}>
             <IconPalette size={25} color={"var(--mantine-primary-color-0)"}/>
           </ColorSwatch>
-        </Menu.Target>
-        <Menu.Dropdown onMouseLeave={close}>
+        </HoverCard.Target>
+        <HoverCard.Dropdown>
           <ColorPicker
-
             onChange={color => {
               playground.table(Table.set, {tableId: id, key: "color", value: color})
             }}
             swatchesPerRow={8}
             format="hex"
             swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']}/>
-        </Menu.Dropdown>
-      </Menu>
+        </HoverCard.Dropdown>
+      </HoverCard>
     </Group>
   )
 }
