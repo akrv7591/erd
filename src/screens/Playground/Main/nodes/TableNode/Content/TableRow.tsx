@@ -1,5 +1,5 @@
 import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
-import {IconDiamondsFilled, IconGripVertical, IconKey} from "@tabler/icons-react";
+import {IconGripVertical} from "@tabler/icons-react";
 import React, {useCallback, useMemo} from "react";
 import styles from "./style.module.css"
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
@@ -7,20 +7,12 @@ import {Column} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
 import {ITableNodeColumn} from "@/types/table-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import ColumnTypeIcon from "@/screens/Playground/Main/nodes/TableNode/Content/ColumnTypeIcon.tsx";
 
-const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
-
-  if (data.primary) return <IconKey stroke={2} color={"#ffcd62"} size={20}/>
-
-  if (data.foreignKey) return <IconDiamondsFilled style={{color: "#f84219"}} stroke={1} size={15}/>
-
-  return <IconDiamondsFilled style={{color: "#00d0ff"}} stroke={1} size={15}/>
-})
-
-const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
+const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
   const playground = usePlayground()
   const tableId = useNodeId()
-  const highlightedColumnId = usePlaygroundStore(state => state.highlightedColumnId)
+  const highlightedRelation = usePlaygroundStore(state => state.highlightedRelation)
 
   if (!tableId) return null
 
@@ -31,7 +23,11 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
     playground.column(Column.update, updatedColumn)
   }, [playground])
 
-  const highlighted = useMemo(() => highlightedColumnId === data.id, [highlightedColumnId])
+  const highlighted = useMemo(() => {
+    if (highlightedRelation?.endNodeColumnId === data.id) {
+      return true
+    } else return highlightedRelation?.startNodeId === tableId && data.primary;
+  }, [highlightedRelation])
 
   return (
     <Table.Tr className={`${styles.tableRow} ${highlighted ? styles.border : ""}`}>
@@ -53,7 +49,6 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
           value={data.name}
           placeholder={"Column name"}
           onChange={e => setData('name', e.target.value)}
-          h={"inherit"}
         />
       </Table.Td>
       <Table.Td>
@@ -61,6 +56,7 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
           value={data.type}
           placeholder={"Data type"}
           h={"inherit"}
+          miw={"200px"}
           onChange={e => setData('type', e.target.value)}
         />
       </Table.Td>
@@ -93,4 +89,4 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
 
 })
 
-export default RenderItem
+export default TableRow

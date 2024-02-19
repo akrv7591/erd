@@ -1,7 +1,17 @@
-import {Avatar, Box, Button, Group, Popover, PopoverProps, Stack, Title} from "@mantine/core";
+import {Avatar, Box, Button, Card, Group, Popover, PopoverProps, PopoverStylesNames, Stack, Text} from "@mantine/core";
 import React from "react";
 import {IconCheck, IconExclamationCircle} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
+import classes from "./style.module.css"
+
+const dangerClasses: Partial<Record<PopoverStylesNames, string>> = {
+  arrow: classes.arrow,
+  dropdown: classes.dropdownDanger
+}
+
+const defaultClasses: Partial<Record<PopoverStylesNames, string>> = {
+  dropdown: classes.dropdown,
+}
 
 interface Props extends PopoverProps {
   target: React.ReactNode;
@@ -12,28 +22,52 @@ interface Props extends PopoverProps {
 
 export default function ButtonWithConfirm({target, message, onConfirm, isDanger, ...rest}: Props) {
   const [opened, {open, close}] = useDisclosure(false)
+  const handleConfirm = () => {
+    onConfirm()
+    close()
+  }
   return (
-    <Popover withArrow shadow={"md"} closeOnClickOutside closeOnEscape opened={opened} onClose={close} {...rest}>
+    <Popover
+      classNames={isDanger ? dangerClasses : defaultClasses}
+      withArrow
+      shadow={"md"}
+      closeOnClickOutside
+      closeOnEscape
+      opened={opened}
+      onClose={close}
+      {...rest}
+    >
       <Popover.Target>
         <Box onClick={open}>{target}</Box>
       </Popover.Target>
-      <Popover.Dropdown
-        style={{border: `1px solid ${isDanger ? "var(--mantine-color-red-9)" : "var(--mantine-color-dark-4)"}`}}>
+      <Popover.Dropdown>
         <Stack align={"center"}>
           {isDanger && (
             <Avatar color={"red"} variant={"filled"}>
               <IconExclamationCircle size={"35"}/>
             </Avatar>
           )}
-          <Title order={6}>{message}</Title>
+          <Card bg={"var(--mantine-color-dark-5)"}>
+            <Text>{message}</Text>
+          </Card>
           <Group w={"100%"}>
-            <Button onClick={close} style={{flex: 1}} size={"xs"} variant={"filled"} color={"dark.5"}>
+            <Button
+              onClick={close}
+              style={{flex: 1}}
+              size={"xs"}
+              variant={"filled"}
+              color={"dark.5"}
+            >
               Cancel
             </Button>
-            <Button style={{flex: 1}} size={"xs"} leftSection={<IconCheck/>} variant={"filled"} color={isDanger? "red": "blue"} onClick={() => {
-              onConfirm()
-              close()
-            }}>
+            <Button
+              style={{flex: 1}}
+              size={"xs"}
+              leftSection={<IconCheck/>}
+              variant={"filled"}
+              color={isDanger ? "red" : "blue"}
+              onClick={handleConfirm}
+            >
               Confirm
             </Button>
           </Group>

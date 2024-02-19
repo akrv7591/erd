@@ -11,13 +11,15 @@ const sourceStyle = {zIndex: 2, backgroundColor: "var(--mantine-primary-color-li
 const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-light-hover)"}
 
 const RelationsOverlay = () => {
-  const [tool] = usePlaygroundStore(state => [state.tool])
+  const tool = usePlaygroundStore(state => state.tool)
   const reactFlow = useReactFlow()
   const {columns} = useNodeData()
   const connection = useConnection()
-  const connectionNodeId = connection.startHandle?.nodeId
-  const isTherePrimaryKey = React.useMemo(() => columns.some(column => column.primary), [columns])
   const id = useNodeId()
+
+  const connectionNodeId = connection.startHandle?.nodeId
+
+  const isTherePrimaryKey = React.useMemo(() => columns.some(column => column.primary), [columns])
   const isTarget = connectionNodeId && connectionNodeId !== id;
   const isTherePrimaryKeyInTarget = React.useMemo(() => {
     if (!isTarget) return null

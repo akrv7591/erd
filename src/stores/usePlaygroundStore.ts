@@ -29,7 +29,7 @@ const initialState: IPlaygroundState = {
   players: [],
   tool: "grab",
   playground: null as any,
-  highlightedColumnId: null,
+  highlightedRelation: null,
 }
 
 
@@ -41,7 +41,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
   getEdges: () => getState().relations,
 
   // Other
-  setHighlightedColumnId: (id) => set({highlightedColumnId: id}),
+  setHighlightedRelation: (highlightedRelation) => set({highlightedRelation}),
 
   // Node Action
   nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {

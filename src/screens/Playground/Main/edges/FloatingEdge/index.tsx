@@ -5,7 +5,7 @@ import "./style.css"
 import {useHover} from "@mantine/hooks";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
-const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
+const getMarkerEnd = (markerEnd: string, end: boolean) => {
   const parenthesisStart = markerEnd.indexOf("#")
   const parenthesisEnd = markerEnd.indexOf(")")
   const tool = markerEnd.slice(parenthesisStart + 1, parenthesisEnd) as RELATIONS
@@ -21,7 +21,7 @@ const getMarkerEnd = (markerEnd: string, addon: string, end: boolean) => {
       relation = RELATION_TYPE.MANY
   }
 
-  return `url(#${relation}-${addon})`
+  return `url(#${relation})`
 }
 
 
@@ -30,11 +30,14 @@ function FloatingEdge(props: EdgeProps) {
   const sourceNode = reactflow.getNode(props.source)
   const targetNode = reactflow.getNode(props.target)
   const {hovered, ref} = useHover<any>()
-  const {hovered: hovered2, ref: ref2} = useHover<any>()
-  const setHighlightedColumnId = usePlaygroundStore(state => state.setHighlightedColumnId)
+  const setHighlightedRelation = usePlaygroundStore(state => state.setHighlightedRelation)
 
   if (!sourceNode || !targetNode) {
     return null;
+  }
+
+  if (!props.markerEnd) {
+    return null
   }
 
   const {sx, sy, tx, ty, sourcePos, targetPos} = getEdgeParams(sourceNode, targetNode);
@@ -49,11 +52,17 @@ function FloatingEdge(props: EdgeProps) {
     borderRadius: 20,
   });
 
-  if (hovered || hovered2 || props.selected) {
-    setHighlightedColumnId(props.id)
-  } else {
-    setHighlightedColumnId(null)
+  if (ref.current) {
+    if (hovered || props.selected) {
+      setHighlightedRelation({
+        startNodeId: props.source,
+        endNodeColumnId: props.id
+      })
+    } else {
+      setHighlightedRelation(null)
+    }
   }
+
 
   return (
     <>
@@ -66,12 +75,11 @@ function FloatingEdge(props: EdgeProps) {
         d={edgePath}
       />
       <path
-        ref={ref2}
         id={props.id}
         className={"react-flow__edge-path"}
         d={edgePath}
-        markerEnd={getMarkerEnd(props.markerEnd || "", targetPos, true)}
-        markerStart={getMarkerEnd(props.markerEnd || "", sourcePos, false)}
+        markerEnd={getMarkerEnd(props.markerEnd || "", true)}
+        markerStart={getMarkerEnd(props.markerEnd || "", false)}
       />
     </>
 

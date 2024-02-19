@@ -1,11 +1,11 @@
 import {ActionIcon, Collapse, Divider, Group, Stack, Tooltip,} from "@mantine/core";
 import React, {useCallback} from "react";
 import {IconTrash} from "@tabler/icons-react";
-import RenderItem from "./RenderItem.tsx";
+import RenderItem from "./TableRow.tsx";
 import {ReactSortable} from "react-sortablejs";
 import styles from "./style.module.css"
 import "./style.module.css"
-import RenderList from "./RenderList.tsx";
+import RenderList from "./Table.tsx";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {useNodeId} from "@xyflow/react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";

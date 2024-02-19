@@ -23,3 +23,7 @@
 .ghostRowClass {
     opacity: 0;
 }
+
+.defaultColumnIcon {
+    color: var(--mantine-primary-color-filled)
+}

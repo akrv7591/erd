@@ -15,6 +15,11 @@ export interface IConnectionData {
   tables: ITableNode[]
 }
 
+interface IHighlightedRelation {
+  startNodeId: string
+  endNodeColumnId: string
+}
+
 
 export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'tables'>{
   tool: ITools;
@@ -25,7 +30,7 @@ export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'ta
   subscribedTo: IPlayer | null;
   viewport: Viewport | null;
   subscribers: IPlayer[];
-  highlightedColumnId: string | null;
+  highlightedRelation: null | IHighlightedRelation;
 }
 
 export interface IPlaygroundViews {
@@ -55,7 +60,7 @@ export interface IPlaygroundActions {
   handlePlaygroundResponse: (res: ResponseData<Playground>) => void
 
   // Other
-  setHighlightedColumnId: (id: string | null) => void
+  setHighlightedRelation: (highlightedRelation: null | IHighlightedRelation) => void
 
   // Cleanup
   reset: () => void
