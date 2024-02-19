@@ -1,4 +1,4 @@
-import {Avatar, Button, Group, Menu, rem, Text} from "@mantine/core";
+import {Button, Menu, rem, Text} from "@mantine/core";
 import {IconLogout, IconUser} from "@tabler/icons-react";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {useNavigate} from "react-router-dom";
@@ -18,13 +18,13 @@ export default function Account() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <Button variant={"transparent"} size={"sm"}>
-          <Group gap={"5px"}>
-            <Avatar size={30}>
-              <IconUser size={15} stroke={1}/>
-            </Avatar>
-            <Text ml={"5px"} size={"sm"} c={"var(--mantine-color-text)"}>{user?.name}</Text>
-          </Group>
+        <Button
+          variant={"default"}
+          size={"sm"}
+          radius={"xl"}
+        >
+          <IconUser color={"var(--mantine-color-text)"} size={15} stroke={1}/>
+          <Text ml={"5px"} size={"sm"} c={"var(--mantine-color-text)"}>{user?.name}</Text>
         </Button>
       </Menu.Target>
 
