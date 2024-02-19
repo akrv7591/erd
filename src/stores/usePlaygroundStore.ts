@@ -304,7 +304,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
   handlePlaygroundResponse: ({status, type, data}) => {
     if (status !== CallbackDataStatus.OK) {
       notifications.show({
-        title: `type`,
+        title: type,
         message: status,
         color: "var(--mantine-color-red-filled)"
       })
