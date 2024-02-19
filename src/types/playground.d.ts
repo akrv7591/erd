@@ -29,7 +29,7 @@ export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'ta
   playground: PlaygroundService;
   subscribedTo: IPlayer | null;
   viewport: Viewport | null;
-  subscribers: IPlayer[];
+  subscribers: string[];
   highlightedRelation: null | IHighlightedRelation;
 }
 

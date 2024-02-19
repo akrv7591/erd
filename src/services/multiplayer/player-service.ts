@@ -1,6 +1,7 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {Viewport} from "@xyflow/react";
 import {IPlayer} from "@/types/table-node";
+import {notifications} from "@mantine/notifications";
 
 export const playerService = () => {
 
@@ -12,12 +13,34 @@ export const playerService = () => {
     usePlaygroundStore.setState(cur => ({players: cur.players.filter(({id}) => id !== playerId), ...cur.subscribedTo && {subscribedTo: cur.subscribedTo.id === playerId ? null : cur.subscribedTo}}))
   }
 
-  function onSubscribe(subscriber: IPlayer) {
-    usePlaygroundStore.setState(cur => cur.subscribers.some(s => s.id === subscriber.id) ? {} : {subscribers: [...cur.subscribers, subscriber]})
+  function onSubscribe(subscriberId: string) {
+    const subscriber = usePlaygroundStore.getState().players.find(({id}) => id === subscriberId)
+
+    if (!subscriber) {
+      return
+    }
+
+    notifications.show({
+      title: "New follower",
+      message: `${subscriber.name} is following you!`,
+      color: "var(--mantine-color-orange-filled)",
+    })
+    usePlaygroundStore.setState(cur => cur.subscribers.includes(subscriberId) ? {} : {subscribers: [...cur.subscribers, subscriberId]})
   }
 
-  function onUnsubscribe(subscriber: IPlayer) {
-    usePlaygroundStore.setState(cur => ({subscribers: cur.subscribers.filter((s) => s.id !== subscriber.id)}))
+  function onUnsubscribe(subscriberId: string) {
+    const subscriber = usePlaygroundStore.getState().players.find(({id}) => id === subscriberId)
+
+    if (!subscriber) {
+      return
+    }
+
+    notifications.show({
+      title: "Follower left",
+      message: `${subscriber.name} is no longer following you!`,
+      color: "var(--mantine-color-orange-filled)"
+    })
+    usePlaygroundStore.setState(cur => ({subscribers: cur.subscribers.filter((s) => s !== subscriberId)}))
   }
 
   function onViewportChange(viewport: Viewport) {
