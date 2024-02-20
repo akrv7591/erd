@@ -1,0 +1,15 @@
+.avatar, .avatarSubscribed {
+    margin-left: -10px;
+    border: 1px solid red;
+    color: var(--mantine-color-text) !important;
+}
+
+
+.avatar {
+    border-color: var(--mantine-color-dark-4) !important;
+}
+
+.avatarSubscribed {
+    border-color: var(--mantine-primary-color-filled) !important;
+    z-index: 1;
+}

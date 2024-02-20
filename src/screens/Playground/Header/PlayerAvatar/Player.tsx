@@ -1,8 +1,9 @@
-import {Avatar, Tooltip} from "@mantine/core";
+import {ActionIcon, Tooltip} from "@mantine/core";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Player} from "@/enums/playground.ts";
 import {IPlayer} from "@/types/table-node";
+import classes from "./style.module.css"
 
 interface Props {
   player: IPlayer
@@ -13,7 +14,6 @@ export default function PlayerAvatar(props: Props) {
   const playground = usePlaygroundStore(state => state.playground)
   const authorizedUser = useAuthStore(state => state.getAuthorization())
   const isSubscribedPlayer = subscribedTo?.id === props.player.id
-  const avatarStyle = isSubscribedPlayer ? {border: "1px solid var(--mantine-primary-color-filled)", zIndex: 1} : {}
   const tooltipLabel = isSubscribedPlayer
     ? `Click on diagram plane to exit follow mode`
     : props.player.id === authorizedUser?.id
@@ -22,15 +22,18 @@ export default function PlayerAvatar(props: Props) {
   const isDisabled = isSubscribedPlayer || props.player.id === authorizedUser?.id
 
   return (
-    <Tooltip label={tooltipLabel} {...isSubscribedPlayer&&{ opened: true }}>
-      <Avatar
-        style={avatarStyle}
-        component={'button'}
+    <Tooltip label={tooltipLabel} {...isSubscribedPlayer && {opened: true}}>
+      <ActionIcon
+        className={ isSubscribedPlayer ? classes.avatarSubscribed : classes.avatar}
+        size={"lg"}
+        radius={"xl"}
+        variant={"default"}
         onClick={() => playground.player(Player.subscribe, props.player)}
         disabled={isDisabled}
+
       >
         {props.player.name[0]}
-      </Avatar>
+      </ActionIcon>
     </Tooltip>
   )
 }
