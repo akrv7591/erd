@@ -21,7 +21,6 @@ export default function Account() {
         <Button
           variant={"default"}
           size={"sm"}
-          radius={"xl"}
         >
           <IconUser color={"var(--mantine-color-text)"} size={15} stroke={1}/>
           <Text ml={"5px"} size={"sm"} c={"var(--mantine-color-text)"}>{user?.name}</Text>

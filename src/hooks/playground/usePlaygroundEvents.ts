@@ -1,5 +1,5 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {ReactFlowProps, useReactFlow} from "@xyflow/react";
+import {ReactFlowProps, useOnViewportChange, useReactFlow} from "@xyflow/react";
 import {Player} from "@/enums/playground.ts";
 import {useCallback, useEffect} from "react";
 
@@ -9,7 +9,14 @@ export const usePlaygroundEvents = () => {
   const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
   const viewport = usePlaygroundStore(state => state.viewport)
   const nodeOnDragAdd = usePlaygroundStore(state => state.nodeOnDragAdd)
+  const setZoom = usePlaygroundStore(state => state.setZoom)
   const reactFlow = useReactFlow()
+
+  useOnViewportChange({
+    onChange: viewport => {
+      setZoom(viewport.zoom)
+    }
+  })
 
   useEffect(() => {
     if (viewport && subscribedTo) {

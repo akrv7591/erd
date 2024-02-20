@@ -30,6 +30,8 @@ const initialState: IPlaygroundState = {
   tool: "grab",
   playground: null as any,
   highlightedRelation: null,
+  // Other
+  zoom: 0
 }
 
 
@@ -42,6 +44,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
 
   // Other
   setHighlightedRelation: (highlightedRelation) => set({highlightedRelation}),
+  setZoom: (zoom) => set({zoom}),
 
   // Node Action
   nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {

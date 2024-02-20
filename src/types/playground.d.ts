@@ -31,6 +31,7 @@ export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'ta
   viewport: Viewport | null;
   subscribers: string[];
   highlightedRelation: null | IHighlightedRelation;
+  zoom: number
 }
 
 export interface IPlaygroundViews {
@@ -61,6 +62,7 @@ export interface IPlaygroundActions {
 
   // Other
   setHighlightedRelation: (highlightedRelation: null | IHighlightedRelation) => void
+  setZoom: (zoom: number) => void
 
   // Cleanup
   reset: () => void
