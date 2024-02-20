@@ -1,4 +1,4 @@
-import {ActionIcon, Group, Text, Tooltip} from "@mantine/core";
+import {ActionIcon, Group, Tooltip} from "@mantine/core";
 import Title from "./Title";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import PlayerAvatar from "@/screens/Playground/Header/PlayerAvatar/Player.tsx";
@@ -9,13 +9,11 @@ import {Link} from "react-router-dom";
 
 export default function Header() {
   const players = usePlaygroundStore(state => state.players)
-  const zoom = usePlaygroundStore(state => state.zoom)
 
   return (
     <Group align={"center"} gap={"5px"} px={"5px"} h={"100%"}>
       <Logo/>
       <Title/>
-      <Text>{zoom}</Text>
       <Group ml={"auto"} gap={0}>
         {players.map(player => <PlayerAvatar player={player} key={player.id}/>)}
       </Group>
