@@ -1,13 +1,5 @@
 import {useRef} from 'react';
-import {
-  Background,
-  BackgroundVariant,
-  ConnectionLineType,
-  Controls,
-  MiniMap,
-  ReactFlow,
-  SelectionMode,
-} from '@xyflow/react';
+import {Background, BackgroundVariant, ConnectionLineType, MiniMap, ReactFlow, SelectionMode,} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import "./style.css"
 import {defaultEdgeOptions, edgeTypes} from "./edges";
@@ -58,7 +50,6 @@ export default function Main() {
         {...playgroundEvents}
       >
         <PlayerCursor/>
-        <Controls/>
         <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={node => node.data.color}/>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
       </ReactFlow>

@@ -30,13 +30,19 @@ export const theme = createTheme({
     }),
     Button: Button.extend({
       defaultProps: {
-        variant: "light"
+        variant: "light",
+        style: {
+          border: "none"
+        }
       }
     }),
     ActionIcon: ActionIcon.extend({
       defaultProps: {
-        variant: "light"
-      }
+        variant: "light",
+        style: {
+          border: "none"
+        }
+      },
     })
   }
 })
