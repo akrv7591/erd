@@ -5,7 +5,7 @@ export default function Title() {
   const name = usePlaygroundStore(state => state.name)
 
   return (
-    <Paper bg={"var(--mantine-color-dark-8)"} px={"15px"} py={"5px"}>
+    <Paper ml={"sm"} bg={"var(--mantine-color-dark-6)"} px={"15px"} py={"5px"}>
       <MantineTitle order={4} fw={"normal"} style={{textTransform: "none", borderRadius: "5px"}}>
         {name}
       </MantineTitle>

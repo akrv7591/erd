@@ -1,4 +1,4 @@
-import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Textarea, Title} from "@mantine/core";
+import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Textarea, Title, Tooltip} from "@mantine/core";
 import {IconDatabaseImport} from "@tabler/icons-react";
 import React from "react";
 import {MysqlParser, Table} from "@/utility/MySqlParser";
@@ -35,14 +35,14 @@ export default function Import() {
       offset={15}
       withArrow
       opened={opened}
-      styles={{}}
-      arrowSize={20}
       closeOnEscape={false}
     >
       <Popover.Target>
-        <Button size={"xs"} variant={"light"} leftSection={<IconDatabaseImport stroke={1} size={20}/>} onClick={toggle}>
-          Import
-        </Button>
+        <Tooltip label={"Not implemented yet"} position={"top"} withArrow>
+          <Button disabled size={"xs"} h={"40px"} variant={"default"} leftSection={<IconDatabaseImport stroke={1} size={20}/>} onClick={toggle}>
+            Import
+          </Button>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown>
         <form>

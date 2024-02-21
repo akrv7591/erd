@@ -1,4 +1,4 @@
-import {Button, Group, Popover, Stack, Text, Textarea} from "@mantine/core";
+import {Button, Group, Popover, Stack, Text, Textarea, Tooltip} from "@mantine/core";
 import {IconDatabaseExport} from "@tabler/icons-react";
 
 export default function Export() {
@@ -12,9 +12,11 @@ export default function Export() {
       arrowSize={20}
     >
       <Popover.Target>
-        <Button disabled size={"xs"} variant={"light"} leftSection={<IconDatabaseExport stroke={1} size={20}/>}>
-          Export
-        </Button>
+        <Tooltip label={"Not implemented yet"} position={"top"} withArrow>
+          <Button disabled h={"40px"} size={"xs"} variant={"default"} leftSection={<IconDatabaseExport stroke={1} size={20}/>}>
+            Export
+          </Button>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown>
         <Stack>
