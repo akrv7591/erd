@@ -1,5 +1,5 @@
 import {ActionIcon, Tooltip} from "@mantine/core";
-import {IData} from "@/screens/Playground/Navbar";
+import {IData} from "@/screens/Playground/Navbar/EntityControls";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 interface Props {
