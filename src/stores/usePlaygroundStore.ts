@@ -27,7 +27,7 @@ const initialState: IPlaygroundState = {
   tables: [],
   relations: [],
   players: [],
-  tool: "grab",
+  tool: "hand-grab",
   playground: null as any,
   highlightedRelation: null,
   // Other
@@ -227,7 +227,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
     data.columns.forEach((column) => state.playground.column(Column.add, column))
     data.relations.forEach(relation => state.playground.relation(Relation.add, relation))
 
-    set({tool: "grab"})
+    set({tool: "hand-grab"})
   },
 
   setNodeChanges: (nodeChanges) => {

@@ -48,22 +48,19 @@ export default function TableList() {
       offset={10}
     >
       <Menu.Target>
-        <Tooltip
-          color={"var(--mantine-color-dark-6)"}
-          position={"left"}
-          label={(<Text>Entity list</Text>)}
-        >
+        <Tooltip withArrow position={"left"} label={"Entity list"}>
           <ActionIcon
             onClick={() => {
               setSearch("")
               opened ? close() : open()
             }}
             m={"5px"}
-            variant={opened ? 'filled' : 'default'}
+            variant={opened ? 'light' : 'default'}
             w={"40px"}
             h={"40px"}
+            style={{border: "none"}}
           >
-            <IconList color={"var(--mantine-color-text)"}/>
+            <IconList />
           </ActionIcon>
         </Tooltip>
       </Menu.Target>
