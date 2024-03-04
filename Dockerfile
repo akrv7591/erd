@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 
 # Expose port 3000 (the default port used by serve)
-EXPOSE 3001
+EXPOSE 3000
 
 
 # Command to serve the built files
