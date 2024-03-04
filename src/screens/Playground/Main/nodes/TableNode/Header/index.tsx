@@ -16,11 +16,15 @@ const Header = () => {
 
   return (
     <Group gap={5} h={50} align={"center"}>
-      <IconTable color={"var(--mantine-primary-color-filled)"} stroke={1} size={35}/>
       <Input
         value={data.name}
         placeholder={"Table name"}
         autoFocus
+        variant={"filled"}
+        size={"sm"}
+        leftSection={(
+          <IconTable color={"var(--mantine-primary-color-filled)"}/>
+        )}
         error={!data.name}
         onChange={e => {
           const name = e.target.value

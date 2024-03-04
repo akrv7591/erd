@@ -33,7 +33,7 @@ const TableNode = React.memo((props: Props) => {
         <Collapse in={headersIn}>
           <ContentControls/>
         </Collapse>
-        <Card className={props.selected ? classes.cardSelected : classes.card} withBorder>
+        <Card py={"5px"} px={"10px"} className={props.selected ? classes.cardSelected : classes.card} withBorder>
           <Header/>
           <Content/>
         </Card>

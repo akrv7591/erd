@@ -55,7 +55,7 @@ const Content = React.memo(() => {
   }, [data.columns])
 
   return (
-    <Stack style={{position: "relative"}}>
+    <Stack style={{position: "relative"}} gap={0}>
       <ReactSortable
         tag={RenderList}
         list={data.columns}

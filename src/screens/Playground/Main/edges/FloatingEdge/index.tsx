@@ -62,7 +62,6 @@ function FloatingEdge(props: EdgeProps) {
     setHighlightedRelation(null)
   }, [setHighlightedRelation])
 
-
   return (
     <>
       <path

@@ -14,7 +14,7 @@ export default function ContentControls() {
   const playground = usePlayground()
   const data = useNodeData()
   const nodeId = useNodeId() as string
-  const { deleteElements } = useReactFlow()
+  const {deleteElements} = useReactFlow()
   const onDelete = () => deleteElements({nodes: [{id: nodeId}]})
 
   const addColumn = (type: "primary" | "default") => {
@@ -34,21 +34,16 @@ export default function ContentControls() {
     <Group mt={"xs"} pos={"absolute"} top={"0px"} bg={"red"} w={"100%"}>
       <Group mt={"-65px"} justify={"space-between"} w={"100%"}>
         <ActionIconGroup>
-          <Tooltip label={"Add primary row"} position={"bottom"}>
-            <ActionIcon
-              color={"#ffcc00"}
-              variant={"filled"}
-              onClick={() => addColumn("primary")}
-            >
+          <Tooltip label={"Add primary row"} position={"top"}>
+            <ActionIcon color={"#ffcc00"} variant={"filled"} onClick={() => addColumn("primary")}>
               <IconPlus stroke={1} color={"black"}/>
             </ActionIcon>
           </Tooltip>
-
-          <ActionIcon color={"blue"} variant={"filled"} onClick={() => addColumn("default")}>
-            <Tooltip label={"Add non primary key row"} position={"bottom"}>
+          <Tooltip label={"Add non primary key row"} position={"top"}>
+            <ActionIcon color={"var(--mantine-primary-color-filled)"} variant={"filled"} onClick={() => addColumn("default")}>
               <IconPlus stroke={1} color={"white"}/>
-            </Tooltip>
-          </ActionIcon>
+            </ActionIcon>
+          </Tooltip>
         </ActionIconGroup>
         <ButtonWithConfirm
           isDanger

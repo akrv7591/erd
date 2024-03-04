@@ -7,7 +7,7 @@
 }
 
 .card {
-    height: calc(100% - 50px);
+    //height: calc(100% - 50px);
     transition: 0.3s;
     outline: 3px solid var(--mantine-primary-color-filled-hover) !important;
 
@@ -18,7 +18,7 @@
 
 .cardSelected {
     height: calc(100% - 50px);
-    outline: 7px solid var(--mantine-primary-color-filled) !important;
+    outline: 5px solid var(--mantine-primary-color-filled) !important;
 }
 
 .source {

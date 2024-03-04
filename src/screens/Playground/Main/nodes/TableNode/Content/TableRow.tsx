@@ -47,6 +47,13 @@ const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
       <Table.Td>
         <Input
           value={data.name}
+          styles={{
+            input: {
+              backgroundColor: "var(--mantine-color-dark-5)"
+            }
+          }}
+          size={"sm"}
+          variant={"filled"}
           placeholder={"Column name"}
           onChange={e => setData('name', e.target.value)}
         />
@@ -55,7 +62,8 @@ const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
         <Input
           value={data.type}
           placeholder={"Data type"}
-          h={"inherit"}
+          variant={"filled"}
+          size={"sm"}
           miw={"200px"}
           onChange={e => setData('type', e.target.value)}
         />
@@ -79,6 +87,8 @@ const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
         <Input
           value={data.comment}
           placeholder={"Comment"}
+          size={"sm"}
+          variant={"filled"}
           onChange={e => setData('comment', e.target.value)}
         />
       </Table.Td>
