@@ -29,8 +29,8 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 
 # Expose port 3000 (the default port used by serve)
-EXPOSE 3000
+EXPOSE 3001
 
 
 # Command to serve the built files
-CMD ["serve", "-s", "dist"]
+CMD ["serve", "-s", "dist", "-p", "3001"]
