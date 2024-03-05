@@ -2,9 +2,10 @@ import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import {AUTH} from "@/enums/auth.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import StorageUtils from "@/utility/StorageUtils.ts";
+import {PROJECT} from "@/constants/project.ts";
 
 // const baseURL = import.meta.env.VITE_BASE_URL
-const baseURL = "https://erdiagramly-api.akrv.dev"
+const baseURL = PROJECT.BASE_API_URL
 const REFRESH_URL = "/v1/auth/refresh"
 
 if (!baseURL) {

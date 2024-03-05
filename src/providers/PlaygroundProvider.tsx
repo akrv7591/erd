@@ -7,6 +7,7 @@ import {useParams} from "react-router-dom";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
 import {useOnMount} from "@/hooks/useOnMount.ts";
+import {PROJECT} from "@/constants/project.ts";
 
 
 export default function PlaygroundProvider(props: PropsWithChildren) {
@@ -16,7 +17,7 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
   const playgroundId = useParams<{ erdId: string }>().erdId!
 
   useOnMount(() => {
-    const socket = connect(import.meta.env.VITE_BASE_URL, {
+    const socket = connect(PROJECT.BASE_API_URL, {
       auth: {playerId: player?.id, playgroundId},
       withCredentials: true,
       reconnection: true,
