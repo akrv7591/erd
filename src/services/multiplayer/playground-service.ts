@@ -87,7 +87,9 @@ export class PlaygroundService {
     if (action === Column.update) {
       usePlaygroundStore.getState().handlePlaygroundResponse({
         status: CallbackDataStatus.OK,
-        data: data,
+        data: {
+          column: data
+        },
         type: action
       })
       this.io.emit(action, data, (obj: ResponseData<Column>) => console.log(obj))
