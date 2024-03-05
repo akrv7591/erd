@@ -83,7 +83,15 @@ export class PlaygroundService {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
-  public column(action: Column, data: { tableId: string, key: string, value: any } | ITableNodeColumn | string) {
+  public column(action: Column, data: { tableId: string, key: string, value: any, id: string } | ITableNodeColumn | string) {
+    if (action === Column.update) {
+      usePlaygroundStore.getState().handlePlaygroundResponse({
+        status: CallbackDataStatus.OK,
+        data: data,
+        type: action
+      })
+      this.io.emit(action, data, (obj: ResponseData<Column>) => console.log(obj))
+    }
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
