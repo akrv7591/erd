@@ -18,6 +18,7 @@ const onRefreshSettled = (success: boolean) => {
   waitList.forEach((request) => {
     success ? request.resolve(request.config) : request.reject(request.config)
     waitList.pop()
+
   })
   isRefreshing = false
 }
