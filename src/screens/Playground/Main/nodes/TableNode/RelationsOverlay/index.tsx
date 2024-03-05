@@ -13,13 +13,21 @@ const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-li
 const RelationsOverlay = () => {
   const tool = usePlaygroundStore(state => state.tool)
   const reactFlow = useReactFlow()
-  const {columns} = useNodeData()
+  const nodeData = useNodeData()
   const connection = useConnection()
   const id = useNodeId()
 
   const connectionNodeId = connection.startHandle?.nodeId
 
-  const isTherePrimaryKey = React.useMemo(() => columns.some(column => column.primary), [columns])
+  const isTherePrimaryKey = React.useMemo(() => {
+    if (!nodeData) {
+      return false
+    }
+
+    return nodeData.data.columns.some(column => column.primary)
+
+  }, [nodeData])
+
   const isTarget = connectionNodeId && connectionNodeId !== id;
   const isTherePrimaryKeyInTarget = React.useMemo(() => {
     if (!isTarget) return null

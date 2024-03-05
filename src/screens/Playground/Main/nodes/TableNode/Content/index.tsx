@@ -17,10 +17,17 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ITableNodeColumn} from "@/types/table-node";
 
 const Content = React.memo(() => {
-  const data = useNodeData()
-  const selectedColumns = React.useMemo(() => data.columns.filter(column => column.selected), [data.columns])
+  const nodeData = useNodeData()
   const tableId = useNodeId()
   const playground = usePlayground()
+
+  const selectedColumns = React.useMemo(() => {
+    if (!nodeData) {
+      return []
+    }
+    return nodeData.data.columns.filter(column => column.selected)
+  }, [nodeData])
+
   const onDelete = React.useCallback(() => {
     if (!tableId) return
     selectedColumns.forEach((column) => {
@@ -29,6 +36,10 @@ const Content = React.memo(() => {
   }, [selectedColumns])
 
   const setSortedColumns = useCallback((columns: ITableNodeColumn[]) => {
+    if (!nodeData) {
+      return
+    }
+
     let orderedColumns = columns.map((column, order) => ({
       ...column,
       order: order
@@ -47,18 +58,22 @@ const Content = React.memo(() => {
         }
       })
     }))
-    const objectsNotEqual = orderedColumns.filter((newColumn) => !data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
+    const objectsNotEqual = orderedColumns.filter((newColumn) => !nodeData.data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 
     objectsNotEqual.forEach((column) => {
       playground.column(Column.update, column)
     })
-  }, [data.columns])
+  }, [nodeData])
+
+  if (!nodeData) {
+    return null
+  }
 
   return (
     <Stack style={{position: "relative"}} gap={0}>
       <ReactSortable
         tag={RenderList}
-        list={data.columns}
+        list={nodeData.data.columns}
         dragClass={styles.ghostRowClass}
         ghostClass={styles.tableRowDrag}
         chosenClass={styles.tableRowDrag}
@@ -66,7 +81,7 @@ const Content = React.memo(() => {
         multiDrag
         handle={".handle"}
       >
-        {data.columns.map((item) => (
+        {nodeData.data.columns.map((item) => (
           <RenderItem key={item.id + item.order} data={item}/>
         ))}
       </ReactSortable>

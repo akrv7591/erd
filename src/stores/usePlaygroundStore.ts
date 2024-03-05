@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {ITableNode, ITableNodeColumn, ITableNodeData} from "@/types/table-node";
+import {ITableNode, ITableNodeColumn, ITableNodeData, NodeType} from "@/types/table-node";
 import {applyEdgeChanges, applyNodeChanges, Edge} from "@xyflow/react";
 import voca from "voca";
 import {RELATIONS} from "@/constants/relations.ts";
@@ -273,7 +273,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
         playground.table(Table.delete, nodeId)
       })
 
-      return ({tables: applyNodeChanges(nodeChanges, oldNodes) as ITableNode[]})
+      return ({tables: applyNodeChanges<NodeType>(nodeChanges, oldNodes)})
     })
   },
   setEdgeChanges: (edgeChanges) => {

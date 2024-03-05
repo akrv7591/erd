@@ -1,5 +1,5 @@
 import {Connection, Edge, EdgeChange, NodeChange, ReactFlowInstance, Viewport} from "@xyflow/react";
-import {IPlayer, ITableNode, ITableNodeColumn, ITools} from "@/types/table-node";
+import {IPlayer, ITableNode, ITableNodeColumn, ITools, NodeType} from "@/types/table-node";
 import {IErd} from "@/types/data/db-model-interfaces";
 import {PlaygroundService, ResponseData} from "@/services/multiplayer/playground-service.ts";
 import React from "react";
@@ -44,7 +44,7 @@ export interface IPlaygroundActions {
   setViewport: (viewport: Viewport) => void
 
   // Node actions
-  setNodeChanges: (nodeChanges: NodeChange[]) => void
+  setNodeChanges: (nodeChanges: NodeChange<NodeType>[]) => void
   // setNodeChanges: React.DragEventHandler
 
   nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>

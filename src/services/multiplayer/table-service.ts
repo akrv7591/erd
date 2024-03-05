@@ -1,6 +1,6 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {applyNodeChanges, NodeChange} from "@xyflow/react";
-import {ITableNode} from "@/types/table-node";
+import {ITableNode, NodeType} from "@/types/table-node";
 
 export const tableService = () => {
 
@@ -8,8 +8,8 @@ export const tableService = () => {
     usePlaygroundStore.setState(cur => ({tables: [...cur.tables, data]}))
   }
 
-  function onUpdate(data: NodeChange) {
-    usePlaygroundStore.setState(cur => ({tables: applyNodeChanges([data], cur.tables)}))
+  function onUpdate(data: NodeChange<NodeType>) {
+    usePlaygroundStore.setState(cur => ({tables: applyNodeChanges<NodeType>([data], cur.tables)}))
   }
 
   function onDelete(data: string) {

@@ -4,12 +4,20 @@ import {useNodeData} from "@/hooks/useNodeData.ts";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 
-const Table = React.memo(React.forwardRef<any, any>((props, ref) => {
-  const data = useNodeData()
+const Table = React.forwardRef<any, any>((props, ref) => {
+  const nodeData = useNodeData()
   const playground = usePlayground()
   const checkbox = React.useMemo(() => {
-    const selected = data.columns.filter(c => c.selected)
-    const isAllChecked  = data.columns.length > 0 && selected.length === data.columns.length
+    if (!nodeData) {
+      return {
+        isAllChecked: false,
+        isIntermediate: false,
+        selected: []
+      }
+    }
+    const {columns} = nodeData.data
+    const selected = columns.filter(c => c.selected)
+    const isAllChecked  = columns.length > 0 && selected.length === columns.length
     const isIntermediate = selected.length > 0 && !isAllChecked
 
     return {
@@ -17,22 +25,31 @@ const Table = React.memo(React.forwardRef<any, any>((props, ref) => {
       isIntermediate,
       selected
     }
-  }, [data.columns])
+  }, [nodeData])
 
   const onCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback((e) => {
+    if (!nodeData) {
+      return
+    }
+
+    const { columns } = nodeData.data
     if (checkbox.isIntermediate) {
       checkbox.selected.forEach(column => playground.column(Column.update, {...column, selected: false}))
     } else if (e.target.checked) {
-      data.columns.forEach(column => playground.column(Column.update, {...column, selected: true}))
+      columns.forEach(column => playground.column(Column.update, {...column, selected: true}))
     } else {
-      data.columns.forEach(column => playground.column(Column.update, {...column, selected: false}))
+      columns.forEach(column => playground.column(Column.update, {...column, selected: false}))
     }
-  }, [data.columns])
+  }, [nodeData])
+
+  if (!nodeData) {
+    return null
+  }
 
   return (
     <MantineTable withRowBorders>
       <MantineTable.Caption>
-        <Collapse in={data.columns.length === 0}>
+        <Collapse in={nodeData.data.columns.length === 0}>
           <Text>No columns</Text>
         </Collapse>
       </MantineTable.Caption>
@@ -58,7 +75,7 @@ const Table = React.memo(React.forwardRef<any, any>((props, ref) => {
       </MantineTable.Tbody>
     </MantineTable>
   )
-}))
+})
 
 
 export default Table

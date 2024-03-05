@@ -1,7 +1,7 @@
 import {ActionIcon, ActionIconGroup, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {useNodeId, useReactFlow} from "@xyflow/react";
+import { useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {Column} from "@/enums/playground.ts";
@@ -12,13 +12,17 @@ import {ITableNodeColumn} from "@/types/table-node";
 
 export default function ContentControls() {
   const playground = usePlayground()
-  const data = useNodeData()
-  const nodeId = useNodeId() as string
+  const nodeData = useNodeData()
   const {deleteElements} = useReactFlow()
-  const onDelete = () => deleteElements({nodes: [{id: nodeId}]})
+
+  if (!nodeData) {
+    return null
+  }
+
+  const onDelete = () => deleteElements({nodes: [{id: nodeData.id}]})
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: ITableNodeColumn = {...DEFAULT_COLUMN_DATA, order: data.columns.length, tableId: nodeId}
+    const newColumn: ITableNodeColumn = {...DEFAULT_COLUMN_DATA, order: nodeData.data.columns.length, tableId: nodeData.id}
     newColumn.id = createId()
 
     if (type === "primary") {
@@ -54,7 +58,7 @@ export default function ContentControls() {
               </ActionIcon>
             </Tooltip>
           )}
-          message={`Do you want to delete ${data.name} table`}
+          message={`Do you want to delete ${nodeData.data.name} table`}
           onConfirm={onDelete}
         />
       </Group>

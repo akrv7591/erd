@@ -7,13 +7,15 @@ export interface ITableNodeColumn extends Omit<IColumn, 'createdAt' | 'updatedAt
   selected: boolean;
 }
 
-export interface ITableNodeData extends Pick<ITable, 'name' | 'color'>{
+export type CustomNodeTypes = 'tableNode'
+
+export type ITableNodeData = Pick<ITable, 'name' | 'color'> & {
   columns: ITableNodeColumn[]
 }
 
-export interface ITableNode extends Node<ITableNodeData> {
-  updatedAt?: Date
-}
+export type ITableNode = Node<ITableNodeData, CustomNodeTypes>
+
+export type NodeType = ITableNode
 
 export interface IPlayer extends IUser {
   cursorPosition: {

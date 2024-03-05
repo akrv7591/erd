@@ -3,7 +3,7 @@ import React from "react";
 import {useErdTableData} from "@/screens/Home/Main/Reactflow/ErdTableDataContext.ts";
 import {Collapse, Text} from "@mantine/core";
 
-const RenderList = React.memo(React.forwardRef<any, any>((props, ref) => {
+const RenderList = React.forwardRef<any, any>((props, ref) => {
   const {data} = useErdTableData()
   return (
     <Table withRowBorders>
@@ -32,7 +32,7 @@ const RenderList = React.memo(React.forwardRef<any, any>((props, ref) => {
       </Table.Tbody>
     </Table>
   )
-}))
+})
 
 
 export default RenderList

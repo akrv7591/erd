@@ -9,6 +9,7 @@ import {Helmet} from "react-helmet-async";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import PlayerCursor from "@/screens/Playground/Main/components/PlayerCursor";
 import {usePlaygroundEvents} from "@/hooks/playground/usePlaygroundEvents.ts";
+import {ITableNode} from "@/types/table-node";
 
 export default function Main() {
   const nodes = usePlaygroundStore(state => state.getNodes());
@@ -50,7 +51,7 @@ export default function Main() {
         {...playgroundEvents}
       >
         <PlayerCursor/>
-        <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={node => node.data.color}/>
+        <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={(node: ITableNode) => node.data.color}/>
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
       </ReactFlow>
     </div>

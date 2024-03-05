@@ -1,7 +1,6 @@
-import {useNodeId, useNodesData} from "@xyflow/react";
 import {Center, Overlay, Text} from "@mantine/core";
-import {ITableNodeData} from "@/types/table-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {useNodeData} from "@/hooks/useNodeData.ts";
 
 
 const getTextSize = (zoom: number) => {
@@ -12,10 +11,9 @@ const getTextSize = (zoom: number) => {
 
 export default function NameOverlay() {
   const zoom = usePlaygroundStore(state => state.zoom)
-  const nodeId = useNodeId()
-  const data = useNodesData(nodeId || "") as ITableNodeData
+  const nodeData = useNodeData()
 
-  if (zoom > 0.3 || !data) return null
+  if (zoom > 0.3 || !nodeData) return null
 
   const textStyle = getTextSize(zoom)
 
@@ -23,7 +21,7 @@ export default function NameOverlay() {
     <Overlay bg={"var(--mantine-primary-color-light)"}>
       <Center h={"100%"}>
         <Text style={textStyle}>
-          {data.name}
+          {nodeData.data.name}
         </Text>
       </Center>
     </Overlay>
