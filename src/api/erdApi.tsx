@@ -20,8 +20,6 @@ const onRefreshSettled = (success: boolean) => {
     waitList.pop()
   })
   isRefreshing = false
-
-
 }
 
 const erdApi = axios.create({
