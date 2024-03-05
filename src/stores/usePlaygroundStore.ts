@@ -370,7 +370,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
               return {
                 tables: cur.tables.map(table => {
                   if (table.id === data.column.tableId) {
-                    const columns = orderBy(table.data.columns.map(c => c.id === data.column.id ? data.column : c), 'order', 'asc')
+                    const columns = orderBy(table.data.columns.map(c => c.id === data.column.id ? {...c, ...data.column} : c), 'order', 'asc')
                     return {
                       ...table,
                       data: {

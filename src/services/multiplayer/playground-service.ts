@@ -83,7 +83,7 @@ export class PlaygroundService {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
-  public column(action: Column, data: ITableNodeColumn | string) {
+  public column(action: Column, data: { tableId: string, key: string, value: any } | ITableNodeColumn | string) {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 

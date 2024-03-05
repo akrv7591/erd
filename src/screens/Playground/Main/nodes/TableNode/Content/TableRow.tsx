@@ -17,10 +17,11 @@ const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
   if (!tableId) return null
 
   const setData = useCallback((key: string, value: any) => {
-    const updatedColumn = {...data} as any
-    updatedColumn[key] = value
-
-    playground.column(Column.update, updatedColumn)
+    playground.column(Column.update, {
+      key,
+      value,
+      tableId
+    })
   }, [playground])
 
   const highlighted = useMemo(() => {
