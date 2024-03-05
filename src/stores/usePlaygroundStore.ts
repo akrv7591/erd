@@ -376,7 +376,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
                       }
                       return {
                         ...c,
-                        [data.key]: data.value
+                        [data.column.key]: data.column.value
                       }
                     }), 'order', 'asc')
                     return {
