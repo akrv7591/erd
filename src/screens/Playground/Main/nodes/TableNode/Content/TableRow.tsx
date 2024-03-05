@@ -18,6 +18,7 @@ const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
 
   const setData = useCallback((key: string, value: any) => {
     playground.column(Column.update, {
+      id: data.id,
       key,
       value,
       tableId
