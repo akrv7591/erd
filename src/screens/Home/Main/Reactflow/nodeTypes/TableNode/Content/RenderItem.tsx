@@ -12,7 +12,7 @@ const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
 
   if (data.foreignKey) return <IconDiamondsFilled style={{color: "#f84219"}} stroke={1} size={15}/>
 
-  return <IconDiamondsFilled style={{color: "#00d0ff"}} stroke={1} size={15}/>
+  return <IconDiamondsFilled style={{color: "var(--mantine-primary-color-filled)"}} stroke={1} size={15}/>
 })
 
 const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
@@ -25,7 +25,7 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
   }
 
   return (
-    <Table.Tr className={`${styles.tableRow}`}>
+    <Table.Tr className={styles.tableRow}>
       <Table.Td className={"nopan nodrag handle"}>
         <ActionIcon variant={"transparent"}>
           <IconGripVertical stroke={1} data-movable-handle/>
@@ -43,6 +43,7 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
         <Input
           value={data.name}
           placeholder={"Column name"}
+          w={"150px"}
           onChange={e => setData('name', e.target.value)}
           h={"inherit"}
         />
@@ -51,6 +52,7 @@ const RenderItem = React.memo(({data}: { data: ITableNodeColumn }) => {
         <Input
           value={data.type}
           placeholder={"Data type"}
+          w={"150px"}
           h={"inherit"}
           onChange={e => setData('type', e.target.value)}
         />

@@ -4,10 +4,10 @@ import {Helmet} from "react-helmet-async";
 import {applyNodeChanges, Background, BackgroundVariant, Node, ReactFlow} from "@xyflow/react";
 import data from "./data.json";
 import {nodeTypes} from "@/screens/Home/Main/Reactflow/nodeTypes";
-import {defaultEdgeOptions, edgeTypes} from "@/screens/Home/Main/Reactflow/edgesTypes";
-import Icons from "@/screens/Home/Main/Reactflow/Icons";
 import React from "react";
 import ScrollSpy from "react-ui-scrollspy";
+import {defaultEdgeOptions, edgeTypes} from "@/screens/Playground/Main/edges";
+import Icons from "@/screens/Playground/Main/Icons";
 
 export default function Main() {
   const [nodes, setNodes] = React.useState<Node[]>(data.nodes)

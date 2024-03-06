@@ -14,7 +14,7 @@ const Content = React.memo(() => {
   const selectedColumns = React.useMemo(() => data.columns.filter(column => column.selected), [data.columns])
 
   return (
-    <Stack style={{position: "relative"}}>
+    <Stack gap={0} style={{position: "relative"}}>
       <ReactSortable
         tag={RenderList}
         list={data.columns}
@@ -29,9 +29,8 @@ const Content = React.memo(() => {
           <RenderItem key={item.id + item.order} data={item}/>
         ))}
       </ReactSortable>
-      <Divider w={"100%"}/>
 
-      <Group mt={"sm"}>
+      <Group>
         <Collapse in={selectedColumns.length > 0}>
           <ButtonWithConfirm
             isDanger

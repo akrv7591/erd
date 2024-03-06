@@ -1,8 +1,11 @@
-
 .tableRow {
     cursor: grab;
     border-radius: 5px;
-    outline: none
+    outline: none;
+
+    &:hover {
+        outline: 1px solid var(--mantine-primary-color-filled);
+    }
 }
 
 .tableRow:hover {
@@ -19,4 +22,5 @@
 
 .ghostRowClass {
     opacity: 0;
+    height: 0 !important;
 }
