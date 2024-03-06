@@ -24,7 +24,7 @@ export const columnService = () => {
     usePlaygroundStore.setState(cur => ({
       tables: cur.tables.map(table => {
         if (table.id === column.tableId) {
-          const columns = orderBy(table.data.columns.map(c => c.id === column.id ? column : c), 'order', 'asc')
+          const columns = orderBy(table.data.columns.map(c => c.id === column.id ? {...c, [column.key]: column.value} : c), 'order', 'asc')
           return {
             ...table,
             data: {
