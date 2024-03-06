@@ -49,10 +49,10 @@ export const playerService = () => {
 
   function onMouseChange({playerId, cursorPosition}: any) {
     usePlaygroundStore.setState(cur => ({
-      players: cur.players.map(p => p.id === playerId ? {
-        ...p,
-        cursorPosition
-      } : p)
+      players: cur.players.map(player => player.id === playerId
+        ? {...player, cursorPosition}
+        : player
+      )
     }))
   }
 

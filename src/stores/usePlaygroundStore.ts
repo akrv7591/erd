@@ -224,6 +224,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
 
 
     data.tables.forEach(table => state.playground.table(Table.add, table))
+    console.log(data.columns)
     data.columns.forEach((column) => state.playground.column(Column.add, column))
     data.relations.forEach(relation => state.playground.relation(Relation.add, relation))
 

@@ -1,5 +1,5 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {ReactFlowProps, useOnViewportChange, useReactFlow} from "@xyflow/react";
+import {ReactFlowProps, useReactFlow} from "@xyflow/react";
 import {Player} from "@/enums/playground.ts";
 import {useCallback, useEffect} from "react";
 
@@ -12,38 +12,32 @@ export const usePlaygroundEvents = () => {
   const setZoom = usePlaygroundStore(state => state.setZoom)
   const reactFlow = useReactFlow()
 
-  useOnViewportChange({
-    onChange: viewport => {
-      setZoom(viewport.zoom)
-    }
-  })
-
   useEffect(() => {
     if (viewport && subscribedTo) {
       reactFlow.setViewport(viewport)
     }
   }, [viewport, subscribedTo])
 
-  useEffect(() => {
-    if (subscribers.length > 0) {
-      playground.player(Player.viewpointChange, reactFlow.getViewport())
-    }
-  })
+  const handleMouseChange = useCallback((pos: { x: number, y: number } | null) => {
+    if (!playground) return
 
-  const handleMouseChange = useCallback((pos: {x: number, y: number} | null) => {
-    playground.player(
-      Player.mouseChange,
-      pos ?reactFlow.screenToFlowPosition(pos, {snapToGrid: false}): pos)
-  }, [reactFlow])
+    if (pos) {
+      pos = reactFlow.screenToFlowPosition(pos, {snapToGrid: false})
+    }
+
+    playground.player(Player.mouseChange, pos)
+
+  }, [reactFlow, playground])
 
   const onDragOver: ReactFlowProps['onDragOver'] = (e: any) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
   }
 
+  const onDrop: ReactFlowProps['onDrop'] = nodeOnDragAdd({reactFlowInstance: reactFlow})
+
+
   const onNodeDrag: ReactFlowProps['onNodeDrag'] = (e) => handleMouseChange({x: e.clientX, y: e.clientY})
-
-
   const onMouseLeave: ReactFlowProps['onMouseLeave'] = () => handleMouseChange(null)
   const onMouseMove: ReactFlowProps['onMouseMove'] = (e) => handleMouseChange({x: e.clientX, y: e.clientY})
   const onMove: ReactFlowProps['onMove'] = (e, viewport) => {
@@ -54,6 +48,8 @@ export const usePlaygroundEvents = () => {
     if (e instanceof MouseEvent) {
       handleMouseChange({x: e.clientX, y: e.clientY})
     }
+
+    setZoom(viewport.zoom)
   }
 
   const onClick: ReactFlowProps['onClick'] = () => {
@@ -62,7 +58,6 @@ export const usePlaygroundEvents = () => {
     }
   }
 
-  const onDrop: ReactFlowProps['onDrop'] = nodeOnDragAdd({reactFlowInstance: reactFlow})
 
   const onNodeDoubleClick: ReactFlowProps['onNodeDoubleClick'] = (_, node) => reactFlow.fitView({
     nodes: [node],

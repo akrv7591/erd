@@ -23,10 +23,7 @@ export class PlaygroundService {
   }
 
   private initPlayground(playground: PlaygroundService) {
-    this.io.on("data", data => {
-      console.log(data)
-      usePlaygroundStore.setState(cur => ({...cur, ...data, playground}))
-    })
+    this.io.on("data", data => usePlaygroundStore.setState(cur => ({...cur, ...data, playground})))
 
     this.initPlayerListeners()
     this.initTableListeners()
@@ -92,6 +89,7 @@ export class PlaygroundService {
         },
         type: action
       })
+      console.log(data)
       this.io.emit(action, data, (obj: ResponseData<Column>) => console.log(obj))
     } else {
       this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)

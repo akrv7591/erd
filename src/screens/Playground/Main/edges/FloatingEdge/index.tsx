@@ -8,7 +8,8 @@ import {useCallback} from "react";
 const getMarkerEnd = (markerEnd: string, end: boolean) => {
   const parenthesisStart = markerEnd.indexOf("#")
   const parenthesisEnd = markerEnd.indexOf(")")
-  const tool = markerEnd.slice(parenthesisStart + 1, parenthesisEnd) as RELATIONS
+  const tool = markerEnd.slice(parenthesisStart + 1, parenthesisEnd - 1)
+
   let relation = ""
   switch (tool) {
     case RELATIONS.ONE_TO_ONE:

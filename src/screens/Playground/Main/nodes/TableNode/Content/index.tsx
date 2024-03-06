@@ -12,8 +12,6 @@ import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useNodeData} from "@/hooks/useNodeData.ts";
-import {orderBy} from "lodash";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ITableNodeColumn} from "@/types/table-node";
 
 const Content = React.memo(() => {
@@ -45,23 +43,10 @@ const Content = React.memo(() => {
       order: order
     }))
 
-    usePlaygroundStore.setState(cur => ({
-      tables: cur.tables.map(table => {
-        if (table.id !== tableId) return table
-
-        return {
-          ...table,
-          data: {
-            ...table.data,
-            columns:  orderBy(orderedColumns, 'order', 'asc')
-          }
-        }
-      })
-    }))
     const objectsNotEqual = orderedColumns.filter((newColumn) => !nodeData.data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 
     objectsNotEqual.forEach((column) => {
-      playground.column(Column.update, column)
+      playground.column(Column.update, {id: column.id, tableId: column.tableId, key: "order", value: column.order})
     })
   }, [nodeData])
 
@@ -98,7 +83,7 @@ const Content = React.memo(() => {
                 </ActionIcon>
               </Tooltip>
             )}
-            message={`Do you want to delete ${selectedColumns.length} ${selectedColumns.length > 1? "columns": "column"}`}
+            message={`Do you want to delete ${selectedColumns.length} ${selectedColumns.length > 1 ? "columns" : "column"}`}
             onConfirm={onDelete}
           />
         </Collapse>

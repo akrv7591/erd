@@ -18,7 +18,9 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
 
   useOnMount(() => {
     const socket = connect(PROJECT.BASE_API_URL, {
-      auth: {playerId: player?.id, playgroundId},
+      auth: {
+        playerId: player?.id, playgroundId
+      },
       withCredentials: true,
       reconnection: true,
     })
@@ -34,7 +36,7 @@ export default function PlaygroundProvider(props: PropsWithChildren) {
     }
 
     const disconnect = () => {
-      playground.io.disconnect()
+      playground.io.close()
       reset()
     }
 
