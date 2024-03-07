@@ -1,23 +1,13 @@
-.box {
-    width: 100%;
-}
-
-.flow {
-    z-index: 0;
-    position: absolute;
-    width: 100vw;
-    height: calc(100vh - 60px);
-    top: 60px;
-}
-
-.inner {
-    padding: 50px;
-    width: 50vw;
-}
-
 .content {
-    padding: 50px;
+    padding-left: 50px;
+    padding-top: 50px;
+    margin-top: 20px;
+    margin-left: 20px;
+    z-index: 1;
+    position: relative;
+    width: fit-content;
     backdrop-filter: blur(1px);
+    border-radius: 100px;
 
     @media (max-width: $mantine-breakpoint-md) {
         max-width: 100%;
@@ -28,7 +18,7 @@
 .title {
     color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
     font-family: Greycliff CF, var(--mantine-font-family);
-    font-size: rem(44px);
+    font-size: rem(20px);
     line-height: 1.2;
     font-weight: 900;
 
@@ -45,8 +35,7 @@
 
 
 .highlight {
-    position: relative;
-    background-color: var(--mantine-color-blue-light);
-    border-radius: var(--mantine-radius-sm);
-    padding: rem(4px) rem(12px);
+    padding: rem(4px) rem(12px) !important;
+    font-size: 40px !important;
+    font-weight: bold !important;
 }

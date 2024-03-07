@@ -8,6 +8,7 @@ import React from "react";
 import ScrollSpy from "react-ui-scrollspy";
 import {defaultEdgeOptions, edgeTypes} from "@/screens/Playground/Main/edges";
 import Icons from "@/screens/Playground/Main/Icons";
+import HeroNode from "@/screens/Home/Main/HeroNode";
 
 export default function Main() {
   const [nodes, setNodes] = React.useState<Node[]>(data.nodes)
@@ -17,22 +18,27 @@ export default function Main() {
         <Helmet>
           <title>Your One-Stop Solution for Entity Relation Diagram</title>
         </Helmet>
+        <HeroNode/>
 
-        <ReactFlow
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          defaultNodes={nodes}
-          defaultEdges={data.edges}
-          defaultEdgeOptions={defaultEdgeOptions}
-          onNodesChange={changedNodes => setNodes(applyNodeChanges(changedNodes, nodes))}
-          minZoom={0.5}
-          maxZoom={0.5}
-          fitView
-          preventScrolling={false}
-        >
-          <Icons/>
-          <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
-        </ReactFlow>
+        <div className={classes.flow}>
+          <ReactFlow
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            defaultNodes={nodes}
+            defaultEdges={data.edges}
+            defaultEdgeOptions={defaultEdgeOptions}
+            onNodesChange={changedNodes => setNodes(applyNodeChanges(changedNodes, nodes))}
+            minZoom={0.5}
+            maxZoom={0.5}
+            fitView
+            preventScrolling={false}
+          >
+            <Icons/>
+            <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
+          </ReactFlow>
+        </div>
+
+
       </Box>
     </ScrollSpy>
 

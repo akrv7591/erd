@@ -1,18 +1,6 @@
 {
   "nodes": [
     {
-      "data": {},
-      "id": "jd352yt9234e9tqmo1c0cp9n",
-      "type": "heroNode",
-      "position": {
-        "x": -6254.947843900293,
-        "y": -6861.567403945594
-      },
-      "dragging": false,
-      "width": 554,
-      "height": 918
-    },
-    {
       "data": {
         "name": "profile",
         "color": "#40c057",
