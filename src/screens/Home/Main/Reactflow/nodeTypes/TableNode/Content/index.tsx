@@ -1,4 +1,4 @@
-import {ActionIcon, Collapse, Divider, Group, Stack, Tooltip,} from "@mantine/core";
+import {ActionIcon, Collapse, Group, Stack, Tooltip,} from "@mantine/core";
 import React from "react";
 import {IconTrash} from "@tabler/icons-react";
 import RenderItem from "./RenderItem.tsx";
@@ -41,7 +41,7 @@ const Content = React.memo(() => {
                 </ActionIcon>
               </Tooltip>
             )}
-            message={`Do you want to delete ${selectedColumns.length} ${selectedColumns.length > 1? "columns": "column"}`}
+            message={`Do you want to delete ${selectedColumns.length} ${selectedColumns.length > 1 ? "columns" : "column"}`}
             onConfirm={deleteSelectedColumns}
           />
         </Collapse>
