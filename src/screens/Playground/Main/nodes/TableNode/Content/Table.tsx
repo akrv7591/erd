@@ -1,12 +1,9 @@
 import {Checkbox, Collapse, Table as MantineTable, Text} from "@mantine/core";
 import React from "react";
-import {useNodeData} from "@/hooks/useNodeData.ts";
-import {usePlayground} from "@/contexts/PlaygroundContext.ts";
-import {Column} from "@/enums/playground.ts";
+import {useTableData} from "@/hooks/useTableData.ts";
 
 const Table = React.forwardRef<any, any>((props, ref) => {
-  const nodeData = useNodeData()
-  const playground = usePlayground()
+  const [nodeData, setNodeData] = useTableData()
   const checkbox = React.useMemo(() => {
     if (!nodeData) {
       return {
@@ -15,9 +12,10 @@ const Table = React.forwardRef<any, any>((props, ref) => {
         selected: []
       }
     }
-    const {columns} = nodeData.data
+
+    const {columns} = nodeData
     const selected = columns.filter(c => c.selected)
-    const isAllChecked  = columns.length > 0 && selected.length === columns.length
+    const isAllChecked = columns.length > 0 && selected.length === columns.length
     const isIntermediate = selected.length > 0 && !isAllChecked
 
     return {
@@ -27,20 +25,11 @@ const Table = React.forwardRef<any, any>((props, ref) => {
     }
   }, [nodeData])
 
-  const onCheckboxChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback((e) => {
-    if (!nodeData) {
-      return
-    }
+  const onCheckboxClick = React.useCallback(() => {
+    const selected = !checkbox.isIntermediate && !checkbox.isAllChecked
+    setNodeData(cur => ({...cur, columns: cur.columns.map(column => ({...column, selected}))}))
 
-    const { columns } = nodeData.data
-    if (checkbox.isIntermediate) {
-      checkbox.selected.forEach(column => playground.column(Column.update, {...column, selected: false}))
-    } else if (e.target.checked) {
-      columns.forEach(column => playground.column(Column.update, {...column, selected: true}))
-    } else {
-      columns.forEach(column => playground.column(Column.update, {...column, selected: false}))
-    }
-  }, [nodeData])
+  }, [checkbox])
 
   if (!nodeData) {
     return null
@@ -49,7 +38,7 @@ const Table = React.forwardRef<any, any>((props, ref) => {
   return (
     <MantineTable withRowBorders>
       <MantineTable.Caption>
-        <Collapse in={nodeData.data.columns.length === 0}>
+        <Collapse in={nodeData.columns.length === 0}>
           <Text>No columns</Text>
         </Collapse>
       </MantineTable.Caption>
@@ -57,7 +46,12 @@ const Table = React.forwardRef<any, any>((props, ref) => {
         <MantineTable.Tr>
           <MantineTable.Td w={40}></MantineTable.Td>
           <MantineTable.Td w={40}>
-            <Checkbox indeterminate={checkbox.isIntermediate} onChange={onCheckboxChange} checked={checkbox.isAllChecked}/>
+            <Checkbox
+              indeterminate={checkbox.isIntermediate}
+              checked={checkbox.isAllChecked}
+              onChange={() => {}}
+              onClick={onCheckboxClick}
+            />
           </MantineTable.Td>
           <MantineTable.Td w={40}></MantineTable.Td>
           <MantineTable.Td maw={200} miw={200}>Column</MantineTable.Td>

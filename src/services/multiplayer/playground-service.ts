@@ -89,7 +89,6 @@ export class PlaygroundService {
         },
         type: action
       })
-      console.log(data)
       this.io.emit(action, data, (obj: ResponseData<Column>) => console.log(obj))
     } else {
       this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)

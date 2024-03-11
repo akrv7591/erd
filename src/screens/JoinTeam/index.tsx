@@ -59,13 +59,6 @@ const VerifyEmailAndJoinTeam = ({team}: Props) => {
       <Stack h={"100%"} mt={"100px"} miw={"400px"}>
         <Group justify={"center"} w={"400px"} h={"200px"}>
           {!verifyEmail.isLoading ?
-            //
-            //   <dotlottie-player
-            //   autoplay={true}
-            //   src={animationDataUrl}
-            //   style={{width: "200px"}}
-            // />
-
             <DotLottiePlayer
               autoplay={true}
               src={animationDataUrl}
