@@ -1,7 +1,9 @@
 import type {Node} from "@xyflow/react";
 import {IColumn, ITable, IUser} from "@/types/data/db-model-interfaces";
+import {RELATION} from "@/constants/relations.ts";
 
-export type ITools = 'hand-grab' | 'add-table' | 'one-to-one' | 'one-to-many' | 'many-to-many'
+export type ITools = 'hand-grab' | 'add-table' | RELATION.NAME;
+
 
 export interface ITableNodeColumn extends Omit<IColumn, 'createdAt' | 'updatedAt'> {
   selected: boolean;

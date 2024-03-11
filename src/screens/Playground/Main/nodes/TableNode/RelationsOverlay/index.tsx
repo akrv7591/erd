@@ -1,101 +1,119 @@
-import {Handle, Position, useConnection, useNodeId, useReactFlow} from "@xyflow/react";
-import styles from "../style.module.css";
-import React from "react";
-import {Center, Overlay, Text, Title} from "@mantine/core";
-import {RELATIONS} from "@/constants/relations.ts";
+import {Handle, Position, useConnection} from "@xyflow/react";
+import classes from "../style.module.css";
+import {Overlay, Text} from "@mantine/core";
+import {RELATION} from "@/constants/relations.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useNodeData} from "@/hooks/useNodeData.ts";
-import {ITableNodeData} from "@/types/table-node";
+import {FC, useMemo} from "react";
 
-const sourceStyle = {zIndex: 2, backgroundColor: "var(--mantine-primary-color-light-hover)"};
-const targetStyle = {zIndex: 1, backgroundColor: "var(--mantine-primary-color-light-hover)"}
 
-const RelationsOverlay = () => {
+const SourceHandle: FC = () => {
   const tool = usePlaygroundStore(state => state.tool)
-  const reactFlow = useReactFlow()
-  const nodeData = useNodeData()
-  const connection = useConnection()
-  const id = useNodeId()
+  const nodeData = useNodeData();
+  const connection = useConnection();
+  const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
 
-  const connectionNodeId = connection.startHandle?.nodeId
+  const activeNodeHandle = useMemo(() => {
 
-  const isTherePrimaryKey = React.useMemo(() => {
-    if (!nodeData) {
-      return false
-    }
+    if (!isToolRelation) return false
+    if (!nodeData) return false
+
+    return nodeData.data.columns.some(column => column.primary)
+  }, [nodeData, tool, isToolRelation]);
+
+  const isConnecting = !!connection.startHandle
+
+  let className = classes.erdNodeHandle
+  let label = "Drag to connect"
+
+  if (!activeNodeHandle) {
+    label = "Need at least 1 primary key to connect"
+  }
+
+  if (isToolRelation && !isConnecting) {
+    className = classes.erdNodeHandleActive
+  }
+
+
+  return (
+    <Overlay className={className}>
+      <Handle
+        className={classes.sourceHandle}
+        position={Position.Right}
+        type={'source'}
+        isConnectableStart={activeNodeHandle}
+      >
+      </Handle>
+      <Text className={classes.handleLabel}>{label}</Text>
+    </Overlay>
+
+  )
+}
+
+const TargetHandle: FC = () => {
+  const tool = usePlaygroundStore(state => state.tool)
+  const nodeData = useNodeData();
+  const connection = useConnection();
+  const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
+  const activeNodeHandle = useMemo(() => {
+    if (!isToolRelation) return false
+    if (!nodeData) return false
+    if (tool !== RELATION.NAME.MANY_TO_MANY) return true
 
     return nodeData.data.columns.some(column => column.primary)
 
-  }, [nodeData])
+  }, [nodeData, tool, isToolRelation]);
 
-  const isTarget = connectionNodeId && connectionNodeId !== id;
-  const isTherePrimaryKeyInTarget = React.useMemo(() => {
-    if (!isTarget) return null
-    if (!connectionNodeId) return null
-    const connectionNode = reactFlow.getNode(connectionNodeId!)
+  const isConnecting = !!connection.startHandle
+  const isSource = connection.startHandle?.nodeId === nodeData?.id
 
-    if (!connectionNode) return null
+  let className = classes.erdNodeHandle
+  let label = "Drop here to connect"
 
-    const connectionNodeData = connectionNode.data as ITableNodeData
 
-    if (!connectionNodeData) return null
+  if (isConnecting) {
 
-    return connectionNodeData.columns.some(column => column.primary)
-  }, [reactFlow, connectionNodeId, isTarget])
+    const endNodeId = connection.endHandle?.nodeId
+    const startNodeId = connection.startHandle?.nodeId
 
-  const isRelationConnection = ['one-to-one', 'one-to-many', 'many-to-many'].includes(tool);
-  const isConnecting = !!connectionNodeId;
-  const label = isTarget
-    ? (tool !== RELATIONS.MANY_TO_MANY
-        ? 'Drop here'
-        : isTherePrimaryKeyInTarget ? "Drop here" : "Need at least 1 primary key in target"
-    )
-    : 'Drag to connect';
+    if (isSource) {
+      label = nodeData?.data.name || "Source"
+    }
 
-  const renderSource = () => {
-    if (!isRelationConnection) return null
-    if (!isConnecting && !isTherePrimaryKey && isRelationConnection) return (
-      <Overlay>
-        <Center h={"100%"}>
-          <Title>Need at least 1 primary key to connect</Title>
-        </Center>
-      </Overlay>
-    )
-    if (!isConnecting) return (
-      <Handle
-        className={styles.customHandle}
-        position={Position.Right}
-        type="source"
-        style={isRelationConnection && isTherePrimaryKey ? sourceStyle : {}}
-      >
-        <Text>{label}</Text>
-      </Handle>
-    )
+    if (tool === RELATION.NAME.MANY_TO_MANY && !activeNodeHandle) {
+      label = "Need at least 1 primary key to connect"
+    } else {
+      if (startNodeId !== endNodeId && endNodeId === nodeData?.id) {
+        label = nodeData?.data.name || "Source"
+      }
+    }
+
+    className = classes.erdNodeHandleActive
   }
 
   return (
-    <>
+    <Overlay className={className}>
       <Handle
-        className={styles.customHandle}
-        position={Position.Left}
-        type="target"
-        style={isTarget ? targetStyle : {}}
+        className={classes.sourceHandle}
+        position={Position.Right}
+        type={"target"}
+        isConnectableEnd={activeNodeHandle}
       >
-        {label}
       </Handle>
-      {renderSource()}
-      {!isConnecting && (
-        <Handle
-          className={styles.customHandle}
-          position={Position.Right}
-          type="source"
-          style={isRelationConnection && isTherePrimaryKey ? sourceStyle : {}}
-        >
-          {label}
-        </Handle>
-      )}
+      <Text className={classes.handleLabel}>{label}</Text>
+    </Overlay>
+  )
+}
+
+
+const RelationsOverlay = () => {
+  return (
+    <>
+      <SourceHandle/>
+      <TargetHandle/>
     </>
   )
 }
+
 
 export default RelationsOverlay

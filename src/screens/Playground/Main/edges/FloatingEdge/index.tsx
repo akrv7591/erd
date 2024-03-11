@@ -1,6 +1,6 @@
 import {EdgeProps, getSmoothStepPath, useReactFlow} from '@xyflow/react';
 import {getEdgeParams} from '../../utils.ts';
-import {RELATION_TYPE, RELATIONS} from "@/constants/relations.ts";
+import {RELATION} from "@/constants/relations.ts";
 import "./style.css"
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useCallback} from "react";
@@ -12,14 +12,14 @@ const getMarkerEnd = (markerEnd: string, end: boolean) => {
 
   let relation = ""
   switch (tool) {
-    case RELATIONS.ONE_TO_ONE:
-      relation = RELATION_TYPE.ONE
+    case RELATION.NAME.ONE_TO_ONE:
+      relation = RELATION.TYPE.ONE
       break
-    case RELATIONS.ONE_TO_MANY:
-      relation = end ? RELATION_TYPE.MANY : RELATION_TYPE.ONE
+    case RELATION.NAME.ONE_TO_MANY:
+      relation = end ? RELATION.TYPE.MANY : RELATION.TYPE.ONE
       break
-    case RELATIONS.MANY_TO_MANY:
-      relation = RELATION_TYPE.MANY
+    case RELATION.NAME.MANY_TO_MANY:
+      relation = RELATION.TYPE.MANY
   }
 
   return `url(#${relation})`

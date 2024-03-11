@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import IconButton from "@/screens/Playground/Navbar/EntityControls/IconButton.tsx";
+import {RELATION} from "@/constants/relations.ts";
 
 export interface IData {
   label: string
@@ -35,17 +36,17 @@ const buttons: IData[] = [
     }
   }, {
     label: 'One to one',
-    value: 'one-to-one',
+    value: RELATION.NAME.ONE_TO_ONE,
     icon: IconRelationOneToOne,
     allowOnDisabled: false
   }, {
     label: 'One to many',
-    value: 'one-to-many',
+    value: RELATION.NAME.ONE_TO_MANY,
     icon: IconRelationOneToMany,
     allowOnDisabled: false
   }, {
     label: 'Many to many',
-    value: 'many-to-many',
+    value: RELATION.NAME.MANY_TO_MANY,
     icon: IconRelationManyToMany,
     allowOnDisabled: false
   }]
@@ -59,7 +60,7 @@ export default function EntityControls() {
     return count + (hasPrimary ? 1 : 0)
   }, 0)
   const disabled = countOfNodesWithPrimaryKeys < 2
-  
+
   return buttons.map(action => <IconButton key={action.value} disabled={disabled} data={action}/>)
-  
+
 }

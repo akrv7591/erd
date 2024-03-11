@@ -2,7 +2,7 @@ import {create} from "zustand";
 import {ITableNode, ITableNodeColumn, ITableNodeData, NodeType} from "@/types/table-node";
 import {applyEdgeChanges, applyNodeChanges, Edge} from "@xyflow/react";
 import voca from "voca";
-import {RELATIONS} from "@/constants/relations.ts";
+import {RELATION} from "@/constants/relations.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
@@ -98,7 +98,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
         erdId: getState().id,
         source: sourceNode.id,
         target: targetNode.id,
-        markerEnd: RELATIONS.ONE_TO_ONE,
+        markerEnd: RELATION.NAME.ONE_TO_ONE,
       }
       const newColumn: ITableNodeColumn = {
         ...column,
@@ -126,7 +126,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
         erdId: getState().id,
         source: sourceNode.id,
         target: targetNode.id,
-        markerEnd: RELATIONS.ONE_TO_MANY,
+        markerEnd: RELATION.NAME.ONE_TO_MANY,
       }
       data.relations.push(relation)
       data.columns.push({
@@ -168,7 +168,7 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
         erdId: getState().id,
         source: nodeId,
         target: mnTable.id,
-        markerEnd: RELATIONS.ONE_TO_MANY,
+        markerEnd: RELATION.NAME.ONE_TO_MANY,
       }
       data.relations.push(relation)
       mnTable.data.columns.push({
@@ -211,13 +211,13 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
     }
 
     switch (state.tool) {
-      case RELATIONS.ONE_TO_ONE:
+      case RELATION.NAME.ONE_TO_ONE:
         state.addOneToOneRelations(sourceNode, targetNode, data)
         break
-      case RELATIONS.ONE_TO_MANY:
+      case RELATION.NAME.ONE_TO_MANY:
         state.addOneToManyRelations(sourceNode, targetNode, data)
         break
-      case RELATIONS.MANY_TO_MANY:
+      case RELATION.NAME.MANY_TO_MANY:
         state.addManyToManyRelations(sourceNode, targetNode, data)
         break
     }
