@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {ITableNode, ITableNodeColumn, ITableNodeData, NodeType} from "@/types/table-node";
-import {applyEdgeChanges, applyNodeChanges, Edge} from "@xyflow/react";
+import {applyEdgeChanges, applyNodeChanges} from "@xyflow/react";
 import voca from "voca";
 import {RELATION} from "@/constants/relations.ts";
 import {createId} from "@paralleldrive/cuid2";
@@ -370,7 +370,8 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
     message: "",
     open: () => set({confirmModal: {...getState().confirmModal, opened: true}}),
     close: () => set({confirmModal: {...getState().confirmModal, opened: false}}),
-    onConfirm: () => {},
+    onConfirm: () => {
+    },
   },
   reset: () => {
     set(initialState)
