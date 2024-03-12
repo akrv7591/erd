@@ -333,7 +333,23 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
           case "add":
             break
           case "remove":
-            cur.playground.relation(Relation.delete, cur.relations.find(r => r.id === edge.id) as Edge)
+            const relation = cur.relations.find(r => r.id === edge.id)
+
+            if (relation) {
+              cur.playground.relation(Relation.delete, relation)
+              targetNode = cur.tables.find(node => node.id === relation.target)
+
+              if (targetNode) {
+                targetNode = {
+                  ...targetNode,
+                  data: {
+                    ...targetNode.data,
+                    columns: targetNode.data.columns = targetNode.data.columns.filter(c => c.id !== relation.id)
+                  }
+                }
+              }
+            }
+
             break
           case "replace":
             break
