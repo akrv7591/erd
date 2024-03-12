@@ -69,6 +69,8 @@ export interface IErd {
   description: string | null;
   isPublic: boolean;
   teamId: string
+  tableNameCase: "snake" | "pascal" | "camel";
+  columnNameCase: "snake" | "camel";
 
   //Relations
   team?: ITeam

@@ -1,4 +1,16 @@
-import {Group, Modal, Select, Stack, Switch, Text, Textarea, TextInput, Tooltip} from "@mantine/core";
+import {
+  Group,
+  Input,
+  Modal,
+  SegmentedControl,
+  Select,
+  Stack,
+  Switch,
+  Text,
+  Textarea,
+  TextInput,
+  Tooltip
+} from "@mantine/core";
 import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
@@ -8,7 +20,7 @@ import {notifications} from "@mantine/notifications";
 import {IErd} from "@/types/data/db-model-interfaces";
 import {createId} from "@paralleldrive/cuid2";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {IconInfoCircleFilled} from "@tabler/icons-react";
+import {IconInfoCircle} from "@tabler/icons-react";
 import {hasRoleAccess} from "@/utility/role-util.ts";
 
 interface Props extends ModalBaseProps {
@@ -39,6 +51,8 @@ const generateDefaultFormValue = (): IErd => {
     isPublic: false,
     createdAt: new Date(),
     updatedAt: new Date(),
+    tableNameCase: "pascal",
+    columnNameCase: "camel",
     teamId: ''
   }
 
@@ -128,7 +142,10 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
 
 
   return (
-    <Modal {...props} size={"lg"}>
+    <Modal {...props} onClose={() => {
+      props.onClose()
+      form.reset()
+    }} size={"lg"}>
       <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
         {type === "delete"
           ? <Text>Are you sure to delete {data?.name}</Text>
@@ -142,26 +159,59 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
                   data-autofocus
                   style={{flex: 1}}
                 />
-                <Select
-                  {...form.getInputProps("teamId", {withFocus: true})}
-                  disabled={type==="update"}
-                  label={"Team"}
-                  description={type==="update"? "You can't edit erd team": null}
-                  placeholder={"Select a team"}
-                  data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.UserTeam.role)}))}
-                  checkIconPosition={"right"}
-                />
+                <Tooltip hidden={type !== "update"} label={"You can't edit erd team"}>
+                  <Select
+                    {...form.getInputProps("teamId", {withFocus: true})}
+                    disabled={type === "update"}
+                    label={"Team"}
+                    placeholder={"Select a team"}
+                    data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.UserTeam.role)}))}
+                    checkIconPosition={"right"}
+                  />
+                </Tooltip>
               </Group>
               <Textarea
                 {...form.getInputProps("description")}
                 label={"Description"}
               />
               <Group gap={"xs"} align={"center"}>
-                <Switch label={"Public"} pr={0} {...form.getInputProps("isPublic", {type: "checkbox"})} />
+                <Switch label={"Public"} labelPosition={"left"}
+                        pr={0} {...form.getInputProps("isPublic", {type: "checkbox"})} />
                 <Tooltip label={"Accessible by anyone, but users in respective team can modify it"}>
-                  <IconInfoCircleFilled size={20}/>
+                  <IconInfoCircle size={20}/>
                 </Tooltip>
               </Group>
+              <Stack gap={0}>
+                <Input.Label>Entity name casing</Input.Label>
+                <SegmentedControl
+                  value={form.values.tableNameCase}
+                  onChange={(v: any) => form.setFieldValue("tableNameCase", v)}
+                  data={[{
+                    label: "Pascal",
+                    value: "pascal"
+                  }, {
+                    label: "Snake",
+                    value: "snake"
+                  }, {
+                    label: "Camel",
+                    value: "camel"
+                  }]}
+                />
+              </Stack>
+              <Stack gap={0}>
+                <Input.Label>Entity column name casing</Input.Label>
+                <SegmentedControl
+                  value={form.values.columnNameCase}
+                  onChange={(v: any) => form.setFieldValue("columnNameCase", v)}
+                  data={[{
+                    label: "Snake",
+                    value: "snake"
+                  }, {
+                    label: "Camel",
+                    value: "camel"
+                  }]}
+                />
+              </Stack>
             </Stack>
           )
         }
