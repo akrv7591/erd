@@ -17,8 +17,6 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import classes from "./style.module.css";
 import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {Table as ETable} from "@/enums/playground.ts";
 import {useReactFlow} from "@xyflow/react";
 import {ITableNode} from "@/types/table-node";
 
@@ -26,13 +24,14 @@ export default function TableList() {
   const [opened, {open, close}] = useDisclosure()
   const [selectedEntities, setSelectedEntities] = React.useState<ITableNode[]>([])
   const tables = usePlaygroundStore(state => state.tables)
-  const playground = usePlaygroundStore(state => state.playground)
   const reactflow = useReactFlow()
   const [search, setSearch] = React.useState("")
   const filteredTables = React.useMemo(() => tables.filter(t => t.data.name.toLowerCase().includes(search.toLowerCase())), [search, tables])
   const onSelectedDelete = React.useCallback(() => {
-    selectedEntities.forEach(entity => playground.table(ETable.delete, entity.id))
-    setSelectedEntities([])
+    reactflow.deleteElements({
+      nodes: selectedEntities.map(t => ({id: t.id})),
+    }).then(() => setSelectedEntities([]))
+
   }, [selectedEntities, setSelectedEntities])
 
   return (
@@ -60,7 +59,7 @@ export default function TableList() {
             h={"40px"}
             style={{border: "none"}}
           >
-            <IconList />
+            <IconList/>
           </ActionIcon>
         </Tooltip>
       </Menu.Target>
@@ -100,24 +99,16 @@ export default function TableList() {
               <Table.Tr>
                 <Table.Td colSpan={3} p={0}>
                   <Collapse in={selectedEntities.length > 0}>
-                    <ButtonWithConfirm
-                      key={selectedEntities.length}
-                      isDanger
-                      position={"bottom"}
-                      target={(
-                        <Button
-                          m={10}
-                          size={"xs"}
-                          variant={"default"}
-                          color={"var(--mantine-color-red-filled)"}
-                          leftSection={<IconTrash/>}
-                        >
-                          Delete {selectedEntities.length} {selectedEntities.length > 1 ? "entities" : "entity"}
-                        </Button>
-                      )}
-                      message={`Do you really want to delete ${selectedEntities.length} entities?`}
-                      onConfirm={onSelectedDelete}
-                    />
+                    <Button
+                      m={10}
+                      size={"xs"}
+                      variant={"default"}
+                      color={"var(--mantine-color-red-filled)"}
+                      onClick={onSelectedDelete}
+                      leftSection={<IconTrash/>}
+                    >
+                      Delete {selectedEntities.length} {selectedEntities.length > 1 ? "entities" : "entity"}
+                    </Button>
                   </Collapse>
                 </Table.Td>
               </Table.Tr>

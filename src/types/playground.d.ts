@@ -1,4 +1,4 @@
-import {Connection, Edge, EdgeChange, NodeChange, ReactFlowInstance, Viewport} from "@xyflow/react";
+import {Connection, Edge, EdgeChange, NodeChange, OnBeforeDelete, ReactFlowInstance, Viewport} from "@xyflow/react";
 import {IPlayer, ITableNode, ITableNodeColumn, ITools, NodeType} from "@/types/table-node";
 import {IErd} from "@/types/data/db-model-interfaces";
 import {PlaygroundService, ResponseData} from "@/services/multiplayer/playground-service.ts";
@@ -48,6 +48,7 @@ export interface IPlaygroundActions {
   // setNodeChanges: React.DragEventHandler
 
   nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
+  onBeforeDelete: OnBeforeDelete<NodeType>
 
   // Relation actions
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
@@ -63,6 +64,14 @@ export interface IPlaygroundActions {
   // Other
   setHighlightedRelation: (highlightedRelation: null | IHighlightedRelation) => void
   setZoom: (zoom: number) => void
+  confirmModal: {
+    opened: boolean
+    message: string
+    open: () => void
+    close: () => void
+    onConfirm: (callback?: () => void) => void
+    onCancel?: (callback?: () => void) => void
+  }
 
   // Cleanup
   reset: () => void

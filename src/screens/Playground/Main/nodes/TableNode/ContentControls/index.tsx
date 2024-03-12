@@ -1,7 +1,6 @@
 import {ActionIcon, ActionIconGroup, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import { useReactFlow} from "@xyflow/react";
+import {useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {Column} from "@/enums/playground.ts";
@@ -22,7 +21,11 @@ export default function ContentControls() {
   const onDelete = () => deleteElements({nodes: [{id: nodeData.id}]})
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: ITableNodeColumn = {...DEFAULT_COLUMN_DATA, order: nodeData.data.columns.length, tableId: nodeData.id}
+    const newColumn: ITableNodeColumn = {
+      ...DEFAULT_COLUMN_DATA,
+      order: nodeData.data.columns.length,
+      tableId: nodeData.id
+    }
     newColumn.id = createId()
 
     if (type === "primary") {
@@ -44,23 +47,17 @@ export default function ContentControls() {
             </ActionIcon>
           </Tooltip>
           <Tooltip label={"Add non primary key row"} position={"top"}>
-            <ActionIcon color={"var(--mantine-primary-color-filled)"} variant={"filled"} onClick={() => addColumn("default")}>
+            <ActionIcon color={"var(--mantine-primary-color-filled)"} variant={"filled"}
+                        onClick={() => addColumn("default")}>
               <IconPlus stroke={1} color={"white"}/>
             </ActionIcon>
           </Tooltip>
         </ActionIconGroup>
-        <ButtonWithConfirm
-          isDanger
-          target={(
-            <Tooltip label={"Delete table"}>
-              <ActionIcon color={"var(--mantine-color-red-6)"} variant={"filled"}>
-                <IconTrash stroke={1}/>
-              </ActionIcon>
-            </Tooltip>
-          )}
-          message={`Do you want to delete ${nodeData.data.name} table`}
-          onConfirm={onDelete}
-        />
+        <Tooltip label={"Delete table"}>
+          <ActionIcon onClick={onDelete} color={"var(--mantine-color-red-6)"} variant={"filled"}>
+            <IconTrash stroke={1}/>
+          </ActionIcon>
+        </Tooltip>
       </Group>
     </Group>
   )

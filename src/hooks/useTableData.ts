@@ -29,7 +29,7 @@ export const useTableData = (): [NodeData, SetNodeData] => {
         } : table)
       }))
     }
-  }, [nodeId])
+  }, [nodeId, nodeData])
 
   return [nodeData?.data!, setNodeData]
 }

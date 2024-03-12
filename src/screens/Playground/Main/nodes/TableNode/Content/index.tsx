@@ -7,7 +7,7 @@ import styles from "./style.module.css"
 import "./style.module.css"
 import RenderList from "./Table.tsx";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {useNodeId} from "@xyflow/react";
+import {useNodeId, useReactFlow} from "@xyflow/react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
@@ -18,6 +18,7 @@ const Content = React.memo(() => {
   const nodeData = useNodeData()
   const tableId = useNodeId()
   const playground = usePlayground()
+  const reactflow = useReactFlow()
 
   const selectedColumns = React.useMemo(() => {
     if (!nodeData) {
@@ -28,9 +29,23 @@ const Content = React.memo(() => {
 
   const onDelete = React.useCallback(() => {
     if (!tableId) return
-    selectedColumns.forEach((column) => {
+    selectedColumns.filter(c => !c.foreignKey).forEach((column) => {
       playground.column(Column.delete, column)
     })
+
+    // If there are foreign columns delete relations with them
+    const foreignColumns = selectedColumns.filter(c => c.foreignKey)
+    if (foreignColumns.length > 0) {
+      reactflow.deleteElements({edges: foreignColumns.map(c => ({id: c.id}))}).then((value) => {
+        if (value.deletedEdges.length > 0) {
+          selectedColumns.forEach((column) => {
+            playground.column(Column.delete, column)
+          })
+        }
+      })
+    }
+
+
   }, [selectedColumns])
 
   const setSortedColumns = useCallback((columns: ITableNodeColumn[]) => {

@@ -31,7 +31,7 @@ const initialState: IPlaygroundState = {
   playground: null as any,
   highlightedRelation: null,
   // Other
-  zoom: 0
+  zoom: 0,
 }
 
 
@@ -82,6 +82,55 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
 
       const {playground} = getState()
       playground.table(Table.add, newNode)
+    }
+  },
+  onBeforeDelete: async ({nodes, edges}) => {
+    if (nodes.length > 0) {
+      // Node deletion handler
+      return new Promise((res) => {
+        set({
+          confirmModal: {
+            ...getState().confirmModal,
+            opened: true,
+            message: `Are you sure you want to delete ${nodes.map(n => n.data.name)} ${nodes.length === 1 ? "entity" : "entities"} with relations?`,
+            onConfirm: (callback) => {
+              res(true)
+              if (callback) {
+                callback()
+              }
+            },
+            onCancel: (callback) => {
+              res(false)
+              if (callback) {
+                callback()
+              }
+            }
+          }
+        })
+      })
+    } else {
+      // Edge deletion handler
+      return new Promise((res) => {
+        set({
+          confirmModal: {
+            ...getState().confirmModal,
+            opened: true,
+            message: `Are you sure you want to delete ${edges.length} ${edges.length === 1 ? "edge" : "edges"} with relation columns?`,
+            onConfirm: (callback) => {
+              res(true)
+              if (callback) {
+                callback()
+              }
+            },
+            onCancel: (callback) => {
+              res(false)
+              if (callback) {
+                callback()
+              }
+            }
+          }
+        })
+      })
     }
   },
 
@@ -224,7 +273,6 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
 
 
     data.tables.forEach(table => state.playground.table(Table.add, table))
-    console.log(data.columns)
     data.columns.forEach((column) => state.playground.column(Column.add, column))
     data.relations.forEach(relation => state.playground.relation(Relation.add, relation))
 
@@ -301,8 +349,14 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
     })
   },
   setViewport: (viewport) => set({viewport}),
+  confirmModal: {
+    opened: false,
+    message: "",
+    open: () => set({confirmModal: {...getState().confirmModal, opened: true}}),
+    close: () => set({confirmModal: {...getState().confirmModal, opened: false}}),
+    onConfirm: () => {},
+  },
   reset: () => {
-    console.log("RESETING STATE")
     set(initialState)
   },
   handlePlaygroundResponse: ({status, type, data}) => {
