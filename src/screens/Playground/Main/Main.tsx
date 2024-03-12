@@ -20,6 +20,7 @@ export default function Main() {
   const setConnection = usePlaygroundStore(state => state.setConnection)
   const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
   const onBeforeDelete = usePlaygroundStore(state => state.onBeforeDelete)
+  const minimap = usePlaygroundStore(state => state.minimap)
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const playgroundEvents = usePlaygroundEvents()
 
@@ -55,7 +56,7 @@ export default function Main() {
         {...playgroundEvents}
       >
         <PlayerCursor/>
-        <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={(node: ITableNode) => node.data.color}/>
+        {minimap && <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={(node: ITableNode) => node.data.color}/>}
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
       </ReactFlow>
     </div>

@@ -31,7 +31,11 @@ export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'ta
   viewport: Viewport | null;
   subscribers: string[];
   highlightedRelation: null | IHighlightedRelation;
+}
+
+export interface IPlaygroundLocalstorageState {
   zoom: number
+  minimap: boolean
 }
 
 export interface IPlaygroundViews {
@@ -64,6 +68,7 @@ export interface IPlaygroundActions {
   // Other
   setHighlightedRelation: (highlightedRelation: null | IHighlightedRelation) => void
   setZoom: (zoom: number) => void
+  setMinimap: (minimap: boolean) => void
   confirmModal: {
     opened: boolean
     message: string
@@ -73,8 +78,10 @@ export interface IPlaygroundActions {
     onCancel?: (callback?: () => void) => void
   }
 
+
+
   // Cleanup
   reset: () => void
 }
 
-export type IErdDiagram = IPlaygroundState & IPlaygroundViews & IPlaygroundActions
+export type IErdDiagram = IPlaygroundState & IPlaygroundLocalstorageState & IPlaygroundViews & IPlaygroundActions

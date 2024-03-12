@@ -7,9 +7,19 @@ import {createId} from "@paralleldrive/cuid2";
 import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
 import {orderBy} from "lodash";
-import {IAddNodeProps, IConnectionData, IErdDiagram, IPlaygroundState} from "@/types/playground";
+import {
+  IAddNodeProps,
+  IConnectionData,
+  IErdDiagram,
+  IPlaygroundLocalstorageState,
+  IPlaygroundState
+} from "@/types/playground";
 import {ICRelation} from "@/types/data/db-model-interfaces";
 
+const localStorageState: IPlaygroundLocalstorageState = {
+  zoom: Number(localStorage.getItem("zoom")) || 0,
+  minimap: JSON.parse(localStorage.getItem("minimap") || "true")
+}
 
 const initialState: IPlaygroundState = {
   id: "",
@@ -30,13 +40,12 @@ const initialState: IPlaygroundState = {
   tool: "hand-grab",
   playground: null as any,
   highlightedRelation: null,
-  // Other
-  zoom: 0,
-}
 
+}
 
 export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
   ...initialState,
+  ...localStorageState,
 
   // Views
   getNodes: () => getState().tables,
@@ -44,7 +53,14 @@ export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
 
   // Other
   setHighlightedRelation: (highlightedRelation) => set({highlightedRelation}),
-  setZoom: (zoom) => set({zoom}),
+  setZoom: (zoom) => {
+    set({zoom})
+    localStorage.setItem("zoom", zoom.toString())
+  },
+  setMinimap: (minimap) => {
+    set({minimap})
+    localStorage.setItem("minimap", JSON.stringify(minimap))
+  },
 
   // Node Action
   nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {

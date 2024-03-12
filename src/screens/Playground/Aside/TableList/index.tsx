@@ -57,7 +57,6 @@ export default function TableList() {
             variant={opened ? 'light' : 'default'}
             w={"40px"}
             h={"40px"}
-            style={{border: "none"}}
           >
             <IconList/>
           </ActionIcon>
