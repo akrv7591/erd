@@ -1,10 +1,10 @@
 import React from "react";
-import {ITableNodeColumn} from "@/types/table-node";
+import {EntityNodeColumn} from "@/types/entity-node";
 import {IconDiamondsFilled, IconKey} from "@tabler/icons-react";
 import classes from "./style.module.css"
 import {Tooltip} from "@mantine/core";
 
-const ColumnTypeIcon = React.memo(({data}: { data: ITableNodeColumn }) => {
+const ColumnTypeIcon = React.memo(({data}: { data: EntityNodeColumn }) => {
 
   if (data.primary) return (
     <Tooltip label={"Primary key"}>

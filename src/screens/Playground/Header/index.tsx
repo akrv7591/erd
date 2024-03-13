@@ -6,6 +6,7 @@ import Logo from "@/components/common/Logo.tsx";
 import Account from "@/components/common/Account";
 import {IconDoorExit} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
+import Config from "@/screens/Playground/Header/Config";
 
 export default function Header() {
   const players = usePlaygroundStore(state => state.players)
@@ -14,6 +15,7 @@ export default function Header() {
     <Group align={"center"} gap={"5px"} px={"5px"} h={"100%"}>
       <Logo/>
       <Title/>
+      <Config />
       <Group ml={"auto"} gap={0}>
         {players.map(player => <PlayerAvatar player={player} key={player.id}/>)}
       </Group>

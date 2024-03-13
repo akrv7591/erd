@@ -8,10 +8,10 @@ import Header from "./Header";
 import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
 import {erdTableTheme} from "@/config/theme.ts";
-import {ITableNodeData} from "@/types/table-node";
+import {EntityNodeData} from "@/types/entity-node";
 import NameOverlay from "@/screens/Playground/Main/nodes/TableNode/NameOverlay";
 
-interface Props extends NodeProps<ITableNodeData> {
+interface Props extends NodeProps<EntityNodeData> {
 }
 
 const TableNode = React.memo((props: Props) => {

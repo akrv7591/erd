@@ -2,11 +2,11 @@ import {ActionIcon, Tooltip} from "@mantine/core";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Player} from "@/enums/playground.ts";
-import {IPlayer} from "@/types/table-node";
+import {LivePlayer} from "@/types/entity-node";
 import classes from "./style.module.css"
 
 interface Props {
-  player: IPlayer
+  player: LivePlayer
 }
 
 export default function PlayerAvatar(props: Props) {

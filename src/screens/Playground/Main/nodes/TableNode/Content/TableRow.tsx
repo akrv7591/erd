@@ -5,30 +5,30 @@ import styles from "./style.module.css"
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
-import {ITableNodeColumn} from "@/types/table-node";
+import {EntityNodeColumn} from "@/types/entity-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import ColumnTypeIcon from "@/screens/Playground/Main/nodes/TableNode/Content/ColumnTypeIcon.tsx";
 
-const TableRow = React.memo(({data}: { data: ITableNodeColumn }) => {
+const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
   const playground = usePlayground()
-  const tableId = useNodeId()
+  const entityId = useNodeId()
   const highlightedRelation = usePlaygroundStore(state => state.highlightedRelation)
 
-  if (!tableId) return null
+  if (!entityId) return null
 
   const setData = useCallback((key: string, value: any) => {
     playground.column(Column.update, {
       id: data.id,
       key,
       value,
-      tableId
+      entityId
     })
   }, [playground])
 
   const highlighted = useMemo(() => {
     if (highlightedRelation?.endNodeColumnId === data.id) {
       return true
-    } else return highlightedRelation?.startNodeId === tableId && data.primary;
+    } else return highlightedRelation?.startNodeId === entityId && data.primary;
   }, [highlightedRelation])
 
   return (

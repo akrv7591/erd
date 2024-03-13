@@ -7,8 +7,8 @@ export const relationService = () => {
     usePlaygroundStore.setState(cur => ({relations: [...cur.relations, data]}))
   }
 
-  function onDelete(data: Edge) {
-    usePlaygroundStore.setState(cur => ({relations: cur.relations.filter(t => t.id !== data.id)}))
+  function onDelete(id: string) {
+    usePlaygroundStore.setState(cur => ({relations: cur.relations.filter(t => t.id !== id)}))
   }
 
   return {

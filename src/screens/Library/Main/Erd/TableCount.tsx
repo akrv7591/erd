@@ -32,7 +32,7 @@ export default function TableCount({erdId}: Props) {
       )
     case "success":
       return (
-        <Tooltip label={`${data.count} tables`}>
+        <Tooltip label={`${data.count} entities`}>
           <Group gap={2}>
             <Text>{data.count}</Text>
 

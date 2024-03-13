@@ -1,8 +1,8 @@
-import {ITableNodeColumn} from "@/types/table-node";
+import {EntityNodeColumn} from "@/types/entity-node";
 
-export const DEFAULT_COLUMN_DATA: ITableNodeColumn = {
+export const DEFAULT_COLUMN_DATA: EntityNodeColumn = {
   id: "",
-  tableId: "",
+  entityId: "",
   name: "",
   type: "",
   primary: false,

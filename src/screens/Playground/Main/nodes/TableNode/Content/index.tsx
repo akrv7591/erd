@@ -12,11 +12,11 @@ import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {Column} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useNodeData} from "@/hooks/useNodeData.ts";
-import {ITableNodeColumn} from "@/types/table-node";
+import {EntityNodeColumn} from "@/types/entity-node";
 
 const Content = React.memo(() => {
   const nodeData = useNodeData()
-  const tableId = useNodeId()
+  const entityId = useNodeId()
   const playground = usePlayground()
   const reactflow = useReactFlow()
 
@@ -28,7 +28,7 @@ const Content = React.memo(() => {
   }, [nodeData])
 
   const onDelete = React.useCallback(() => {
-    if (!tableId) return
+    if (!entityId) return
     selectedColumns.filter(c => !c.foreignKey).forEach((column) => {
       playground.column(Column.delete, column)
     })
@@ -48,7 +48,7 @@ const Content = React.memo(() => {
 
   }, [selectedColumns])
 
-  const setSortedColumns = useCallback((columns: ITableNodeColumn[]) => {
+  const setSortedColumns = useCallback((columns: EntityNodeColumn[]) => {
     if (!nodeData) {
       return
     }
@@ -61,7 +61,7 @@ const Content = React.memo(() => {
     const objectsNotEqual = orderedColumns.filter((newColumn) => !nodeData.data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 
     objectsNotEqual.forEach((column) => {
-      playground.column(Column.update, {id: column.id, tableId: column.tableId, key: "order", value: column.order})
+      playground.column(Column.update, {id: column.id, entityId: column.entityId, key: "order", value: column.order})
     })
   }, [nodeData])
 

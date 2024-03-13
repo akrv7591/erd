@@ -1,27 +1,27 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {applyNodeChanges, NodeChange} from "@xyflow/react";
-import {ITableNode, NodeType} from "@/types/table-node";
+import {EntityNode, NodeType} from "@/types/entity-node";
 
 export const tableService = () => {
 
-  function onAdd(data: ITableNode) {
-    usePlaygroundStore.setState(cur => ({tables: [...cur.tables, data]}))
+  function onAdd(data: EntityNode) {
+    usePlaygroundStore.setState(state => ({entities: [...state.entities, data]}))
   }
 
   function onUpdate(data: NodeChange<NodeType>) {
-    usePlaygroundStore.setState(cur => ({tables: applyNodeChanges<NodeType>([data], cur.tables)}))
+    usePlaygroundStore.setState(state => ({entities: applyNodeChanges<NodeType>([data], state.entities)}))
   }
 
   function onDelete(data: string) {
-    usePlaygroundStore.setState(cur => ({tables: cur.tables.filter(t => t.id !== data)}))
+    usePlaygroundStore.setState(state => ({entities: state.entities.filter(entity => entity.id !== data)}))
   }
 
-  function onSet({tableId, data}: any) {
+  function onSet({entityId, data}: any) {
     usePlaygroundStore.setState(cur => ({
-      tables: cur.tables.map(t => t.id === tableId ? {
-        ...t,
-        data: {...t.data, ...data}
-      } : t)
+      entities: cur.entities.map(entity => entity.id === entityId ? {
+        ...entity,
+        data: {...entity.data, ...data}
+      } : entity)
     }))
   }
 

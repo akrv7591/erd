@@ -1,12 +1,12 @@
 import {Socket} from "socket.io-client";
 import {Edge} from "@xyflow/react";
-import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
+import {CallbackDataStatus, Column, Player, Relation, Entity} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
 import {tableService} from "@/services/multiplayer/table-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
 import {columnService} from "@/services/multiplayer/column-service.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {ITableNode, ITableNodeColumn} from "@/types/table-node";
+import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 
 export interface ResponseData<T> {
   type: T
@@ -43,12 +43,12 @@ export class PlaygroundService {
   }
 
   private initTableListeners() {
-    const table = tableService()
+    const entity = tableService()
 
-    this.io.on(Table.add, table.onAdd)
-    this.io.on(Table.update, table.onUpdate)
-    this.io.on(Table.delete, table.onDelete)
-    this.io.on(Table.set, table.onSet)
+    this.io.on(Entity.add, entity.onAdd)
+    this.io.on(Entity.update, entity.onUpdate)
+    this.io.on(Entity.delete, entity.onDelete)
+    this.io.on(Entity.set, entity.onSet)
 
   }
 
@@ -72,7 +72,7 @@ export class PlaygroundService {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
-  public table(action: Table, data: ITableNode | string | any) {
+  public table(action: Entity, data: EntityNode | string | any) {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
@@ -80,7 +80,7 @@ export class PlaygroundService {
     this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
   }
 
-  public column(action: Column, data: { tableId: string, key: string, value: any, id: string } | ITableNodeColumn | string) {
+  public column(action: Column, data: { entityId: string, key: string, value: any, id: string } | EntityNodeColumn | string) {
     if (action === Column.update) {
       usePlaygroundStore.getState().handlePlaygroundResponse({
         status: CallbackDataStatus.OK,

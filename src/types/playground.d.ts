@@ -1,87 +1,17 @@
-import {Connection, Edge, EdgeChange, NodeChange, OnBeforeDelete, ReactFlowInstance, Viewport} from "@xyflow/react";
-import {IPlayer, ITableNode, ITableNodeColumn, ITools, NodeType} from "@/types/table-node";
-import {IErd} from "@/types/data/db-model-interfaces";
-import {PlaygroundService, ResponseData} from "@/services/multiplayer/playground-service.ts";
-import React from "react";
-import {Playground} from "@/enums/playground.ts";
+import {Edge, ReactFlowInstance} from "@xyflow/react";
+import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 
-export interface IAddNodeProps {
+interface IAddNodeProps {
   reactFlowInstance: ReactFlowInstance
 }
 
-export interface IConnectionData {
+interface IConnectionData {
   relations: Edge[]
-  columns: ITableNodeColumn[]
-  tables: ITableNode[]
+  columns: EntityNodeColumn[]
+  entities: EntityNode[]
 }
 
-interface IHighlightedRelation {
+interface HighlightedRelation {
   startNodeId: string
   endNodeColumnId: string
 }
-
-
-export interface IPlaygroundState extends Omit<IErd, 'users' | 'relations' | 'tables'>{
-  tool: ITools;
-  players: IPlayer[];
-  tables: ITableNode[];
-  relations: Edge[];
-  playground: PlaygroundService;
-  subscribedTo: IPlayer | null;
-  viewport: Viewport | null;
-  subscribers: string[];
-  highlightedRelation: null | IHighlightedRelation;
-}
-
-export interface IPlaygroundLocalstorageState {
-  zoom: number
-  minimap: boolean
-}
-
-export interface IPlaygroundViews {
-  getNodes: () => ITableNode[];
-  getEdges: () => Edge[];
-}
-
-export interface IPlaygroundActions {
-  // Actions
-  setViewport: (viewport: Viewport) => void
-
-  // Node actions
-  setNodeChanges: (nodeChanges: NodeChange<NodeType>[]) => void
-  // setNodeChanges: React.DragEventHandler
-
-  nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
-  onBeforeDelete: OnBeforeDelete<NodeType>
-
-  // Relation actions
-  setEdgeChanges: (edgeChanges: EdgeChange[]) => void
-  setConnection: (connection: Connection) => void
-  addOneToOneRelations: (sourceNode: ITableNode, targetNode: ITableNode, data: IConnectionData) => void
-  addOneToManyRelations: (sourceNode: ITableNode, targetNode: ITableNode, data: IConnectionData) => void
-  addManyToManyRelations: (sourceNode: ITableNode, targetNode: ITableNode, data: IConnectionData) => void
-
-  // Tools
-  setTool: (tool: ITools) => void
-  handlePlaygroundResponse: (res: ResponseData<Playground>) => void
-
-  // Other
-  setHighlightedRelation: (highlightedRelation: null | IHighlightedRelation) => void
-  setZoom: (zoom: number) => void
-  setMinimap: (minimap: boolean) => void
-  confirmModal: {
-    opened: boolean
-    message: string
-    open: () => void
-    close: () => void
-    onConfirm: (callback?: () => void) => void
-    onCancel?: (callback?: () => void) => void
-  }
-
-
-
-  // Cleanup
-  reset: () => void
-}
-
-export type IErdDiagram = IPlaygroundState & IPlaygroundLocalstorageState & IPlaygroundViews & IPlaygroundActions

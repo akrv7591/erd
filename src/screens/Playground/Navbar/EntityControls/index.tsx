@@ -1,4 +1,4 @@
-import {ITools} from "@/types/table-node";
+import {ITools} from "@/types/entity-node";
 import React from "react";
 import {
   IconHandGrab,
@@ -53,9 +53,9 @@ const buttons: IData[] = [
 
 
 export default function EntityControls() {
-  const nodes = usePlaygroundStore(state => state.tables)
-  const countOfNodesWithPrimaryKeys = nodes.reduce((count, node) => {
-    const hasPrimary = node.data.columns.some(c => c.primary)
+  const entities = usePlaygroundStore(state => state.entities)
+  const countOfNodesWithPrimaryKeys = entities.reduce((count, entity) => {
+    const hasPrimary = entity.data.columns.some(c => c.primary)
 
     return count + (hasPrimary ? 1 : 0)
   }, 0)

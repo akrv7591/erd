@@ -40,10 +40,10 @@ export interface IColumn {
   order: number;
 
   // Foreign key
-  tableId: string;
+  entityId: string;
 
   // Relations
-  table?: ITable
+  entity?: IEntity
 }
 
 
@@ -74,7 +74,7 @@ export interface IErd {
 
   //Relations
   team?: ITeam
-  tables?: ITable[]
+  entities?: IEntity[]
   relations?: IRelation[]
 }
 
@@ -127,7 +127,7 @@ export interface INodePosition {
 }
 
 
-export interface ITable {
+export interface IEntity {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -215,7 +215,7 @@ export interface ICRelation extends Optional<IRelation, 'createdAt'> {
 export interface ICResetToken extends Optional<IResetToken, 'id' | 'createdAt'> {
 }
 
-export interface ICTable extends Optional<ITable, 'id' | 'createdAt' | 'updatedAt'> {
+export interface ICEntity extends Optional<IEntity, 'id' | 'createdAt' | 'updatedAt'> {
 }
 
 export interface ICTeam extends Optional<ITeam, 'id' | 'createdAt'> {

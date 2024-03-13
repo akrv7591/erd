@@ -1,7 +1,7 @@
 import {ColorPicker, ColorPickerProps, ColorSwatch, Group, HoverCard, Input} from "@mantine/core";
 import {IconPalette, IconTable} from "@tabler/icons-react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
-import {Table} from "@/enums/playground.ts";
+import {Entity} from "@/enums/playground.ts";
 import {useNodeData} from "@/hooks/useNodeData.ts";
 import {ChangeEventHandler} from "react";
 
@@ -13,13 +13,13 @@ const Header = () => {
     return null
   }
 
-  const handleNameChange: ChangeEventHandler<HTMLInputElement> = e => playground.table(Table.set, {
-    tableId: nodeData?.id,
+  const handleNameChange: ChangeEventHandler<HTMLInputElement> = e => playground.table(Entity.set, {
+    entityId: nodeData?.id,
     key: "name",
     value: e.target.value
   })
-  const handleColorChange: ColorPickerProps['onChange'] = value => playground.table(Table.set, {
-    tableId: nodeData?.id,
+  const handleColorChange: ColorPickerProps['onChange'] = value => playground.table(Entity.set, {
+    entityId: nodeData?.id,
     key: "color",
     value
   })

@@ -18,15 +18,15 @@ import classes from "./style.module.css";
 import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {useReactFlow} from "@xyflow/react";
-import {ITableNode} from "@/types/table-node";
+import {EntityNode} from "@/types/entity-node";
 
 export default function TableList() {
   const [opened, {open, close}] = useDisclosure()
-  const [selectedEntities, setSelectedEntities] = React.useState<ITableNode[]>([])
-  const tables = usePlaygroundStore(state => state.tables)
+  const [selectedEntities, setSelectedEntities] = React.useState<EntityNode[]>([])
+  const entities = usePlaygroundStore(state => state.entities)
   const reactflow = useReactFlow()
   const [search, setSearch] = React.useState("")
-  const filteredTables = React.useMemo(() => tables.filter(t => t.data.name.toLowerCase().includes(search.toLowerCase())), [search, tables])
+  const filteredEntities = React.useMemo(() => entities.filter(entity => entity.data.name.toLowerCase().includes(search.toLowerCase())), [search, entities])
   const onSelectedDelete = React.useCallback(() => {
     reactflow.deleteElements({
       nodes: selectedEntities.map(t => ({id: t.id})),
@@ -77,7 +77,7 @@ export default function TableList() {
                     label={(
                       <Group w={"100%"} justify={"space-between"}>
                         <Text>
-                          {tables.length} Entities
+                          {entities.length} Entities
                         </Text>
                         <Tooltip label={"Close"}>
                           <CloseButton onClick={close}/>
@@ -113,38 +113,38 @@ export default function TableList() {
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-              {filteredTables.map(table => (
+              {filteredEntities.map(entity => (
                 <Table.Tr
-                  key={table.id}
-                  onClick={() => reactflow.fitView({nodes: [table], duration: 1000})}
+                  key={entity.id}
+                  onClick={() => reactflow.fitView({nodes: [entity], duration: 1000})}
                   style={{
                     cursor: "pointer",
-                    ...selectedEntities.includes(table) && {
+                    ...selectedEntities.includes(entity) && {
                       backgroundColor: "var(--mantine-primary-color-light)"
                     }
                   }}
                 >
                   <Table.Td>
                     <Checkbox
-                      checked={selectedEntities.includes(table)}
+                      checked={selectedEntities.includes(entity)}
                       onClick={(e) => e.stopPropagation()}
                       onChange={(e) => {
                         const checked = e.target.checked
 
                         if (checked) {
-                          setSelectedEntities(cur => [...cur, table])
+                          setSelectedEntities(cur => [...cur, entity])
                         } else {
-                          setSelectedEntities(cur => cur.filter(t => t.id !== table.id))
+                          setSelectedEntities(cur => cur.filter(t => t.id !== entity.id))
                         }
                       }}
                       style={{zIndex: 0, position: "relative"}}
                     />
                   </Table.Td>
                   <Table.Td>
-                    <Text>{table.data.name}</Text>
+                    <Text>{entity.data.name}</Text>
                   </Table.Td>
                   <Table.Td>
-                    {table.data.columns?.length}
+                    {entity.data.columns?.length}
                   </Table.Td>
                 </Table.Tr>
               ))}

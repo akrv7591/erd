@@ -1,16 +1,16 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {Viewport} from "@xyflow/react";
-import {IPlayer} from "@/types/table-node";
+import {LivePlayer} from "@/types/entity-node";
 import {notifications} from "@mantine/notifications";
 
 export const playerService = () => {
 
-  function onJoin(player: IPlayer) {
-    usePlaygroundStore.setState(cur => cur.players.some(({id}) => id === player.id) ? {} : {players: [...cur.players, player]})
+  function onJoin(player: LivePlayer) {
+    usePlaygroundStore.setState(state => state.players.some(({id}) => id === player.id) ? {} : {players: [...state.players, player]})
   }
 
   function onLeave(playerId: string) {
-    usePlaygroundStore.setState(cur => ({players: cur.players.filter(({id}) => id !== playerId), ...cur.subscribedTo && {subscribedTo: cur.subscribedTo.id === playerId ? null : cur.subscribedTo}}))
+    usePlaygroundStore.setState(state => ({players: state.players.filter(({id}) => id !== playerId), ...state.subscribedTo && {subscribedTo: state.subscribedTo.id === playerId ? null : state.subscribedTo}}))
   }
 
   function onSubscribe(subscriberId: string) {
@@ -48,8 +48,8 @@ export const playerService = () => {
   }
 
   function onMouseChange({playerId, cursorPosition}: any) {
-    usePlaygroundStore.setState(cur => ({
-      players: cur.players.map(player => player.id === playerId
+    usePlaygroundStore.setState(state => ({
+      players: state.players.map(player => player.id === playerId
         ? {...player, cursorPosition}
         : player
       )

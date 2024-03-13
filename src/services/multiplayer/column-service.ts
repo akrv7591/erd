@@ -5,52 +5,52 @@ export const columnService = () => {
 
   function onAdd({column}: any) {
     usePlaygroundStore.setState(cur => ({
-      tables: cur.tables.map(table => {
-        if (table.id === column.tableId) {
+      entities: cur.entities.map(entity => {
+        if (entity.id === column.entityId) {
           return {
-            ...table,
+            ...entity,
             data: {
-              ...table.data,
-              columns: [...table.data.columns, column]
+              ...entity.data,
+              columns: [...entity.data.columns, column]
             }
           }
         }
-        return table
+        return entity
       })
     }))
   }
 
   function onUpdate({column}: any) {
     usePlaygroundStore.setState(cur => ({
-      tables: cur.tables.map(table => {
-        if (table.id === column.tableId) {
-          const columns = orderBy(table.data.columns.map(c => c.id === column.id ? {...c, [column.key]: column.value} : c), 'order', 'asc')
+      entities: cur.entities.map(entity => {
+        if (entity.id === column.entityId) {
+          const columns = orderBy(entity.data.columns.map(c => c.id === column.id ? {...c, [column.key]: column.value} : c), 'order', 'asc')
           return {
-            ...table,
+            ...entity,
             data: {
-              ...table.data,
+              ...entity.data,
               columns
             }
           }
         }
-        return table
+        return entity
       })
     }))
   }
 
   function onDelete({column}: any) {
     usePlaygroundStore.setState(cur => ({
-      tables: cur.tables.map(table => {
-        if (table.id === column.tableId) {
+      entities: cur.entities.map(entity => {
+        if (entity.id === column.entityId) {
           return {
-            ...table,
+            ...entity,
             data: {
-              ...table.data,
-              columns: table.data.columns.filter(c => c.id !== column.id)
+              ...entity.data,
+              columns: entity.data.columns.filter(c => c.id !== column.id)
             }
           }
         }
-        return table
+        return entity
       })
     }))
   }

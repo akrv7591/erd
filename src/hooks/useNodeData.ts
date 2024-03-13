@@ -1,5 +1,5 @@
 import {useNodeId, useNodesData} from "@xyflow/react";
-import {NodeType} from "@/types/table-node";
+import {NodeType} from "@/types/entity-node";
 
 export const useNodeData = () => {
   const nodeId = useNodeId()

@@ -14,11 +14,11 @@ export enum Player {
   mouseChange = "player:mouseChange",
 }
 
-export enum Table {
-  add = "table:add",
-  update = "table:update",
-  delete = "table:delete",
-  set = "table:set",
+export enum Entity {
+  add = "entity:add",
+  update = "entity:update",
+  delete = "entity:delete",
+  set = "entity:set",
 }
 
 export enum Relation {
@@ -32,7 +32,7 @@ export enum Column {
   delete = "column:delete",
 }
 
-export type Playground = Player | Table | Relation | Column
+export type Playground = Player | Entity | Relation | Column
 
 export enum CallbackDataStatus {
   OK="ok",

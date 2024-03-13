@@ -6,10 +6,10 @@ import isEqual from "lodash/isEqual";
 import {ErdTableDataContext} from "@/screens/Home/Main/Reactflow/ErdTableDataContext.ts";
 import {MantineProvider} from "@mantine/core";
 import {erdTableTheme} from "@/config/theme.ts";
-import {ITableNodeColumn, ITableNodeData} from "@/types/table-node";
+import {EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
 
 interface Props extends React.PropsWithChildren {
-  data: ITableNodeData
+  data: EntityNodeData
   parentHtmlId: string
 }
 
@@ -27,7 +27,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
   }, [props.data, setData])
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: ITableNodeColumn = {...DEFAULT_COLUMN_DATA, order: 100 + data.columns.length}
+    const newColumn: EntityNodeColumn = {...DEFAULT_COLUMN_DATA, order: 100 + data.columns.length}
     newColumn.id = createId()
 
     if (type === "primary") {
@@ -38,7 +38,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
 
     setData(cur => ({...cur, columns: [...cur.columns, newColumn]}))
   }
-  const setColumn = (updatedColumn: ITableNodeColumn) => setData(cur => ({
+  const setColumn = (updatedColumn: EntityNodeColumn) => setData(cur => ({
     ...cur,
     columns: cur.columns.map(c => c.id === updatedColumn.id ? {...c, ...updatedColumn} : c)
   }))
@@ -56,7 +56,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
         list.push(column)
       }
       return list
-    }, [] as ITableNodeColumn[])
+    }, [] as EntityNodeColumn[])
 
 
     reactFlow.deleteElements({
@@ -66,7 +66,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
     setData(cur => ({...cur, columns}))
   }
 
-  const setSortedColumns = (columns: ITableNodeColumn[]) => {
+  const setSortedColumns = (columns: EntityNodeColumn[]) => {
     const orderedColumns = columns.map((column, order) => ({
       ...column,
       order: order

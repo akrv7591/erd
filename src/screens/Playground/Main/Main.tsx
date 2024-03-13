@@ -9,7 +9,7 @@ import {Helmet} from "react-helmet-async";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import PlayerCursor from "@/screens/Playground/Main/components/PlayerCursor";
 import {usePlaygroundEvents} from "@/hooks/playground/usePlaygroundEvents.ts";
-import {ITableNode} from "@/types/table-node";
+import {EntityNode} from "@/types/entity-node";
 import ConfirmModal from "@/components/common/ConfirmModal";
 
 export default function Main() {
@@ -53,10 +53,15 @@ export default function Main() {
         fitView
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}
+        onNodeDragStop={(_, node, nodes) => {
+          console.log({
+            node, nodes
+          })
+        }}
         {...playgroundEvents}
       >
         <PlayerCursor/>
-        {minimap && <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={(node: ITableNode) => node.data.color}/>}
+        {minimap && <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={(node: EntityNode) => node.data.color}/>}
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
       </ReactFlow>
     </div>

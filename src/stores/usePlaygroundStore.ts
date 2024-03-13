@@ -1,508 +1,58 @@
 import {create} from "zustand";
-import {ITableNode, ITableNodeColumn, ITableNodeData, NodeType} from "@/types/table-node";
-import {applyEdgeChanges, applyNodeChanges} from "@xyflow/react";
-import voca from "voca";
-import {RELATION} from "@/constants/relations.ts";
-import {createId} from "@paralleldrive/cuid2";
-import {CallbackDataStatus, Column, Player, Relation, Table} from "@/enums/playground.ts";
-import {notifications} from "@mantine/notifications";
-import {orderBy} from "lodash";
-import {
-  IAddNodeProps,
-  IConnectionData,
-  IErdDiagram,
-  IPlaygroundLocalstorageState,
-  IPlaygroundState
-} from "@/types/playground";
-import {ICRelation} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces";
+import {PaneStore, paneStore} from "@/stores/playground/paneStore.ts";
+import {entityStore, EntityStore} from "@/stores/playground/entityStore.ts";
+import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
+import {relationStore, RelationStore} from "@/stores/playground/relationStore.ts";
+import {flowStore, FlowStore} from "@/stores/playground/flowStore.ts";
+import {websocketResponseStore, WebsocketResponseStore} from "@/stores/playground/websocketResponseStore.ts";
 
-const localStorageState: IPlaygroundLocalstorageState = {
-  zoom: Number(localStorage.getItem("zoom")) || 0,
-  minimap: JSON.parse(localStorage.getItem("minimap") || "true")
+
+interface PlaygroundStoreState extends Omit<IErd, 'entities' | 'relations' | 'users'> {
+  playground: PlaygroundService;
 }
 
-const initialState: IPlaygroundState = {
+interface PlaygroundStoreAction {
+  reset: () => void
+}
+
+type PlaygroundState = PlaygroundStoreState & PlaygroundStoreAction
+
+export type UsePlaygroundStore =
+  PlaygroundState
+  & PaneStore
+  & EntityStore
+  & RelationStore
+  & FlowStore
+  & WebsocketResponseStore
+
+
+const initialState: PlaygroundStoreState = {
   id: "",
   createdAt: new Date(),
   updatedAt: new Date(),
   name: "",
   isPublic: false,
   description: "",
-  subscribedTo: null,
-  viewport: {x: 0, y: 0, zoom: 1},
-  subscribers: [],
   teamId: "",
   tableNameCase: "pascal",
   columnNameCase: "camel",
-
-  //Relations
-  tables: [],
-  relations: [],
-  players: [],
-  tool: "hand-grab",
   playground: null as any,
-  highlightedRelation: null,
-
 }
 
-export const usePlaygroundStore = create<IErdDiagram>((set, getState) => ({
+export const usePlaygroundStore = create<UsePlaygroundStore>()((...a) => ({
   ...initialState,
-  ...localStorageState,
+  ...paneStore(...a),
+  ...entityStore(...a),
+  ...relationStore(...a),
+  ...flowStore(...a),
+  ...websocketResponseStore(...a),
 
-  // Views
-  getNodes: () => getState().tables,
-  getEdges: () => getState().relations,
-
-  // Other
-  setHighlightedRelation: (highlightedRelation) => set({highlightedRelation}),
-  setZoom: (zoom) => {
-    set({zoom})
-    localStorage.setItem("zoom", zoom.toString())
-  },
-  setMinimap: (minimap) => {
-    set({minimap})
-    localStorage.setItem("minimap", JSON.stringify(minimap))
-  },
-
-  // Node Action
-  nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {
-    e.preventDefault();
-
-    const type = e.dataTransfer.getData('application/reactflow');
-
-    // check if the dropped element is valid
-    if (typeof type === 'undefined' || !type) {
-      return;
-    }
-    const {tables} = getState()
-    // @ts-ignore
-    const targetIsPane = e.target.classList.contains('react-flow__pane');
-
-    if (targetIsPane) {
-      const id = createId();
-      const columns: ITableNodeColumn[] = []
-      const data: ITableNodeData = ({
-        name: `table_${tables.length}`,
-        color: "#006ab9",
-        columns
-      })
-      const position = reactFlowInstance.screenToFlowPosition({
-        x: e.clientX,
-        y: e.clientY
-      })
-      const newNode = {
-        id,
-        type: "tableNode",
-        position,
-        data: data,
-        createdAt: new Date(),
-      };
-
-      const {playground} = getState()
-      playground.table(Table.add, newNode)
-    }
-  },
-  onBeforeDelete: async ({nodes, edges}) => {
-    if (nodes.length > 0) {
-      // Node deletion handler
-      return new Promise((res) => {
-        set({
-          confirmModal: {
-            ...getState().confirmModal,
-            opened: true,
-            message: `Are you sure you want to delete ${nodes.map(n => n.data.name)} ${nodes.length === 1 ? "entity" : "entities"} with relations?`,
-            onConfirm: (callback) => {
-              res(true)
-              if (callback) {
-                callback()
-              }
-            },
-            onCancel: (callback) => {
-              res(false)
-              if (callback) {
-                callback()
-              }
-            }
-          }
-        })
-      })
-    } else {
-      // Edge deletion handler
-      return new Promise((res) => {
-        set({
-          confirmModal: {
-            ...getState().confirmModal,
-            opened: true,
-            message: `Are you sure you want to delete ${edges.length} ${edges.length === 1 ? "edge" : "edges"} with relation columns?`,
-            onConfirm: (callback) => {
-              res(true)
-              if (callback) {
-                callback()
-              }
-            },
-            onCancel: (callback) => {
-              res(false)
-              if (callback) {
-                callback()
-              }
-            }
-          }
-        })
-      })
-    }
-  },
-
-  // Relation  actions
-  setTool: (tool) => set({tool}),
-  addOneToOneRelations: (sourceNode, targetNode, data) => {
-    const foreignKeys = sourceNode.data.columns.filter(column => column.primary)
-    const foreignTableName = sourceNode.data.name
-
-    foreignKeys.forEach((column, i) => {
-      const id = createId()
-      const relation: ICRelation = {
-        id,
-        erdId: getState().id,
-        source: sourceNode.id,
-        target: targetNode.id,
-        markerEnd: RELATION.NAME.ONE_TO_ONE,
-      }
-      const newColumn: ITableNodeColumn = {
-        ...column,
-        id,
-        tableId: targetNode.id,
-        name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
-        foreignKey: true,
-        primary: false,
-        order: 100 + i,
-        autoIncrement: false,
-        unique: true,
-      }
-      data.relations.push(relation)
-      data.columns.push(newColumn)
-    })
-  },
-  addOneToManyRelations: (sourceNode, targetNode, data) => {
-    const foreignKeys = sourceNode.data.columns.filter(column => column.primary)
-    const foreignTableName = sourceNode.data.name
-
-    foreignKeys.map((column, i) => {
-      const id = createId()
-      const relation: ICRelation = {
-        id,
-        erdId: getState().id,
-        source: sourceNode.id,
-        target: targetNode.id,
-        markerEnd: RELATION.NAME.ONE_TO_MANY,
-      }
-      data.relations.push(relation)
-      data.columns.push({
-        ...column,
-        id,
-        tableId: targetNode.id,
-        name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
-        foreignKey: true,
-        order: 100 + i,
-        primary: false,
-        autoIncrement: false,
-        unique: false
-      })
-    })
-  },
-  addManyToManyRelations: (sourceNode, targetNode, data) => {
-
-    const mnTable: ITableNode = {
-      id: createId(),
-      type: "tableNode",
-      position: {
-        x: (sourceNode.position.x + targetNode.position.x) / 2,
-        y: (sourceNode.position.y + targetNode.position.y) / 2
-      },
-      data: {
-        name: sourceNode.data.name + targetNode.data.name,
-        color: "#006ab9",
-        columns: [],
-      }
-    }
-
-
-    let order = 0
-
-    function populateColumnsAndEdges(column: ITableNodeColumn, tableName: string, nodeId: string) {
-      const id = createId()
-      const relation: ICRelation = {
-        id,
-        erdId: getState().id,
-        source: nodeId,
-        target: mnTable.id,
-        markerEnd: RELATION.NAME.ONE_TO_MANY,
-      }
-      data.relations.push(relation)
-      mnTable.data.columns.push({
-        ...column,
-        tableId: mnTable.id,
-        id,
-        name: voca.snakeCase(tableName + voca.titleCase(column.name)),
-        order,
-        foreignKey: true,
-        primary: false,
-        unique: false
-      })
-
-      order++
-    }
-
-    sourceNode.data.columns
-      .filter(column => column.primary)
-      .forEach(column => populateColumnsAndEdges(column, sourceNode.data.name, sourceNode.id))
-    targetNode.data.columns
-      .filter(column => column.primary)
-      .forEach(column => populateColumnsAndEdges(column, targetNode.data.name, targetNode.id))
-
-    data.tables.push(mnTable)
-
-  },
-  setConnection: (connection) => {
-
-    const state = getState()
-
-    const targetNode = state.tables.find(node => node.id === connection.target)!
-    const sourceNode = state.tables.find(node => node.id === connection.source)!
-
-    if (targetNode.id === sourceNode.id) return state
-
-    const data: IConnectionData = {
-      relations: [],
-      columns: [],
-      tables: []
-    }
-
-    switch (state.tool) {
-      case RELATION.NAME.ONE_TO_ONE:
-        state.addOneToOneRelations(sourceNode, targetNode, data)
-        break
-      case RELATION.NAME.ONE_TO_MANY:
-        state.addOneToManyRelations(sourceNode, targetNode, data)
-        break
-      case RELATION.NAME.MANY_TO_MANY:
-        state.addManyToManyRelations(sourceNode, targetNode, data)
-        break
-    }
-
-
-    data.tables.forEach(table => state.playground.table(Table.add, table))
-    data.columns.forEach((column) => state.playground.column(Column.add, column))
-    data.relations.forEach(relation => state.playground.relation(Relation.add, relation))
-
-    set({tool: "hand-grab"})
-  },
-
-  setNodeChanges: (nodeChanges) => {
-    set(({tables: oldNodes, id: erdId, playground}) => {
-      const nodesToUpdate: any[] = []
-      const nodesToDelete: string[] = []
-      nodeChanges.forEach((node) => {
-        switch (node.type) {
-          case "add":
-            break
-          case "replace":
-            nodesToUpdate.push({
-              erdId,
-              id: node.item.id,
-              type: node.item.type,
-              position: node.item.position,
-            })
-            break
-          case "position":
-            const {id, type, position} = oldNodes.find(oldNode => oldNode.id === node.id)!
-
-            if (position && node.position && position !== node.position) {
-              nodesToUpdate.push({
-                erdId,
-                id,
-                type,
-                position: node.position!,
-              })
-            }
-
-            break
-          case "remove":
-            nodesToDelete.push(node.id)
-            break
-        }
-      })
-
-      nodesToUpdate.forEach(node => {
-        playground.table(Table.update, node)
-      })
-
-      nodesToDelete.forEach(nodeId => {
-        playground.table(Table.delete, nodeId)
-      })
-
-      return ({tables: applyNodeChanges<NodeType>(nodeChanges, oldNodes)})
-    })
-  },
-  setEdgeChanges: (edgeChanges) => {
-    set(cur => {
-      let targetNode: undefined | ITableNode
-      edgeChanges.forEach(edge => {
-        switch (edge.type) {
-          case "add":
-            break
-          case "remove":
-            const relation = cur.relations.find(r => r.id === edge.id)
-
-            if (relation) {
-              cur.playground.relation(Relation.delete, relation)
-              targetNode = cur.tables.find(node => node.id === relation.target)
-
-              if (targetNode) {
-                targetNode = {
-                  ...targetNode,
-                  data: {
-                    ...targetNode.data,
-                    columns: targetNode.data.columns = targetNode.data.columns.filter(c => c.id !== relation.id)
-                  }
-                }
-              }
-            }
-
-            break
-          case "replace":
-            break
-          case "select":
-            break
-        }
-      })
-
-      return {
-        relations: applyEdgeChanges(edgeChanges, cur.relations),
-        tables: cur.tables.map(node => node.id === targetNode?.id ? targetNode : node)
-      }
-    })
-  },
-  setViewport: (viewport) => set({viewport}),
-  confirmModal: {
-    opened: false,
-    message: "",
-    open: () => set({confirmModal: {...getState().confirmModal, opened: true}}),
-    close: () => set({confirmModal: {...getState().confirmModal, opened: false}}),
-    onConfirm: () => {
-    },
-  },
   reset: () => {
-    set(initialState)
+    const {resetEntityStore, resetRelationStore, resetPaneStore} = a[1]();
+    resetEntityStore();
+    resetRelationStore();
+    resetPaneStore();
   },
-  handlePlaygroundResponse: ({status, type, data}) => {
-    if (status !== CallbackDataStatus.OK) {
-      notifications.show({
-        title: type,
-        message: status,
-        color: "var(--mantine-color-red-filled)"
-      })
-    } else {
-
-      set(cur => {
-          switch (type) {
-            case Player.subscribe:
-              return {subscribedTo: data, viewport: null}
-
-            case Player.unsubscribe:
-              return {subscribedTo: null, viewport: null}
-
-            case Player.viewpointChange:
-              return {}
-
-            case Player.mouseChange:
-              return {}
-
-            case Table.add:
-              return {tables: [...cur.tables, data]}
-
-            case Table.update:
-              return {}
-
-            case Table.delete:
-              return {tables: cur.tables.filter(t => t.id !== data)}
-
-            case Table.set:
-              return {
-                tables: cur.tables.map(t => t.id === data.tableId ? {
-                  ...t,
-                  data: {...t.data, ...data.data}
-                } : t)
-              }
-
-            case Relation.add:
-              return {relations: [...cur.relations, data.relation]}
-
-            case Relation.delete:
-              return {relations: cur.relations.filter(r => r.id !== data.relation.id)}
-
-            case Column.add:
-              return {
-                tables: cur.tables.map(table => {
-                  if (table.id === data.column.tableId) {
-                    return {
-                      ...table,
-                      data: {
-                        ...table.data,
-                        columns: [...table.data.columns, data.column]
-                      }
-                    }
-                  }
-                  return table
-                })
-              }
-
-            case Column.update:
-              return {
-                tables: cur.tables.map(table => {
-                  if (table.id === data.column.tableId) {
-                    const columns = orderBy(table.data.columns.map(c => {
-                      if (c.id !== data.column.id) {
-                        return c
-                      }
-                      return {
-                        ...c,
-                        [data.column.key]: data.column.value
-                      }
-                    }), 'order', 'asc')
-                    return {
-                      ...table,
-                      data: {
-                        ...table.data,
-                        columns
-                      }
-                    }
-                  }
-                  return table
-                })
-              }
-
-            case Column.delete:
-              return {
-                tables: cur.tables.map(table => {
-                  if (table.id === data.column.tableId) {
-                    return {
-                      ...table,
-                      data: {
-                        ...table.data,
-                        columns: table.data.columns.filter(c => c.id !== data.column.id)
-                      }
-                    }
-                  }
-                  return table
-                })
-              }
-
-            default:
-              return {}
-          }
-
-        }
-      )
-    }
-  }
 }))
+

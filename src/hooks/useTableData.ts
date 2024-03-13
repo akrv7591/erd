@@ -1,32 +1,32 @@
 import {useNodeId, useNodesData} from "@xyflow/react";
-import {ITableNode} from "@/types/table-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useCallback} from "react";
+import {EntityNode} from "@/types/entity-node";
 
-type NodeData = ITableNode['data']
+type NodeData = EntityNode['data']
 type SetNodeData = (data: NodeData | ((data: NodeData) => NodeData)) => void
 
 export const useTableData = (): [NodeData, SetNodeData] => {
   const nodeId = useNodeId()!
-  const nodeData = useNodesData<ITableNode>(nodeId)
+  const nodeData = useNodesData<EntityNode>(nodeId)
 
   const setNodeData: SetNodeData = useCallback((data) => {
     if (typeof data === 'function') {
 
       if (!nodeData || !nodeData.data) return
       usePlaygroundStore.setState(cur => ({
-        tables: cur.tables.map(table => table.id === nodeId ? {
-          ...table,
+        entities: cur.entities.map(entity => entity.id === nodeId ? {
+          ...entity,
           data: data(nodeData.data)
-        } : table)
+        } : entity)
       }))
 
     } else {
       usePlaygroundStore.setState(cur => ({
-        tables: cur.tables.map(table => table.id === nodeId ? {
-          ...table,
+        entities: cur.entities.map(entity => entity.id === nodeId ? {
+          ...entity,
           data
-        } : table)
+        } : entity)
       }))
     }
   }, [nodeId, nodeData])

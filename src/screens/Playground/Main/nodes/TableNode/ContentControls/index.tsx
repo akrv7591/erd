@@ -6,7 +6,7 @@ import {createId} from "@paralleldrive/cuid2";
 import {Column} from "@/enums/playground.ts";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {useNodeData} from "@/hooks/useNodeData.ts";
-import {ITableNodeColumn} from "@/types/table-node";
+import {EntityNodeColumn} from "@/types/entity-node";
 
 
 export default function ContentControls() {
@@ -21,10 +21,10 @@ export default function ContentControls() {
   const onDelete = () => deleteElements({nodes: [{id: nodeData.id}]})
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: ITableNodeColumn = {
+    const newColumn: EntityNodeColumn = {
       ...DEFAULT_COLUMN_DATA,
       order: nodeData.data.columns.length,
-      tableId: nodeData.id
+      entityId: nodeData.id
     }
     newColumn.id = createId()
 

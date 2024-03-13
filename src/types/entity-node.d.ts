@@ -5,21 +5,21 @@ import {RELATION} from "@/constants/relations.ts";
 export type ITools = 'hand-grab' | 'add-table' | RELATION.NAME;
 
 
-export interface ITableNodeColumn extends Omit<IColumn, 'createdAt' | 'updatedAt'> {
+export interface EntityNodeColumn extends Omit<IColumn, 'createdAt' | 'updatedAt'> {
   selected: boolean;
 }
 
 export type CustomNodeTypes = 'tableNode'
 
-export type ITableNodeData = Pick<ITable, 'name' | 'color'> & {
-  columns: ITableNodeColumn[]
+export type EntityNodeData = Pick<ITable, 'name' | 'color'> & {
+  columns: EntityNodeColumn[]
 }
 
-export type ITableNode = Node<ITableNodeData, CustomNodeTypes>
+export type EntityNode = Node<EntityNodeData, CustomNodeTypes>
 
-export type NodeType = ITableNode
+export type NodeType = EntityNode
 
-export interface IPlayer extends IUser {
+export interface LivePlayer extends IUser {
   cursorPosition: {
     x: number,
     y: number
