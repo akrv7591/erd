@@ -72,7 +72,7 @@ export default function Signin (props: PaperProps) {
         Welcome to {PROJECT.NAME}, sign-in with
       </Text>
 
-      <Tooltip label={"Feature not implemented yet"}>
+      <Tooltip label={"Sign in with google"}>
         <Group grow mb="md" mt="md">
           <GoogleButton radius="xl">Google</GoogleButton>
         </Group>
