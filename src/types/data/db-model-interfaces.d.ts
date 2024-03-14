@@ -76,6 +76,7 @@ export interface IErd {
   team?: ITeam
   entities?: IEntity[]
   relations?: IRelation[]
+  memos?: IMemo
 }
 
 
@@ -175,6 +176,7 @@ export interface IUser {
   resetTokens?: IResetToken[]
   teams?: ITeam[]
   UserTeam?: IUserTeam
+  memos?: IMemo
 }
 
 
@@ -192,6 +194,22 @@ export interface IUserTeam {
   //Relations
   user?: IUser
   team?: ITeam
+}
+
+export interface IMemo {
+  id: string;
+  content: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+
+  // Foreign Key
+  erdId: string;
+  userId: string | null;
+
+  // Relations
+  erd?: IErd;
+  user?: IUser;
 }
 
 export interface ICAccount extends Optional<IAccount, 'id' | 'createdAt' | 'refreshToken' | 'accessToken' | 'tokenType' | 'scope' | 'idToken' | 'sessionState'> {
@@ -226,3 +244,4 @@ export interface ICUser extends Optional<IUser, 'id' | 'createdAt' | 'updatedAt'
 
 export interface ICUserTeam extends Optional<IUserTeam, 'createdAt' | 'updatedAt'> {
 }
+export interface ICMemo extends Optional<IMemo, 'id' | 'createdAt' | 'updatedAt'> {}
