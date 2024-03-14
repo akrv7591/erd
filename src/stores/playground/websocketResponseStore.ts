@@ -25,6 +25,10 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
       set(cur => {
           switch (type) {
             case ErdEnum.put:
+                  notifications.show({
+                    title: `${data.name} erd is updated`,
+                    message: "Success"
+                  })
               return {...cur, ...data}
             case ErdEnum.patch:
               return {...cur, ...{[data.key]: data.value}}
