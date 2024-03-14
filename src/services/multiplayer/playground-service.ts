@@ -1,12 +1,13 @@
 import {Socket} from "socket.io-client";
 import {Edge} from "@xyflow/react";
-import {CallbackDataStatus, Column, Player, Relation, Entity} from "@/enums/playground.ts";
+import {CallbackDataStatus, Column, Player, Relation, Entity, ErdEnum} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
 import {entityService} from "@/services/multiplayer/entity-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
 import {columnService} from "@/services/multiplayer/column-service.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
+import {erdService} from "@/services/multiplayer/erd-service.ts";
 
 export interface ResponseData<T> {
   type: T
@@ -25,12 +26,19 @@ export class PlaygroundService {
   private initPlayground(playground: PlaygroundService) {
     this.io.on("data", data => usePlaygroundStore.setState(cur => ({...cur, ...data, playground})))
 
+    this.initErdListeners()
     this.initPlayerListeners()
     this.initTableListeners()
     this.initRelationListeners()
     this.initColumnListeners()
   }
 
+  private initErdListeners() {
+    const erd = erdService()
+
+    this.io.on(ErdEnum.put, erd.onPut)
+    this.io.on(ErdEnum.patch, erd.onPatch)
+  }
   private initPlayerListeners() {
     const player = playerService()
 
@@ -68,21 +76,29 @@ export class PlaygroundService {
 
   }
 
+  public get handlePlaygroundResponse() {
+    return usePlaygroundStore.getState().handlePlaygroundResponse
+  }
+
+  public erd(action: ErdEnum, data: any) {
+    this.io.emit(action, data, this.handlePlaygroundResponse)
+  }
+
   public player(action: Player, data: any | string) {
-    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
   public table(action: Entity, data: EntityNode | string | any) {
-    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
   public relation(action: Relation, data: Edge | string) {
-    this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
+    this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
   public column(action: Column, data: { entityId: string, key: string, value: any, id: string } | EntityNodeColumn | string) {
     if (action === Column.update) {
-      usePlaygroundStore.getState().handlePlaygroundResponse({
+      this.handlePlaygroundResponse({
         status: CallbackDataStatus.OK,
         data: {
           column: data
@@ -91,7 +107,7 @@ export class PlaygroundService {
       })
       this.io.emit(action, data, (obj: ResponseData<Column>) => console.log(obj))
     } else {
-      this.io.emit(action, data, usePlaygroundStore.getState().handlePlaygroundResponse)
+      this.io.emit(action, data, this.handlePlaygroundResponse)
     }
   }
 
