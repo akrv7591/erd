@@ -1,4 +1,4 @@
-import {Checkbox, Collapse, Table as MantineTable, Text} from "@mantine/core";
+import {Checkbox, Collapse, Table as MantineTable, Text, Tooltip} from "@mantine/core";
 import React from "react";
 import {useTableData} from "@/hooks/useTableData.ts";
 
@@ -56,11 +56,11 @@ const Table = React.forwardRef<any, any>((props, ref) => {
           <MantineTable.Td w={40}></MantineTable.Td>
           <MantineTable.Td maw={200} miw={200}>Column</MantineTable.Td>
           <MantineTable.Td maw={150} miw={150} width={150}>Data type</MantineTable.Td>
-          <MantineTable.Td miw={40}>PK</MantineTable.Td>
-          <MantineTable.Td miw={40}>NN</MantineTable.Td>
-          <MantineTable.Td miw={40}>UQ</MantineTable.Td>
-          <MantineTable.Td miw={40}>UN</MantineTable.Td>
-          <MantineTable.Td miw={40}>AI</MantineTable.Td>
+          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Primary Key"}><Text>PK</Text></Tooltip></MantineTable.Td>
+          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Not Null"}><Text>NN</Text></Tooltip></MantineTable.Td>
+          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Unique"}><Text>UQ</Text></Tooltip></MantineTable.Td>
+          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Unsigned"}><Text>UN</Text></Tooltip></MantineTable.Td>
+          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Auto Increment"}><Text>AI</Text></Tooltip></MantineTable.Td>
           <MantineTable.Td miw={200}>Comment</MantineTable.Td>
         </MantineTable.Tr>
       </MantineTable.Thead>
