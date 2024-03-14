@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {EntityNode, EntityNodeColumn, EntityNodeData, NodeType} from "@/types/entity-node";
 import {OnBeforeDelete} from "@xyflow/react";
-import {Entity} from "@/enums/playground.ts";
+import {EntityEnum} from "@/enums/playground.ts";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import React from "react";
 import {IAddNodeProps} from "@/types/playground";
@@ -61,7 +61,7 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
         createdAt: new Date(),
       };
 
-      playground.table(Entity.add, newNode)
+      playground.table(EntityEnum.add, newNode)
     }
   },
 

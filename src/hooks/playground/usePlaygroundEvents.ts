@@ -1,6 +1,6 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ReactFlowProps, useReactFlow} from "@xyflow/react";
-import {Player} from "@/enums/playground.ts";
+import {PlayerEnum} from "@/enums/playground.ts";
 import {useCallback, useEffect} from "react";
 
 export const usePlaygroundEvents = () => {
@@ -25,7 +25,7 @@ export const usePlaygroundEvents = () => {
       pos = reactFlow.screenToFlowPosition(pos, {snapToGrid: false})
     }
 
-    playground.player(Player.mouseChange, pos)
+    playground.player(PlayerEnum.mouseChange, pos)
 
   }, [reactFlow, playground])
 
@@ -42,7 +42,7 @@ export const usePlaygroundEvents = () => {
   const onMouseMove: ReactFlowProps['onMouseMove'] = (e) => handleMouseChange({x: e.clientX, y: e.clientY})
   const onMove: ReactFlowProps['onMove'] = (e, viewport) => {
     if (subscribers.length > 0) {
-      playground.player(Player.viewpointChange, viewport)
+      playground.player(PlayerEnum.viewpointChange, viewport)
     }
 
     if (e instanceof MouseEvent) {
@@ -54,7 +54,7 @@ export const usePlaygroundEvents = () => {
 
   const onClick: ReactFlowProps['onClick'] = () => {
     if (subscribedTo) {
-      playground.player(Player.unsubscribe, subscribedTo)
+      playground.player(PlayerEnum.unsubscribe, subscribedTo)
     }
   }
 

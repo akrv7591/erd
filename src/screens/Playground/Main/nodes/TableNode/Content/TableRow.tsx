@@ -3,7 +3,7 @@ import {IconGripVertical} from "@tabler/icons-react";
 import React, {useCallback, useMemo} from "react";
 import styles from "./style.module.css"
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
-import {Column} from "@/enums/playground.ts";
+import {ColumnEnum} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
 import {EntityNodeColumn} from "@/types/entity-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
@@ -17,7 +17,7 @@ const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
   if (!entityId) return null
 
   const setData = useCallback((key: string, value: any) => {
-    playground.column(Column.update, {
+    playground.column(ColumnEnum.update, {
       id: data.id,
       key,
       value,

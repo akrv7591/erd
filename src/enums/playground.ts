@@ -10,7 +10,7 @@ export enum ErdEnum {
   delete = "erd:delete",
 }
 
-export enum Player {
+export enum PlayerEnum {
   join = "player:join",
   leave = "player:leave",
   subscribe = "player:subscribe",
@@ -19,25 +19,32 @@ export enum Player {
   mouseChange = "player:mouseChange",
 }
 
-export enum Entity {
+export enum EntityEnum {
   add = "entity:add",
   update = "entity:update",
   delete = "entity:delete",
   set = "entity:set",
 }
 
-export enum Relation {
+export enum RelationEnum {
   add = "relation:add",
   delete = "relation:delete",
 }
 
-export enum Column {
+export enum ColumnEnum {
   add = "column:add",
   update = "column:update",
   delete = "column:delete",
 }
 
-export type Playground = Player | Entity | Relation | Column | ErdEnum
+export enum MemoEnum {
+  add = "memo:add",
+  put = "memo:put",
+  patch = "memo:patch",
+  delete = "memo:delete",
+}
+
+export type Playground = PlayerEnum | EntityEnum | RelationEnum | ColumnEnum | ErdEnum | MemoEnum
 
 export enum CallbackDataStatus {
   OK="ok",

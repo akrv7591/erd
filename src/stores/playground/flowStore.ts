@@ -2,7 +2,7 @@ import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {StateCreator} from "zustand";
 import {EntityNode, NodeType} from "@/types/entity-node";
 import {applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, NodeChange} from "@xyflow/react";
-import {Column, Entity, Relation} from "@/enums/playground.ts";
+import {ColumnEnum, EntityEnum, RelationEnum} from "@/enums/playground.ts";
 import {IConnectionData} from "@/types/playground";
 import {RELATION} from "@/constants/relations.ts";
 
@@ -62,9 +62,9 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
         }
       })
 
-      nodesToUpdate.forEach(node => state.playground.table(Entity.update, node))
+      nodesToUpdate.forEach(node => state.playground.table(EntityEnum.update, node))
 
-      nodesToDelete.forEach(nodeId => state.playground.table(Entity.delete, nodeId))
+      nodesToDelete.forEach(nodeId => state.playground.table(EntityEnum.delete, nodeId))
 
       return ({entities: applyNodeChanges<NodeType>(nodeChanges, state.entities)})
     })
@@ -81,11 +81,11 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
             const relation = cur.relations.find(r => r.id === edge.id)
 
             if (relation) {
-              cur.playground.relation(Relation.delete, relation)
+              cur.playground.relation(RelationEnum.delete, relation)
               targetNode = cur.entities.find(entity => entity.id === relation.target)
 
               if (targetNode) {
-                cur.playground.column(Column.delete, targetNode.data.columns.find(c => c.id === relation.id)!)
+                cur.playground.column(ColumnEnum.delete, targetNode.data.columns.find(c => c.id === relation.id)!)
 
                 targetNode = {
                   ...targetNode,
@@ -137,9 +137,9 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
         break
     }
 
-    data.entities.forEach(entity => state.playground.table(Entity.add, entity))
-    data.columns.forEach((column) => state.playground.column(Column.add, column))
-    data.relations.forEach(relation => state.playground.relation(Relation.add, relation))
+    data.entities.forEach(entity => state.playground.table(EntityEnum.add, entity))
+    data.columns.forEach((column) => state.playground.column(ColumnEnum.add, column))
+    data.relations.forEach(relation => state.playground.relation(RelationEnum.add, relation))
 
     return {tool: "hand-grab"}
   })

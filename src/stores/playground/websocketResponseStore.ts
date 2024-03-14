@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ResponseData} from "@/services/multiplayer/playground-service.ts";
-import {CallbackDataStatus, Column, Entity, ErdEnum, Player, Playground, Relation} from "@/enums/playground.ts";
+import {CallbackDataStatus, ColumnEnum, EntityEnum, ErdEnum, PlayerEnum, Playground, RelationEnum} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
 import {orderBy} from "lodash";
 
@@ -32,28 +32,28 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
               return {...cur, ...data}
             case ErdEnum.patch:
               return {...cur, ...{[data.key]: data.value}}
-            case Player.subscribe:
+            case PlayerEnum.subscribe:
               return {subscribedTo: data, viewport: null}
 
-            case Player.unsubscribe:
+            case PlayerEnum.unsubscribe:
               return {subscribedTo: null, viewport: null}
 
-            case Player.viewpointChange:
+            case PlayerEnum.viewpointChange:
               return {}
 
-            case Player.mouseChange:
+            case PlayerEnum.mouseChange:
               return {}
 
-            case Entity.add:
+            case EntityEnum.add:
               return {entities: [...cur.entities, data]}
 
-            case Entity.update:
+            case EntityEnum.update:
               return {}
 
-            case Entity.delete:
+            case EntityEnum.delete:
               return {entities: cur.entities.filter(entity => entity.id !== data)}
 
-            case Entity.set:
+            case EntityEnum.set:
               return {
                 entities: cur.entities.map(entity => entity.id === data.entityId ? {
                   ...entity,
@@ -61,13 +61,13 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
                 } : entity)
               }
 
-            case Relation.add:
+            case RelationEnum.add:
               return {relations: [...cur.relations, data.relation]}
 
-            case Relation.delete:
+            case RelationEnum.delete:
               return {relations: cur.relations.filter(r => r.id !== data.relation.id)}
 
-            case Column.add:
+            case ColumnEnum.add:
               return {
                 entities: cur.entities.map(table => {
                   if (table.id === data.column.entityId) {
@@ -83,7 +83,7 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
                 })
               }
 
-            case Column.update:
+            case ColumnEnum.update:
               return {
                 entities: cur.entities.map(table => {
                   if (table.id === data.column.entityId) {
@@ -108,7 +108,7 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
                 })
               }
 
-            case Column.delete:
+            case ColumnEnum.delete:
               return {
                 entities: cur.entities.map(entity => {
                   if (entity.id === data.column.entityId) {

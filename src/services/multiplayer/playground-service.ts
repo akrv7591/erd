@@ -1,6 +1,6 @@
 import {Socket} from "socket.io-client";
 import {Edge} from "@xyflow/react";
-import {CallbackDataStatus, Column, Player, Relation, Entity, ErdEnum} from "@/enums/playground.ts";
+import {CallbackDataStatus, ColumnEnum, PlayerEnum, RelationEnum, EntityEnum, ErdEnum} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
 import {entityService} from "@/services/multiplayer/entity-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
@@ -42,37 +42,37 @@ export class PlaygroundService {
   private initPlayerListeners() {
     const player = playerService()
 
-    this.io.on(Player.join, player.onJoin)
-    this.io.on(Player.leave, player.onLeave)
-    this.io.on(Player.subscribe, player.onSubscribe)
-    this.io.on(Player.unsubscribe, player.onUnsubscribe)
-    this.io.on(Player.viewpointChange, player.onViewportChange)
-    this.io.on(Player.mouseChange, player.onMouseChange)
+    this.io.on(PlayerEnum.join, player.onJoin)
+    this.io.on(PlayerEnum.leave, player.onLeave)
+    this.io.on(PlayerEnum.subscribe, player.onSubscribe)
+    this.io.on(PlayerEnum.unsubscribe, player.onUnsubscribe)
+    this.io.on(PlayerEnum.viewpointChange, player.onViewportChange)
+    this.io.on(PlayerEnum.mouseChange, player.onMouseChange)
   }
 
   private initTableListeners() {
     const entity = entityService()
 
-    this.io.on(Entity.add, entity.onAdd)
-    this.io.on(Entity.update, entity.onUpdate)
-    this.io.on(Entity.delete, entity.onDelete)
-    this.io.on(Entity.set, entity.onSet)
+    this.io.on(EntityEnum.add, entity.onAdd)
+    this.io.on(EntityEnum.update, entity.onUpdate)
+    this.io.on(EntityEnum.delete, entity.onDelete)
+    this.io.on(EntityEnum.set, entity.onSet)
 
   }
 
   private initRelationListeners() {
     const relation = relationService()
 
-    this.io.on(Relation.add, relation.onAdd)
-    this.io.on(Relation.delete, relation.onDelete)
+    this.io.on(RelationEnum.add, relation.onAdd)
+    this.io.on(RelationEnum.delete, relation.onDelete)
   }
 
   private initColumnListeners() {
     const column = columnService()
 
-    this.io.on(Column.add, column.onAdd)
-    this.io.on(Column.update, column.onUpdate)
-    this.io.on(Column.delete, column.onDelete)
+    this.io.on(ColumnEnum.add, column.onAdd)
+    this.io.on(ColumnEnum.update, column.onUpdate)
+    this.io.on(ColumnEnum.delete, column.onDelete)
 
   }
 
@@ -84,20 +84,20 @@ export class PlaygroundService {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public player(action: Player, data: any | string) {
+  public player(action: PlayerEnum, data: any | string) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public table(action: Entity, data: EntityNode | string | any) {
+  public table(action: EntityEnum, data: EntityNode | string | any) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public relation(action: Relation, data: Edge | string) {
+  public relation(action: RelationEnum, data: Edge | string) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public column(action: Column, data: { entityId: string, key: string, value: any, id: string } | EntityNodeColumn | string) {
-    if (action === Column.update) {
+  public column(action: ColumnEnum, data: { entityId: string, key: string, value: any, id: string } | EntityNodeColumn | string) {
+    if (action === ColumnEnum.update) {
       this.handlePlaygroundResponse({
         status: CallbackDataStatus.OK,
         data: {
@@ -105,7 +105,7 @@ export class PlaygroundService {
         },
         type: action
       })
-      this.io.emit(action, data, (obj: ResponseData<Column>) => console.log(obj))
+      this.io.emit(action, data, (obj: ResponseData<ColumnEnum>) => console.log(obj))
     } else {
       this.io.emit(action, data, this.handlePlaygroundResponse)
     }

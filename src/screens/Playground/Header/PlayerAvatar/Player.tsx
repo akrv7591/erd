@@ -1,7 +1,7 @@
 import {ActionIcon, Tooltip} from "@mantine/core";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
-import {Player} from "@/enums/playground.ts";
+import {PlayerEnum} from "@/enums/playground.ts";
 import {LivePlayer} from "@/types/entity-node";
 import classes from "./style.module.css"
 
@@ -28,7 +28,7 @@ export default function PlayerAvatar(props: Props) {
         size={"lg"}
         radius={"xl"}
         variant={"default"}
-        onClick={() => playground.player(Player.subscribe, props.player)}
+        onClick={() => playground.player(PlayerEnum.subscribe, props.player)}
         disabled={isDisabled}
 
       >

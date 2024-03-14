@@ -9,7 +9,7 @@ import RenderList from "./Table.tsx";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {useNodeId, useReactFlow} from "@xyflow/react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
-import {Column} from "@/enums/playground.ts";
+import {ColumnEnum} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useNodeData} from "@/hooks/useNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
@@ -30,7 +30,7 @@ const Content = React.memo(() => {
   const onDelete = React.useCallback(() => {
     if (!entityId) return
     selectedColumns.filter(c => !c.foreignKey).forEach((column) => {
-      playground.column(Column.delete, column)
+      playground.column(ColumnEnum.delete, column)
     })
 
     // If there are foreign columns delete relations with them
@@ -39,7 +39,7 @@ const Content = React.memo(() => {
       reactflow.deleteElements({edges: foreignColumns.map(c => ({id: c.id}))}).then((value) => {
         if (value.deletedEdges.length > 0) {
           selectedColumns.forEach((column) => {
-            playground.column(Column.delete, column)
+            playground.column(ColumnEnum.delete, column)
           })
         }
       })
@@ -61,7 +61,7 @@ const Content = React.memo(() => {
     const objectsNotEqual = orderedColumns.filter((newColumn) => !nodeData.data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 
     objectsNotEqual.forEach((column) => {
-      playground.column(Column.update, {id: column.id, entityId: column.entityId, key: "order", value: column.order})
+      playground.column(ColumnEnum.update, {id: column.id, entityId: column.entityId, key: "order", value: column.order})
     })
   }, [nodeData])
 

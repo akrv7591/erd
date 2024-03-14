@@ -3,7 +3,7 @@ import {IconPlus, IconTrash} from "@tabler/icons-react";
 import {useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
-import {Column} from "@/enums/playground.ts";
+import {ColumnEnum} from "@/enums/playground.ts";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {useNodeData} from "@/hooks/useNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
@@ -33,7 +33,7 @@ export default function ContentControls() {
       newColumn.unique = true;
       newColumn.null = true;
     }
-    playground.column(Column.add, newColumn)
+    playground.column(ColumnEnum.add, newColumn)
 
   }
 
