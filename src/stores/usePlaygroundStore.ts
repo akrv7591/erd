@@ -8,7 +8,7 @@ import {flowStore, FlowStore} from "@/stores/playground/flowStore.ts";
 import {websocketResponseStore, WebsocketResponseStore} from "@/stores/playground/websocketResponseStore.ts";
 
 
-interface PlaygroundStoreState extends Omit<IErd, 'entities' | 'relations' | 'users'> {
+export interface PlaygroundStoreState extends Omit<IErd, 'entities' | 'relations' | 'users'> {
   playground: PlaygroundService;
 }
 
