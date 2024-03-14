@@ -10,12 +10,23 @@ import Config from "@/screens/Playground/Header/Config";
 
 export default function Header() {
   const players = usePlaygroundStore(state => state.players)
+  const configData = usePlaygroundStore(state => ({
+    id: state.id,
+    createdAt: state.createdAt,
+    updatedAt: state.updatedAt,
+    name: state.name,
+    description: state.description,
+    isPublic: state.isPublic,
+    teamId: state.teamId,
+    tableNameCase: state.tableNameCase,
+    columnNameCase: state.columnNameCase,
+  }))
 
   return (
     <Group align={"center"} gap={"5px"} px={"5px"} h={"100%"}>
       <Logo/>
       <Title/>
-      <Config />
+      <Config data={configData} />
       <Group ml={"auto"} gap={0}>
         {players.map(player => <PlayerAvatar player={player} key={player.id}/>)}
       </Group>
