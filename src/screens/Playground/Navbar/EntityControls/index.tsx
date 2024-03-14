@@ -31,7 +31,7 @@ const buttons: IData[] = [
     icon: IconTablePlus,
     allowOnDisabled: true,
     onDragStart: (event) => {
-      event.dataTransfer.setData('application/reactflow', "tableNode");
+      event.dataTransfer.setData('application/reactflow', "entityNode");
       event.dataTransfer.effectAllowed = 'move';
     }
   }, {

@@ -93,7 +93,7 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
 
     const mnTable: EntityNode = {
       id: createId(),
-      type: "tableNode",
+      type: "entityNode",
       position: {
         x: (sourceNode.position.x + targetNode.position.x) / 2,
         y: (sourceNode.position.y + targetNode.position.y) / 2

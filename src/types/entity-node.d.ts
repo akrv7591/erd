@@ -1,6 +1,7 @@
 import type {Node} from "@xyflow/react";
-import {IColumn, ITable, IUser} from "@/types/data/db-model-interfaces";
+import {IColumn, IEntity, IUser} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
+import {CustomNodeTypes} from "@/types/playground";
 
 export type ITools = 'hand-grab' | 'add-table' | RELATION.NAME;
 
@@ -9,15 +10,11 @@ export interface EntityNodeColumn extends Omit<IColumn, 'createdAt' | 'updatedAt
   selected: boolean;
 }
 
-export type CustomNodeTypes = 'tableNode'
-
-export type EntityNodeData = Pick<ITable, 'name' | 'color'> & {
+export type EntityNodeData = Pick<IEntity, 'name' | 'color'> & {
   columns: EntityNodeColumn[]
 }
 
 export type EntityNode = Node<EntityNodeData, CustomNodeTypes>
-
-export type NodeType = EntityNode
 
 export interface LivePlayer extends IUser {
   cursorPosition: {

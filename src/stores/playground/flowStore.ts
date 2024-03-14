@@ -1,19 +1,31 @@
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {StateCreator} from "zustand";
-import {EntityNode, NodeType} from "@/types/entity-node";
-import {applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, NodeChange} from "@xyflow/react";
+import {EntityNode} from "@/types/entity-node";
+import {
+  applyEdgeChanges,
+  applyNodeChanges,
+  Connection,
+  Edge,
+  EdgeChange,
+  NodeChange,
+  OnBeforeDelete
+} from "@xyflow/react";
 import {ColumnEnum, EntityEnum, RelationEnum} from "@/enums/playground.ts";
-import {IConnectionData} from "@/types/playground";
+import {CustomNodeTypes, IConnectionData, NodeType} from "@/types/playground";
 import {RELATION} from "@/constants/relations.ts";
+import {MemoNode} from "@/stores/playground/memoStore.ts";
 
-interface FlowStoreState {}
+
+interface FlowStoreState {
+}
 
 interface FlowStoreAction {
-  getNodes: () => EntityNode[]
+  getNodes: () => NodeType[]
   getEdges: () => Edge[]
   setNodeChanges: (nodeChanges: NodeChange<NodeType>[]) => void
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
   setConnection: (connection: Connection) => void
+  onBeforeDelete: OnBeforeDelete<NodeType>
 }
 
 export type FlowStore = FlowStoreState & FlowStoreAction
@@ -24,49 +36,90 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
   ...initialState,
 
   // Actions
-  getNodes: () => get().entities,
+  getNodes: () => [...get().entities, ...get().memos],
   getEdges: () => get().relations,
+
+  onBeforeDelete: async ({nodes, edges}) => {
+    if (!nodes.length) {
+      // Edge deletion handler
+      return new Promise((res) => {
+        set({
+          confirmModal: {
+            ...get().confirmModal,
+            opened: true,
+            message: `Are you sure you want to delete ${edges.length} ${edges.length === 1 ? "edge" : "edges"} with relation columns?`,
+            onConfirm: (callback) => {
+              res(true)
+              if (callback) {
+                callback()
+              }
+            },
+            onCancel: (callback) => {
+              res(false)
+              if (callback) {
+                callback()
+              }
+            }
+          }
+        })
+      })
+    } else {
+      // Node deletion handler
+      return new Promise((res) => {
+        set({
+          confirmModal: {
+            ...get().confirmModal,
+            opened: true,
+            message: `Are you sure you want to delete ${nodes.length} nodes and memos with relations?`,
+            onConfirm: (callback) => {
+              res(true)
+              if (callback) {
+                callback()
+              }
+            },
+            onCancel: (callback) => {
+              res(false)
+              if (callback) {
+                callback()
+              }
+            }
+          }
+        })
+      })
+
+    }
+  },
 
   setNodeChanges: (nodeChanges) => {
     set((state) => {
-      const nodesToUpdate: any[] = []
-      const nodesToDelete: string[] = []
+      const entities: NodeChange<EntityNode>[] = []
+      const memos: NodeChange<MemoNode>[] = []
+
       nodeChanges.forEach((node) => {
-        switch (node.type) {
-          case "add":
-            break
-          case "replace":
-            nodesToUpdate.push({
-              erdId: state.id,
-              id: node.item.id,
-              type: node.item.type,
-              position: node.item.position,
-            })
-            break
-          case "position":
-            const {id, type, position} = state.entities.find(oldNode => oldNode.id === node.id)!
+        let nodeType: CustomNodeTypes
 
-            if (position && node.position && position !== node.position) {
-              nodesToUpdate.push({
-                erdId: state.id,
-                id,
-                type,
-                position: node.position!,
-              })
-            }
+        if (node.type !== "add") {
+          nodeType = state.getNodes().find(n => n.id === node.id)!.type!
+        } else {
+          nodeType = node.item.type!
+        }
 
+        switch (nodeType) {
+          case "entityNode":
+            state.onEntityNodeChange(node as NodeChange<EntityNode>)
+            entities.push(node as NodeChange<EntityNode>)
             break
-          case "remove":
-            nodesToDelete.push(node.id)
+          case "memoNode":
+            // state.onMemoNodeChange(node as unknown as NodeChange<EntityNode>)
+            memos.push(node as NodeChange<MemoNode>)
             break
         }
       })
 
-      nodesToUpdate.forEach(node => state.playground.table(EntityEnum.update, node))
-
-      nodesToDelete.forEach(nodeId => state.playground.table(EntityEnum.delete, nodeId))
-
-      return ({entities: applyNodeChanges<NodeType>(nodeChanges, state.entities)})
+      return ({
+        entities: applyNodeChanges(entities, state.entities),
+        memos: applyNodeChanges(memos, state.memos)
+      })
     })
   },
 

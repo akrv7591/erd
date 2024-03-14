@@ -1,4 +1,6 @@
 import type {NodeTypes} from "@xyflow/react";
-import TableNode from "./TableNode";
+import EntityNode from "./EntityNode";
 
-export const nodeTypes: NodeTypes = {tableNode: TableNode}
+export const nodeTypes: NodeTypes = {
+  entityNode: EntityNode,
+}

@@ -9,12 +9,12 @@ import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
 import {erdTableTheme} from "@/config/theme.ts";
 import {EntityNodeData} from "@/types/entity-node";
-import NameOverlay from "@/screens/Playground/Main/nodes/TableNode/NameOverlay";
+import NameOverlay from "@/screens/Playground/Main/nodes/EntityNode/NameOverlay";
 
 interface Props extends NodeProps<EntityNodeData> {
 }
 
-const TableNode = React.memo((props: Props) => {
+const EntityNode = React.memo((props: Props) => {
   const {hovered, ref} = useHover()
   const headersIn = props.selected || hovered
   const theme = React.useMemo(() => erdTableTheme(props.data.color), [props.data.color])
@@ -43,4 +43,4 @@ const TableNode = React.memo((props: Props) => {
   )
 })
 
-export default TableNode
+export default EntityNode

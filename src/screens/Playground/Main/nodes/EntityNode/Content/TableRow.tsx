@@ -7,7 +7,7 @@ import {ColumnEnum} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
 import {EntityNodeColumn} from "@/types/entity-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import ColumnTypeIcon from "@/screens/Playground/Main/nodes/TableNode/Content/ColumnTypeIcon.tsx";
+import ColumnTypeIcon from "@/screens/Playground/Main/nodes/EntityNode/Content/ColumnTypeIcon.tsx";
 
 const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
   const playground = usePlayground()

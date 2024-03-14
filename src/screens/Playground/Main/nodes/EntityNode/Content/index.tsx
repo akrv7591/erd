@@ -11,11 +11,11 @@ import {useNodeId, useReactFlow} from "@xyflow/react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {ColumnEnum} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
-import {useNodeData} from "@/hooks/useNodeData.ts";
+import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
 
 const Content = React.memo(() => {
-  const nodeData = useNodeData()
+  const nodeData = useEntityNodeData()
   const entityId = useNodeId()
   const playground = usePlayground()
   const reactflow = useReactFlow()

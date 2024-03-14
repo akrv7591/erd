@@ -3,13 +3,13 @@ import classes from "../style.module.css";
 import {Overlay, Text} from "@mantine/core";
 import {RELATION} from "@/constants/relations.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {useNodeData} from "@/hooks/useNodeData.ts";
+import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {FC, useMemo} from "react";
 
 
 const SourceHandle: FC = () => {
   const tool = usePlaygroundStore(state => state.tool)
-  const nodeData = useNodeData();
+  const nodeData = useEntityNodeData();
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
 
@@ -52,7 +52,7 @@ const SourceHandle: FC = () => {
 
 const TargetHandle: FC = () => {
   const tool = usePlaygroundStore(state => state.tool)
-  const nodeData = useNodeData();
+  const nodeData = useEntityNodeData();
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
   const activeNodeHandle = useMemo(() => {

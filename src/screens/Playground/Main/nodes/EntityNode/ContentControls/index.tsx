@@ -5,13 +5,13 @@ import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {ColumnEnum} from "@/enums/playground.ts";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
-import {useNodeData} from "@/hooks/useNodeData.ts";
+import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
 
 
 export default function ContentControls() {
   const playground = usePlayground()
-  const nodeData = useNodeData()
+  const nodeData = useEntityNodeData()
   const {deleteElements} = useReactFlow()
 
   if (!nodeData) {

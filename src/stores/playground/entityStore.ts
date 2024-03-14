@@ -1,6 +1,6 @@
 import {StateCreator} from "zustand";
-import {EntityNode, EntityNodeColumn, EntityNodeData, NodeType} from "@/types/entity-node";
-import {OnBeforeDelete} from "@xyflow/react";
+import {EntityNode, EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
+import {NodeChange} from "@xyflow/react";
 import {EntityEnum} from "@/enums/playground.ts";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import React from "react";
@@ -13,8 +13,8 @@ interface EntityStoreState {
 
 interface EntityStoreAction {
   nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
-  onBeforeDelete: OnBeforeDelete<NodeType>
   resetEntityStore: () => void
+  onEntityNodeChange: (node: NodeChange<EntityNode>) => void
 }
 
 export type EntityStore = EntityStoreState & EntityStoreAction
@@ -65,53 +65,36 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
     }
   },
 
-  onBeforeDelete: async ({nodes, edges}) => {
-    if (nodes.length > 0) {
-      // Node deletion handler
-      return new Promise((res) => {
-        set({
-          confirmModal: {
-            ...get().confirmModal,
-            opened: true,
-            message: `Are you sure you want to delete ${nodes.map(n => n.data.name)} ${nodes.length === 1 ? "entity" : "entities"} with relations?`,
-            onConfirm: (callback) => {
-              res(true)
-              if (callback) {
-                callback()
-              }
-            },
-            onCancel: (callback) => {
-              res(false)
-              if (callback) {
-                callback()
-              }
-            }
-          }
+  onEntityNodeChange: (node) => {
+    const state = get()
+    switch (node.type) {
+      case "add":
+        break
+      case "replace":
+        state.playground.table(EntityEnum.update, {
+          erdId: state.id,
+          id: node.item.id,
+          type: node.item.type,
+          position: node.item.position,
         })
-      })
-    } else {
-      // Edge deletion handler
-      return new Promise((res) => {
-        set({
-          confirmModal: {
-            ...get().confirmModal,
-            opened: true,
-            message: `Are you sure you want to delete ${edges.length} ${edges.length === 1 ? "edge" : "edges"} with relation columns?`,
-            onConfirm: (callback) => {
-              res(true)
-              if (callback) {
-                callback()
-              }
-            },
-            onCancel: (callback) => {
-              res(false)
-              if (callback) {
-                callback()
-              }
-            }
-          }
-        })
-      })
+        break
+      case "position":
+        const {id, type, position} = state.entities.find(oldNode => oldNode.id === node.id)!
+
+        if (node.position && position !== node.position) {
+          state.playground.table(EntityEnum.update, {
+            erdId: state.id,
+            id,
+            type,
+            position: node.position!,
+          })
+        }
+
+        break
+      case "remove":
+        state.playground.table(EntityEnum.delete, node.id)
+        break
+      default:
     }
   },
 

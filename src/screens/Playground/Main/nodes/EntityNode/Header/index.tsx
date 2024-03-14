@@ -2,11 +2,11 @@ import {ColorPicker, ColorPickerProps, ColorSwatch, Group, HoverCard, Input} fro
 import {IconPalette, IconTable} from "@tabler/icons-react";
 import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {EntityEnum} from "@/enums/playground.ts";
-import {useNodeData} from "@/hooks/useNodeData.ts";
+import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {ChangeEventHandler} from "react";
 
 const Header = () => {
-  const nodeData = useNodeData()
+  const nodeData = useEntityNodeData()
   const playground = usePlayground()
 
   if (!nodeData) {

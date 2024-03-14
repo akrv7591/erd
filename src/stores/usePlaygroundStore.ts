@@ -6,9 +6,10 @@ import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
 import {relationStore, RelationStore} from "@/stores/playground/relationStore.ts";
 import {flowStore, FlowStore} from "@/stores/playground/flowStore.ts";
 import {websocketResponseStore, WebsocketResponseStore} from "@/stores/playground/websocketResponseStore.ts";
+import {memoStore, MemoStore} from "@/stores/playground/memoStore.ts";
 
 
-export interface PlaygroundStoreState extends Omit<IErd, 'entities' | 'relations' | 'users'> {
+export interface PlaygroundStoreState extends Omit<IErd, 'entities' | 'relations' | 'users' | 'memos'> {
   playground: PlaygroundService;
 }
 
@@ -24,6 +25,7 @@ export type UsePlaygroundStore =
   & EntityStore
   & RelationStore
   & FlowStore
+  & MemoStore
   & WebsocketResponseStore
 
 
@@ -46,13 +48,15 @@ export const usePlaygroundStore = create<UsePlaygroundStore>()((...a) => ({
   ...entityStore(...a),
   ...relationStore(...a),
   ...flowStore(...a),
+  ...memoStore(...a),
   ...websocketResponseStore(...a),
 
   reset: () => {
-    const {resetEntityStore, resetRelationStore, resetPaneStore} = a[1]();
-    resetEntityStore();
-    resetRelationStore();
-    resetPaneStore();
+    const state = a[1]();
+    state.resetEntityStore();
+    state.resetRelationStore();
+    state.resetPaneStore();
+    state.resetMemoStore();
   },
 }))
 

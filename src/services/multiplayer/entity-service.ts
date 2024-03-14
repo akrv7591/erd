@@ -1,6 +1,6 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {applyNodeChanges, NodeChange} from "@xyflow/react";
-import {EntityNode, NodeType} from "@/types/entity-node";
+import {EntityNode} from "@/types/entity-node";
 
 export const entityService = () => {
 
@@ -8,8 +8,8 @@ export const entityService = () => {
     usePlaygroundStore.setState(state => ({entities: [...state.entities, data]}))
   }
 
-  function onUpdate(data: NodeChange<NodeType>) {
-    usePlaygroundStore.setState(state => ({entities: applyNodeChanges<NodeType>([data], state.entities)}))
+  function onUpdate(data: NodeChange<EntityNode>) {
+    usePlaygroundStore.setState(state => ({entities: applyNodeChanges<EntityNode>([data], state.entities)}))
   }
 
   function onDelete(data: string) {
