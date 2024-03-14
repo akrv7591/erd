@@ -1,8 +1,13 @@
-
 export enum Key {
   playground = "playground",
   subscribe = "subscribe",
   table = "table",
+}
+
+export enum ErdEnum {
+  patch = "erd:patch",
+  put = "erd:put",
+  delete = "erd:delete",
 }
 
 export enum Player {
@@ -32,7 +37,7 @@ export enum Column {
   delete = "column:delete",
 }
 
-export type Playground = Player | Entity | Relation | Column
+export type Playground = Player | Entity | Relation | Column | ErdEnum
 
 export enum CallbackDataStatus {
   OK="ok",

@@ -2,7 +2,7 @@ import {Socket} from "socket.io-client";
 import {Edge} from "@xyflow/react";
 import {CallbackDataStatus, Column, Player, Relation, Entity} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
-import {tableService} from "@/services/multiplayer/table-service.ts";
+import {entityService} from "@/services/multiplayer/entity-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
 import {columnService} from "@/services/multiplayer/column-service.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
@@ -43,7 +43,7 @@ export class PlaygroundService {
   }
 
   private initTableListeners() {
-    const entity = tableService()
+    const entity = entityService()
 
     this.io.on(Entity.add, entity.onAdd)
     this.io.on(Entity.update, entity.onUpdate)

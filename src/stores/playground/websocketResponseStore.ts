@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ResponseData} from "@/services/multiplayer/playground-service.ts";
-import {CallbackDataStatus, Column, Player, Playground, Relation, Entity} from "@/enums/playground.ts";
+import {CallbackDataStatus, Column, Entity, ErdEnum, Player, Playground, Relation} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
 import {orderBy} from "lodash";
 
@@ -24,6 +24,10 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
 
       set(cur => {
           switch (type) {
+            case ErdEnum.put:
+              return {...cur, ...data}
+            case ErdEnum.patch:
+              return {...cur, ...{[data.key]: data.value}}
             case Player.subscribe:
               return {subscribedTo: data, viewport: null}
 

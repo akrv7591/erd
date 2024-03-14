@@ -2,7 +2,7 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {applyNodeChanges, NodeChange} from "@xyflow/react";
 import {EntityNode, NodeType} from "@/types/entity-node";
 
-export const tableService = () => {
+export const entityService = () => {
 
   function onAdd(data: EntityNode) {
     usePlaygroundStore.setState(state => ({entities: [...state.entities, data]}))
