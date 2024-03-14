@@ -1,77 +1,40 @@
 import {
   ActionIcon,
   Group,
-  Input,
   Modal,
   SegmentedControl,
   Select,
   Stack,
   Switch,
+  Text,
   Textarea,
   TextInput,
   Tooltip
 } from "@mantine/core";
 import {IconInfoCircle, IconSettings} from "@tabler/icons-react";
 import {useModal} from "@/hooks/useModal.ts";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {useLocation} from "react-router-dom";
+import {PlaygroundStoreState, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useForm} from "@mantine/form";
 import {IErd} from "@/types/data/db-model-interfaces";
-import {useMutation, useQueryClient} from "react-query";
-import {notifications} from "@mantine/notifications";
-import erdApi from "@/api/erdApi.tsx";
 import ModalForm from "@/components/common/ModalForm";
 import {hasRoleAccess} from "@/utility/role-util.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {useOnMount} from "@/hooks/useOnMount.ts";
+import {ErdEnum} from "@/enums/playground.ts";
+import {useEffect} from "react";
 
-const erdMutationFn = (data: IErd) => erdApi.put("/v1/erd", data)
-
-export default function Config() {
-  const name = usePlaygroundStore(state => state.name)
-  const modal = useModal({baseTitle: `${name}'s Settings`, initialOpen: false, initialType: "view"})
+interface Props {
+  data: Omit<PlaygroundStoreState, 'playground'>
+}
+export default function Config(props: Props) {
+  const form = useForm<IErd>({initialValues: props.data})
+  const playground = usePlaygroundStore(state => state.playground)
+  const modal = useModal({baseTitle: `${props.data.name}'s Settings`, initialOpen: false, initialType: "view"})
   const teams = useLibraryStore(state => state.teams)
-  const form = useForm<IErd>({})
-  const location = useLocation()
+  const handleSubmit = async (data: any) => playground.erd(ErdEnum.put, data)
 
-  const queryClient = useQueryClient()
-  const mutation = useMutation({mutationFn: ({data}: { data: IErd }) => erdMutationFn(data)})
-
-  const handleSubmit = async (data: any) => {
-    mutation.mutate({data}, {
-      onSuccess: async (res) => {
-        console.log({res})
-        await queryClient.refetchQueries(['erdList'])
-        form.setValues(data)
-        modal.modalProps.onClose()
-        notifications.show({
-          title: `${res.data.name} erd is updated`,
-          message: "Success"
-        })
-      },
-      onError: () => {
-        notifications.show({
-          title: `Failed to update erd`,
-          message: "Failed",
-          color: "var(--mantine-color-red-filled)"
-        })
-      }
-    })
-  }
-
-  useOnMount(() => {
-    erdApi.get<IErd>(`/v1/erd/${location.state.erd.id}`)
-      .catch(e => console.error(e))
-      .then(res => {
-        if (res) {
-         form.setValues(res.data)
-        }
-      })
-  })
-
-  if (!form.values.id) {
-    return null
-  }
+  useEffect(() => {
+    form.setValues(props.data)
+  }, [modal.modalProps.opened])
 
   return (
     <>
@@ -80,12 +43,8 @@ export default function Config() {
           <IconSettings/>
         </ActionIcon>
       </Tooltip>
-      <Modal {...modal.modalProps} closeOnClickOutside={false} closeOnEscape={false} size={"xl"}>
-        <ModalForm
-          onClose={modal.modalProps.onClose}
-          onSubmit={form.onSubmit(handleSubmit)}
-          loading={mutation.isLoading}
-        >
+      <Modal {...modal.modalProps} size={"lg"}>
+        <ModalForm onClose={modal.modalProps.onClose} onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
             <Group align={"flex-start"}>
               <TextInput
@@ -122,7 +81,7 @@ export default function Config() {
             </Group>
             <Group>
               <Stack gap={1} flex={1}>
-                <Input.Label>Entity name casing</Input.Label>
+                <Text size={'sm'}>Entity name casing</Text>
                 <SegmentedControl
                   value={form.values.tableNameCase}
                   onChange={(v: any) => form.setFieldValue("tableNameCase", v)}
@@ -139,7 +98,7 @@ export default function Config() {
                 />
               </Stack>
               <Stack gap={1} flex={1}>
-                <Input.Label>Entity column name casing</Input.Label>
+                <Text size={"sm"}>Entity column name casing</Text>
                 <SegmentedControl
                   value={form.values.columnNameCase}
                   onChange={(v: any) => form.setFieldValue("columnNameCase", v)}
