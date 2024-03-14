@@ -10,7 +10,7 @@ interface Props {
 export default function TableCount({erdId}: Props) {
   const {data, status} = useQuery({
     queryKey: ['erdTableCount', erdId],
-    queryFn: () => erdApi.get<{ count: number }>(`/v1/erd/${erdId}/table/count`).then(res => res.data)
+    queryFn: () => erdApi.get<{ count: number }>(`/v1/erd/${erdId}/entity/count`).then(res => res.data)
   })
 
   switch (status) {
@@ -35,7 +35,6 @@ export default function TableCount({erdId}: Props) {
         <Tooltip label={`${data.count} entities`}>
           <Group gap={2}>
             <Text>{data.count}</Text>
-
           </Group>
         </Tooltip>
       )
