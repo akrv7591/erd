@@ -7,7 +7,7 @@ export default function MemoController() {
   const setShowMemos = usePlaygroundStore(state => state.setShowMemos)
   const toggle = () => setShowMemos(!showMemos)
   return (
-    <Tooltip label={showMemos? "Hide showMemos": "Show showMemos"} position={"left"}>
+    <Tooltip label={showMemos? "Hide memos": "Show memos"} position={"left"}>
       <ActionIcon
         mx={"5px"}
         w={"40px"}
