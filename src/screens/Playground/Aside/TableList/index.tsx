@@ -21,7 +21,12 @@ import {useReactFlow} from "@xyflow/react";
 import {EntityNode} from "@/types/entity-node";
 
 export default function TableList() {
-  const [opened, {open, close}] = useDisclosure()
+  const [opened, {toggle, close}] = useDisclosure(false, {
+    onClose: () => {
+      setSelectedEntities([])
+      setSearch("")
+    }
+  })
   const [selectedEntities, setSelectedEntities] = React.useState<EntityNode[]>([])
   const entities = usePlaygroundStore(state => state.entities)
   const reactflow = useReactFlow()
@@ -47,12 +52,9 @@ export default function TableList() {
       offset={10}
     >
       <Menu.Target>
-        <Tooltip withArrow position={"left"} label={"Entity list"}>
+        <Tooltip withArrow position={"left"} label={"Entity list"} hidden={opened}>
           <ActionIcon
-            onClick={() => {
-              setSearch("")
-              opened ? close() : open()
-            }}
+            onClick={toggle}
             mx={"5px"}
             variant={opened ? 'light' : 'default'}
             w={"40px"}
