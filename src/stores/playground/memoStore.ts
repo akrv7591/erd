@@ -11,18 +11,21 @@ export type MemoNode = Node<MemoNodeData, CustomNodeTypes>
 
 interface MemoStoreState {
   memos: MemoNode[]
+  showMemos: boolean
 }
 
 interface MemoStoreActions {
   resetMemoStore: () => void
   memoOnDragAdd: (position: XYPosition) => void
   onMemoNodeChange: (node: NodeChange<MemoNode>) => void
+  setShowMemos: (showMemos: boolean) => void
 }
 
 export type MemoStore = MemoStoreState & MemoStoreActions
 
 const initialState: MemoStoreState = {
-  memos: []
+  memos: [],
+  showMemos: true
 }
 
 export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((set, get) => ({
@@ -68,5 +71,6 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
       default:
     }
   },
+  setShowMemos: (showMemos) => set({showMemos}),
   resetMemoStore: () => set(initialState),
 }))
