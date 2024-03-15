@@ -38,7 +38,14 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
   ...initialState,
 
   // Actions
-  getNodes: () => [...get().entities, ...get().memos],
+  getNodes: () => {
+    let nodes: NodeType[] = [...get().entities]
+
+      if (get().showMemos) {
+        nodes = [...nodes, ...get().memos]
+      }
+    return nodes
+  },
   getEdges: () => get().relations,
 
   onBeforeDelete: async ({nodes, edges}) => {
