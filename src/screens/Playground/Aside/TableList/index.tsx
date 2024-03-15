@@ -53,7 +53,7 @@ export default function TableList() {
               setSearch("")
               opened ? close() : open()
             }}
-            m={"5px"}
+            mx={"5px"}
             variant={opened ? 'light' : 'default'}
             w={"40px"}
             h={"40px"}

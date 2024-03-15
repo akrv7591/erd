@@ -7,7 +7,7 @@ import {useHover} from "@mantine/hooks";
 import Header from "./Header";
 import Content from "./Content";
 import RelationsOverlay from "./RelationsOverlay";
-import {erdTableTheme} from "@/config/theme.ts";
+import {erdEntityTheme} from "@/config/theme.ts";
 import {EntityNodeData} from "@/types/entity-node";
 import NameOverlay from "@/screens/Playground/Main/nodes/EntityNode/NameOverlay";
 
@@ -17,7 +17,7 @@ interface Props extends NodeProps<EntityNodeData> {
 const EntityNode = React.memo((props: Props) => {
   const {hovered, ref} = useHover()
   const headersIn = props.selected || hovered
-  const theme = React.useMemo(() => erdTableTheme(props.data.color), [props.data.color])
+  const theme = React.useMemo(() => erdEntityTheme(props.data.color), [props.data.color])
 
   if (!props.data) return null
 

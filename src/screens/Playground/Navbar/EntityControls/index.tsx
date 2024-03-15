@@ -1,7 +1,7 @@
 import {ITools} from "@/types/entity-node";
 import React from "react";
 import {
-  IconHandGrab,
+  IconHandGrab, IconNote,
   IconRelationManyToMany,
   IconRelationOneToMany,
   IconRelationOneToOne,
@@ -26,12 +26,21 @@ const buttons: IData[] = [
     icon: IconHandGrab,
     allowOnDisabled: true
   }, {
-    label: 'Drag and place to add entity',
+    label: 'Drag and drop to add entity',
     value: 'add-table',
     icon: IconTablePlus,
     allowOnDisabled: true,
     onDragStart: (event) => {
       event.dataTransfer.setData('application/reactflow', "entityNode");
+      event.dataTransfer.effectAllowed = 'move';
+    }
+  }, {
+    label: 'Drag and drop to add memo',
+    value: 'add-memo',
+    icon: IconNote,
+    allowOnDisabled: true,
+    onDragStart: (event) => {
+      event.dataTransfer.setData('application/reactflow', "memoNode");
       event.dataTransfer.effectAllowed = 'move';
     }
   }, {

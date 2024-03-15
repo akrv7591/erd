@@ -1,18 +1,17 @@
 import {StateCreator} from "zustand";
 import {EntityNode, EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
-import {NodeChange} from "@xyflow/react";
+import {NodeChange, XYPosition} from "@xyflow/react";
 import {EntityEnum} from "@/enums/playground.ts";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import React from "react";
-import {IAddNodeProps} from "@/types/playground";
 import {createId} from "@paralleldrive/cuid2";
+import voca, {Chain} from "voca";
 
 interface EntityStoreState {
   entities: EntityNode[]
 }
 
 interface EntityStoreAction {
-  nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
+  entityOnDragAdd: (position: XYPosition) => void
   resetEntityStore: () => void
   onEntityNodeChange: (node: NodeChange<EntityNode>) => void
 }
@@ -28,41 +27,40 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
 
   //Actions
 
-  nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {
-    e.preventDefault();
+  entityOnDragAdd: (position) => {
+    const state = get()
 
-    const type = e.dataTransfer.getData('application/reactflow');
+    const id = createId();
+    const columns: EntityNodeColumn[] = []
+    let name: string | Chain
 
-    // check if the dropped element is valid
-    if (typeof type === 'undefined' || !type) {
-      return;
+    switch (state.tableNameCase) {
+      case "pascal":
+        name = voca("table").titleCase()
+        break
+      case "camel":
+        name = voca("table").capitalize()
+        break
+      case "snake":
+        name = voca("table").capitalize()
+        break
     }
-    const {entities, playground} = get()
-    // @ts-ignore
-    const targetIsPane = e.target.classList.contains('react-flow__pane');
 
-    if (targetIsPane) {
-      const id = createId();
-      const columns: EntityNodeColumn[] = []
-      const data: EntityNodeData = ({
-        name: `table_${entities.length}`,
-        color: "#006ab9",
-        columns
-      })
-      const position = reactFlowInstance.screenToFlowPosition({
-        x: e.clientX,
-        y: e.clientY
-      })
-      const newNode = {
-        id,
-        type: "tableNode",
-        position,
-        data: data,
-        createdAt: new Date(),
-      };
+    const data: EntityNodeData = ({
+      name: String(name),
+      color: "#006ab9",
+      columns
+    })
 
-      playground.table(EntityEnum.add, newNode)
-    }
+    const newNode = {
+      id,
+      type: "entityNode",
+      position,
+      data: data,
+      createdAt: new Date(),
+    };
+
+    state.playground.table(EntityEnum.add, newNode)
   },
 
   onEntityNodeChange: (node) => {

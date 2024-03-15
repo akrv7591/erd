@@ -11,9 +11,10 @@ import {
   OnBeforeDelete
 } from "@xyflow/react";
 import {ColumnEnum, EntityEnum, RelationEnum} from "@/enums/playground.ts";
-import {CustomNodeTypes, IConnectionData, NodeType} from "@/types/playground";
+import {CustomNodeTypes, IAddNodeProps, IConnectionData, NodeType} from "@/types/playground";
 import {RELATION} from "@/constants/relations.ts";
 import {MemoNode} from "@/stores/playground/memoStore.ts";
+import React from "react";
 
 
 interface FlowStoreState {
@@ -26,6 +27,7 @@ interface FlowStoreAction {
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
   setConnection: (connection: Connection) => void
   onBeforeDelete: OnBeforeDelete<NodeType>
+  nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
 }
 
 export type FlowStore = FlowStoreState & FlowStoreAction
@@ -110,7 +112,7 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
             entities.push(node as NodeChange<EntityNode>)
             break
           case "memoNode":
-            // state.onMemoNodeChange(node as unknown as NodeChange<EntityNode>)
+            state.onMemoNodeChange(node as NodeChange<MemoNode>)
             memos.push(node as NodeChange<MemoNode>)
             break
         }
@@ -195,6 +197,34 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
     data.relations.forEach(relation => state.playground.relation(RelationEnum.add, relation))
 
     return {tool: "hand-grab"}
-  })
+  }),
 
+  nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {
+    e.preventDefault();
+
+    const type = e.dataTransfer.getData('application/reactflow') as CustomNodeTypes;
+
+    // @ts-ignore
+    const targetIsPane = e.target.classList.contains('react-flow__pane');
+
+
+    // check if the dropped element is valid
+    if (!targetIsPane) return;
+    if (typeof type === 'undefined' || !type) return
+
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: e.clientX,
+      y: e.clientY
+    })
+
+    const state = get()
+
+    switch (type) {
+      case "entityNode":
+        state.entityOnDragAdd(position)
+        break
+      case "memoNode":
+        state.memoOnDragAdd(position)
+    }
+  }
 }))

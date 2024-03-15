@@ -3,7 +3,7 @@ import {IColumn, IEntity, IUser} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
 import {CustomNodeTypes} from "@/types/playground";
 
-export type ITools = 'hand-grab' | 'add-table' | RELATION.NAME;
+export type ITools = 'hand-grab' | 'add-table' | 'add-memo' | RELATION.NAME;
 
 
 export interface EntityNodeColumn extends Omit<IColumn, 'createdAt' | 'updatedAt'> {

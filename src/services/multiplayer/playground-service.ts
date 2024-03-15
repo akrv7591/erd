@@ -1,6 +1,14 @@
 import {Socket} from "socket.io-client";
 import {Edge} from "@xyflow/react";
-import {CallbackDataStatus, ColumnEnum, PlayerEnum, RelationEnum, EntityEnum, ErdEnum} from "@/enums/playground.ts";
+import {
+  CallbackDataStatus,
+  ColumnEnum,
+  EntityEnum,
+  ErdEnum,
+  MemoEnum,
+  PlayerEnum,
+  RelationEnum
+} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
 import {entityService} from "@/services/multiplayer/entity-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
@@ -8,6 +16,7 @@ import {columnService} from "@/services/multiplayer/column-service.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import {erdService} from "@/services/multiplayer/erd-service.ts";
+import {memoService} from "@/services/multiplayer/memo-service.ts";
 
 export interface ResponseData<T> {
   type: T
@@ -31,6 +40,7 @@ export class PlaygroundService {
     this.initTableListeners()
     this.initRelationListeners()
     this.initColumnListeners()
+    this.initMemoListeners()
   }
 
   private initErdListeners() {
@@ -76,6 +86,15 @@ export class PlaygroundService {
 
   }
 
+  private initMemoListeners() {
+    const memo = memoService()
+
+    this.io.on(MemoEnum.add, memo.onAdd)
+    this.io.on(MemoEnum.put, memo.onPut)
+    this.io.on(MemoEnum.patch, memo.onPatch)
+    this.io.on(MemoEnum.delete, memo.onDelete)
+  }
+
   public get handlePlaygroundResponse() {
     return usePlaygroundStore.getState().handlePlaygroundResponse
   }
@@ -96,6 +115,19 @@ export class PlaygroundService {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
+  public memo(action: MemoEnum, data: any) {
+    if (data.key === "content") {
+      this.handlePlaygroundResponse({
+        status: CallbackDataStatus.OK,
+        data,
+        type: action
+      })
+      this.io.emit(action, data, () => {})
+    } else {
+      this.io.emit(action, data, this.handlePlaygroundResponse)
+    }
+  }
+
   public column(action: ColumnEnum, data: { entityId: string, key: string, value: any, id: string } | EntityNodeColumn | string) {
     if (action === ColumnEnum.update) {
       this.handlePlaygroundResponse({
@@ -105,7 +137,7 @@ export class PlaygroundService {
         },
         type: action
       })
-      this.io.emit(action, data, (obj: ResponseData<ColumnEnum>) => console.log(obj))
+      this.io.emit(action, data, () => {})
     } else {
       this.io.emit(action, data, this.handlePlaygroundResponse)
     }

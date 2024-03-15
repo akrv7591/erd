@@ -49,7 +49,7 @@ export const theme = createTheme({
 })
 
 
-export const erdTableTheme = (color: string) => {
+export const erdEntityTheme = (color: string) => {
   const myColors = generateColors(color)
   const colorName = color.split("#")[1]
 

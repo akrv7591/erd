@@ -1,7 +1,16 @@
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ResponseData} from "@/services/multiplayer/playground-service.ts";
-import {CallbackDataStatus, ColumnEnum, EntityEnum, ErdEnum, PlayerEnum, Playground, RelationEnum} from "@/enums/playground.ts";
+import {
+  CallbackDataStatus,
+  ColumnEnum,
+  EntityEnum,
+  ErdEnum,
+  MemoEnum,
+  PlayerEnum,
+  Playground,
+  RelationEnum
+} from "@/enums/playground.ts";
 import {notifications} from "@mantine/notifications";
 import {orderBy} from "lodash";
 
@@ -24,12 +33,16 @@ export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], We
 
       set(cur => {
           switch (type) {
+            case MemoEnum.add:
+              return {memos: [...cur.memos, data]}
             case ErdEnum.put:
                   notifications.show({
                     title: `${data.name} erd is updated`,
                     message: "Success"
                   })
               return {...cur, ...data}
+            case MemoEnum.patch:
+              return {memos: cur.memos.map(memo => memo.id === data.memoId ? {...memo, data: {...memo.data, [data.key]: data.value}} : memo)}
             case ErdEnum.patch:
               return {...cur, ...{[data.key]: data.value}}
             case PlayerEnum.subscribe:
