@@ -39,11 +39,13 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
 
   // Actions
   getNodes: () => {
-    let nodes: NodeType[] = [...get().entities]
+    const state = get()
+    let nodes: NodeType[] = [...state.entities]
 
-      if (get().showMemos) {
-        nodes = [...nodes, ...get().memos]
+      if (state.showMemos) {
+        nodes = [...nodes, ...state.memos]
       }
+
     return nodes
   },
   getEdges: () => get().relations,
