@@ -20,14 +20,14 @@ export default function Header() {
     teamId: state.teamId,
     tableNameCase: state.tableNameCase,
     columnNameCase: state.columnNameCase,
-    connected:  state.connected
+    connected: state.connected
   }))
 
   return (
     <Group align={"center"} gap={"5px"} px={"5px"} h={"100%"}>
       <Logo/>
       <Title/>
-      <Config data={configData} />
+      <Config data={configData}/>
       <Group ml={"auto"} gap={0}>
         {players.map(player => <PlayerAvatar player={player} key={player.id}/>)}
       </Group>

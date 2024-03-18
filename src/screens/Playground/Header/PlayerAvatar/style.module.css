@@ -1,6 +1,6 @@
 .avatar, .avatarSubscribed {
     margin-left: -10px;
-    border: 1px solid red;
+    outline: 1px solid transparent;
     color: var(--mantine-color-text) !important;
 }
 
@@ -10,6 +10,11 @@
 }
 
 .avatarSubscribed {
-    border-color: var(--mantine-primary-color-filled) !important;
+    outline-color: var(--mantine-primary-color-filled) !important;
     z-index: 1;
+}
+
+.followingText {
+    text-align: center;
+    line-height: .5rem;
 }

@@ -1,7 +1,6 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {Viewport} from "@xyflow/react";
 import {LivePlayer} from "@/types/entity-node";
-import {notifications} from "@mantine/notifications";
 
 export const playerService = () => {
 
@@ -20,11 +19,11 @@ export const playerService = () => {
       return
     }
 
-    notifications.show({
-      title: "New follower",
-      message: `${subscriber.name} is following you!`,
-      color: "var(--mantine-color-orange-filled)",
-    })
+    // notifications.show({
+    //   title: "New follower",
+    //   message: `${subscriber.name} is following you!`,
+    //   color: "var(--mantine-color-orange-filled)",
+    // })
     usePlaygroundStore.setState(cur => cur.subscribers.includes(subscriberId) ? {} : {subscribers: [...cur.subscribers, subscriberId]})
   }
 
@@ -35,11 +34,11 @@ export const playerService = () => {
       return
     }
 
-    notifications.show({
-      title: "Follower left",
-      message: `${subscriber.name} is no longer following you!`,
-      color: "var(--mantine-color-orange-filled)"
-    })
+    // notifications.show({
+    //   title: "Follower left",
+    //   message: `${subscriber.name} is no longer following you!`,
+    //   color: "var(--mantine-color-orange-filled)"
+    // })
     usePlaygroundStore.setState(cur => ({subscribers: cur.subscribers.filter((s) => s !== subscriberId)}))
   }
 
