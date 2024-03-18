@@ -4,13 +4,13 @@ import {useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {ColumnEnum} from "@/enums/playground.ts";
-import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 
 export default function ContentControls() {
-  const playground = usePlayground()
+  const playground = usePlaygroundStore(state => state.playground)
   const nodeData = useEntityNodeData()
   const {deleteElements} = useReactFlow()
 

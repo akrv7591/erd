@@ -8,16 +8,16 @@ import "./style.module.css"
 import RenderList from "./Table.tsx";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {useNodeId, useReactFlow} from "@xyflow/react";
-import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {ColumnEnum} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 const Content = React.memo(() => {
   const nodeData = useEntityNodeData()
   const entityId = useNodeId()
-  const playground = usePlayground()
+  const playground = usePlaygroundStore(state => state.playground)
   const reactflow = useReactFlow()
 
   const selectedColumns = React.useMemo(() => {

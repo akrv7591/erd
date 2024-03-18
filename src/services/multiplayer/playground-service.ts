@@ -1,4 +1,4 @@
-import {Socket} from "socket.io-client";
+import {connect, Socket} from "socket.io-client";
 import {Edge} from "@xyflow/react";
 import {
   CallbackDataStatus,
@@ -17,6 +17,7 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import {erdService} from "@/services/multiplayer/erd-service.ts";
 import {memoService} from "@/services/multiplayer/memo-service.ts";
+import {PROJECT} from "@/constants/project.ts";
 
 export interface ResponseData<T> {
   type: T
@@ -27,13 +28,18 @@ export interface ResponseData<T> {
 export class PlaygroundService {
   readonly io: Socket
 
-  constructor(io: Socket) {
-    this.io = io
-    this.initPlayground(this)
+  constructor(playerId: string, playgroundId: string) {
+    this.io = connect(PROJECT.BASE_API_URL, {
+      auth: {playerId, playgroundId},
+      withCredentials: true,
+      reconnection: true,
+    })
+    this.initPlayground()
   }
 
-  private initPlayground(playground: PlaygroundService) {
-    this.io.on("data", data => usePlaygroundStore.setState(cur => ({...cur, ...data, playground})))
+  private initPlayground() {
+    this.io.on("disconnect", () => usePlaygroundStore.setState(({connected: false})))
+    this.io.on("data", data => usePlaygroundStore.setState(({...data, connected: true})))
 
     this.initErdListeners()
     this.initPlayerListeners()
@@ -49,6 +55,7 @@ export class PlaygroundService {
     this.io.on(ErdEnum.put, erd.onPut)
     this.io.on(ErdEnum.patch, erd.onPatch)
   }
+
   private initPlayerListeners() {
     const player = playerService()
 
@@ -122,24 +129,32 @@ export class PlaygroundService {
         data,
         type: action
       })
-      this.io.emit(action, data, () => {})
+      this.io.emit(action, data, () => {
+      })
     } else {
       this.io.emit(action, data, this.handlePlaygroundResponse)
     }
   }
 
-  public column(action: ColumnEnum, data: { entityId: string, key: string, value: any, id: string } | EntityNodeColumn | string) {
-    if (action === ColumnEnum.update) {
-      this.handlePlaygroundResponse({
-        status: CallbackDataStatus.OK,
-        data: {
-          column: data
-        },
-        type: action
-      })
-      this.io.emit(action, data, () => {})
-    } else {
-      this.io.emit(action, data, this.handlePlaygroundResponse)
+  public column(action: ColumnEnum, data: {
+    entityId: string,
+    key: string,
+    value: any,
+    id: string
+  } | EntityNodeColumn | string) {
+    switch (action) {
+      case ColumnEnum.update:
+        this.handlePlaygroundResponse({
+          status: CallbackDataStatus.OK,
+          data: {
+            column: data
+          },
+          type: action
+        })
+        this.io.emit(action, data, () => {})
+        break
+      default:
+        this.io.emit(action, data, this.handlePlaygroundResponse)
     }
   }
 

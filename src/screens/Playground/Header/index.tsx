@@ -20,6 +20,7 @@ export default function Header() {
     teamId: state.teamId,
     tableNameCase: state.tableNameCase,
     columnNameCase: state.columnNameCase,
+    connected:  state.connected
   }))
 
   return (

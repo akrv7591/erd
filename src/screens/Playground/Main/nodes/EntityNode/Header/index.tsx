@@ -1,13 +1,13 @@
 import {ColorPicker, ColorPickerProps, ColorSwatch, Group, HoverCard, Input} from "@mantine/core";
 import {IconPalette, IconTable} from "@tabler/icons-react";
-import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {EntityEnum} from "@/enums/playground.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {ChangeEventHandler} from "react";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 const Header = () => {
   const nodeData = useEntityNodeData()
-  const playground = usePlayground()
+  const playground = usePlaygroundStore(state => state.playground)
 
   if (!nodeData) {
     return null

@@ -2,7 +2,6 @@ import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
 import {IconGripVertical} from "@tabler/icons-react";
 import React, {useCallback, useMemo} from "react";
 import styles from "./style.module.css"
-import {usePlayground} from "@/contexts/PlaygroundContext.ts";
 import {ColumnEnum} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
 import {EntityNodeColumn} from "@/types/entity-node";
@@ -10,7 +9,7 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import ColumnTypeIcon from "@/screens/Playground/Main/nodes/EntityNode/Content/ColumnTypeIcon.tsx";
 
 const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
-  const playground = usePlayground()
+  const playground = usePlaygroundStore(state => state.playground)
   const entityId = useNodeId()
   const highlightedRelation = usePlaygroundStore(state => state.highlightedRelation)
 
