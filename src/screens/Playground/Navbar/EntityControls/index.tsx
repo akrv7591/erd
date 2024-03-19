@@ -10,6 +10,7 @@ import {
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import IconButton from "@/screens/Playground/Navbar/EntityControls/IconButton.tsx";
 import {RELATION} from "@/constants/relations.ts";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 export interface IData {
   label: string
@@ -31,7 +32,7 @@ const buttons: IData[] = [
     icon: IconTablePlus,
     allowOnDisabled: true,
     onDragStart: (event) => {
-      event.dataTransfer.setData('application/reactflow', "entityNode");
+      event.dataTransfer.setData('application/reactflow', NODE_TYPES.ENTITY);
       event.dataTransfer.effectAllowed = 'move';
     }
   }, {
@@ -40,7 +41,7 @@ const buttons: IData[] = [
     icon: IconNote,
     allowOnDisabled: true,
     onDragStart: (event) => {
-      event.dataTransfer.setData('application/reactflow', "memoNode");
+      event.dataTransfer.setData('application/reactflow', NODE_TYPES.MEMO);
       event.dataTransfer.effectAllowed = 'move';
     }
   }, {

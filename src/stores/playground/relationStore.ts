@@ -7,6 +7,7 @@ import {ICRelation} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import voca from "voca";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 
 interface RelationStoreState {
@@ -93,7 +94,7 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
 
     const mnTable: EntityNode = {
       id: createId(),
-      type: "entityNode",
+      type: NODE_TYPES.ENTITY,
       position: {
         x: (sourceNode.position.x + targetNode.position.x) / 2,
         y: (sourceNode.position.y + targetNode.position.y) / 2

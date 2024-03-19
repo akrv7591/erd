@@ -1,6 +1,7 @@
 import {Edge, ReactFlowInstance} from "@xyflow/react";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import {MemoNode} from "@/stores/playground/memoStore.ts";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 interface IAddNodeProps {
   reactFlowInstance: ReactFlowInstance
@@ -17,5 +18,5 @@ interface HighlightedRelation {
   endNodeColumnId: string
 }
 
-export type CustomNodeTypes = 'entityNode' | 'memoNode'
+export type CustomNodeTypes = NODE_TYPES
 export type NodeType = EntityNode | MemoNode
