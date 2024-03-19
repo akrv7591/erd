@@ -19,6 +19,7 @@ interface MemoStoreActions {
   memoOnDragAdd: (position: XYPosition) => void
   onMemoNodeChange: (node: NodeChange<MemoNode>) => void
   setShowMemos: (showMemos: boolean) => void
+  onBeforeMemoDelete: (memos: MemoNode[]) => Promise<boolean>
 }
 
 export type MemoStore = MemoStoreState & MemoStoreActions
@@ -61,7 +62,6 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
         const {position} = state.memos.find(memo => memo.id === node.id)!
 
         if (node.position && position !== node.position) {
-          console.log(position)
           state.playground.memo(MemoEnum.put, {id: node.id, position: node.position})
         }
         break
@@ -73,4 +73,27 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
   },
   setShowMemos: (showMemos) => set({showMemos}),
   resetMemoStore: () => set(initialState),
+
+  onBeforeMemoDelete: (memos) =>  new Promise((resolve) => {
+    const entityName = memos.length > 1 ? "memos" : "memo"
+    set({
+      confirmModal: {
+        ...get().confirmModal,
+        opened: true,
+        message: `Are you sure you want to delete ${memos.length} ${entityName}?`,
+        onConfirm: (callback) => {
+          resolve(true)
+          if (callback) {
+            callback()
+          }
+        },
+        onCancel: (callback) => {
+          resolve(false)
+          if (callback) {
+            callback()
+          }
+        }
+      }
+    })
+  })
 }))
