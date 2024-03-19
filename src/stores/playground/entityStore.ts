@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {EntityNode, EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
 import {NodeChange, XYPosition} from "@xyflow/react";
-import {EntityEnum} from "@/enums/playground.ts";
+import {EntityEnum, EntityViewMode} from "@/enums/playground.ts";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {createId} from "@paralleldrive/cuid2";
 import voca, {Chain} from "voca";
@@ -9,6 +9,7 @@ import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 interface EntityStoreState {
   entities: EntityNode[]
+  mode: EntityViewMode
 }
 
 interface EntityStoreAction {
@@ -16,12 +17,14 @@ interface EntityStoreAction {
   resetEntityStore: () => void
   onEntityNodeChange: (node: NodeChange<EntityNode>) => void
   onBeforeEntitiesDelete: (entities: EntityNode[]) => Promise<boolean>
+  setEntityViewMode: (mode: EntityViewMode) => void
 }
 
 export type EntityStore = EntityStoreState & EntityStoreAction
 
 const initialState: EntityStoreState = {
   entities: [],
+  mode: EntityViewMode.EDITOR
 }
 
 export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> = ((set, get) => ({
@@ -132,5 +135,6 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
         }
       })
     })
-  }
+  },
+  setEntityViewMode: (mode) => set({mode})
 }))

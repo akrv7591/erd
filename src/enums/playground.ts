@@ -50,3 +50,8 @@ export enum CallbackDataStatus {
   OK="ok",
   FAILED="failed",
 }
+
+export enum EntityViewMode {
+  LOGICAL = "logical",
+  EDITOR = "editor",
+}

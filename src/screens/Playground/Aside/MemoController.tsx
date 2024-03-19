@@ -11,7 +11,6 @@ export default function MemoController() {
       <ActionIcon
         mx={"5px"}
         w={"40px"}
-        mt={"auto"}
         h={"40px"}
         variant={"default"}
         onClick={toggle}

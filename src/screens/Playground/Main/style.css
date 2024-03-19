@@ -27,3 +27,8 @@
     background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-5));
 
 }
+
+
+.react-flow__node.selected {
+    user-select: none !important;
+}

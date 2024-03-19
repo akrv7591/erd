@@ -1,9 +1,12 @@
 import {Checkbox, Collapse, Table as MantineTable, Text, Tooltip} from "@mantine/core";
 import React from "react";
 import {useTableData} from "@/hooks/useTableData.ts";
+import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {EntityViewMode} from "@/enums/playground.ts";
 
 const Table = React.forwardRef<any, any>((props, ref) => {
   const [nodeData, setNodeData] = useTableData()
+  const viewMode = usePlaygroundStore(state => state.mode)
   const checkbox = React.useMemo(() => {
     if (!nodeData) {
       return {
@@ -35,6 +38,36 @@ const Table = React.forwardRef<any, any>((props, ref) => {
     return null
   }
 
+  const renderContent = viewMode === EntityViewMode.EDITOR
+    ? (
+      <MantineTable.Tr>
+        <MantineTable.Td w={40}></MantineTable.Td>
+        <MantineTable.Td w={40}>
+          <Checkbox
+            indeterminate={checkbox.isIntermediate}
+            checked={checkbox.isAllChecked}
+            onChange={() => {}}
+            onClick={onCheckboxClick}
+          />
+        </MantineTable.Td>
+        <MantineTable.Td w={40}></MantineTable.Td>
+        <MantineTable.Td maw={200} miw={200}>Column</MantineTable.Td>
+        <MantineTable.Td maw={150} miw={150} width={150}>Data type</MantineTable.Td>
+        <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Primary Key"}><Text>PK</Text></Tooltip></MantineTable.Td>
+        <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Not Null"}><Text>NN</Text></Tooltip></MantineTable.Td>
+        <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Unique"}><Text>UQ</Text></Tooltip></MantineTable.Td>
+        <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Unsigned"}><Text>UN</Text></Tooltip></MantineTable.Td>
+        <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Auto Increment"}><Text>AI</Text></Tooltip></MantineTable.Td>
+        <MantineTable.Td miw={200}>Comment</MantineTable.Td>
+      </MantineTable.Tr>
+    )
+    : (<MantineTable.Tr>
+      <MantineTable.Td w={40}></MantineTable.Td>
+      <MantineTable.Td maw={200} miw={200}>Column</MantineTable.Td>
+      <MantineTable.Td maw={150} miw={150} width={150}>Data type</MantineTable.Td>
+    </MantineTable.Tr>)
+
+
   return (
     <MantineTable withRowBorders>
       <MantineTable.Caption>
@@ -43,26 +76,7 @@ const Table = React.forwardRef<any, any>((props, ref) => {
         </Collapse>
       </MantineTable.Caption>
       <MantineTable.Thead>
-        <MantineTable.Tr>
-          <MantineTable.Td w={40}></MantineTable.Td>
-          <MantineTable.Td w={40}>
-            <Checkbox
-              indeterminate={checkbox.isIntermediate}
-              checked={checkbox.isAllChecked}
-              onChange={() => {}}
-              onClick={onCheckboxClick}
-            />
-          </MantineTable.Td>
-          <MantineTable.Td w={40}></MantineTable.Td>
-          <MantineTable.Td maw={200} miw={200}>Column</MantineTable.Td>
-          <MantineTable.Td maw={150} miw={150} width={150}>Data type</MantineTable.Td>
-          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Primary Key"}><Text>PK</Text></Tooltip></MantineTable.Td>
-          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Not Null"}><Text>NN</Text></Tooltip></MantineTable.Td>
-          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Unique"}><Text>UQ</Text></Tooltip></MantineTable.Td>
-          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Unsigned"}><Text>UN</Text></Tooltip></MantineTable.Td>
-          <MantineTable.Td miw={40}><Tooltip position={"top"} label={"Auto Increment"}><Text>AI</Text></Tooltip></MantineTable.Td>
-          <MantineTable.Td miw={200}>Comment</MantineTable.Td>
-        </MantineTable.Tr>
+        {renderContent}
       </MantineTable.Thead>
       <MantineTable.Tbody ref={ref}>
         {props.children}
