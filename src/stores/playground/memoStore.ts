@@ -19,7 +19,7 @@ interface MemoStoreActions {
   memoOnDragAdd: (position: XYPosition) => void
   onMemoNodeChange: (node: NodeChange<MemoNode>) => void
   setShowMemos: (showMemos: boolean) => void
-  onBeforeMemoDelete: (memos: MemoNode[]) => Promise<boolean>
+  onBeforeMemosDelete: (memos: MemoNode[]) => Promise<boolean>
 }
 
 export type MemoStore = MemoStoreState & MemoStoreActions
@@ -74,7 +74,7 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
   setShowMemos: (showMemos) => set({showMemos}),
   resetMemoStore: () => set(initialState),
 
-  onBeforeMemoDelete: (memos) =>  new Promise((resolve) => {
+  onBeforeMemosDelete: (memos) =>  new Promise((resolve) => {
     const entityName = memos.length > 1 ? "memos" : "memo"
     set({
       confirmModal: {
