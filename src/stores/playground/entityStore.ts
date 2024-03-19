@@ -5,6 +5,7 @@ import {EntityEnum} from "@/enums/playground.ts";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {createId} from "@paralleldrive/cuid2";
 import voca, {Chain} from "voca";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 interface EntityStoreState {
   entities: EntityNode[]
@@ -14,6 +15,7 @@ interface EntityStoreAction {
   entityOnDragAdd: (position: XYPosition) => void
   resetEntityStore: () => void
   onEntityNodeChange: (node: NodeChange<EntityNode>) => void
+  onBeforeEntityDelete: (nodes: EntityNode[]) => Promise<boolean>
 }
 
 export type EntityStore = EntityStoreState & EntityStoreAction
@@ -54,7 +56,7 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
 
     const newNode = {
       id,
-      type: "entityNode",
+      type: NODE_TYPES.ENTITY,
       position,
       data: data,
       createdAt: new Date(),
@@ -97,4 +99,38 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
   },
 
   resetEntityStore: () => set({...initialState, playground: undefined}),
+
+  onBeforeEntityDelete: (entities) => {
+    return new Promise((resolve) => {
+      const entityNames = entities.reduce((names, entity, i) => {
+        if (i < entities.length - 1) {
+          names += `${entity.data.name}, `
+        } else {
+          names += `${entity.data.name}`
+        }
+        return names
+      }, "")
+      const entityName = entities.length > 1 ? "entities" : "entity"
+
+      set({
+        confirmModal: {
+          ...get().confirmModal,
+          opened: true,
+          message: `Are you sure you want to delete ${entityNames} ${entityName}?`,
+          onConfirm: (callback) => {
+            resolve(true)
+            if (callback) {
+              callback()
+            }
+          },
+          onCancel: (callback) => {
+            resolve(false)
+            if (callback) {
+              callback()
+            }
+          }
+        }
+      })
+    })
+  }
 }))
