@@ -21,6 +21,7 @@ interface RelationStoreAction {
   addOneToOneRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: IConnectionData) => void
   addOneToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: IConnectionData) => void
   addManyToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: IConnectionData) => void
+  onBeforeRelationsDelete: (relations: Edge[]) => Promise<boolean>
 }
 
 export type RelationStore = RelationStoreState & RelationStoreAction
@@ -143,5 +144,27 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
     data.entities.push(mnTable)
 
   },
+
+  onBeforeRelationsDelete: (relations) => new Promise((res) => {
+    set({
+      confirmModal: {
+        ...get().confirmModal,
+        opened: true,
+        message: `Are you sure you want to delete ${relations.length} ${relations.length > 1 ? "relations" : "relation"} with relation columns?`,
+        onConfirm: (callback) => {
+          res(true)
+          if (callback) {
+            callback()
+          }
+        },
+        onCancel: (callback) => {
+          res(false)
+          if (callback) {
+            callback()
+          }
+        }
+      }
+    })
+  }),
   resetRelationStore: () => set(initialStore)
 }))

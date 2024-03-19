@@ -15,6 +15,7 @@ import {CustomNodeTypes, IAddNodeProps, IConnectionData, NodeType} from "@/types
 import {RELATION} from "@/constants/relations.ts";
 import {MemoNode} from "@/stores/playground/memoStore.ts";
 import React from "react";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 
 interface FlowStoreState {
@@ -28,6 +29,7 @@ interface FlowStoreAction {
   setConnection: (connection: Connection) => void
   onBeforeDelete: OnBeforeDelete<NodeType>
   nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
+  onBeforeDeleteSelected: (nodes: NodeType[], edges: Edge[]) => Promise<boolean>
 }
 
 export type FlowStore = FlowStoreState & FlowStoreAction
@@ -51,55 +53,76 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
   getEdges: () => get().relations,
 
   onBeforeDelete: async ({nodes, edges}) => {
+    const state = get()
     if (!nodes.length) {
       // Edge deletion handler
-      return new Promise((res) => {
-        set({
-          confirmModal: {
-            ...get().confirmModal,
-            opened: true,
-            message: `Are you sure you want to delete ${edges.length} ${edges.length === 1 ? "edge" : "edges"} with relation columns?`,
-            onConfirm: (callback) => {
-              res(true)
-              if (callback) {
-                callback()
-              }
-            },
-            onCancel: (callback) => {
-              res(false)
-              if (callback) {
-                callback()
-              }
-            }
-          }
-        })
-      })
+      return state.onBeforeRelationsDelete(edges)
     } else {
       // Node deletion handler
-      return new Promise((res) => {
-        set({
-          confirmModal: {
-            ...get().confirmModal,
-            opened: true,
-            message: `Are you sure you want to delete ${nodes.length} nodes and memos with relations?`,
-            onConfirm: (callback) => {
-              res(true)
-              if (callback) {
-                callback()
-              }
-            },
-            onCancel: (callback) => {
-              res(false)
-              if (callback) {
-                callback()
-              }
-            }
-          }
-        })
-      })
+      const entityNodes = nodes.some(node => node.type === NODE_TYPES.ENTITY)
+      const memoNodes = nodes.some(node => node.type === NODE_TYPES.MEMO)
 
+      if (entityNodes && memoNodes) {
+        return state.onBeforeDeleteSelected(nodes, edges)
+      } else if (entityNodes) {
+        return state.onBeforeEntitiesDelete(nodes as EntityNode[])
+      } else if (memoNodes) {
+        return state.onBeforeMemosDelete(nodes as MemoNode[])
+      } else {
+        return Promise.resolve(true)
+      }
     }
   },
+
+  onBeforeDeleteSelected: (nodes, edges) => new Promise((res) => {
+    const entities = nodes.filter(node => node.type === NODE_TYPES.ENTITY) as EntityNode[]
+    const memos = nodes.filter(node => node.type === NODE_TYPES.MEMO)
+
+    let message = `Are you sure you want to delete `
+
+    if (entities.length) {
+      const entityMessage = entities.reduce((names, entity, i) => {
+        if (i === entities.length - 1) {
+          names += `and ${entity.data.name}`
+        } else {
+          names += `${entity.data.name}, `
+        }
+        return names
+
+      }, "")
+
+      message += entityMessage
+    }
+
+    if (memos.length) {
+      message += ` and ${memos.length} ${memos.length > 1 ? "memos" : "memo"}`
+    }
+
+    if (edges.length) {
+      message += ` and ${edges.length} ${edges.length > 1 ? "relations" : "relation"}?`
+    }
+
+    set({
+      confirmModal: {
+        ...get().confirmModal,
+        opened: true,
+        message,
+        onConfirm: (callback) => {
+          res(true)
+          if (callback) {
+            callback()
+          }
+        },
+        onCancel: (callback) => {
+          res(false)
+          if (callback) {
+            callback()
+          }
+        }
+      }
+    })
+  }),
+
 
   setNodeChanges: (nodeChanges) => {
     set((state) => {
@@ -116,11 +139,11 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
         }
 
         switch (nodeType) {
-          case "entityNode":
+          case NODE_TYPES.ENTITY:
             state.onEntityNodeChange(node as NodeChange<EntityNode>)
             entities.push(node as NodeChange<EntityNode>)
             break
-          case "memoNode":
+          case NODE_TYPES.MEMO:
             state.onMemoNodeChange(node as NodeChange<MemoNode>)
             memos.push(node as NodeChange<MemoNode>)
             break
@@ -229,10 +252,10 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
     const state = get()
 
     switch (type) {
-      case "entityNode":
+      case NODE_TYPES.ENTITY:
         state.entityOnDragAdd(position)
         break
-      case "memoNode":
+      case NODE_TYPES.MEMO:
         state.memoOnDragAdd(position)
     }
   }
