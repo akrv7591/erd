@@ -15,7 +15,7 @@ interface EntityStoreAction {
   entityOnDragAdd: (position: XYPosition) => void
   resetEntityStore: () => void
   onEntityNodeChange: (node: NodeChange<EntityNode>) => void
-  onBeforeEntityDelete: (nodes: EntityNode[]) => Promise<boolean>
+  onBeforeEntitiesDelete: (entities: EntityNode[]) => Promise<boolean>
 }
 
 export type EntityStore = EntityStoreState & EntityStoreAction
@@ -100,7 +100,7 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
 
   resetEntityStore: () => set({...initialState, playground: undefined}),
 
-  onBeforeEntityDelete: (entities) => {
+  onBeforeEntitiesDelete: (entities) => {
     return new Promise((resolve) => {
       const entityNames = entities.reduce((names, entity, i) => {
         if (i < entities.length - 1) {
