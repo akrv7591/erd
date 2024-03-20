@@ -33,8 +33,8 @@ export default function Header() {
       </Group>
       <Tooltip label={"Exit"}>
         <Link to={"/library"}>
-          <ActionIcon variant={"default"} size={"lg"}>
-            <IconDoorExit size={18} color={"var(--mantine-color-text)"}/>
+          <ActionIcon variant={"default"}>
+            <IconDoorExit color={"var(--mantine-color-text)"}/>
           </ActionIcon>
         </Link>
       </Tooltip>

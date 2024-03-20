@@ -1,6 +1,6 @@
 import {AppShell, Button, Center, Group, Loader, Stack, Text, Title} from "@mantine/core";
 import {Link, useParams} from "react-router-dom";
-import {QueryFunctionContext, useQuery} from "react-query";
+import {QueryFunctionContext, useQuery} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {ITeam} from "@/types/data/db-model-interfaces";
 import {DotLottiePlayer} from '@dotlottie/react-player';
@@ -28,7 +28,7 @@ const VerifyEmailAndJoinTeam = ({team}: Props) => {
   let animationDataUrl = ""
   let description = ""
   switch (verifyEmail.status) {
-    case "loading":
+    case "pending":
       value = "Joining"
       break
     case "error":

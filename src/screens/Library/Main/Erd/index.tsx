@@ -3,33 +3,40 @@ import styles from "./style.module.css"
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
 import TableCount from "./TableCount.tsx";
-import {IErd} from "@/types/data/db-model-interfaces";
 import Actions from "@/screens/Library/Main/Erd/Actions.tsx";
 import {useTeamPermission} from "@/hooks/useTeamPermission.ts";
 import ErdModal from "@/screens/Library/Main/ErdModal";
 import {useModal} from "@/hooks/useModal.ts";
 import {getRoleDescription, roleData} from "@/utility/role-util.ts";
+import {memo} from "react";
+import {IErdWithSelected} from "@/api/erd.ts";
+import {useLibraryStore} from "@/stores/useLibrary.ts";
 
 interface Props {
-  erd: IErd
+  erd: IErdWithSelected
 }
 
-
-export default function Erd({erd}: Props) {
+const Erd = memo(({erd}: Props) => {
   const navigate = useNavigate()
   const modal = useModal({initialType: "update", initialOpen: false, baseTitle: erd.name})
   const permission = useTeamPermission(erd.teamId)
   const navigateToErd = () => navigate(erd.id, {state: {erd}})
   const role = roleData.find(role => role.value === permission?.role)
+  const checkedErds = useLibraryStore(state => state.checkedErds)
+  const onErdCheckBoxClick = useLibraryStore(state => state.onErdCheckBoxClick)
 
   return (
     <>
       <ErdModal data={erd} {...modal.modalProps}/>
       <Table.Tr className={styles.box} onClick={navigateToErd}>
         <Table.Td>
-          <Checkbox onClick={e => {
-            e.stopPropagation()
-          }}/>
+          <Checkbox
+            checked={checkedErds.includes(erd)}
+            onChange={()=> onErdCheckBoxClick(erd)}
+            onClick={e => {
+              e.stopPropagation()
+            }}
+          />
         </Table.Td>
         <Table.Td>
           <Group>
@@ -61,7 +68,8 @@ export default function Erd({erd}: Props) {
         </Table.Td>
       </Table.Tr>
     </>
-
-
   )
-}
+})
+
+
+export default Erd

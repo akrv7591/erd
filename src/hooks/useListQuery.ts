@@ -18,6 +18,7 @@ const defaultData: IListQuery = {
 export const useListQuery = (initData: Partial<IListQuery> = defaultData) => {
   const [params, set] = useState({...defaultData, ...initData})
   const setParams = (params: Partial<IListQuery>) => set(cur => ({...cur, ...params}))
+  const setSearch = (q: string) => setParams({q, offset: 0})
 
-  return {params, setParams}
+  return {params, setParams, setSearch}
 }

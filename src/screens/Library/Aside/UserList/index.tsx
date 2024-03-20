@@ -1,5 +1,5 @@
 import erdApi from "@/api/erdApi.tsx";
-import {useQuery} from "react-query";
+import {useQuery} from "@tanstack/react-query";
 import {Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import User from "./User.tsx";
@@ -25,7 +25,7 @@ export default function UserList() {
 
   const Content = () => {
     switch (status) {
-      case "loading":
+      case "pending":
         return <Loader size={"xs"} mt={"lg"} c={"var(--mantine-color-blue-light)"}/>
       case "error":
         return <IconError404/>
@@ -43,7 +43,7 @@ export default function UserList() {
   }
 
   return (
-    <Stack w={"100%"} gap={"5px"} align={"center"}>
+    <Stack w={"100%"} gap={"5px"} align={"center"}  h={"calc(100vh - 130px)"}>
       <SearchInput
         size={"xs"}
         mb={"lg"}
@@ -55,7 +55,7 @@ export default function UserList() {
         total={Math.ceil((data?.count || 0) / params.limit)}
         value={params.offset / params.limit + 1}
         size={"xs"}
-        mt={"lg"}
+        mt={"auto"}
         siblings={0}
         onChange={v => setParams({offset: (v - 1) * params.limit})}
       />

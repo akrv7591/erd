@@ -4,7 +4,7 @@ import {MantineProvider} from "@mantine/core";
 import {theme} from "./config/theme";
 import {Notifications} from "@mantine/notifications";
 import '@mantine/notifications/styles.css';
-import {QueryClient, QueryClientProvider} from "react-query";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {HelmetProvider} from 'react-helmet-async';
 import {GoogleOAuthProvider} from "@react-oauth/google";
 

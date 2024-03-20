@@ -14,7 +14,7 @@ import {
 import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
-import {useMutation, useQueryClient} from "react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IErd} from "@/types/data/db-model-interfaces";
@@ -81,7 +81,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
       case "delete":
         mutation.mutate({data, type: "delete"}, {
           onSuccess: async () => {
-            await queryClient.refetchQueries(['erdList'])
+            await queryClient.refetchQueries({queryKey:['erdList']})
             form.reset()
             props.onClose()
             notifications.show({
@@ -101,7 +101,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
       case "update":
         mutation.mutate({data, type: "put"}, {
           onSuccess: async (res) => {
-            await queryClient.refetchQueries(['erdList'])
+            await queryClient.refetchQueries({queryKey:['erdList']})
             form.reset()
             props.onClose()
             notifications.show({
@@ -121,7 +121,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
       case "create":
         mutation.mutate({data: {...data, id: createId()}, type: "put"}, {
           onSuccess: async (res) => {
-            await queryClient.refetchQueries(['erdList'])
+            await queryClient.refetchQueries({queryKey:['erdList']})
             form.reset()
             props.onClose()
             notifications.show({
@@ -146,7 +146,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
       props.onClose()
       form.reset()
     }} size={"lg"}>
-      <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
+      <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isPending}>
         {type === "delete"
           ? <Text>Are you sure to delete {data?.name}</Text>
           : (
@@ -165,7 +165,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
                     disabled={type === "update"}
                     label={"Team"}
                     placeholder={"Select a team"}
-                    data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.UserTeam.role)}))}
+                    data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.userTeam.role)}))}
                     checkIconPosition={"right"}
                   />
                 </Tooltip>

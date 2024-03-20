@@ -1,4 +1,4 @@
-import {ActionIcon, Button, createTheme, Input, MantineColorsTuple, Tooltip} from "@mantine/core";
+import {ActionIcon, Button, createTheme, Input, MantineColorsTuple, Pagination, Tooltip} from "@mantine/core";
 import {generateColors} from "@/utility/ColorGenerator.ts";
 
 const customDark: MantineColorsTuple = [
@@ -40,10 +40,16 @@ export const theme = createTheme({
     ActionIcon: ActionIcon.extend({
       defaultProps: {
         variant: "light",
+        size: 40,
         style: {
           border: "none"
         }
       },
+    }),
+    Pagination: Pagination.extend({
+      defaultProps: {
+        color: "default"
+      }
     })
   }
 })

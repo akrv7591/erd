@@ -2,7 +2,7 @@ import {Button, Container, Group, Title} from "@mantine/core";
 import classes from "./style.module.css"
 import Logo from "@/components/common/Logo.tsx";
 import {Link, NavigateFunction, useNavigate, useParams} from "react-router-dom";
-import {useMutation} from "react-query";
+import {useMutation} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import {notifications} from "@mantine/notifications";
@@ -62,7 +62,7 @@ export default function VerifyEmail() {
   const status = () => {
     if (error) return "error"
     switch (mutation.status) {
-      case "loading":
+      case "pending":
         return "in progress"
       case "error":
         return "error"

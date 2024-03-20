@@ -1,13 +1,14 @@
-import {useQuery} from "react-query";
+import {useQuery} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {Group, Loader, Text, Tooltip} from "@mantine/core";
 import {IconExclamationCircle} from "@tabler/icons-react";
+import {memo} from "react";
 
 interface Props {
   erdId: string
 }
 
-export default function TableCount({erdId}: Props) {
+const TableCount = memo(({erdId}: Props) => {
   const {data, status} = useQuery({
     queryKey: ['erdTableCount', erdId],
     queryFn: () => erdApi.get<{ count: number }>(`/v1/erd/${erdId}/entity/count`).then(res => res.data)
@@ -22,7 +23,7 @@ export default function TableCount({erdId}: Props) {
           </Group>
         </Tooltip>
       )
-    case "loading":
+    case "pending":
       return (
         <Tooltip label={"Loading"}>
           <Group gap={2}>
@@ -41,4 +42,7 @@ export default function TableCount({erdId}: Props) {
     default:
       return null
   }
-}
+})
+
+
+export default TableCount

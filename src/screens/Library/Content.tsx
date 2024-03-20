@@ -35,7 +35,6 @@ export default function Content() {
           <Main/>
         </AppShell.Main>
       )}
-
     </>
   )
 }

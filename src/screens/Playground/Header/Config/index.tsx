@@ -60,7 +60,7 @@ export default function Config(props: Props) {
                   disabled
                   label={"Team"}
                   placeholder={"Select a team"}
-                  data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.UserTeam.role)}))}
+                  data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.userTeam.role)}))}
                   checkIconPosition={"right"}
                 />
               </Tooltip>

@@ -60,9 +60,7 @@ export default function UserList() {
               description={description}
             />
           </Group>
-          <Button fullWidth onClick={() => {
-            onSubmit()
-          }}>
+          <Button fullWidth onClick={() => onSubmit()}>
             Add
           </Button>
         </Stack>

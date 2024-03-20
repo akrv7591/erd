@@ -1,15 +1,16 @@
 import {ModalBaseProps} from "@/components/common/ModalBase";
 import {Button, Group, Modal, Stack, TextInput, Tooltip} from "@mantine/core";
 import ModalForm from "@/components/common/ModalForm";
-import {QueryFunctionContext, useMutation, useQuery, useQueryClient} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
 import {createId} from "@paralleldrive/cuid2";
-import {IUser} from "@/types/data/db-model-interfaces";
 import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
+import {useEffect} from "react";
+import {userListForTeamModal} from "@/api/user.ts";
 
 interface Props extends ModalBaseProps {
   data?: IFormTeam
@@ -35,14 +36,6 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
 }
 
 
-const userListQuery = (params: QueryFunctionContext) => {
-  const teamId = params.queryKey[0]
-
-  if (!teamId) return []
-
-  return erdApi.get<IUser[]>(`/v1/team/${params.queryKey[0]}/user-list`).then(response => response.data)
-}
-
 export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   const queryClient = useQueryClient()
   const form = useTeamForm({
@@ -60,12 +53,14 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
     mutationFn: teamMutationFn,
   })
 
-  useQuery({
+  const {data: users} = useQuery({
     queryKey: [data?.id],
-    queryFn: userListQuery,
-    onSuccess: data => form.setFieldValue("users", data)
+    queryFn: userListForTeamModal,
   })
 
+  useEffect(() => {
+    form.setValues({users})
+  }, [users])
 
   const handleSubmit = async (data: any) => {
     switch (type) {
@@ -78,7 +73,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
             })
 
             await queryClient.refetchQueries({
-              queryKey: "teamList"
+              queryKey: ["teamList"]
             })
             form.reset()
             props.onClose()
@@ -100,7 +95,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
             })
 
             await queryClient.refetchQueries({
-              queryKey: "teamList"
+              queryKey: ["teamList"]
             })
             form.reset()
             props.onClose()
@@ -127,7 +122,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
         })
 
         await queryClient.refetchQueries({
-          queryKey: "teamList"
+          queryKey: ["teamList"]
         })
         form.reset()
         props.onClose()
@@ -145,7 +140,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   return (
     <TeamFormProvider form={form}>
       <Modal size={"600px"} {...props}>
-        <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
+        <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isPending}>
           <Stack>
             <TextInput
               {...form.getInputProps("name", {withFocus: true})}

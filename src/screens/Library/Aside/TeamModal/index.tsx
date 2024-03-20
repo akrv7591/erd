@@ -2,7 +2,7 @@ import {ModalBaseProps} from "@/components/common/ModalBase";
 import {useForm} from "@mantine/form";
 import {Modal, Stack, TagsInput, Text, TextInput} from "@mantine/core";
 import ModalForm from "@/components/common/ModalForm";
-import {useMutation, useQueryClient} from "react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
@@ -40,7 +40,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
         })
 
         await queryClient.refetchQueries({
-          queryKey: "teamList"
+          queryKey: ["teamList"]
         })
         form.reset()
         props.onClose()
@@ -57,7 +57,7 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   }
   return (
     <Modal {...props}>
-      <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isLoading}>
+      <ModalForm onClose={props.onClose} onSubmit={form.onSubmit(handleSubmit)} loading={mutation.isPending}>
         {type === "delete"
           ? <Text>Are you sure to delete {data?.name}</Text>
           : (

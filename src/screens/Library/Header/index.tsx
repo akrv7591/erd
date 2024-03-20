@@ -4,7 +4,7 @@ import Logo from "@/components/common/Logo.tsx";
 
 export default function Header() {
   return (
-    <Group align={"center"} justify={"space-between"} px={"20px"} h={"100%"}>
+    <Group align={"center"} justify={"space-between"} px={"15px"} h={"100%"}>
       <Logo/>
       <Account/>
     </Group>

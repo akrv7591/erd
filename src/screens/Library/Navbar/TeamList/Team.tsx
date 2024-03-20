@@ -1,5 +1,5 @@
 import classes from "../style.module.css";
-import {ActionIcon, Avatar, Box, Divider, Group, Text, Tooltip} from "@mantine/core";
+import {ActionIcon, Avatar, Box, Group, Text, Tooltip} from "@mantine/core";
 import {IconSettings, IconUsersGroup} from "@tabler/icons-react";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {useModal} from "@/hooks/useModal.ts";
@@ -12,7 +12,6 @@ interface Props {
 }
 
 export default function Team({team}: Props) {
-  const t = useLibraryStore(state => state.team)
   const setTeam = useLibraryStore(state => state.setTeam)
   const selectedTeam = useLibraryStore(state => state.team)
   const modal = useModal({
@@ -20,12 +19,13 @@ export default function Team({team}: Props) {
     initialType: "update",
     initialOpen: false
   })
-  const isAdmin = team.UserTeam.role === ROLE.ADMIN
+  const isAdmin = team.userTeam.role === ROLE.ADMIN
+
   return (
     <>
       <TeamModal {...modal.modalProps} data={team}/>
       <Group
-        onClick={() => setTeam(t === team? null: team)}
+        onClick={() => setTeam(selectedTeam === team? null: team)}
         className={selectedTeam === team ? classes.teamActive : classes.team}
         wrap={"nowrap"}
         gap={0}
@@ -43,7 +43,7 @@ export default function Team({team}: Props) {
             modal.open("update")
           }}>
             <Tooltip label={"Team settings"}>
-              <ActionIcon variant={selectedTeam === team ? "filled": "default"}>
+              <ActionIcon variant={"default"} size={"md"}>
                 <IconSettings stroke={1} size={15}/>
               </ActionIcon>
             </Tooltip>
@@ -51,7 +51,6 @@ export default function Team({team}: Props) {
         )}
 
       </Group>
-      <Divider w={"100%"} orientation={"horizontal"}/>
     </>
 
   )

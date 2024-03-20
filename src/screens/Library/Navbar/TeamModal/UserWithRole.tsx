@@ -3,7 +3,7 @@ import {useTeamFormContext} from "@/contexts/forms/TeamFormContext.ts";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {roleData} from "@/utility/role-util.ts";
-import {useMutation} from "react-query";
+import {useMutation} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {AxiosError} from "axios";
@@ -56,13 +56,13 @@ export default function UserWithRole(props: Props) {
 
   const onDelete = () => {
     if (user.id) {
-      userDeleteMutation.mutate(`/v1/team/${user.UserTeam?.teamId}/delete-user/${user.id}`)
+      userDeleteMutation.mutate(`/v1/team/${user.userTeam?.teamId}/delete-user/${user.id}`)
     } else {
       form.setValues(cur => ({...cur, users: cur.users?.filter(u => u.id !== user.id)}))
     }
   }
 
-  const isInvited = user.UserTeam!.pending
+  const isInvited = user.userTeam!.pending
   return (
     <Group align={"flex-end"} gap={"xs"}>
       <TextInput
@@ -74,7 +74,7 @@ export default function UserWithRole(props: Props) {
         rightSectionWidth={isInvited? 100: 0}
       />
       <Select
-        {...form.getInputProps(`users.${props.i}.UserTeam.role`)}
+        {...form.getInputProps(`users.${props.i}.userTeam.role`)}
         data={roleData}
         checkIconPosition={"right"}
       />

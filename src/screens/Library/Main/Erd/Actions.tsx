@@ -35,7 +35,7 @@ export default function Actions(props: Props) {
     case ROLE.ADMIN:
       actions.push(
         <Tooltip key={"setting"} label={`Open ${props.erd.name} settings`}>
-          <ActionIcon variant={"default"} onClick={onUpdate}>
+          <ActionIcon size={"sm"} variant={"default"} bg={"transparent"} onClick={onUpdate}>
             <IconSettings/>
           </ActionIcon>
         </Tooltip>
@@ -43,7 +43,7 @@ export default function Actions(props: Props) {
 
       actions.push(
         <Tooltip key={"delete"} label={`Delete ${props.erd.name}`}>
-          <ActionIcon variant={"default"} onClick={onDelete}>
+          <ActionIcon size={"sm"} variant={"default"} bg={"transparent"} onClick={onDelete}>
             <IconTrash/>
           </ActionIcon>
         </Tooltip>
@@ -53,7 +53,7 @@ export default function Actions(props: Props) {
     case ROLE.WRITE:
       actions.push(
         <Tooltip key={"setting"} label={`Open ${props.erd.name} settings`}>
-          <ActionIcon variant={"default"} onClick={onUpdate}>
+          <ActionIcon size={"sm"} variant={"default"} bg={"transparent"} onClick={onUpdate}>
             <IconSettings/>
           </ActionIcon>
         </Tooltip>

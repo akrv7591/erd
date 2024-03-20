@@ -1,6 +1,14 @@
 import {createFormContext} from "@mantine/form";
-import {ITeam} from "@/types/data/db-model-interfaces";
+import {ITeam, IUser, IUserTeam} from "@/types/data/db-model-interfaces";
 
-export interface IFormTeam extends Required<Omit<ITeam, 'createdAt' | 'updatedAt' | 'erds'>>{}
+export interface IUserWithUserTeam extends Omit<IUser, 'UserTeam'>{
+  userTeam: IUserTeam
+}
+
+export interface IFormTeam extends Required<Omit<ITeam, 'createdAt' | 'updatedAt' | 'erds' | 'users'>>{
+  userTeam: IUserTeam
+  selected: boolean
+  users: IUserWithUserTeam[]
+}
 
 export const [TeamFormProvider, useTeamFormContext, useTeamForm] = createFormContext<IFormTeam>()
