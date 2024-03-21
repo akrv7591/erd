@@ -1,5 +1,5 @@
 import {memo} from "react";
-import {Button, Flex, Group, Pagination, Tooltip} from "@mantine/core";
+import {Button, Flex, Group, Pagination} from "@mantine/core";
 import {IconTrash} from "@tabler/icons-react";
 import {PaginationUtil} from "@/utility/PaginationUtil.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
@@ -45,16 +45,15 @@ const Footer = memo((props: Props) => {
 
   return (
     <Group mt={"auto"} justify={"space-between"}>
-      <Tooltip label={checkedErds.length === 0 ? "Please select at least one erd" : "Delete selected erds"}>
-        <ButtonWithConfirm
-          target={(
-            <Button variant={"filled"} color={"red"} disabled={checkedErds.length === 0} leftSection={<IconTrash/>}>
-              Delete
-            </Button>
-          )}
-          message={"Are you sure to delete selected erds?"}
-          onConfirm={() => deleteMutation.mutate(checkedErds)}/>
-      </Tooltip>
+      <ButtonWithConfirm
+        tooltip={checkedErds.length === 0 ? "Please select at least one erd" : "Delete selected erds"}
+        target={(
+          <Button variant={"filled"} color={"red"} disabled={checkedErds.length === 0} leftSection={<IconTrash/>}>
+            Delete
+          </Button>
+        )}
+        message={"Are you sure to delete selected erds?"}
+        onConfirm={() => deleteMutation.mutate(checkedErds)}/>
       <Flex flex={1} justify={"center"}>
         <Pagination
           value={props.params.offset / props.params.limit + 1}

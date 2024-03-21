@@ -13,12 +13,14 @@ import {IApiList} from "@/types/data/util";
 import Header from "@/screens/Library/Main/ErdTable/Header.tsx";
 import Content from "@/screens/Library/Main/ErdTable/Content.tsx";
 import Footer from "@/screens/Library/Main/Footer.tsx";
+import {useElementSize} from "@mantine/hooks";
 
 
 export default function Main() {
   const modal = useModal({initialOpen: false, baseTitle: "Erd", initialType: "view"})
   const team = useLibraryStore(state => state.team)
-  const {params, setSearch, setParams} = useListQuery()
+  const {ref, height} = useElementSize()
+  const {params, setSearch, setParams} = useListQuery({containerHeight: height - 120, elementHeight: 50})
   const {data = {rows: [], count: 0}, status} = useQuery<IApiList<IErdWithSelected>>({
     queryKey: ['erdList', {
       teamId: team ? team.id : undefined,
@@ -55,10 +57,10 @@ export default function Main() {
         <Group justify={"space-between"}>
           <SearchInput onChange={q => setSearch(q)} size={"xs"} placeholder={"Search erd"}/>
         </Group>
-        <Card h={"calc(100vh - 180px)"}>
-          <Table mt={20} highlightOnHover highlightOnHoverColor={"var(--mantine-color-dark-7)"}>
+        <Card ref={ref} h={"calc(100vh - 180px)"}>
+          <Table highlightOnHover={data.rows.length > 0} highlightOnHoverColor={"var(--mantine-color-dark-7)"}>
             <Header erds={data.rows}/>
-            <Table.Tbody>
+            <Table.Tbody >
               <Content status={status} erds={data.rows}/>
             </Table.Tbody>
           </Table>

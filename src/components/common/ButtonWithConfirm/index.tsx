@@ -1,4 +1,16 @@
-import {Avatar, Box, Button, Card, Group, Popover, PopoverProps, PopoverStylesNames, Stack, Text} from "@mantine/core";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Group,
+  Popover,
+  PopoverProps,
+  PopoverStylesNames,
+  Stack,
+  Text,
+  Tooltip
+} from "@mantine/core";
 import React from "react";
 import {IconCheck, IconExclamationCircle} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
@@ -18,9 +30,10 @@ interface Props extends PopoverProps {
   message: string;
   onConfirm: () => void;
   isDanger?: boolean
+  tooltip?: string
 }
 
-export default function ButtonWithConfirm({target, message, onConfirm, isDanger, ...rest}: Props) {
+export default function ButtonWithConfirm({target, message, onConfirm, isDanger, tooltip, ...rest}: Props) {
   const [opened, {open, close}] = useDisclosure(false)
   const handleConfirm = () => {
     onConfirm()
@@ -38,7 +51,9 @@ export default function ButtonWithConfirm({target, message, onConfirm, isDanger,
       {...rest}
     >
       <Popover.Target>
-        <Box onClick={open}>{target}</Box>
+        <Tooltip label={tooltip} hidden={!tooltip}>
+          <Box onClick={open}>{target}</Box>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown>
         <Stack align={"center"}>
