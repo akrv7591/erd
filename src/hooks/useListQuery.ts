@@ -24,7 +24,7 @@ export const useListQuery = (initData: Partial<IListQuery> = defaultData) => {
   const setSearch = (q: string) => setParams({q, offset: 0})
 
   useEffect(() => {
-    if (initData.containerHeight && initData.elementHeight) {
+    if (initData.containerHeight && initData.elementHeight && initData.containerHeight > 0) {
       setParams({
         limit: Math.ceil(initData.containerHeight! / initData.elementHeight!)
       })
