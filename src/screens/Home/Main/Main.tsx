@@ -20,7 +20,7 @@ export default function Main() {
         </Helmet>
         <HeroNode/>
 
-        <div className={classes.flow}>
+        <Box className={classes.flow} visibleFrom={"md"}>
           <ReactFlow
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
@@ -36,7 +36,7 @@ export default function Main() {
             <Icons/>
             <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
           </ReactFlow>
-        </div>
+        </Box>
 
 
       </Box>

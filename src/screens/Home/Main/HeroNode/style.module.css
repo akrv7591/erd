@@ -1,8 +1,5 @@
 .content {
-    padding-left: 50px;
-    padding-top: 50px;
-    margin-top: 20px;
-    margin-left: 20px;
+    padding: rem(50px);
     z-index: 1;
     position: relative;
     width: fit-content;
@@ -12,6 +9,9 @@
     @media (max-width: $mantine-breakpoint-md) {
         max-width: 100%;
         margin-right: 0;
+        padding: rem(20px);
+        backdrop-filter: none;
+        border-radius: 0;
     }
 }
 
@@ -22,8 +22,9 @@
     line-height: 1.2;
     font-weight: 900;
 
-    @media (max-width: $mantine-breakpoint-xs) {
-        font-size: rem(28px);
+    @media (max-width: $mantine-breakpoint-md) {
+        font-size: rem(30px) !important;
+        line-height: 1;
     }
 }
 
@@ -38,4 +39,9 @@
     padding: rem(4px) rem(12px) !important;
     font-size: 40px !important;
     font-weight: bold !important;
+
+    @media (max-width: $mantine-breakpoint-md) {
+        font-size: 30px !important;
+
+    }
 }

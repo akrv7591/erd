@@ -1,5 +1,5 @@
 import {memo} from "react";
-import {Button, Flex, Group, Pagination} from "@mantine/core";
+import {Button, Group, Pagination} from "@mantine/core";
 import {IconTrash} from "@tabler/icons-react";
 import {PaginationUtil} from "@/utility/PaginationUtil.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
@@ -48,19 +48,23 @@ const Footer = memo((props: Props) => {
       <ButtonWithConfirm
         tooltip={checkedErds.length === 0 ? "Please select at least one erd" : "Delete selected erds"}
         target={(
-          <Button variant={"filled"} color={"red"} disabled={checkedErds.length === 0} leftSection={<IconTrash/>}>
+          <Button
+            variant={"filled"}
+            color={"red"}
+            disabled={checkedErds.length === 0}
+            leftSection={<IconTrash/>}
+          >
             Delete
           </Button>
         )}
         message={"Are you sure to delete selected erds?"}
         onConfirm={() => deleteMutation.mutate(checkedErds)}/>
-      <Flex flex={1} justify={"center"}>
-        <Pagination
-          value={props.params.offset / props.params.limit + 1}
-          total={PaginationUtil.getPageCount(props.params, props.total)}
-          onChange={(page => props.setParams({offset: PaginationUtil.getOffset(props.params, page)}))}
-        />
-      </Flex>
+      <Pagination
+        value={props.params.offset / props.params.limit + 1}
+        total={PaginationUtil.getPageCount(props.params, props.total) + 3}
+        onChange={(page => props.setParams({offset: PaginationUtil.getOffset(props.params, page)}))}
+        size={"sm"}
+      />
     </Group>
   )
 })

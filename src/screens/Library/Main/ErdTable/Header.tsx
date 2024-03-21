@@ -32,13 +32,13 @@ const Header = (props: Props) => {
         <Table.Th>
           <Text>Entities</Text>
         </Table.Th>
-        <Table.Th>
+        <Table.Th visibleFrom={"md"}>
           <Text>Created at</Text>
         </Table.Th>
-        <Table.Th>
+        <Table.Th  visibleFrom={"md"}>
           <Text>Updated at</Text>
         </Table.Th>
-        <Table.Th>
+        <Table.Th visibleFrom={"md"}>
           <Text>Role</Text>
         </Table.Th>
         <Table.Th>
