@@ -1,10 +1,12 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export interface IListQuery {
   q: string;
   limit: number;
   offset: number;
   order: [string, string][]
+  containerHeight?: number
+  elementHeight?: number
 
   [key: string]: any
 }
@@ -20,6 +22,14 @@ export const useListQuery = (initData: Partial<IListQuery> = defaultData) => {
   const [params, set] = useState({...defaultData, ...initData})
   const setParams = (params: Partial<IListQuery>) => set(cur => ({...cur, ...params}))
   const setSearch = (q: string) => setParams({q, offset: 0})
+
+  useEffect(() => {
+    if (initData.containerHeight && initData.elementHeight) {
+      setParams({
+        limit: Math.ceil(initData.containerHeight! / initData.elementHeight!)
+      })
+    }
+  }, [initData.containerHeight, initData.elementHeight])
 
   return {params, setParams, setSearch}
 }

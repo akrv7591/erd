@@ -61,8 +61,6 @@
     font-weight: 500;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 2px;
-
     &:hover {
         background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
     }

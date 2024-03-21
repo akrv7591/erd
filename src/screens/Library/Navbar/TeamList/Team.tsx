@@ -49,7 +49,6 @@ export default function Team({team}: Props) {
             </Tooltip>
           </Box>
         )}
-
       </Group>
     </>
 

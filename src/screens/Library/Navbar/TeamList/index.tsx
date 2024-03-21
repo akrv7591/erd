@@ -1,15 +1,18 @@
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {Group, Loader, Pagination, Stack, Text} from "@mantine/core";
+import {Group, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import Team from "./Team.tsx";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {useListQuery} from "@/hooks/useListQuery.ts";
 import {teamListApi} from "@/api/team.ts";
 import {PaginationUtil} from "@/utility/PaginationUtil.ts";
+import {useElementSize} from "@mantine/hooks";
+import TeamSkeleton from "@/screens/Library/Navbar/TeamList/TeamSkeleton.tsx";
 
 
 export default function TeamList() {
-  const {params, setParams} = useListQuery({limit: 10})
+  const {ref, height} = useElementSize()
+  const {params, setParams} = useListQuery({elementHeight: 45, containerHeight: height})
   const {data = {rows: [], count: 0}, status} = useQuery({
     queryKey: ['teamList', params],
     queryFn: () => teamListApi(params),
@@ -20,7 +23,7 @@ export default function TeamList() {
   const Content = () => {
     switch (status) {
       case "pending":
-        return <Loader size={"xs"} mt={"lg"} c={"var(--mantine-color-blue-light)"}/>
+        return <TeamSkeleton count={params.limit}/>
       case "error":
         return <IconError404/>
       case "success":
@@ -31,6 +34,7 @@ export default function TeamList() {
     }
   }
 
+
   return (
     <Stack>
       <SearchInput
@@ -40,7 +44,7 @@ export default function TeamList() {
         onChange={(q) => setParams({q, offset: 0})}
         placeholder={"Search team"}
       />
-      <Stack gap={0} px={5} align={"center"} h={"calc(100vh - 230px)"} style={{overflowY: "scroll"}}>
+      <Stack ref={ref} gap={"5px"} px={5} align={"center"} h={"calc(100vh - 230px)"} style={{overflowY: "scroll"}}>
         <Content/>
       </Stack>
       <Group justify={"center"}>
