@@ -1,17 +1,19 @@
-import {useQuery} from "@tanstack/react-query";
-import {Flex, Loader, Pagination, Stack, Text} from "@mantine/core";
+import {keepPreviousData, useQuery} from "@tanstack/react-query";
+import {Group, Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import Team from "./Team.tsx";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {useListQuery} from "@/hooks/useListQuery.ts";
 import {teamListApi} from "@/api/team.ts";
+import {PaginationUtil} from "@/utility/PaginationUtil.ts";
 
 
 export default function TeamList() {
-  const {params, setParams} = useListQuery()
+  const {params, setParams} = useListQuery({limit: 10})
   const {data = {rows: [], count: 0}, status} = useQuery({
     queryKey: ['teamList', params],
     queryFn: () => teamListApi(params),
+    placeholderData: keepPreviousData,
   })
 
 
@@ -30,24 +32,27 @@ export default function TeamList() {
   }
 
   return (
-    <Stack w={"100%"} gap={0} px={5} align={"center"} h={"calc(100vh - 130px)"}>
-      <Flex w={"100%"} mb={"md"}>
-        <SearchInput
-          size={"xs"}
-          w={"100%"}
-          onChange={(q) => setParams({q, offset: 0})}
-          placeholder={"Search team"}
-        />
-      </Flex>
-      <Content/>
-      <Pagination
-        total={Math.ceil((data?.count || 0) / params.limit)}
-        value={params.offset / params.limit + 1}
+    <Stack>
+      <SearchInput
         size={"xs"}
-        mt={"auto"}
-        siblings={0}
-        onChange={v => setParams({offset: (v - 1) * params.limit})}
+        w={"100%"}
+        px={"10px"}
+        onChange={(q) => setParams({q, offset: 0})}
+        placeholder={"Search team"}
       />
+      <Stack gap={0} px={5} align={"center"} h={"calc(100vh - 230px)"} style={{overflowY: "scroll"}}>
+        <Content/>
+      </Stack>
+      <Group justify={"center"}>
+        <Pagination
+          total={PaginationUtil.getPageCount(params, data.count)}
+          value={Math.ceil(params.offset / params.limit) + 1}
+          size={"xs"}
+          mt={"auto"}
+          siblings={0}
+          onChange={page => setParams({offset: PaginationUtil.getOffset(params, page)})}
+        />
+      </Group>
     </Stack>
   )
 }

@@ -1,10 +1,11 @@
-import {useTeamPermission} from "@/hooks/useTeamPermission.ts";
 import {IErd} from "@/types/data/db-model-interfaces";
 import {ActionIcon, Group, Tooltip} from "@mantine/core";
 import {IconExclamationCircle, IconSettings, IconTrash} from "@tabler/icons-react";
 import {ROLE} from "@/enums/role.ts";
 import {IUseModalType} from "@/hooks/useModal.ts";
 import {MouseEventHandler} from "react";
+import {useQuery} from "@tanstack/react-query";
+import {userTeamApi} from "@/api/team.ts";
 
 interface Props {
   erd: IErd
@@ -13,7 +14,10 @@ interface Props {
 
 
 export default function Actions(props: Props) {
-  const permission = useTeamPermission(props.erd.teamId)
+  const {data: permission} = useQuery({
+    queryKey: [`userTeam:${props.erd.teamId}`],
+    queryFn: () => userTeamApi(props.erd.teamId)
+  })
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
     props.modal.open("delete")
@@ -23,6 +27,7 @@ export default function Actions(props: Props) {
     e.stopPropagation()
     props.modal.open("update")
   }
+
   if (!permission) return (
     <Tooltip label={"Not found"}>
       <IconExclamationCircle/>

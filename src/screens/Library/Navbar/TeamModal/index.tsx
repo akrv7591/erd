@@ -7,7 +7,6 @@ import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
-import {createId} from "@paralleldrive/cuid2";
 import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
 import {useEffect} from "react";
 import {userListForTeamModal} from "@/api/user.ts";
@@ -45,7 +44,6 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
       } : {
         users: [] as IFormTeam['users'],
         name: "",
-        id: createId()
       } as IFormTeam,
     }
   })
@@ -66,10 +64,10 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
     switch (type) {
       case "create":
         mutation.mutate({data, type: "put"}, {
-          onSuccess: async () => {
+          onSuccess: async (res) => {
             notifications.show({
               title: "Created",
-              message: `${data.name} team created successfully`
+              message: `${data.name} team created successfully ${res.status}`
             })
 
             await queryClient.refetchQueries({

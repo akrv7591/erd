@@ -18,11 +18,10 @@ import Footer from "@/screens/Library/Main/Footer.tsx";
 export default function Main() {
   const modal = useModal({initialOpen: false, baseTitle: "Erd", initialType: "view"})
   const team = useLibraryStore(state => state.team)
-  const teams = useLibraryStore(state => state.teams)
   const {params, setSearch, setParams} = useListQuery()
   const {data = {rows: [], count: 0}, status} = useQuery<IApiList<IErdWithSelected>>({
     queryKey: ['erdList', {
-      teamId: team ? [team.id] : teams.map(t => t.id),
+      teamId: team ? team.id : undefined,
       ...params
     }],
     queryFn: (context) => {

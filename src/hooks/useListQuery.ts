@@ -5,6 +5,7 @@ export interface IListQuery {
   limit: number;
   offset: number;
   order: [string, string][]
+
   [key: string]: any
 }
 
