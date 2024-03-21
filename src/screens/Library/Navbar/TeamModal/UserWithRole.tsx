@@ -1,4 +1,4 @@
-import {ActionIcon, Badge, Group, Select, TextInput, Tooltip} from "@mantine/core";
+import {ActionIcon, Badge, Group, Select, TextInput} from "@mantine/core";
 import {useTeamFormContext} from "@/contexts/forms/TeamFormContext.ts";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
@@ -12,7 +12,6 @@ import httpStatus from "http-status";
 interface Props {
   i: number
 }
-
 
 
 export default function UserWithRole(props: Props) {
@@ -33,7 +32,7 @@ export default function UserWithRole(props: Props) {
       form.setValues(cur => ({...cur, users: cur.users?.filter(u => u.id !== user.id)}))
     },
     onError: (error: AxiosError) => {
-      switch (error.status){
+      switch (error.status) {
         case httpStatus.NOT_FOUND:
           notifications.show({
             title: "Failed",
@@ -70,8 +69,8 @@ export default function UserWithRole(props: Props) {
         placeholder={"user@erdiagramly.com"}
         style={{flex: 1}}
         disabled
-        rightSection={isInvited? <Badge color={"var(--mantine-color-orange-9)"}>Invited</Badge>: null}
-        rightSectionWidth={isInvited? 100: 0}
+        rightSection={isInvited ? <Badge color={"var(--mantine-color-orange-9)"}>Invited</Badge> : null}
+        rightSectionWidth={isInvited ? 100 : 0}
       />
       <Select
         {...form.getInputProps(`users.${props.i}.userTeam.role`)}
@@ -80,12 +79,11 @@ export default function UserWithRole(props: Props) {
       />
       <ButtonWithConfirm
         isDanger
+        tooltip={"Delete user"}
         target={(
-          <Tooltip label={`Delete user`}>
-            <ActionIcon variant={"default"} h={"100%"} size={35}>
-              <IconTrash/>
-            </ActionIcon>
-          </Tooltip>
+          <ActionIcon variant={"default"} h={"100%"} size={35}>
+            <IconTrash/>
+          </ActionIcon>
         )}
         message={`Do you really want to delete ${user.email}`}
         onConfirm={onDelete}

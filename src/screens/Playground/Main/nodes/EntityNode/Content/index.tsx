@@ -1,4 +1,4 @@
-import {ActionIcon, Collapse, Divider, Group, Stack, Tooltip,} from "@mantine/core";
+import {ActionIcon, Collapse, Divider, Group, Stack,} from "@mantine/core";
 import React, {useCallback} from "react";
 import {IconTrash} from "@tabler/icons-react";
 import RenderItem from "./TableRow.tsx";
@@ -61,7 +61,12 @@ const Content = React.memo(() => {
     const objectsNotEqual = orderedColumns.filter((newColumn) => !nodeData.data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 
     objectsNotEqual.forEach((column) => {
-      playground.column(ColumnEnum.update, {id: column.id, entityId: column.entityId, key: "order", value: column.order})
+      playground.column(ColumnEnum.update, {
+        id: column.id,
+        entityId: column.entityId,
+        key: "order",
+        value: column.order
+      })
     })
   }, [nodeData])
 
@@ -91,12 +96,11 @@ const Content = React.memo(() => {
         <Collapse in={selectedColumns.length > 0}>
           <ButtonWithConfirm
             isDanger
+            tooltip={`Delete ${selectedColumns.length} columns`}
             target={(
-              <Tooltip label={`Delete ${selectedColumns.length} columns`}>
-                <ActionIcon color={"red"} variant={"filled"}>
-                  <IconTrash stroke={1}/>
-                </ActionIcon>
-              </Tooltip>
+              <ActionIcon color={"red"} variant={"filled"}>
+                <IconTrash stroke={1}/>
+              </ActionIcon>
             )}
             message={`Do you want to delete ${selectedColumns.length} ${selectedColumns.length > 1 ? "columns" : "column"}`}
             onConfirm={onDelete}

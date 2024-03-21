@@ -1,5 +1,5 @@
 import {ModalBaseProps} from "@/components/common/ModalBase";
-import {Button, Group, Modal, Stack, TextInput, Tooltip} from "@mantine/core";
+import {Button, Group, Modal, Stack, TextInput} from "@mantine/core";
 import ModalForm from "@/components/common/ModalForm";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
@@ -149,17 +149,16 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
             <UserList/>
             <Group w={"100%"} justify={"flex-end"}>
               <ButtonWithConfirm
+                tooltip={"Delete team"}
                 target={(
-                  <Tooltip label={"Delete team"}>
-                    <Button
-                      leftSection={<IconTrash/>}
-                      color={"var(--mantine-color-red-filled)"}
-                      variant={"filled"}
-                      size={"xs"}
-                    >
-                      Delete
-                    </Button>
-                  </Tooltip>
+                  <Button
+                    leftSection={<IconTrash/>}
+                    color={"var(--mantine-color-red-filled)"}
+                    variant={"filled"}
+                    size={"xs"}
+                  >
+                    Delete
+                  </Button>
                 )}
                 message={`Do you really want to delete ${form.values.name} team`}
                 onConfirm={onDelete}

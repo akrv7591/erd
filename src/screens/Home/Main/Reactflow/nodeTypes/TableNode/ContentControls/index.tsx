@@ -28,12 +28,11 @@ export default function ContentControls() {
         </ActionIcon.Group>
         <ButtonWithConfirm
           isDanger
+          tooltip={"Delete table"}
           target={(
-            <Tooltip label={"Delete table"}>
-              <ActionIcon color={"var(--mantine-color-red-6)"} variant={"filled"}>
-                <IconTrash stroke={1}/>
-              </ActionIcon>
-            </Tooltip>
+            <ActionIcon color={"var(--mantine-color-red-6)"} variant={"filled"}>
+              <IconTrash stroke={1}/>
+            </ActionIcon>
           )}
           message={`Do you want to delete ${data.name} table`}
           onConfirm={onDelete}
