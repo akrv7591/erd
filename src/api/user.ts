@@ -20,3 +20,7 @@ export const userListForTeamModal = (params: QueryFunctionContext) => {
 
     })
 }
+
+export const userProfileUpdateApi = (data: FormData) => {
+  return erdApi.patch(`/v1/user/${data.get("id")}`, data)
+}

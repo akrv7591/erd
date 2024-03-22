@@ -49,13 +49,10 @@ const generateDefaultFormValue = (): IErd => {
     name: "",
     description: "",
     isPublic: false,
-    createdAt: new Date(),
-    updatedAt: new Date(),
     tableNameCase: "pascal",
     columnNameCase: "camel",
     teamId: ''
-  }
-
+  } as IErd
 }
 export default function ErdModal({onSubmit, data, type, ...props}: Props) {
   const team = useLibraryStore(state => state.team)

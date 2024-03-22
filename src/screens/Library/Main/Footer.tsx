@@ -61,7 +61,7 @@ const Footer = memo((props: Props) => {
         onConfirm={() => deleteMutation.mutate(checkedErds)}/>
       <Pagination
         value={props.params.offset / props.params.limit + 1}
-        total={PaginationUtil.getPageCount(props.params, props.total) + 3}
+        total={PaginationUtil.getPageCount(props.params, props.total)}
         onChange={(page => props.setParams({offset: PaginationUtil.getOffset(props.params, page)}))}
         size={"sm"}
       />

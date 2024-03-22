@@ -1,11 +1,12 @@
-import {ActionIcon, Menu, rem} from "@mantine/core";
-import {IconLogout, IconUser} from "@tabler/icons-react";
+import {ActionIcon, Avatar, Image, Menu, rem} from "@mantine/core";
+import {IconLogout, IconUser, IconUserCog} from "@tabler/icons-react";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {useNavigate} from "react-router-dom";
 import {notifications} from "@mantine/notifications";
 
 export default function Account() {
   const logout = useAuthStore(state => state.logout)
+  const user = useAuthStore(state => state.user)
   const navigate = useNavigate()
   const onLogout = () => logout(() => {
     navigate("/")
@@ -18,19 +19,25 @@ export default function Account() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <ActionIcon variant={"default"}>
+        <ActionIcon variant={"transparent"}>
+          <Avatar>
+            <Image src={user.profile.image?.url} alt={"user-avatar"}/>
+          </Avatar>
           <IconUser size={20}/>
         </ActionIcon>
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item>
+        <Menu.Item
+          leftSection={<IconUserCog  style={{width: rem(16), height: rem(16)}}/>}
+          onClick={() => navigate("/profile/setting")}
+        >
           Profile settings
         </Menu.Item>
         <Menu.Divider/>
         <Menu.Item
           color="red"
-          leftSection={<IconLogout style={{width: rem(14), height: rem(14)}}/>}
+          leftSection={<IconLogout style={{width: rem(16), height: rem(16)}}/>}
           onClick={onLogout}
         >
           Log out

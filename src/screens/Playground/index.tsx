@@ -15,7 +15,7 @@ export default function Playground() {
   const {erdId} = useParams<{ erdId: string }>()
   const connected = usePlaygroundStore(state => state.connected)
   const reset = usePlaygroundStore(state => state.reset)
-  const player = useAuthStore(state => state.getAuthorization())
+  const player = useAuthStore(state => state.user)
   const playgroundId = useParams<{ erdId: string }>().erdId!
 
   useOnMount(() => {

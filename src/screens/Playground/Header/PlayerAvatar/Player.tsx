@@ -15,9 +15,9 @@ const PlayerAvatar = memo((props: Props) => {
   const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
   const subscribers = usePlaygroundStore(state => state.subscribers)
   const playground = usePlaygroundStore(state => state.playground)
-  const authorizedUser = useAuthStore(state => state.getAuthorization())
+  const user = useAuthStore(state => state.user)
   const isSubscribedPlayer = subscribedTo?.id === props.player.id
-  const isYou = props.player.id === authorizedUser?.id
+  const isYou = props.player.id === user.id
   const isFollowing = subscribers?.some(subscriber => subscriber === props.player.id)
   const [opened, {close, open}] = useDisclosure(false)
   const tooltipLabel = isSubscribedPlayer
@@ -25,7 +25,7 @@ const PlayerAvatar = memo((props: Props) => {
     : isFollowing
       ? "You can't follow who is already following you"
       : `Follow ${props.player.name}`
-  const isDisabled = isSubscribedPlayer || props.player.id === authorizedUser?.id
+  const isDisabled = isSubscribedPlayer || props.player.id === user.id
   const onSubscribe = () => {
     if (!isFollowing) {
       playground.player(PlayerEnum.subscribe, props.player)

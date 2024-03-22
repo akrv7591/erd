@@ -4,33 +4,40 @@ import {router} from "@/routers/RootRouter.tsx";
 import {SocialLogin} from "@/constants/auth.ts";
 import erdApi from "@/api/erdApi.tsx";
 import StorageUtils from "@/utility/StorageUtils.ts";
-import {IAuthorizationUser} from "@/types/auth";
+import {ITokenPayload} from "@/types/auth";
 import {signingError, signingSuccess} from "@/screens/Auth/Signin/constants.ts";
+import {IProfile, IUser} from "@/types/data/db-model-interfaces";
 
+export interface User extends IUser {
+  profile: IProfile
+}
 
 export interface IAuthState {
   accessToken: string
+  user: User
 }
 
 export interface IParseAuthorization extends IAuthState {
-  decoded: IAuthorizationUser
+  decoded: ITokenPayload
 }
 
 export interface IAuthView {
-  getAuthorization: () => IAuthorizationUser | null | undefined
+  getAuthorization: () => ITokenPayload | null | undefined
 }
 
 type SocialLoginType = SocialLogin.GOOGLE
 
 export interface IAuthActions {
   setAccessToken: (accessToken: string) => void
+  fetchAndSetUser: () => Promise<void>
   init: (callback?: VoidFunction) => void
   socialLogin: (type: SocialLoginType, authObjs: any) => Promise<void>
   logout: (callback?: VoidFunction) => void
 }
 
-const initialState = {
-  accessToken: ""
+const initialState: IAuthState = {
+  accessToken: StorageUtils.getAuthorization(),
+  user: {} as Required<IUser>
 }
 
 const parseAuthorization = () => {
@@ -42,7 +49,7 @@ const parseAuthorization = () => {
     try {
       const decoded = decodeJwt(accessToken)
       state.accessToken = accessToken;
-      state.decoded = decoded as IAuthorizationUser
+      state.decoded = decoded as ITokenPayload
     } catch (e) {
 
     }
@@ -55,6 +62,22 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
   ...initialState,
   //Views
   getAuthorization: () => parseAuthorization().decoded,
+
+  fetchAndSetUser: async () => {
+    const state = getState()
+    try {
+      console.log("FETCHING USER")
+      const res = await erdApi.get<User>(`/v1/user/${state.getAuthorization()!.id}`)
+
+      if (res.data) {
+        setState({user: res.data})
+      }
+
+    } catch (e) {
+      getState().logout()
+    }
+  },
+
   // Actions
   setAccessToken: accessToken => setState({accessToken}),
   socialLogin: async (type, authObjs) => {
@@ -80,8 +103,10 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
   },
 
 
-  init: (callback) => {
+  init: async (callback) => {
     const state = parseAuthorization()
+
+    await getState().fetchAndSetUser()
 
     setState({
       accessToken: state.accessToken

@@ -32,8 +32,8 @@ export type UsePlaygroundStore =
 
 const initialState: PlaygroundStoreState = {
   id: "",
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: "",
+  updatedAt: "",
   name: "",
   isPublic: false,
   description: "",

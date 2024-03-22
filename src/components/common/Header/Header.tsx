@@ -7,7 +7,7 @@ import {IconBooks} from "@tabler/icons-react";
 import Account from "@/components/common/Account";
 
 export default function Header() {
-  const authorizedUser = useAuthStore(state => state.getAuthorization())
+  const authorization = useAuthStore(state => state.getAuthorization())
 
   return (
     <Group h="100%" px="20" justify={"space-between"} align={"center"}>
@@ -23,7 +23,7 @@ export default function Header() {
             Library
           </Button>
         </Link>
-        {authorizedUser && <Account/>}
+        {authorization && <Account/>}
       </Group>
     </Group>
   )

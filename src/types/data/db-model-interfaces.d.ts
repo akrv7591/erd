@@ -50,8 +50,8 @@ export interface IColumn {
 export interface IEmailVerificationToken {
   id: string
   token: string
-  expiresAt: Date | any
-  createdAt: Date | any
+  expiresAt: string
+  createdAt: string
 
   //Foreign key
   userId: string
@@ -63,8 +63,8 @@ export interface IEmailVerificationToken {
 
 export interface IErd {
   id: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   name: string
   description: string | null;
   isPublic: boolean;
@@ -83,7 +83,7 @@ export interface IErd {
 export interface IRefreshToken {
   id: string
   token: string
-  createdAt: Date | any
+  createdAt: string
 
   //Foreign key
   userId: string
@@ -111,8 +111,8 @@ export interface IRelation {
 export interface IResetToken {
   id: string
   token: string
-  expiresAt: Date | any
-  createdAt: Date | any
+  expiresAt: string
+  createdAt: string
 
   //Foreign key
   userId: string
@@ -149,8 +149,8 @@ export interface IEntity {
 
 export interface ITeam {
   id: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
   name: string
 
   //Relations
@@ -165,9 +165,9 @@ export interface IUser {
   name: string
   email: string
   password: string | null
-  emailVerified?: Date | null
-  createdAt: Date
-  updatedAt: Date
+  emailVerified?: string | null
+  createdAt: string
+  updatedAt: string
 
   //Relations
   accounts?: IAccount[]
@@ -177,6 +177,7 @@ export interface IUser {
   teams?: ITeam[]
   UserTeam?: IUserTeam
   memos?: IMemo
+  profile?: IProfile
 }
 
 
@@ -188,8 +189,8 @@ export interface IUserTeam {
   role: ROLE
   pending: boolean
 
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 
   //Relations
   user?: IUser
@@ -211,6 +212,33 @@ export interface IMemo {
   erd?: IErd;
   user?: IUser;
 }
+
+export interface IProfile {
+  id: string;
+  createdAt: string
+  updatedAt: string
+
+  // Foreign key
+  imageId: string | null;
+  userId: string;
+
+  user?: IUser;
+  image?: IStaticFile | null
+}
+
+export interface IStaticFile {
+  id: string;
+  url: string;
+  mime: string;
+  name: string;
+  createdAt: string
+  updatedAt: string
+
+  // Relations
+  profile?: IProfile
+}
+
+
 
 export interface ICAccount extends Optional<IAccount, 'id' | 'createdAt' | 'refreshToken' | 'accessToken' | 'tokenType' | 'scope' | 'idToken' | 'sessionState'> {
 }
@@ -245,3 +273,5 @@ export interface ICUser extends Optional<IUser, 'id' | 'createdAt' | 'updatedAt'
 export interface ICUserTeam extends Optional<IUserTeam, 'createdAt' | 'updatedAt'> {
 }
 export interface ICMemo extends Optional<IMemo, 'id' | 'createdAt' | 'updatedAt'> {}
+export interface ICProfile extends Optional<IProfile, 'id' | 'createdAt'| 'updatedAt'> {}
+export interface ICStaticFile extends Optional<IStaticFile, 'id' | 'createdAt' | 'updatedAt'> {}

@@ -7,10 +7,10 @@ import classes from "./style.module.css"
 
 export default function PlayerCursor() {
   const players = usePlaygroundStore(state => state.players)
-  const authorizedUser = useAuthStore(state => state.getAuthorization())
+  const user = useAuthStore(state => state.user)
   const reactflow = useReactFlow()
 
-  return players.filter(player => player.id !== authorizedUser?.id && player.cursorPosition).map(player => {
+  return players.filter(player => player.id !== user.id && player.cursorPosition).map(player => {
     const position = reactflow.flowToScreenPosition(player.cursorPosition)
 
     return (

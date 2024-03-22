@@ -4,9 +4,9 @@ import Navbar from "@/screens/Library/Navbar";
 import Main from "@/screens/Library/Main/Main.tsx";
 
 export default function Content() {
-  const user = useAuthStore(state => state.getAuthorization())
+  const user = useAuthStore(state => state.user)
 
-  if (!user?.emailVerified) {
+  if (!user.emailVerified) {
     return (
       <AppShell.Main>
         <Group justify={"center"} mt={50}>
