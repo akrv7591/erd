@@ -21,7 +21,7 @@ export default function Account() {
       <Menu.Target>
         <ActionIcon variant={"transparent"}>
           <Avatar>
-            <Image src={user.profile.image?.url} alt={"user-avatar"}/>
+            <Image src={user.profile?.image?.url} alt={"user-avatar"}/>
           </Avatar>
           <IconUser size={20}/>
         </ActionIcon>
@@ -36,6 +36,7 @@ export default function Account() {
         </Menu.Item>
         <Menu.Divider/>
         <Menu.Item
+
           color="red"
           leftSection={<IconLogout style={{width: rem(16), height: rem(16)}}/>}
           onClick={onLogout}

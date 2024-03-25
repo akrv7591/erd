@@ -66,7 +66,6 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
   fetchAndSetUser: async () => {
     const state = getState()
     try {
-      console.log("FETCHING USER")
       const res = await erdApi.get<User>(`/v1/user/${state.getAuthorization()!.id}`)
 
       if (res.data) {
@@ -74,7 +73,7 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
       }
 
     } catch (e) {
-      getState().logout()
+      state.logout()
     }
   },
 
@@ -104,12 +103,13 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
 
 
   init: async (callback) => {
-    const state = parseAuthorization()
+    const authorization = parseAuthorization()
+    const state = getState()
 
-    await getState().fetchAndSetUser()
+    await state.fetchAndSetUser()
 
     setState({
-      accessToken: state.accessToken
+      accessToken: authorization.accessToken
     })
     if (callback) {
       callback()

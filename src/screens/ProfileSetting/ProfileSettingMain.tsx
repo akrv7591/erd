@@ -1,8 +1,9 @@
-import {Box, Container, Divider, Tabs, Text, Title} from "@mantine/core";
+import {Box, Container, Divider, Tabs, Title} from "@mantine/core";
 import GeneralPanel from "@/screens/ProfileSetting/Panel/GeneralPanel.tsx";
 import {useProfile} from "@/screens/ProfileSetting/ProfileContext.tsx";
 import {ProfileSettingTab} from "@/screens/ProfileSetting/constants.ts";
 import classes from "@/screens/ProfileSetting/style.module.css";
+import SecurityPanel from "@/screens/ProfileSetting/Panel/Security.tsx";
 
 const ProfileSettingMain = () => {
   const {selectedTab, onTabChange} = useProfile()
@@ -11,7 +12,7 @@ const ProfileSettingMain = () => {
       <Container py={"lg"}>
         <Title>Profile Settings</Title>
       </Container>
-      <Divider />
+      <Divider/>
       <Container>
         <Tabs value={selectedTab} variant={"pills"} color={"var(--mantine-color-dark-5)"}>
           <Tabs.List>
@@ -31,10 +32,10 @@ const ProfileSettingMain = () => {
           </Tabs.List>
           <Divider mt={"5px"}/>
           <Tabs.Panel value={ProfileSettingTab.tab.general}>
-            <GeneralPanel />
+            <GeneralPanel/>
           </Tabs.Panel>
           <Tabs.Panel value={ProfileSettingTab.tab.security}>
-            <Text>Security</Text>
+            <SecurityPanel/>
           </Tabs.Panel>
         </Tabs>
       </Container>

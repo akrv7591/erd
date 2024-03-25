@@ -166,6 +166,7 @@ export interface IUser {
   email: string
   password: string | null
   emailVerified?: string | null
+  isPasswordSet?: boolean
   createdAt: string
   updatedAt: string
 

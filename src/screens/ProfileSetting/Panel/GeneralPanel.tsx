@@ -30,7 +30,6 @@ const notificationId = "profile:setting"
 
 const GeneralPanel = () => {
   const user = useAuthStore(state => state.user)
-  console.log("USER ", user)
   const form = useForm<Form>({
     initialValues: {
       ...user,
@@ -55,6 +54,7 @@ const GeneralPanel = () => {
         title: "Profile update",
         message: "Failed! Try again",
         color: "red"
+
       })
     }
   })
@@ -70,12 +70,10 @@ const GeneralPanel = () => {
       formData.append("profilePicture", data.profilePicture)
     }
 
-    await profileSettingMutation.mutateAsync(formData)
-
-    console.log("PROFILE_SETTING_DATA", data)
+    await profileSettingMutation.mutate(formData)
   })
 
-  const isValidToUpadte = useMemo(() => {
+  const isValidToUpdate = useMemo(() => {
     let isValid = false
 
     if (form.values.name !== user?.name) {
@@ -120,13 +118,14 @@ const GeneralPanel = () => {
                   color={"var(--mantine-color-dark-6)"}
                   withBorder
                   offset={10}
+
                   size={30}
                 >
                   <Avatar size={150} {...props}>
                     <Image
                       src={form.values.profilePicture
                         ? URL.createObjectURL(form.values.profilePicture)
-                        : user.profile.image?.url
+                        : user.profile?.image?.url
                       }
                       alt={"profile-picture"}
                     />
@@ -135,7 +134,6 @@ const GeneralPanel = () => {
               )}
             </FileButton>
           </Group>
-
           <Group w={"100%"} align={"flex-end"}>
             <TextInput
               label={"Name"}
@@ -151,9 +149,9 @@ const GeneralPanel = () => {
             />
           </Group>
           <Group justify={"flex-end"} w={"100%"}>
-            <Tooltip position={"top"} label={isValidToUpadte ? "Save changes" : "No changes detected"}>
+            <Tooltip position={"top"} label={isValidToUpdate ? "Save changes" : "No changes detected"}>
               <Button
-                disabled={!isValidToUpadte}
+                disabled={!isValidToUpdate}
                 loading={profileSettingMutation.isPending}
                 type={"submit"}
                 variant={"default"}

@@ -2,6 +2,8 @@ import {QueryFunctionContext} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {IUser} from "@/types/data/db-model-interfaces";
 import {userTeamApi} from "@/api/team.ts";
+import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/Security.tsx";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 
 export const userListForTeamModal = (params: QueryFunctionContext) => {
   const teamId = params.queryKey[0] as string
@@ -21,6 +23,16 @@ export const userListForTeamModal = (params: QueryFunctionContext) => {
     })
 }
 
-export const userProfileUpdateApi = (data: FormData) => {
-  return erdApi.patch(`/v1/user/${data.get("id")}`, data)
-}
+export const userProfileUpdateApi = (data: FormData) => erdApi.patch(`/v1/user/${data.get("id")}`, data)
+  .then(async (res) => {
+    await useAuthStore.getState().fetchAndSetUser()
+
+    return res
+  })
+
+export const userPasswordSet = (data: Partial<PasswordSetForm>) => erdApi.post(`/v1/set-password`, data)
+  .then(async (res) => {
+    await useAuthStore.getState().fetchAndSetUser()
+
+    return res
+  })
