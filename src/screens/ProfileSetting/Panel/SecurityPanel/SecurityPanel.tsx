@@ -4,8 +4,12 @@ import {PasswordUtil} from "@/utility/password-util.ts";
 import {useMutation} from "@tanstack/react-query";
 import {userPasswordSet} from "@/api/user.ts";
 import {AxiosResponse} from "axios";
-import {notifications} from "@mantine/notifications";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {
+  handleErrorNotification,
+  handleSuccessNotification
+} from "@/screens/ProfileSetting/Panel/SecurityPanel/notifications.ts";
+import {AxiosApiError} from "@/types/api";
 
 export interface PasswordSetForm {
   password: string
@@ -22,28 +26,24 @@ const SecurityPanel = () => {
       confirmPassword: '',
     },
     validateInputOnChange: true,
+    validateInputOnBlur: true,
     validate: {
       newPassword: PasswordUtil.validatePassword,
       confirmPassword: PasswordUtil.validateConfirmPassword,
     },
   })
 
-  const mutation = useMutation<AxiosResponse, Error, Partial<PasswordSetForm>>({
+  const mutation = useMutation<AxiosResponse, AxiosApiError, Partial<PasswordSetForm>>({
     mutationKey: ['profilePasswordSet'],
     mutationFn: userPasswordSet,
-    onSuccess: () => {
-      notifications.show({
-        title: "Password set",
-        message: "New password has been set",
-      })
+    onSuccess: handleSuccessNotification,
+    onError: handleErrorNotification,
+    onSettled: (_, error) => {
+      if (error) {
+        return
+      }
+
       form.reset()
-    },
-    onError: () => {
-      notifications.show({
-        title: "Set password",
-        message: "Failed! Try again",
-        color: "red"
-      })
     }
   })
 
@@ -60,7 +60,7 @@ const SecurityPanel = () => {
 
 
   return (
-    <Card withBorder px={"xl"} mt={"xl"} bg={"var(--mantine-color-dark-7)"}>
+    <Card withBorder px={"xl"} mt={"xl"} pt={"xl"} bg={"var(--mantine-color-dark-7)"}>
       <Title order={4}>Set your password</Title>
       <Input.Description>
         Secure your account with strong password
@@ -91,7 +91,8 @@ const SecurityPanel = () => {
             />
           </Group>
           <Group justify={"flex-end"}>
-            <Button type={"submit"} variant={"default"} miw={"200px"}>Set new password</Button>
+            <Button disabled={!form.isValid()} type={"submit"} variant={"default"} miw={"200px"}>Set new
+              password</Button>
           </Group>
         </Stack>
       </form>

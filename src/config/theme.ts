@@ -40,7 +40,6 @@ export const theme = createTheme({
     ActionIcon: ActionIcon.extend({
       defaultProps: {
         variant: "light",
-        size: 40,
         style: {
           border: "none"
         }

@@ -3,7 +3,7 @@ import GeneralPanel from "@/screens/ProfileSetting/Panel/GeneralPanel.tsx";
 import {useProfile} from "@/screens/ProfileSetting/ProfileContext.tsx";
 import {ProfileSettingTab} from "@/screens/ProfileSetting/constants.ts";
 import classes from "@/screens/ProfileSetting/style.module.css";
-import SecurityPanel from "@/screens/ProfileSetting/Panel/Security.tsx";
+import SecurityPanel from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
 
 const ProfileSettingMain = () => {
   const {selectedTab, onTabChange} = useProfile()

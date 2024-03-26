@@ -19,7 +19,7 @@ export default function Account() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <ActionIcon variant={"transparent"}>
+        <ActionIcon size={40} variant={"transparent"}>
           <Avatar>
             <Image src={user.profile?.image?.url} alt={"user-avatar"}/>
           </Avatar>
@@ -29,7 +29,9 @@ export default function Account() {
 
       <Menu.Dropdown>
         <Menu.Item
-          leftSection={<IconUserCog  style={{width: rem(16), height: rem(16)}}/>}
+          leftSection={(
+            <IconUserCog style={{width: rem(16), height: rem(16)}}/>
+          )}
           onClick={() => navigate("/profile/setting")}
         >
           Profile settings

@@ -19,7 +19,9 @@ export default function Header() {
           <Button
             size={"sm"}
             leftSection={<IconBooks size={"20"}/>}
-            variant={"default"}>
+            variant={"subtle"}
+            color={"var(--mantine-color-text)"}
+          >
             Library
           </Button>
         </Link>

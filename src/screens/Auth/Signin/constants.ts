@@ -7,7 +7,7 @@ interface DataProps {
 }
 
 
-export const signInUser = (data: Omit<DataProps, 'name' | 'terms'>) => erdApi.post("/v1/auth/signin", data)
+export const signInUser = (data: Omit<DataProps, 'name' | 'terms'>) => erdApi.post("/v1/auth/sign-in", data)
 
 export const signingSuccess = () => {
   notifications.show({
