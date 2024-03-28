@@ -66,7 +66,7 @@ export const useAuthStore = create<IAuthState & IAuthView & IAuthActions>()((set
   fetchAndSetUser: async () => {
     const state = getState()
     try {
-      const res = await erdApi.get<User>(`/v1/user/${state.getAuthorization()!.id}`)
+      const res = await erdApi.get<User>(`/v1/users/${state.getAuthorization()!.id}`)
 
       if (res.data) {
         setState({user: res.data})

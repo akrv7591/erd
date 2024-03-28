@@ -10,7 +10,7 @@ export default function Header() {
   const authorization = useAuthStore(state => state.getAuthorization())
 
   return (
-    <Group h="100%" px="20" justify={"space-between"} align={"center"}>
+    <Group h="100%" px={20} justify={"space-between"} align={"center"}>
       <Group>
         <Logo/>
       </Group>

@@ -123,6 +123,8 @@ const GeneralPanel = () => {
                 >
                   <Avatar size={150} {...props}>
                     <Image
+                      w={150}
+                      h={150}
                       src={form.values.profilePicture
                         ? URL.createObjectURL(form.values.profilePicture)
                         : user.profile?.image?.url

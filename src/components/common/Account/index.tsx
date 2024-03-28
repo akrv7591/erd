@@ -21,7 +21,7 @@ export default function Account() {
       <Menu.Target>
         <ActionIcon size={40} variant={"transparent"}>
           <Avatar>
-            <Image src={user.profile?.image?.url} alt={"user-avatar"}/>
+            <Image w={40} h={40} src={user.profile?.image?.url} alt={"user-avatar"}/>
           </Avatar>
           <IconUser size={20}/>
         </ActionIcon>

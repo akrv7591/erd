@@ -10,7 +10,7 @@ import React from "react";
 import {IApiList} from "@/types/data/util";
 import {IUser} from "@/types/data/db-model-interfaces";
 
-const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/user", {
+const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/users", {
   params
 }).then(res => res.data)
 

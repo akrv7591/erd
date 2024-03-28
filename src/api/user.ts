@@ -23,7 +23,7 @@ export const userListForTeamModal = (params: QueryFunctionContext) => {
     })
 }
 
-export const userProfileUpdateApi = (data: FormData) => erdApi.patch(`/v1/user/${data.get("id")}`, data)
+export const userProfileUpdateApi = (data: FormData) => erdApi.patch(`/v1/users/${data.get("id")}`, data)
   .then(async (res) => {
     await useAuthStore.getState().fetchAndSetUser()
 
