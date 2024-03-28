@@ -8,7 +8,7 @@ import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
 import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
-import {useEffect} from "react";
+import {memo, useEffect} from "react";
 import {userListForTeamModal} from "@/api/user.ts";
 
 interface Props extends ModalBaseProps {
@@ -35,7 +35,7 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
 }
 
 
-export default function TeamModal({onSubmit, data, type, ...props}: Props) {
+ const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
   const queryClient = useQueryClient()
   const form = useTeamForm({
     initialValues: {
@@ -170,4 +170,6 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
     </TeamFormProvider>
 
   )
-}
+})
+
+export default TeamModal

@@ -14,6 +14,7 @@ import Header from "@/screens/Library/Main/ErdTable/Header.tsx";
 import Content from "@/screens/Library/Main/ErdTable/Content.tsx";
 import Footer from "@/screens/Library/Main/Footer.tsx";
 import {useElementSize} from "@mantine/hooks";
+import {useEffect} from "react";
 
 
 export default function Main() {
@@ -22,18 +23,20 @@ export default function Main() {
   const {ref, height} = useElementSize()
   const {params, setSearch, setParams} = useListQuery({containerHeight: height - 120, elementHeight: 50})
   const {data = {rows: [], count: 0}, status} = useQuery<IApiList<IErdWithSelected>>({
-    queryKey: ['erdList', {
-      teamId: team ? team.id : undefined,
-      ...params
-    }],
-    queryFn: (context) => {
-      const [, params] = context.queryKey
+    queryKey: ['erdList', params],
+    queryFn: () => {
       return erdListApi(params as IListQuery)
     },
     placeholderData: keepPreviousData,
   })
 
   const canCreateErd = team?.userTeam.role !== ROLE.READ
+
+  useEffect(() => {
+    setParams({
+      teamId: team? team.id : null
+    })
+  }, [team])
 
   return (
     <Container fluid>

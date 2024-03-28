@@ -6,12 +6,13 @@ import {useModal} from "@/hooks/useModal.ts";
 import TeamModal from "../TeamModal";
 import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
 import {ROLE} from "@/enums/role.ts";
+import {memo} from "react";
 
 interface Props {
   team: IFormTeam
 }
 
-export default function Team({team}: Props) {
+const Team = memo(({team}: Props) => {
   const setTeam = useLibraryStore(state => state.setTeam)
   const selectedTeam = useLibraryStore(state => state.team)
   const modal = useModal({
@@ -53,4 +54,6 @@ export default function Team({team}: Props) {
     </>
 
   )
-}
+})
+
+export default Team
