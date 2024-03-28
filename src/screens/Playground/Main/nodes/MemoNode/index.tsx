@@ -1,4 +1,4 @@
-import {Box, Collapse, MantineProvider} from "@mantine/core";
+import {Box, MantineProvider} from "@mantine/core";
 import {NodeProps} from "@xyflow/react";
 import classes from "./style.module.css"
 import React from "react";
@@ -27,7 +27,7 @@ const MemoNode = React.memo((props: Props) => {
   let className = classes.textInput
 
   if (!props.dragging && props.selected) {
-    className = `${classes.textInputActive} nodrag nopan`
+    className = `${classes.textInputActive} nopan nodrag`
   }
 
   return (
@@ -37,14 +37,12 @@ const MemoNode = React.memo((props: Props) => {
       cssVariablesSelector={`#${props.id}`}
       getRootElement={() => document.getElementById(props.id) || undefined}
     >
-      <Box ref={ref} className={classes.box} id={props.id} onMouseDown={e => e.stopPropagation()}>
-        <Collapse in={headersIn} transitionDuration={0}>
-          <div className={classes.controls}>
-            <Controls/>
-          </div>
-        </Collapse>
+      <Box h={500} ref={ref} className={classes.box} id={props.id} onMouseDown={e => e.stopPropagation()}>
+        <div className={headersIn ? classes.controls : classes.controlsHidden}>
+          <Controls/>
+        </div>
         <TextareaAutosize
-          onMouseDown={e => e.preventDefault()}
+          // onMouseDown={e => e.preventDefault()}
           className={className}
           value={props.data.content}
           onChange={e => onPatch("content", e.target.value)}
