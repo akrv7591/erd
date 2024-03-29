@@ -45,8 +45,8 @@ export default function Main() {
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
-        snapToGrid
-        snapGrid={[20, 20]}
+        // snapToGrid
+        // snapGrid={[20, 20]}
         onBeforeDelete={onBeforeDelete}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={{hideAttribution: true}}

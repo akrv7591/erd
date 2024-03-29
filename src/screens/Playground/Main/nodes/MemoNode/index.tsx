@@ -1,21 +1,20 @@
-import {Box, MantineProvider} from "@mantine/core";
+import {MantineProvider} from "@mantine/core";
 import {NodeProps} from "@xyflow/react";
 import classes from "./style.module.css"
 import React from "react";
 import {useHover} from "@mantine/hooks";
 import {erdEntityTheme} from "@/config/theme.ts";
-import TextareaAutosize from 'react-textarea-autosize';
-import {MemoNodeData} from "@/stores/playground/memoStore.ts";
+import type {MemoNodeData} from "@/stores/playground/memoStore.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
 import Controls from "@/screens/Playground/Main/nodes/MemoNode/Header";
+import {AutoTextArea} from 'react-textarea-auto-witdth-height'
 
 interface Props extends NodeProps<MemoNodeData> {
 }
 
 const MemoNode = React.memo((props: Props) => {
-  const {hovered, ref} = useHover()
-  const headersIn = props.selected || hovered
+  const {hovered, ref} = useHover<HTMLDivElement>()
   const theme = React.useMemo(() => erdEntityTheme(props.data.color), [props.data.color])
   const playground = usePlaygroundStore(state => state.playground)
   const onPatch = React.useCallback((key: string, value: string) => {
@@ -30,6 +29,8 @@ const MemoNode = React.memo((props: Props) => {
     className = `${classes.textInputActive} nopan nodrag`
   }
 
+  const headersIn = props.selected || hovered
+
   return (
     <MantineProvider
       defaultColorScheme={"dark"}
@@ -37,18 +38,21 @@ const MemoNode = React.memo((props: Props) => {
       cssVariablesSelector={`#${props.id}`}
       getRootElement={() => document.getElementById(props.id) || undefined}
     >
-      <Box h={500} ref={ref} className={classes.box} id={props.id} onMouseDown={e => e.stopPropagation()}>
+      <div
+        className={classes.box}
+        id={props.id}
+        ref={ref}
+      >
         <div className={headersIn ? classes.controls : classes.controlsHidden}>
           <Controls/>
         </div>
-        <TextareaAutosize
-          // onMouseDown={e => e.preventDefault()}
+        <AutoTextArea
           className={className}
           value={props.data.content}
           onChange={e => onPatch("content", e.target.value)}
           placeholder={"Memo"}
         />
-      </Box>
+      </div>
     </MantineProvider>
   )
 })

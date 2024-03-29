@@ -3697,6 +3697,11 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+react-textarea-auto-witdth-height@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/react-textarea-auto-witdth-height/-/react-textarea-auto-witdth-height-0.1.7.tgz#6d01ddac4d165b37a19b98ea7c869bb1575ed75d"
+  integrity sha512-PgGtbfCp9kFOa+y12PfBkp+Q+SVN00l495qaLSgddOqXeHbYR3JcgzJKVmptsy1jkGnRE9kU1r2Vlv/7pWpZDQ==
+
 react-textarea-autosize@8.5.3, react-textarea-autosize@^8.5.3:
   version "8.5.3"
   resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-8.5.3.tgz#d1e9fe760178413891484847d3378706052dd409"

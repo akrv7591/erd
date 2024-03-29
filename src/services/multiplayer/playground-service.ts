@@ -31,7 +31,7 @@ export class PlaygroundService {
   constructor(playerId: string, playgroundId: string) {
     this.io = connect(PROJECT.BASE_API_URL, {
       auth: {playerId, playgroundId},
-      withCredentials: true,
+      // withCredentials: true,
       reconnection: true,
     })
     this.initPlayground()

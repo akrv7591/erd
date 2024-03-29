@@ -79,7 +79,6 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
         mutation.mutate({data, type: "delete"}, {
           onSuccess: async () => {
             await queryClient.refetchQueries({queryKey:['erdList']})
-            form.reset()
             props.onClose()
             notifications.show({
               title: `${data.name} erd is deleted`,
@@ -99,7 +98,7 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
         mutation.mutate({data, type: "put"}, {
           onSuccess: async (res) => {
             await queryClient.refetchQueries({queryKey:['erdList']})
-            form.reset()
+            form.resetDirty(data)
             props.onClose()
             notifications.show({
               title: `${res.data.name} erd is updated`,

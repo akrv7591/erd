@@ -202,6 +202,8 @@ export interface IMemo {
   id: string;
   content: string;
   color: string;
+  width: number;
+  height: number;
   createdAt: string;
   updatedAt: string;
 

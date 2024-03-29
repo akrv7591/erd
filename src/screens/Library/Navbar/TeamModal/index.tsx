@@ -10,6 +10,7 @@ import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFor
 import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
 import {memo, useEffect} from "react";
 import {userListForTeamModal} from "@/api/user.ts";
+import {createId} from "@paralleldrive/cuid2";
 
 interface Props extends ModalBaseProps {
   data?: IFormTeam
@@ -42,6 +43,7 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
       ...data ? {
         ...data
       } : {
+        id: createId(),
         users: [] as IFormTeam['users'],
         name: "",
       } as IFormTeam,

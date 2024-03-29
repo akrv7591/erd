@@ -10,9 +10,11 @@ export default function PlayerCursor() {
   const user = useAuthStore(state => state.user)
   const reactflow = useReactFlow()
 
-  return players.filter(player => player.id !== user.id && player.cursorPosition).map(player => {
-    const position = reactflow.flowToScreenPosition(player.cursorPosition)
+  return players.filter(player => player?.id !== user?.id && player.cursorPosition).map(player => {
 
+    if (!player?.id) return null
+
+    const position = reactflow.flowToScreenPosition(player.cursorPosition)
     return (
       <Box top={position.y} left={position.x} key={player.id} className={classes.wrapper}>
         <IconPointer />

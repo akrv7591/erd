@@ -1,12 +1,18 @@
 .avatar, .avatarSubscribed {
     margin-left: -10px;
-    outline: 1px solid transparent;
+    outline: 2px solid transparent;
     color: var(--mantine-color-text) !important;
+    border: none !important;
 }
 
 
 .avatar {
-    border-color: var(--mantine-color-dark-4) !important;
+    outline-color: var(--mantine-color-dark-4) !important;
+
+    &:hover {
+        outline-color: var(--mantine-primary-color-filled-hover) !important;
+        z-index: 10;
+    }
 }
 
 .avatarSubscribed {

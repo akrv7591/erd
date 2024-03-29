@@ -53,7 +53,9 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
       case "add":
         break
       case "replace":
-        state.playground.memo(MemoEnum.patch, {
+        console.log(node)
+
+        state.playground.memo(MemoEnum.put, {
           id: node.item.id,
           position: node.item.position,
         })

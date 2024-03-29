@@ -27,7 +27,7 @@ export const usePlaygroundEvents = () => {
 
     playground.player(PlayerEnum.mouseChange, pos)
 
-  }, [reactFlow, playground])
+  }, [playground])
 
   const onDragOver: ReactFlowProps['onDragOver'] = (e: any) => {
     e.preventDefault();
@@ -40,6 +40,7 @@ export const usePlaygroundEvents = () => {
   const onNodeDrag: ReactFlowProps['onNodeDrag'] = (e) => handleMouseChange({x: e.clientX, y: e.clientY})
   const onMouseLeave: ReactFlowProps['onMouseLeave'] = () => handleMouseChange(null)
   const onMouseMove: ReactFlowProps['onMouseMove'] = (e) => handleMouseChange({x: e.clientX, y: e.clientY})
+
   const onMove: ReactFlowProps['onMove'] = (e, viewport) => {
     if (subscribers.length > 0) {
       playground.player(PlayerEnum.viewpointChange, viewport)

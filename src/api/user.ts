@@ -36,3 +36,6 @@ export const userPasswordSet = (data: Partial<PasswordSetForm>) => erdApi.post(`
 
     return res
   })
+
+export const userWithProfileApi = (id: string) => erdApi.get<IUser>(`/v1/users/${id}`)
+  .then(res => res.data)
