@@ -18,7 +18,7 @@ export const getRoleDescription = (role: ROLE) => {
     case ROLE.WRITE:
       return "User can create and edit erd"
     case ROLE.ADMIN:
-      return "User will have all privileges"
+      return "User have all privileges"
   }
 }
 

@@ -72,8 +72,10 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
     const state = get()
     switch (node.type) {
       case "add":
+        console.log(node)
         break
       case "replace":
+        console.log(node)
         state.playground.table(EntityEnum.update, {
           erdId: state.id,
           id: node.item.id,
@@ -85,6 +87,7 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
         const {id, type, position} = state.entities.find(oldNode => oldNode.id === node.id)!
 
         if (node.position && position !== node.position) {
+          console.log(node)
           state.playground.table(EntityEnum.update, {
             erdId: state.id,
             id,

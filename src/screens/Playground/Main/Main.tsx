@@ -45,6 +45,8 @@ export default function Main() {
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
+        snapToGrid
+        snapGrid={[20, 20]}
         onBeforeDelete={onBeforeDelete}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={{hideAttribution: true}}
@@ -53,11 +55,6 @@ export default function Main() {
         fitView
         panOnDrag={[1, 2]}
         selectionMode={SelectionMode.Partial}
-        onNodeDragStop={(_, node, nodes) => {
-          console.log({
-            node, nodes
-          })
-        }}
         {...playgroundEvents}
       >
         <PlayerCursor/>

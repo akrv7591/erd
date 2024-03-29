@@ -1,4 +1,4 @@
-import {ActionIcon, Card, Container, Group, Stack, Table, Text, Tooltip} from "@mantine/core";
+import {ActionIcon, Container, Group, Stack, Table, Text, Tooltip} from "@mantine/core";
 import ErdModal from "./ErdModal";
 import {useModal} from "@/hooks/useModal.ts";
 import {IconPlus} from "@tabler/icons-react";
@@ -60,15 +60,15 @@ export default function Main() {
         <Group justify={"space-between"}>
           <SearchInput onChange={q => setSearch(q)} size={"xs"} placeholder={"Search erd"}/>
         </Group>
-        <Card ref={ref} h={"calc(100vh - 180px)"}>
-          <Table highlightOnHover={data.rows.length > 0} highlightOnHoverColor={"var(--mantine-color-dark-7)"}>
+        <Stack ref={ref} h={"calc(100vh - 180px)"}>
+          <Table highlightOnHover={data.rows.length > 0} >
             <Header erds={data.rows}/>
             <Table.Tbody >
               <Content status={status} erds={data.rows}/>
             </Table.Tbody>
           </Table>
           <Footer total={data.count} params={params} setParams={setParams}/>
-        </Card>
+        </Stack>
       </Stack>
     </Container>
   )
