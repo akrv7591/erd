@@ -174,7 +174,6 @@ const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
         </ModalForm>
       </Modal>
     </TeamFormProvider>
-
   )
 })
 

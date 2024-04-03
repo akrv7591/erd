@@ -23,7 +23,7 @@ function App() {
     <GoogleOAuthProvider clientId="316029761884-vs47r1pnkor2ev4lvev7mt54te06154t.apps.googleusercontent.com">
       <QueryClientProvider client={queryClient}>
         <MantineProvider theme={theme} defaultColorScheme={"dark"}>
-          <Notifications position={"top-right"}/>
+          <Notifications position={"bottom-right"}/>
           <HelmetProvider>
             <RouterProvider router={router}/>
           </HelmetProvider>
