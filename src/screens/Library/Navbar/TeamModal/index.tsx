@@ -8,7 +8,7 @@ import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
 import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
-import {memo, useEffect} from "react";
+import {memo, useCallback, useEffect} from "react";
 import {userListForTeamModal} from "@/api/user.ts";
 import {createId} from "@paralleldrive/cuid2";
 
@@ -35,19 +35,18 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
   }
 }
 
+const getFormInitialValues = (data?: IFormTeam): IFormTeam => {
+  return data ? data : {
+    id: createId(),
+    users: [] as IFormTeam['users'],
+    name: "",
+  } as IFormTeam
+}
 
- const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
+const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
   const queryClient = useQueryClient()
   const form = useTeamForm({
-    initialValues: {
-      ...data ? {
-        ...data
-      } : {
-        id: createId(),
-        users: [] as IFormTeam['users'],
-        name: "",
-      } as IFormTeam,
-    }
+    initialValues: getFormInitialValues(data)
   })
   const mutation = useMutation({
     mutationFn: teamMutationFn,
@@ -57,6 +56,12 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
     queryKey: [data?.id],
     queryFn: userListForTeamModal,
   })
+
+
+  const formReset = useCallback(() => {
+    form.setInitialValues(getFormInitialValues())
+    form.reset()
+  }, [form])
 
   useEffect(() => {
     form.setValues({users})
@@ -75,7 +80,7 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
             await queryClient.refetchQueries({
               queryKey: ["teamList"]
             })
-            form.reset()
+            formReset()
             props.onClose()
           },
           onError: async () => {
@@ -97,7 +102,7 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
             await queryClient.refetchQueries({
               queryKey: ["teamList"]
             })
-            form.reset()
+            formReset()
             props.onClose()
           },
           onError: async () => {
@@ -124,7 +129,6 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
         await queryClient.refetchQueries({
           queryKey: ["teamList"]
         })
-        form.reset()
         props.onClose()
       },
       onError: async () => {
