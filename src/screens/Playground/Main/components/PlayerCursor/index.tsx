@@ -1,5 +1,5 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {IconPointer} from "@tabler/icons-react";
+import {IconPointerFilled} from "@tabler/icons-react";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {Box, Text} from "@mantine/core";
 import {useReactFlow} from "@xyflow/react";
@@ -16,8 +16,8 @@ export default function PlayerCursor() {
 
     const position = reactflow.flowToScreenPosition(player.cursorPosition)
     return (
-      <Box top={position.y} left={position.x} key={player.id} className={classes.wrapper}>
-        <IconPointer />
+      <Box top={position.y - 5} left={position.x - 5} key={player.id} className={classes.wrapper}>
+        <IconPointerFilled size={20} color={"var(--mantine-color-text)"} fill={"var(--mantine-color-dark-6)"}/>
         <div className={classes.label}>
           <Text size={"xs"}>{player.name}</Text>
         </div>
