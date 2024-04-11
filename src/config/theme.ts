@@ -39,10 +39,7 @@ export const theme = createTheme({
     }),
     ActionIcon: ActionIcon.extend({
       defaultProps: {
-        variant: "light",
-        style: {
-          border: "none"
-        }
+        variant: "default",
       },
     }),
     Pagination: Pagination.extend({

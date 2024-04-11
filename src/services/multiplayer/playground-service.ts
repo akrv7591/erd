@@ -74,6 +74,7 @@ export class PlaygroundService {
     this.io.on(EntityEnum.update, entity.onUpdate)
     this.io.on(EntityEnum.delete, entity.onDelete)
     this.io.on(EntityEnum.set, entity.onSet)
+    this.io.on(EntityEnum.move, entity.onMove)
 
   }
 
@@ -114,7 +115,7 @@ export class PlaygroundService {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public table(action: EntityEnum, data: EntityNode | string | any) {
+  public table(action: EntityEnum, data: EntityNode | EntityNode[] |  string | any) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 

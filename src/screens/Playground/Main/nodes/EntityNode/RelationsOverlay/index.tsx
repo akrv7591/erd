@@ -1,13 +1,13 @@
 import {Handle, Position, useConnection} from "@xyflow/react";
-import classes from "../style.module.css";
 import {Overlay, Text} from "@mantine/core";
 import {RELATION} from "@/constants/relations.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
-import {FC, useMemo} from "react";
+import {memo, useMemo} from "react";
+import classes from "../style.module.css";
 
 
-const SourceHandle: FC = () => {
+const SourceHandle = memo(() => {
   const tool = usePlaygroundStore(state => state.tool)
   const nodeData = useEntityNodeData();
   const connection = useConnection();
@@ -38,19 +38,18 @@ const SourceHandle: FC = () => {
   return (
     <Overlay className={className}>
       <Handle
-        className={classes.sourceHandle}
+        className={classes.handle}
         position={Position.Right}
         type={'source'}
         isConnectableStart={activeNodeHandle}
-      >
-      </Handle>
+      />
       <Text className={classes.handleLabel}>{label}</Text>
     </Overlay>
 
   )
-}
+})
 
-const TargetHandle: FC = () => {
+const TargetHandle = memo(() => {
   const tool = usePlaygroundStore(state => state.tool)
   const nodeData = useEntityNodeData();
   const connection = useConnection();
@@ -94,7 +93,7 @@ const TargetHandle: FC = () => {
   return (
     <Overlay className={className}>
       <Handle
-        className={classes.sourceHandle}
+        className={classes.handle}
         position={Position.Right}
         type={"target"}
         isConnectableEnd={activeNodeHandle}
@@ -103,17 +102,17 @@ const TargetHandle: FC = () => {
       <Text className={classes.handleLabel}>{label}</Text>
     </Overlay>
   )
-}
+})
 
 
-const RelationsOverlay = () => {
+const RelationsOverlay = memo(() => {
   return (
     <>
       <SourceHandle/>
       <TargetHandle/>
     </>
   )
-}
+})
 
 
 export default RelationsOverlay

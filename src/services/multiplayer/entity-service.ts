@@ -12,6 +12,10 @@ export const entityService = () => {
     usePlaygroundStore.setState(state => ({entities: applyNodeChanges<EntityNode>([data], state.entities)}))
   }
 
+  function onMove(data: NodeChange<EntityNode>[]) {
+    usePlaygroundStore.setState(state => ({entities: applyNodeChanges<EntityNode>(data, state.entities)}))
+  }
+
   function onDelete(data: string) {
     usePlaygroundStore.setState(state => ({entities: state.entities.filter(entity => entity.id !== data)}))
   }
@@ -29,7 +33,8 @@ export const entityService = () => {
     onAdd,
     onUpdate,
     onDelete,
-    onSet
+    onSet,
+    onMove
   }
 
 }

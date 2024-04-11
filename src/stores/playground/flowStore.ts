@@ -11,11 +11,11 @@ import {
   OnBeforeDelete
 } from "@xyflow/react";
 import {ColumnEnum, EntityEnum, RelationEnum} from "@/enums/playground.ts";
-import {CustomNodeTypes, IAddNodeProps, IConnectionData, NodeType} from "@/types/playground";
+import {AddNodeProps, ConnectionData, CustomNodeTypes, NodeType} from "@/types/playground";
 import {RELATION} from "@/constants/relations.ts";
-import {MemoNode} from "@/stores/playground/memoStore.ts";
 import React from "react";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {MemoNode} from "@/types/memo-node";
 
 
 interface FlowStoreState {
@@ -28,7 +28,7 @@ interface FlowStoreAction {
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
   setConnection: (connection: Connection) => void
   onBeforeDelete: OnBeforeDelete<NodeType>
-  nodeOnDragAdd: (props: IAddNodeProps) => React.DragEventHandler<HTMLDivElement>
+  nodeOnDragAdd: (props: AddNodeProps) => React.DragEventHandler<HTMLDivElement>
   onBeforeDeleteSelected: (nodes: NodeType[], edges: Edge[]) => Promise<boolean>
 }
 
@@ -206,7 +206,7 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
 
     if (targetNode.id === sourceNode.id) return {tool: "hand-grab"}
 
-    const data: IConnectionData = {
+    const data: ConnectionData = {
       relations: [],
       columns: [],
       entities: []
@@ -231,7 +231,7 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
     return {tool: "hand-grab"}
   }),
 
-  nodeOnDragAdd: ({reactFlowInstance}: IAddNodeProps) => (e) => {
+  nodeOnDragAdd: ({reactFlowInstance}) => (e) => {
     e.preventDefault();
 
     const type = e.dataTransfer.getData('application/reactflow') as CustomNodeTypes;

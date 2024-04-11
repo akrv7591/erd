@@ -1,5 +1,6 @@
 import {useNodeId, useNodesData} from "@xyflow/react";
-import {MemoNode} from "@/stores/playground/memoStore.ts";
+
+import type {MemoNode} from "@/types/memo-node";
 
 export const useMemoNodeData = () => {
   const nodeId = useNodeId()

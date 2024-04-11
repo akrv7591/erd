@@ -1,7 +1,7 @@
 import {Edge} from "@xyflow/react";
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {HighlightedRelation, IConnectionData} from "@/types/playground";
+import {HighlightedRelation, ConnectionData} from "@/types/playground";
 import {createId} from "@paralleldrive/cuid2";
 import {ICRelation} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
@@ -18,9 +18,9 @@ interface RelationStoreState {
 interface RelationStoreAction {
   setHighlightedRelation: (highlightedRelation: null | HighlightedRelation) => void
   resetRelationStore: () => void
-  addOneToOneRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: IConnectionData) => void
-  addOneToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: IConnectionData) => void
-  addManyToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: IConnectionData) => void
+  addOneToOneRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: ConnectionData) => void
+  addOneToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: ConnectionData) => void
+  addManyToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: ConnectionData) => void
   onBeforeRelationsDelete: (relations: Edge[]) => Promise<boolean>
 }
 

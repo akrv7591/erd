@@ -1,4 +1,4 @@
-import {ActionIcon, ActionIconGroup, Group, Tooltip} from "@mantine/core";
+import {ActionIcon, ActionIconGroup, Collapse, Group, Tooltip} from "@mantine/core";
 import {IconPlus, IconTrash} from "@tabler/icons-react";
 import {useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
@@ -7,9 +7,13 @@ import {ColumnEnum} from "@/enums/playground.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {memo} from "react";
 
+interface Props {
+  in: boolean
+}
 
-export default function ContentControls() {
+const ContentControls = memo((props: Props) => {
   const playground = usePlaygroundStore(state => state.playground)
   const nodeData = useEntityNodeData()
   const {deleteElements} = useReactFlow()
@@ -38,27 +42,32 @@ export default function ContentControls() {
   }
 
   return (
-    <Group mt={"xs"} pos={"absolute"} top={"0px"} bg={"red"} w={"100%"}>
-      <Group mt={"-65px"} justify={"space-between"} w={"100%"}>
-        <ActionIconGroup>
-          <Tooltip label={"Add primary row"} position={"top"}>
-            <ActionIcon color={"#ffcc00"} variant={"filled"} onClick={() => addColumn("primary")}>
-              <IconPlus stroke={1} color={"black"}/>
+    <Collapse in={props.in}>
+      <Group mt={"xs"} pos={"absolute"} top={"0px"} bg={"red"} w={"100%"}>
+        <Group mt={"-65px"} justify={"space-between"} w={"100%"}>
+          <ActionIconGroup>
+            <Tooltip label={"Add primary row"} position={"top"}>
+              <ActionIcon color={"#ffcc00"} variant={"filled"} onClick={() => addColumn("primary")}>
+                <IconPlus stroke={1} color={"black"}/>
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label={"Add non primary key row"} position={"top"}>
+              <ActionIcon color={"var(--mantine-primary-color-filled)"} variant={"filled"}
+                          onClick={() => addColumn("default")}>
+                <IconPlus stroke={1} color={"white"}/>
+              </ActionIcon>
+            </Tooltip>
+          </ActionIconGroup>
+          <Tooltip label={"Delete table"}>
+            <ActionIcon onClick={onDelete} color={"var(--mantine-color-red-6)"} variant={"filled"}>
+              <IconTrash stroke={1}/>
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={"Add non primary key row"} position={"top"}>
-            <ActionIcon color={"var(--mantine-primary-color-filled)"} variant={"filled"}
-                        onClick={() => addColumn("default")}>
-              <IconPlus stroke={1} color={"white"}/>
-            </ActionIcon>
-          </Tooltip>
-        </ActionIconGroup>
-        <Tooltip label={"Delete table"}>
-          <ActionIcon onClick={onDelete} color={"var(--mantine-color-red-6)"} variant={"filled"}>
-            <IconTrash stroke={1}/>
-          </ActionIcon>
-        </Tooltip>
+        </Group>
       </Group>
-    </Group>
+    </Collapse>
+
   )
-}
+})
+
+export default ContentControls

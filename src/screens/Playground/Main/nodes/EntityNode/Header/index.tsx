@@ -2,10 +2,10 @@ import {ColorPicker, ColorPickerProps, ColorSwatch, Group, HoverCard, Input} fro
 import {IconPalette, IconTable} from "@tabler/icons-react";
 import {EntityEnum} from "@/enums/playground.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
-import {ChangeEventHandler} from "react";
+import {ChangeEventHandler, memo} from "react";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
-const Header = () => {
+const Header = memo(() => {
   const nodeData = useEntityNodeData()
   const playground = usePlaygroundStore(state => state.playground)
 
@@ -54,7 +54,7 @@ const Header = () => {
       </HoverCard>
     </Group>
   )
-}
+})
 
 
 export default Header

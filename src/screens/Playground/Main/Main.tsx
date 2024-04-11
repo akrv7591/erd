@@ -1,18 +1,20 @@
-import {useRef} from 'react';
-import {Background, BackgroundVariant, ConnectionLineType, MiniMap, ReactFlow, SelectionMode,} from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import "./style.css"
+import {FC, memo, useRef} from 'react';
+import {Background, BackgroundVariant, ConnectionLineType, MiniMap, ReactFlow, SelectionMode} from '@xyflow/react';
 import {defaultEdgeOptions, edgeTypes} from "./edges";
 import {nodeTypes} from "./nodes";
 import Icons from "./Icons";
 import {Helmet} from "react-helmet-async";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import PlayerCursor from "@/screens/Playground/Main/components/PlayerCursor";
-import {usePlaygroundEvents} from "@/hooks/playground/usePlaygroundEvents.ts";
 import {EntityNode} from "@/types/entity-node";
 import ConfirmModal from "@/components/common/ConfirmModal";
 
-export default function Main() {
+import '@xyflow/react/dist/style.css';
+import "./style.css"
+import {usePlaygroundEvents} from "@/hooks/playground/usePlaygroundEvents.ts";
+
+
+const Main: FC = memo(() => {
   const nodes = usePlaygroundStore(state => state.getNodes());
   const edges = usePlaygroundStore(state => state.getEdges());
   const setNodeChanges = usePlaygroundStore(state => state.setNodeChanges)
@@ -25,14 +27,11 @@ export default function Main() {
   const playgroundEvents = usePlaygroundEvents()
 
   return (
-    <div
-      className={`erd-container ${subscribedTo && "subscribed"}`}
-      ref={reactFlowWrapper}
-    >
+    <div className={`erd-container ${subscribedTo && "subscribed"}`} ref={reactFlowWrapper}>
       <Helmet>
         <title>Erdiagramly</title>
       </Helmet>
-      <ConfirmModal />
+      <ConfirmModal/>
       <Icons/>
       <ReactFlow
         nodes={nodes}
@@ -45,23 +44,30 @@ export default function Main() {
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
-        // snapToGrid
-        // snapGrid={[20, 20]}
         onBeforeDelete={onBeforeDelete}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={{hideAttribution: true}}
         panOnScroll
         selectionOnDrag
         fitView
-        panOnDrag={[1, 2]}
+        panOnDrag={[0, 1, 2, 3, 4]}
         selectionMode={SelectionMode.Partial}
         {...playgroundEvents}
+
       >
         <PlayerCursor/>
-        {minimap && <MiniMap zoomable pannable nodeStrokeWidth={20} nodeColor={(node: EntityNode) => node.data.color}/>}
+        {minimap && (
+          <MiniMap
+            zoomable
+            pannable
+            nodeStrokeWidth={20}
+            nodeColor={(node: EntityNode) => node.data.color}
+          />
+        )}
         <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
       </ReactFlow>
     </div>
   );
-}
+})
 
+export default Main

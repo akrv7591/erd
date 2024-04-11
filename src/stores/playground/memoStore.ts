@@ -1,13 +1,9 @@
-import {Node, NodeChange, XYPosition} from "@xyflow/react";
-import {CustomNodeTypes} from "@/types/playground";
-import {IMemo} from "@/types/data/db-model-interfaces";
+import {NodeChange, XYPosition} from "@xyflow/react";
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
+import {MemoNode} from "@/types/memo-node";
 
-export type MemoNodeData = Pick<IMemo, 'color' | 'content' | 'createdAt' | 'updatedAt' | 'userId' | 'erdId'>
-
-export type MemoNode = Node<MemoNodeData, CustomNodeTypes>
 
 interface MemoStoreState {
   memos: MemoNode[]
@@ -76,7 +72,7 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
   setShowMemos: (showMemos) => set({showMemos}),
   resetMemoStore: () => set(initialState),
 
-  onBeforeMemosDelete: (memos) =>  new Promise((resolve) => {
+  onBeforeMemosDelete: (memos) => new Promise((resolve) => {
     const entityName = memos.length > 1 ? "memos" : "memo"
     set({
       confirmModal: {

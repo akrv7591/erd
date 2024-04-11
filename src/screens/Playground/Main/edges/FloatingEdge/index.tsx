@@ -3,7 +3,7 @@ import {getEdgeParams} from '../../utils.ts';
 import {RELATION} from "@/constants/relations.ts";
 import "./style.css"
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {useCallback} from "react";
+import {memo, useCallback} from "react";
 
 const getMarkerEnd = (markerEnd: string, end: boolean) => {
   const parenthesisStart = markerEnd.indexOf("#")
@@ -26,7 +26,7 @@ const getMarkerEnd = (markerEnd: string, end: boolean) => {
 }
 
 
-function FloatingEdge(props: EdgeProps) {
+const FloatingEdge = memo((props: EdgeProps) => {
   const reactflow = useReactFlow()
   const sourceNode = reactflow.getNode(props.source)
   const targetNode = reactflow.getNode(props.target)
@@ -86,6 +86,6 @@ function FloatingEdge(props: EdgeProps) {
     </>
 
   );
-}
+})
 
 export default FloatingEdge;

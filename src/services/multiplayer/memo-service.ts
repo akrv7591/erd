@@ -1,5 +1,6 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {MemoNode} from "@/stores/playground/memoStore.ts";
+
+import type {MemoNode} from "@/types/memo-node";
 
 export const memoService = () => {
 

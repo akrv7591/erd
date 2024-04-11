@@ -2,9 +2,9 @@ import {Button, Group} from "@mantine/core";
 import {IconGripHorizontal, IconTrash} from "@tabler/icons-react";
 import {ActionIcon} from "@mantine/core";
 import {useNodeId, useReactFlow} from "@xyflow/react";
-import {useCallback} from "react";
+import {memo, useCallback} from "react";
 
-export default function Controls() {
+const Controls = memo(() => {
   const reactFlow = useReactFlow()
   const nodeId = useNodeId()
 
@@ -24,4 +24,7 @@ export default function Controls() {
       </ActionIcon>
     </Group>
   )
-}
+})
+
+
+export default Controls

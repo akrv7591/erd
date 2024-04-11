@@ -5,7 +5,6 @@ import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 interface PaneStoreState {
   tool: ITools;
-  zoom: number;
   minimap: boolean;
   viewport: Viewport | null;
   confirmModal: {
@@ -23,7 +22,6 @@ interface PaneStoreState {
 
 interface PaneStoreAction {
   setTool: (tool: ITools) => void
-  setZoom: (zoom: number) => void
   setMinimap: (minimap: boolean) => void
   setViewport: (viewport: Viewport) => void
   resetPaneStore: () => void
@@ -33,7 +31,6 @@ export type PaneStore = PaneStoreState & PaneStoreAction
 
 const initialStore: Omit<PaneStoreState, 'confirmModal'> = {
   tool: "hand-grab",
-  zoom: Number(localStorage.getItem("zoom")) || 0,
   minimap: JSON.parse(localStorage.getItem("minimap") || "true"),
   viewport: null,
   subscribedTo: null,
@@ -54,17 +51,6 @@ export const paneStore: StateCreator<UsePlaygroundStore, [], [], PaneStore> = ((
 
   //Actions
   setTool: (tool) => set({tool}),
-
-  /**
-   * Set the zoom level and store it in local storage.
-   *
-   * @param {type} zoom - The new zoom level
-   * @return {type} undefined
-   */
-  setZoom: (zoom) => {
-    set({zoom})
-    localStorage.setItem("zoom", zoom.toString())
-  },
 
   /**
    * Sets the minimap and saves it to local storage.

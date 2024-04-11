@@ -33,11 +33,10 @@ export default function IconButton({data, disabled}: Props) {
   return (
     <Tooltip withArrow position={"right"} label={tooltipLabel}>
       <ActionIcon
-        variant={isSelected ? "light" : "default"}
         w={"40px"}
         h={"40px"}
-        style={{border: "none"}}
         disabled={isDisabled}
+        variant={isSelected ? "light" : "default"}
         {...buttonProps()}
       >
         <data.icon/>

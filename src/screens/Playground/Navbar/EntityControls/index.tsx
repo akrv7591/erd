@@ -11,6 +11,7 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import IconButton from "@/screens/Playground/Navbar/EntityControls/IconButton.tsx";
 import {RELATION} from "@/constants/relations.ts";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {Stack} from "@mantine/core";
 
 export interface IData {
   label: string
@@ -71,6 +72,10 @@ export default function EntityControls() {
   }, 0)
   const disabled = countOfNodesWithPrimaryKeys < 2
 
-  return buttons.map(action => <IconButton key={action.value} disabled={disabled} data={action}/>)
+  return (
+    <Stack gap={"5px"} px={"5px"}>
+      {buttons.map(action => <IconButton key={action.value} disabled={disabled} data={action}/>)}
+    </Stack>
+  )
 
 }

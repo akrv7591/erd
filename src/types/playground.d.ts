@@ -1,13 +1,13 @@
-import {Edge, ReactFlowInstance} from "@xyflow/react";
-import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
-import {MemoNode} from "@/stores/playground/memoStore.ts";
+import type {Edge, ReactFlowInstance} from "@xyflow/react";
+import type {EntityNode, EntityNodeColumn} from "@/types/entity-node";
+import type {MemoNode} from "@/types/memo-node";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
-interface IAddNodeProps {
+interface AddNodeProps {
   reactFlowInstance: ReactFlowInstance
 }
 
-interface IConnectionData {
+interface ConnectionData {
   relations: Edge[]
   columns: EntityNodeColumn[]
   entities: EntityNode[]

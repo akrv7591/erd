@@ -16,6 +16,7 @@ interface EntityStoreAction {
   entityOnDragAdd: (position: XYPosition) => void
   resetEntityStore: () => void
   onEntityNodeChange: (node: NodeChange<EntityNode>) => void
+  onEntityNodeChangeMany: (nodes: NodeChange<EntityNode>[]) => void
   onBeforeEntitiesDelete: (entities: EntityNode[]) => Promise<boolean>
   setEntityViewMode: (mode: EntityViewMode) => void
 }
@@ -67,6 +68,48 @@ export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> 
 
     state.playground.table(EntityEnum.add, newNode)
   },
+
+  onEntityNodeChangeMany: (entities) => {
+    const state = get()
+    const replacedEntities = []
+    const movedEntities: any[] = []
+    const removedEntities = []
+
+    entities.forEach((entity) => {
+      switch (entity.type) {
+        case "replace":
+          replacedEntities.push({
+            id: entity.item.id,
+            type: entity.item.type,
+            position: entity.item.position,
+          })
+          break
+        case "position":
+          movedEntities.push({
+            id: entity.id,
+            type: "entity",
+            position: entity.position,
+          })
+          break
+        case "remove":
+          removedEntities.push(entity.id)
+          break
+        default:
+      }
+    })
+
+    // if (replacedEntities.length) {
+    //   state.playground.table(EntityEnum.updateMany, replacedEntities)
+    // }
+    if (movedEntities.length) {
+      state.playground.table(EntityEnum.move, movedEntities)
+    }
+    // if (removedEntities.length) {
+    //   state.playground.table(EntityEnum.deleteMany, removedEntities)
+    // }
+
+  },
+
 
   onEntityNodeChange: (node) => {
     const state = get()

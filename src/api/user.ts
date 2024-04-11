@@ -4,18 +4,19 @@ import {IUser} from "@/types/data/db-model-interfaces";
 import {userTeamApi} from "@/api/team.ts";
 import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {IApiList} from "@/types/data/util";
 
 export const userListForTeamModal = (params: QueryFunctionContext) => {
   const teamId = params.queryKey[0] as string
 
   if (!teamId) return []
 
-  return erdApi.get<IUser[]>(`/v1/team/${teamId}/user-list`)
+  return erdApi.get<IApiList<IUser>>(`/v1/team/${teamId}/user-list`)
     .then(response => response.data)
     .then(async data => {
-      const roles = await Promise.all(data.map(() => userTeamApi(teamId)))
+      const roles = await Promise.all(data.rows.map(() => userTeamApi(teamId)))
 
-      return data.map((user, index) => ({
+      return data.rows.map((user, index) => ({
         ...user,
         userTeam: roles[index]
       }))

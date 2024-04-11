@@ -1,6 +1,6 @@
 import type {NodeTypes} from "@xyflow/react";
-import EntityNode from "./EntityNode";
 import MemoNode from "@/screens/Playground/Main/nodes/MemoNode";
+import EntityNode from "@/screens/Playground/Main/nodes/EntityNode";
 
 export enum NODE_TYPES {
   ENTITY = "entity",

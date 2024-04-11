@@ -22,6 +22,7 @@ export enum PlayerEnum {
 export enum EntityEnum {
   add = "entity:add",
   update = "entity:update",
+  move = "entity:move",
   delete = "entity:delete",
   set = "entity:set",
 }

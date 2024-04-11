@@ -5,9 +5,9 @@ import React from "react";
 import Header from "./Header";
 import Content from "./Content";
 import {ErdTableDataProvider} from "@/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx";
-import {EntityNodeData} from "@/types/entity-node";
+import {EntityNode} from "@/types/entity-node";
 
-interface Props extends NodeProps<EntityNodeData> {
+interface Props extends NodeProps<EntityNode> {
 }
 
 const TableNode = React.memo((props: Props) => {
