@@ -1,24 +1,22 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
-import type {MemoNode} from "@/types/memo-node";
+import type {MemoNode, MemoNodeData} from "@/types/memo-node";
+
+export type MemoWebsocketPatch = {
+  memoId: string,
+  key: keyof MemoNodeData,
+  value: any
+}
 
 export const memoService = () => {
 
   function onAdd(data: MemoNode) {
-    usePlaygroundStore.setState(state => ({memos: [...state.memos, data]}))
+    usePlaygroundStore.setState(state => ({nodes: [...state.nodes, data]}))
   }
 
-  function onPut(data: Partial<MemoNode>) {
-    usePlaygroundStore.setState(state => ({memos: state.memos.map(memo => memo.id === data.id ? {...memo, ...data} : memo)}))
-  }
-
-  function onDelete(memoId: string) {
-    usePlaygroundStore.setState(state => ({memos: state.memos.filter(memo => memo.id !== memoId)}))
-  }
-
-  function onPatch({memoId, key, value}: any) {
+  function onPatch({memoId, key, value}: MemoWebsocketPatch) {
     usePlaygroundStore.setState(cur => ({
-      memos: cur.memos.map(memo => memo.id === memoId ? {
+      nodes: cur.nodes.map(memo => memo.id === memoId ? {
         ...memo,
         data: {...memo.data, [key]: value}
       } : memo)
@@ -27,9 +25,7 @@ export const memoService = () => {
 
   return {
     onAdd,
-    onPut,
     onPatch,
-    onDelete,
   }
 
 }

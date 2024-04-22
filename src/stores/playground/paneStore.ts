@@ -1,7 +1,8 @@
 import {StateCreator} from "zustand";
-import {LivePlayer, ITools} from "@/types/entity-node";
 import {Viewport} from "@xyflow/react";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import type {Player} from "@/types/playground";
+import type {ITools} from "@/types/entity-node";
 
 interface PaneStoreState {
   tool: ITools;
@@ -15,9 +16,9 @@ interface PaneStoreState {
     onConfirm: (callback?: () => void) => void
     onCancel?: (callback?: () => void) => void
   },
-  subscribedTo: null | LivePlayer,
+  subscribedTo: null | string,
   subscribers: string[],
-  players: LivePlayer[]
+  players: Player[]
 }
 
 interface PaneStoreAction {
@@ -38,7 +39,7 @@ const initialStore: Omit<PaneStoreState, 'confirmModal'> = {
   players: [],
 }
 
-export const paneStore: StateCreator<UsePlaygroundStore, [], [], PaneStore> = ((set) => ({
+export const paneStore: StateCreator<UsePlaygroundStore, [], [], PaneStore> = ((set, get) => ({
   ...initialStore,
 
   confirmModal: {
@@ -46,7 +47,8 @@ export const paneStore: StateCreator<UsePlaygroundStore, [], [], PaneStore> = ((
     message: "",
     open: () => set(state => ({confirmModal: {...state.confirmModal, opened: true}})),
     close: () => set(state => ({confirmModal: {...state.confirmModal, opened: false}})),
-    onConfirm: () => {},
+    onConfirm: () => {
+    },
   },
 
   //Actions
@@ -63,7 +65,11 @@ export const paneStore: StateCreator<UsePlaygroundStore, [], [], PaneStore> = ((
     localStorage.setItem("minimap", JSON.stringify(minimap))
   },
 
-  setViewport: (viewport) => set({viewport}),
+  setViewport: (viewport) => {
+    const state = get()
+
+    state.playground.reactFlow.setViewport(viewport)
+  },
 
   // Reset store
   resetPaneStore: () => set(initialStore)

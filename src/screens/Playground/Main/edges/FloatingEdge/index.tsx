@@ -1,9 +1,9 @@
-import {EdgeProps, getSmoothStepPath, useReactFlow} from '@xyflow/react';
+import {EdgeProps, getSmoothStepPath, useStore} from '@xyflow/react';
 import {getEdgeParams} from '../../utils.ts';
 import {RELATION} from "@/constants/relations.ts";
-import "./style.css"
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {memo, useCallback} from "react";
+import "./style.css"
 
 const getMarkerEnd = (markerEnd: string, end: boolean) => {
   const parenthesisStart = markerEnd.indexOf("#")
@@ -27,30 +27,9 @@ const getMarkerEnd = (markerEnd: string, end: boolean) => {
 
 
 const FloatingEdge = memo((props: EdgeProps) => {
-  const reactflow = useReactFlow()
-  const sourceNode = reactflow.getNode(props.source)
-  const targetNode = reactflow.getNode(props.target)
   const setHighlightedRelation = usePlaygroundStore(state => state.setHighlightedRelation)
-
-  if (!sourceNode || !targetNode) {
-    return null;
-  }
-
-  if (!props.markerEnd) {
-    return null
-  }
-
-  const {sx, sy, tx, ty, sourcePos, targetPos} = getEdgeParams(sourceNode, targetNode);
-
-  const [edgePath] = getSmoothStepPath({
-    sourceX: sx,
-    sourceY: sy,
-    sourcePosition: sourcePos,
-    targetPosition: targetPos,
-    targetX: tx,
-    targetY: ty,
-    borderRadius: 20,
-  });
+  const sourceNode = useStore(useCallback((store) => store.nodeLookup.get(props.source), [props.source]));
+  const targetNode = useStore(useCallback((store) => store.nodeLookup.get(props.target), [props.target]));
 
   const handleMouseOver = useCallback(() => {
     setHighlightedRelation({
@@ -62,6 +41,25 @@ const FloatingEdge = memo((props: EdgeProps) => {
   const handleMouseOut = useCallback(() => {
     setHighlightedRelation(null)
   }, [setHighlightedRelation])
+
+
+  if (!sourceNode || !targetNode) {
+    return null
+  }
+
+  const params = getEdgeParams(sourceNode, targetNode)
+
+  const edgePathResponse = getSmoothStepPath({
+    sourceX: params.sx,
+    sourceY: params.sy,
+    sourcePosition: params.sourcePos,
+    targetPosition: params.targetPos,
+    targetX: params.tx,
+    targetY: params.ty,
+    borderRadius: 20,
+  })
+
+  const [edgePath] = edgePathResponse
 
   return (
     <>
@@ -78,6 +76,7 @@ const FloatingEdge = memo((props: EdgeProps) => {
         id={props.id}
         className={"react-flow__edge-path"}
         d={edgePath}
+        style={props.style}
         markerEnd={getMarkerEnd(props.markerEnd || "", true)}
         markerStart={getMarkerEnd(props.markerEnd || "", false)}
         onMouseOver={handleMouseOver}

@@ -189,8 +189,6 @@
           "updatedAt": "2023-12-18T02:36:28.000Z"
         }
       ],
-      "width": 924,
-      "height": 500,
       "selected": false,
       "positionAbsolute": {
         "x": -6142.947843900293,
@@ -354,8 +352,6 @@
           "updatedAt": "2023-12-18T02:36:28.000Z"
         }
       ],
-      "width": 924,
-      "height": 435,
       "selected": true,
       "positionAbsolute": {
         "x": -4767.102044942914,
@@ -572,8 +568,6 @@
         }
       ],
       "dragging": false,
-      "width": 924,
-      "height": 500,
       "selected": false,
       "positionAbsolute": {
         "x": -4772.778803247999,
@@ -584,6 +578,7 @@
   "edges": [
     {
       "id": "gjsjj3cwb4s8fhfrndkerk0i",
+      "type": "floating",
       "source": "jd352yt9juge9tqmo1c0cp9n",
       "target": "oth94l53sl9e0rbdkewps1dw",
       "markerEnd": "one-to-many",
@@ -592,6 +587,7 @@
     },
     {
       "id": "s0mzw9fzn8gntkkr4ywqei4z",
+      "type":  "floating",
       "source": "ow9m7nrajetn3uax194x2wql",
       "target": "oth94l53sl9e0rbdkewps1dw",
       "markerEnd": "one-to-many",

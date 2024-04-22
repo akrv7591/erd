@@ -1,5 +1,5 @@
 import React from "react";
-import {Edge, useNodeId, useReactFlow} from "@xyflow/react";
+import {Edge, useNodeId, useNodesData, useReactFlow} from "@xyflow/react";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
 import isEqual from "lodash/isEqual";
@@ -9,22 +9,17 @@ import {erdEntityTheme} from "@/config/theme.ts";
 import {EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
 
 interface Props extends React.PropsWithChildren {
-  data: EntityNodeData
-  parentHtmlId: string
 }
 
 export const ErdTableDataProvider = React.memo((props: Props) => {
   const nodeId = useNodeId()!
   const reactFlow = useReactFlow()
-  const [data, setData] = React.useState(props.data)
+  const nodeData = useNodesData(nodeId)
+  const [data, setData] = React.useState<EntityNodeData>(nodeData!.data as EntityNodeData)
 
   React.useEffect(() => {
-    setData(cur => ({...cur, columns: props.data.columns}))
-  }, [props.data.columns, setData])
-
-  React.useEffect(() => {
-    setData(cur => ({...props.data, columns: cur.columns}))
-  }, [props.data, setData])
+    setData(cur => ({...data, columns: cur.columns}))
+  }, [data, setData])
 
   const addColumn = (type: "primary" | "default") => {
     const newColumn: EntityNodeColumn = {...DEFAULT_COLUMN_DATA, order: 100 + data.columns.length}
@@ -87,7 +82,7 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
       defaultColorScheme={"dark"}
       theme={theme}
       cssVariablesSelector={`#${nodeId}`}
-      getRootElement={() => document.getElementById(props.parentHtmlId) || undefined}
+      getRootElement={() => document.getElementById(nodeId) || undefined}
     >
       <ErdTableDataContext.Provider
         value={{data, columns: data.columns, setSortedColumns, setData, addColumn, setColumn, deleteSelectedColumns}}>

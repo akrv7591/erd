@@ -1,63 +1,80 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {orderBy} from "lodash";
+import {EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
+
+export type ColumnWebsocketPatch = {
+  entityId: string
+  columnId: string
+  key: keyof EntityNodeColumn
+  value: any
+}
 
 export const columnService = () => {
 
-  function onAdd({column}: any) {
+  function onAdd(column: EntityNodeColumn) {
     usePlaygroundStore.setState(cur => ({
-      entities: cur.entities.map(entity => {
-        if (entity.id === column.entityId) {
+      nodes: cur.nodes.map(node => {
+        if (node.id === column.entityId) {
+          const entityData = node.data as EntityNodeData
           return {
-            ...entity,
+            ...node,
             data: {
-              ...entity.data,
-              columns: [...entity.data.columns, column]
+              ...entityData,
+              columns: [...entityData.columns, column]
             }
           }
         }
-        return entity
+        return node
       })
     }))
   }
 
-  function onUpdate({column}: any) {
-    usePlaygroundStore.setState(cur => ({
-      entities: cur.entities.map(entity => {
-        if (entity.id === column.entityId) {
-          const columns = orderBy(entity.data.columns.map(c => c.id === column.id ? {...c, [column.key]: column.value} : c), 'order', 'asc')
+  function onPatch(data: ColumnWebsocketPatch) {
+    usePlaygroundStore.setState(state => ({
+      nodes: state.nodes.map(node => {
+        if (node.id === data.entityId) {
+          const entityData = node.data as EntityNodeData
+          let columns: EntityNodeColumn[]
+
+          if (data.key === "order") {
+            columns = orderBy(entityData.columns.map(c => c.id === data.columnId ? {...c, [data.key]: data.value} : c), 'order', 'asc')
+          } else {
+            columns = entityData.columns.map(c => c.id === data.columnId ? {...c, [data.key]: data.value} : c)
+          }
           return {
-            ...entity,
+            ...node,
             data: {
-              ...entity.data,
+              ...node.data,
               columns
             }
           }
         }
-        return entity
+        return node
       })
     }))
   }
 
-  function onDelete({column}: any) {
+  function onDelete(columnId: string[], entityId: string) {
     usePlaygroundStore.setState(cur => ({
-      entities: cur.entities.map(entity => {
-        if (entity.id === column.entityId) {
+      nodes: cur.nodes.map(node => {
+        if (node.id === entityId) {
+          const entityData = node.data as EntityNodeData
           return {
-            ...entity,
+            ...node,
             data: {
-              ...entity.data,
-              columns: entity.data.columns.filter(c => c.id !== column.id)
+              ...entityData,
+              columns: entityData.columns.filter(c => !columnId.includes(c.id))
             }
           }
         }
-        return entity
+        return node
       })
     }))
   }
 
   return {
     onAdd,
-    onUpdate,
+    onPatch,
     onDelete,
   }
 }

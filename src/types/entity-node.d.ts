@@ -1,5 +1,5 @@
 import type {Node} from "@xyflow/react";
-import type {IColumn, IEntity, IUser} from "@/types/data/db-model-interfaces";
+import type {IColumn, IEntity} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
@@ -16,9 +16,9 @@ export type EntityNodeData = Pick<IEntity, 'name' | 'color'> & {
 
 export type EntityNode = Node<EntityNodeData, NODE_TYPES.ENTITY>
 
-export interface LivePlayer extends IUser {
-  cursorPosition: {
-    x: number,
-    y: number
-  }
+export type ColumnUpdatePayload = {
+  entityId: string,
+  key: string,
+  value: any,
+  id: string
 }

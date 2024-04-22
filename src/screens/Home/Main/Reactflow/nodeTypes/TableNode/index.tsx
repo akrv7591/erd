@@ -1,22 +1,21 @@
 import {Box, Card} from "@mantine/core";
-import {Handle, NodeProps, Position} from "@xyflow/react";
+import {Handle, Position, useNodeId, useNodesData} from "@xyflow/react";
 import styles from "./style.module.css"
-import React from "react";
+import React, {memo} from "react";
 import Header from "./Header";
 import Content from "./Content";
 import {ErdTableDataProvider} from "@/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx";
-import {EntityNode} from "@/types/entity-node";
 
-interface Props extends NodeProps<EntityNode> {
-}
+const TableContentProvider = memo(() => {
+  const nodeId = useNodeId()!
+  const nodeData = useNodesData(nodeId)
 
-const TableNode = React.memo((props: Props) => {
   return (
-    <ErdTableDataProvider data={props.data} parentHtmlId={props.id}>
-      <Box className={styles.box} id={props.id}>
+    <ErdTableDataProvider>
+      <Box className={styles.box} id={nodeId}>
         <Card
-          style={{outline: `5px solid ${props.data.color}!important`}}
-          className={props.selected ? styles.cardSelected : styles.card}
+          style={{outline: `5px solid ${nodeData?.data.color}!important`}}
+          className={styles.cardSelected}
           withBorder>
           <Header/>
           <Content/>
@@ -33,6 +32,12 @@ const TableNode = React.memo((props: Props) => {
         />
       </Box>
     </ErdTableDataProvider>
+  )
+})
+
+const TableNode = React.memo(() => {
+  return (
+    <TableContentProvider/>
   )
 })
 

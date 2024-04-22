@@ -11,7 +11,7 @@ import {memoStore, MemoStore} from "@/stores/playground/memoStore.ts";
 
 export interface PlaygroundStoreState extends Omit<IErd, 'entities' | 'relations' | 'users' | 'memos'> {
   playground: PlaygroundService;
-  connected: boolean
+  connected: boolean;
 }
 
 interface PlaygroundStoreAction {
@@ -41,7 +41,7 @@ const initialState: PlaygroundStoreState = {
   tableNameCase: "pascal",
   columnNameCase: "camel",
   playground: null as any,
-  connected: false
+  connected: false,
 }
 
 export const usePlaygroundStore = create<UsePlaygroundStore>()((...a) => ({

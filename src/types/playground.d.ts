@@ -1,11 +1,8 @@
-import type {Edge, ReactFlowInstance} from "@xyflow/react";
-import type {EntityNode, EntityNodeColumn} from "@/types/entity-node";
-import type {MemoNode} from "@/types/memo-node";
+import type {Edge, Node} from "@xyflow/react";
+import type {EntityNode, EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
+import type {MemoNodeData} from "@/types/memo-node";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
-
-interface AddNodeProps {
-  reactFlowInstance: ReactFlowInstance
-}
+import {CallbackDataStatus} from "@/enums/playground.ts";
 
 interface ConnectionData {
   relations: Edge[]
@@ -19,4 +16,14 @@ interface HighlightedRelation {
 }
 
 export type CustomNodeTypes = NODE_TYPES
-export type NodeType = EntityNode | MemoNode
+export type NodeType = Node<EntityNodeData | MemoNodeData>
+export type Player = {
+  id: string,
+  cursorPosition: { x: number, y: number } | null
+}
+
+export interface ResponseData<Type, Data> {
+  type: Type
+  status: CallbackDataStatus
+  data: Data
+}

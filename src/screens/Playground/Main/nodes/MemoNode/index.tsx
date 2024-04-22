@@ -6,7 +6,7 @@ import type {MemoNode} from "@/types/memo-node";
 
 const MemoNode = memo((props: NodeProps<MemoNode>) => {
   return (
-    <ThemedNode id={props.id} selected={props.selected}/>
+    <ThemedNode id={props.id}/>
   )
 })
 

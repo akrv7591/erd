@@ -1,44 +1,5 @@
-.box {
-    position: relative;
-}
-
-.textInput,
-.textInputActive {
-    min-width: 150px;
-    min-height: 200px;
-    background-color: var(--mantine-primary-color-filled);
-    color: black !important;
-    padding: 10px;
-    user-select: none;
-    cursor: grab;
-    border-radius: 5px;
-    border: none;
-
-    & textarea {
-        color: black;
-    }
-
-    & textarea::placeholder {
-        color: #575757;
-    }
-}
-
-.textInput::-webkit-resizer {
-    display: none;
-}
-
-.textInput:focus-visible,
-.textInputActive:focus-visible {
-    outline: 2px solid var(--mantine-primary-color-9);
-}
-
-.textInputActive  {
-    user-select: auto;
-    cursor: text;
-
-    & ::-webkit-resizer {
-        display: block;
-    }
+p {
+    color: var(--mantine-color-dark-7)
 }
 
 

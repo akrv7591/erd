@@ -1,40 +1,32 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {applyNodeChanges, NodeChange} from "@xyflow/react";
-import {EntityNode} from "@/types/entity-node";
+import {NodeType} from "@/types/playground";
+import {EntityNodeData} from "@/types/entity-node";
+
+
+export type EntityWebsocketPatch = {
+  entityId: string,
+  key: keyof EntityNodeData,
+  value: any
+}
 
 export const entityService = () => {
 
-  function onAdd(data: EntityNode) {
-    usePlaygroundStore.setState(state => ({entities: [...state.entities, data]}))
+  function onAdd(data: NodeType) {
+    usePlaygroundStore.setState(state => ({nodes: [...state.nodes, data]}))
   }
 
-  function onUpdate(data: NodeChange<EntityNode>) {
-    usePlaygroundStore.setState(state => ({entities: applyNodeChanges<EntityNode>([data], state.entities)}))
-  }
-
-  function onMove(data: NodeChange<EntityNode>[]) {
-    usePlaygroundStore.setState(state => ({entities: applyNodeChanges<EntityNode>(data, state.entities)}))
-  }
-
-  function onDelete(data: string) {
-    usePlaygroundStore.setState(state => ({entities: state.entities.filter(entity => entity.id !== data)}))
-  }
-
-  function onSet({entityId, data}: any) {
+  function onPatch(data: EntityWebsocketPatch) {
     usePlaygroundStore.setState(cur => ({
-      entities: cur.entities.map(entity => entity.id === entityId ? {
+      nodes: cur.nodes.map(entity => entity.id === data.entityId ? {
         ...entity,
-        data: {...entity.data, ...data}
+        data: {...entity.data, [data.key]: data.value}
       } : entity)
     }))
   }
 
   return {
     onAdd,
-    onUpdate,
-    onDelete,
-    onSet,
-    onMove
+    onPatch,
   }
 
 }

@@ -1,5 +1,4 @@
 .avatar, .avatarSubscribed {
-    margin-left: -10px;
     outline: 2px solid transparent;
     color: var(--mantine-color-text) !important;
     border: none !important;

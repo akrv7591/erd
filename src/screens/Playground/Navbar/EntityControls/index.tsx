@@ -1,5 +1,5 @@
-import {ITools} from "@/types/entity-node";
-import React from "react";
+import {EntityNode, ITools} from "@/types/entity-node";
+import React, {useMemo} from "react";
 import {
   IconHandGrab, IconNote,
   IconRelationManyToMany,
@@ -7,11 +7,12 @@ import {
   IconRelationOneToOne,
   IconTablePlus
 } from "@tabler/icons-react";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import IconButton from "@/screens/Playground/Navbar/EntityControls/IconButton.tsx";
 import {RELATION} from "@/constants/relations.ts";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 import {Stack} from "@mantine/core";
+import {useShallow} from "zustand/react/shallow";
 
 export interface IData {
   label: string
@@ -62,15 +63,19 @@ const buttons: IData[] = [
     allowOnDisabled: false
   }]
 
+const selector = (state: UsePlaygroundStore) => ({
+  entities: state.nodes.filter(node => node.type === NODE_TYPES.ENTITY) as EntityNode[],
+})
 
 export default function EntityControls() {
-  const entities = usePlaygroundStore(state => state.entities)
-  const countOfNodesWithPrimaryKeys = entities.reduce((count, entity) => {
-    const hasPrimary = entity.data.columns.some(c => c.primary)
+  const {entities} = usePlaygroundStore(useShallow(selector))
+  const disabled = useMemo(() => {
+    return entities.reduce((count, entity) => {
+      const hasPrimary = entity.data.columns.some(c => c.primary)
 
-    return count + (hasPrimary ? 1 : 0)
-  }, 0)
-  const disabled = countOfNodesWithPrimaryKeys < 2
+      return count + (hasPrimary ? 1 : 0)
+    }, 0) < 2
+  }, [entities])
 
   return (
     <Stack gap={"5px"} px={"5px"}>

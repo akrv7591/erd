@@ -1,52 +1,47 @@
 import {connect, Socket} from "socket.io-client";
-import {Edge} from "@xyflow/react";
-import {
-  CallbackDataStatus,
-  ColumnEnum,
-  EntityEnum,
-  ErdEnum,
-  MemoEnum,
-  PlayerEnum,
-  RelationEnum
-} from "@/enums/playground.ts";
+import {Edge, ReactFlowInstance} from "@xyflow/react";
+import {ColumnEnum, EntityEnum, ErdEnum, MemoEnum, NodeEnum, PlayerEnum, RelationEnum} from "@/enums/playground.ts";
 import {playerService} from "@/services/multiplayer/player-service.ts";
 import {entityService} from "@/services/multiplayer/entity-service.ts";
 import {relationService} from "@/services/multiplayer/relation-service.ts";
-import {columnService} from "@/services/multiplayer/column-service.ts";
+import {columnService, ColumnWebsocketPatch} from "@/services/multiplayer/column-service.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import {erdService} from "@/services/multiplayer/erd-service.ts";
-import {memoService} from "@/services/multiplayer/memo-service.ts";
+import {memoService, MemoWebsocketPatch} from "@/services/multiplayer/memo-service.ts";
 import {PROJECT} from "@/constants/project.ts";
-
-export interface ResponseData<T> {
-  type: T
-  status: CallbackDataStatus
-  data: any
-}
+import {nodeService} from "@/services/multiplayer/node-service.ts";
+import {SOCKET} from "@/constants/socket.ts";
+import type {ICMemo} from "@/types/data/db-model-interfaces";
+import type {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 
 export class PlaygroundService {
   readonly io: Socket
+  readonly reactFlow: ReactFlowInstance
 
-  constructor(playerId: string, playgroundId: string) {
+  constructor(playerId: string, playgroundId: string, reactFlow: ReactFlowInstance) {
     this.io = connect(PROJECT.BASE_API_URL, {
-      auth: {playerId, playgroundId},
-      // withCredentials: true,
+      auth: {playerId, playgroundId, type: SOCKET.TYPE.ERD},
+      withCredentials: true,
       reconnection: true,
     })
+    this.reactFlow = reactFlow
     this.initPlayground()
   }
 
   private initPlayground() {
     this.io.on("disconnect", () => usePlaygroundStore.setState(({connected: false})))
-    this.io.on("data", data => usePlaygroundStore.setState(({...data, connected: true})))
+    this.io.on("data", data => {
+      console.log("DATA: ", data)
+      usePlaygroundStore.setState({...data, connected: true})
+    })
 
     this.initErdListeners()
     this.initPlayerListeners()
-    this.initTableListeners()
+    this.initEntityListeners()
     this.initRelationListeners()
     this.initColumnListeners()
     this.initMemoListeners()
+    this.initNodeListeners()
   }
 
   private initErdListeners() {
@@ -67,15 +62,18 @@ export class PlaygroundService {
     this.io.on(PlayerEnum.mouseChange, player.onMouseChange)
   }
 
-  private initTableListeners() {
+  private initNodeListeners() {
+    const node = nodeService()
+
+    this.io.on(NodeEnum.patchPositions, node.onPatchPositions)
+    this.io.on(NodeEnum.delete, node.onDelete)
+  }
+
+  private initEntityListeners() {
     const entity = entityService()
 
     this.io.on(EntityEnum.add, entity.onAdd)
-    this.io.on(EntityEnum.update, entity.onUpdate)
-    this.io.on(EntityEnum.delete, entity.onDelete)
-    this.io.on(EntityEnum.set, entity.onSet)
-    this.io.on(EntityEnum.move, entity.onMove)
-
+    this.io.on(EntityEnum.patch, entity.onPatch)
   }
 
   private initRelationListeners() {
@@ -89,7 +87,7 @@ export class PlaygroundService {
     const column = columnService()
 
     this.io.on(ColumnEnum.add, column.onAdd)
-    this.io.on(ColumnEnum.update, column.onUpdate)
+    this.io.on(ColumnEnum.patch, column.onPatch)
     this.io.on(ColumnEnum.delete, column.onDelete)
 
   }
@@ -98,9 +96,7 @@ export class PlaygroundService {
     const memo = memoService()
 
     this.io.on(MemoEnum.add, memo.onAdd)
-    this.io.on(MemoEnum.put, memo.onPut)
     this.io.on(MemoEnum.patch, memo.onPatch)
-    this.io.on(MemoEnum.delete, memo.onDelete)
   }
 
   public get handlePlaygroundResponse() {
@@ -115,49 +111,47 @@ export class PlaygroundService {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public table(action: EntityEnum, data: EntityNode | EntityNode[] |  string | any) {
+  public entity(action: EntityEnum, data: EntityNode | EntityNode[] | string | any) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public relation(action: RelationEnum, data: Edge | string) {
+  relation(action: RelationEnum.add, data: Edge): void
+  relation(action: RelationEnum.delete, data: string[]): void
+  relation(action: RelationEnum, data: Edge | string[]) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public memo(action: MemoEnum, data: any) {
-    if (data.key === "content") {
-      this.handlePlaygroundResponse({
-        status: CallbackDataStatus.OK,
-        data,
-        type: action
-      })
-      this.io.emit(action, data, () => {
-      })
-    } else {
-      this.io.emit(action, data, this.handlePlaygroundResponse)
-    }
+  public node(action: NodeEnum, data: { [key: string]: string }) {
+    this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public column(action: ColumnEnum, data: {
-    entityId: string,
-    key: string,
-    value: any,
-    id: string
-  } | EntityNodeColumn | string) {
+  memo(action: MemoEnum.add, data: ICMemo): void
+  memo(action: MemoEnum.patch, data: MemoWebsocketPatch): void
+  memo(action: MemoEnum.delete, data: string[]): void
+  memo(action: MemoEnum, data: ICMemo | MemoWebsocketPatch | string[]) {
+    this.io.emit(action, data, this.handlePlaygroundResponse)
+  }
+
+
+  column(action: ColumnEnum.add, data: EntityNodeColumn): void;
+  column(action: ColumnEnum.patch, data: ColumnWebsocketPatch): void
+  column(action: ColumnEnum.delete, data: string[], entityId: string): void
+  column(action: ColumnEnum, data: ColumnWebsocketPatch | EntityNodeColumn | string[], entityId ?: string): void {
     switch (action) {
-      case ColumnEnum.update:
-        this.handlePlaygroundResponse({
-          status: CallbackDataStatus.OK,
-          data: {
-            column: data
-          },
-          type: action
-        })
-        this.io.emit(action, data, () => {})
+      case ColumnEnum.delete:
+        this.io.emit(action, data, entityId, this.handlePlaygroundResponse)
         break
       default:
         this.io.emit(action, data, this.handlePlaygroundResponse)
     }
   }
 
+  handleMouseMove = (pos: {x: number, y: number} | null) => {
+      if (pos) {
+        pos = this.reactFlow.screenToFlowPosition(pos, {snapToGrid: false})
+      }
+
+      this.player(PlayerEnum.mouseChange, pos)
+  }
 }
 

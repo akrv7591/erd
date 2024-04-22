@@ -1,77 +1,63 @@
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {StateCreator} from "zustand";
 import {EntityNode} from "@/types/entity-node";
-import {
-  applyEdgeChanges,
-  applyNodeChanges,
-  Connection,
-  Edge,
-  EdgeChange,
-  NodeChange,
-  OnBeforeDelete
-} from "@xyflow/react";
-import {ColumnEnum, EntityEnum, RelationEnum} from "@/enums/playground.ts";
-import {AddNodeProps, ConnectionData, CustomNodeTypes, NodeType} from "@/types/playground";
+import {applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, NodeChange,} from "@xyflow/react";
+import {ColumnEnum, EntityEnum, NodeEnum, RelationEnum} from "@/enums/playground.ts";
+import {ConnectionData, CustomNodeTypes, NodeType} from "@/types/playground";
 import {RELATION} from "@/constants/relations.ts";
 import React from "react";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 import {MemoNode} from "@/types/memo-node";
+import {makeNodeRedisKey} from "@/services/multiplayer/node-service.ts";
 
 
 interface FlowStoreState {
+  nodes: NodeType[]
 }
 
 interface FlowStoreAction {
-  getNodes: () => NodeType[]
-  getEdges: () => Edge[]
   setNodeChanges: (nodeChanges: NodeChange<NodeType>[]) => void
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
   setConnection: (connection: Connection) => void
-  onBeforeDelete: OnBeforeDelete<NodeType>
-  nodeOnDragAdd: (props: AddNodeProps) => React.DragEventHandler<HTMLDivElement>
+  onBeforeDelete: (state: UsePlaygroundStore, nodes: NodeType[], edges: Edge[]) => Promise<boolean>
+  nodeOnDragAdd: React.DragEventHandler<HTMLDivElement>
   onBeforeDeleteSelected: (nodes: NodeType[], edges: Edge[]) => Promise<boolean>
 }
 
 export type FlowStore = FlowStoreState & FlowStoreAction
 
-const initialState: FlowStoreState = {}
+const initialState: FlowStoreState = {
+  nodes: []
+}
 
 export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((set, get) => ({
   ...initialState,
 
-  // Actions
-  getNodes: () => {
-    const state = get()
-    let nodes: NodeType[] = [...state.entities]
+  onBeforeDelete: async (state, nodes, edges) => {
+    if (!nodes.length && !edges.length) {
+      return false
+    }
 
-      if (state.showMemos) {
-        nodes = [...nodes, ...state.memos]
-      }
+    let result: boolean = false
 
-    return nodes
-  },
-  getEdges: () => get().relations,
-
-  onBeforeDelete: async ({nodes, edges}) => {
-    const state = get()
-    if (!nodes.length) {
-      // Edge deletion handler
-      return state.onBeforeRelationsDelete(edges)
-    } else {
+    if (nodes.length) {
       // Node deletion handler
-      const entityNodes = nodes.some(node => node.type === NODE_TYPES.ENTITY)
-      const memoNodes = nodes.some(node => node.type === NODE_TYPES.MEMO)
+      const entityNodes = nodes.some(node => node.type! === NODE_TYPES.ENTITY)
+      const memoNodes = nodes.some(node => node.type! === NODE_TYPES.MEMO)
 
       if (entityNodes && memoNodes) {
-        return state.onBeforeDeleteSelected(nodes, edges)
+        result = await state.onBeforeDeleteSelected(nodes, edges)
       } else if (entityNodes) {
-        return state.onBeforeEntitiesDelete(nodes as EntityNode[])
+        result = await state.onBeforeEntitiesDelete(nodes as EntityNode[])
       } else if (memoNodes) {
-        return state.onBeforeMemosDelete(nodes as MemoNode[])
-      } else {
-        return Promise.resolve(true)
+        result = await state.onBeforeMemosDelete(nodes as MemoNode[])
       }
+    } else if (edges.length) {
+      // Edge deletion handler
+      result = await state.onBeforeRelationsDelete(edges)
     }
+
+    return result
   },
 
   onBeforeDeleteSelected: (nodes, edges) => new Promise((res) => {
@@ -102,9 +88,9 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
       message += ` and ${edges.length} ${edges.length > 1 ? "relations" : "relation"}?`
     }
 
-    set({
+    set(state => ({
       confirmModal: {
-        ...get().confirmModal,
+        ...state.confirmModal,
         opened: true,
         message,
         onConfirm: (callback) => {
@@ -120,89 +106,74 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
           }
         }
       }
-    })
+    }))
   }),
 
 
   setNodeChanges: (nodeChanges) => {
     set((state) => {
-      const entities: NodeChange<EntityNode>[] = []
-      const memos: NodeChange<MemoNode>[] = []
+      console.time("Node changes")
+      const positionChanges: { [key: string]: string } = {}
 
       nodeChanges.forEach((node) => {
-        let nodeType: CustomNodeTypes
-
-        if (node.type !== "add") {
-          nodeType = state.getNodes().find(n => n.id === node.id)!.type!
-        } else {
-          nodeType = node.item.type!
-        }
-
-        switch (nodeType) {
-          case NODE_TYPES.ENTITY:
-            state.onEntityNodeChange(node as NodeChange<EntityNode>)
-            entities.push(node as NodeChange<EntityNode>)
-            break
-          case NODE_TYPES.MEMO:
-            state.onMemoNodeChange(node as NodeChange<MemoNode>)
-            memos.push(node as NodeChange<MemoNode>)
-            break
+        switch (node.type) {
+          case "position":
+            positionChanges[makeNodeRedisKey(state.id, node.id)] = JSON.stringify(node.position)
         }
       })
 
-      return ({
-        entities: applyNodeChanges(entities, state.entities),
-        memos: applyNodeChanges(memos, state.memos)
-      })
+
+      if (Object.keys(positionChanges).length) {
+        state.playground.node(NodeEnum.patchPositions, positionChanges)
+      }
+
+      if (nodeChanges.some(node => node.type === "replace")) {
+        console.log("REPLACING NODES HAPPENED")
+      }
+
+      const appliedNodeChanges = applyNodeChanges(nodeChanges, state.nodes)
+
+      console.timeEnd("Node changes")
+
+      return {
+        nodes: appliedNodeChanges,
+      }
     })
   },
 
   setEdgeChanges: (edgeChanges) => {
+    console.log("EDGE CHANGES RECREATED: ")
     set(cur => {
       let targetNode: undefined | EntityNode
       edgeChanges.forEach(edge => {
         switch (edge.type) {
-          case "add":
-            break
           case "remove":
             const relation = cur.relations.find(r => r.id === edge.id)
 
             if (relation) {
-              cur.playground.relation(RelationEnum.delete, relation)
-              targetNode = cur.entities.find(entity => entity.id === relation.target)
+              cur.playground.relation(RelationEnum.delete, [relation.id])
+              targetNode = cur.nodes.find(entity => entity.id === relation.target) as EntityNode
 
               if (targetNode) {
-                cur.playground.column(ColumnEnum.delete, targetNode.data.columns.find(c => c.id === relation.id)!)
+                const columnIdsToDelete = targetNode.data.columns.filter(c => c.id === relation.id).map(column => column.id)
 
-                targetNode = {
-                  ...targetNode,
-                  data: {
-                    ...targetNode.data,
-                    columns: targetNode.data.columns = targetNode.data.columns.filter(c => c.id !== relation.id)
-                  }
-                }
+                // Emit foreign key columns delete event
+                cur.playground.column(ColumnEnum.delete, columnIdsToDelete, targetNode.id)
               }
             }
-
-            break
-          case "replace":
-            break
-          case "select":
-            break
         }
       })
 
       return {
         relations: applyEdgeChanges(edgeChanges, cur.relations),
-        entities: cur.entities.map(node => node.id === targetNode?.id ? targetNode : node)
       }
     })
   },
 
   setConnection: (connection) => set(state => {
 
-    const targetNode = state.entities.find(entity => entity.id === connection.target)!
-    const sourceNode = state.entities.find(entity => entity.id === connection.source)!
+    const targetNode = state.nodes.find(entity => entity.id === connection.target)! as EntityNode
+    const sourceNode = state.nodes.find(entity => entity.id === connection.source)! as EntityNode
 
     if (targetNode.id === sourceNode.id) return {tool: "hand-grab"}
 
@@ -224,15 +195,18 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
         break
     }
 
-    data.entities.forEach(entity => state.playground.table(EntityEnum.add, entity))
+    data.entities.forEach(entity => state.playground.entity(EntityEnum.add, entity))
     data.columns.forEach((column) => state.playground.column(ColumnEnum.add, column))
     data.relations.forEach(relation => state.playground.relation(RelationEnum.add, relation))
 
     return {tool: "hand-grab"}
   }),
 
-  nodeOnDragAdd: ({reactFlowInstance}) => (e) => {
+  nodeOnDragAdd: (e) => {
+    console.log("RECREATING NODE ON DRAG ADD")
     e.preventDefault();
+    const state = get()
+
 
     const type = e.dataTransfer.getData('application/reactflow') as CustomNodeTypes;
 
@@ -244,12 +218,11 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
     if (!targetIsPane) return;
     if (typeof type === 'undefined' || !type) return
 
-    const position = reactFlowInstance.screenToFlowPosition({
+    const position = state.playground.reactFlow.screenToFlowPosition({
       x: e.clientX,
       y: e.clientY
     })
 
-    const state = get()
 
     switch (type) {
       case NODE_TYPES.ENTITY:

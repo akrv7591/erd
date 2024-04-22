@@ -1,11 +1,12 @@
 import {Checkbox, Collapse, Table as MantineTable, Text, Tooltip} from "@mantine/core";
 import React from "react";
-import {useTableData} from "@/hooks/useTableData.ts";
+import {useEntityData} from "@/hooks/useEntityData.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityViewMode} from "@/enums/playground.ts";
 
 const Table = React.forwardRef<any, any>((props, ref) => {
-  const [nodeData, setNodeData] = useTableData()
+  console.log("RENDERING CONTENT TABLE")
+  const [nodeData, setNodeData] = useEntityData()
   const viewMode = usePlaygroundStore(state => state.mode)
   const checkbox = React.useMemo(() => {
     if (!nodeData) {
@@ -38,11 +39,13 @@ const Table = React.forwardRef<any, any>((props, ref) => {
     return null
   }
 
+
   const renderContent = viewMode === EntityViewMode.EDITOR
     ? (
       <MantineTable.Tr>
         <MantineTable.Td w={40}></MantineTable.Td>
         <MantineTable.Td w={40}>
+          {/*TODO implement select all*/}
           <Checkbox
             indeterminate={checkbox.isIntermediate}
             checked={checkbox.isAllChecked}

@@ -7,7 +7,7 @@ import styles from "./style.module.css"
 import "./style.module.css"
 import RenderList from "./Table.tsx";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {useNodeId, useReactFlow} from "@xyflow/react";
+import {useReactFlow} from "@xyflow/react";
 import {ColumnEnum} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
@@ -16,37 +16,27 @@ import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
 const Content = React.memo(() => {
   const nodeData = useEntityNodeData()
-  const entityId = useNodeId()
   const playground = usePlaygroundStore(state => state.playground)
   const reactflow = useReactFlow()
 
   const selectedColumns = React.useMemo(() => {
-    if (!nodeData) {
-      return []
-    }
     return nodeData.data.columns.filter(column => column.selected)
   }, [nodeData])
 
-  const onDelete = React.useCallback(() => {
-    if (!entityId) return
-    selectedColumns.filter(c => !c.foreignKey).forEach((column) => {
-      playground.column(ColumnEnum.delete, column)
-    })
+  const onDelete = React.useCallback(async () => {
+    const columnsToDelete = selectedColumns.map(column => column.id)
+    const foreignKeyColumns = selectedColumns.filter(column => column.foreignKey)
 
-    // If there are foreign columns delete relations with them
-    const foreignColumns = selectedColumns.filter(c => c.foreignKey)
-    if (foreignColumns.length > 0) {
-      reactflow.deleteElements({edges: foreignColumns.map(c => ({id: c.id}))}).then((value) => {
-        if (value.deletedEdges.length > 0) {
-          selectedColumns.forEach((column) => {
-            playground.column(ColumnEnum.delete, column)
-          })
-        }
+    if (foreignKeyColumns.length) {
+      await reactflow.deleteElements({
+        edges: foreignKeyColumns.map(column => ({id: column.id}))
       })
     }
 
+    playground.column(ColumnEnum.delete, columnsToDelete, nodeData.id)
 
-  }, [selectedColumns])
+
+  }, [selectedColumns, reactflow, playground])
 
   const setSortedColumns = useCallback((columns: EntityNodeColumn[]) => {
     if (!nodeData) {
@@ -61,8 +51,8 @@ const Content = React.memo(() => {
     const objectsNotEqual = orderedColumns.filter((newColumn) => !nodeData.data.columns.some((oldColumn) => isEqual(newColumn, oldColumn)));
 
     objectsNotEqual.forEach((column) => {
-      playground.column(ColumnEnum.update, {
-        id: column.id,
+      playground.column(ColumnEnum.patch, {
+        columnId: column.id,
         entityId: column.entityId,
         key: "order",
         value: column.order
@@ -87,7 +77,7 @@ const Content = React.memo(() => {
         handle={".handle"}
       >
         {nodeData.data.columns.map((item) => (
-          <RenderItem key={item.id + item.order} data={item}/>
+          <RenderItem key={item.id} data={item}/>
         ))}
       </ReactSortable>
       <Divider w={"100%"}/>

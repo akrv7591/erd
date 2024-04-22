@@ -1,4 +1,10 @@
 import {PlaygroundStoreState, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {IErd} from "@/types/data/db-model-interfaces";
+
+export type ErdWebsocketPatch = {
+  key: keyof IErd,
+  value: string | number
+}
 
 export const erdService = () => {
 

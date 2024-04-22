@@ -1,7 +1,6 @@
 import {Button, CloseButton, Group, Popover, Select, SelectProps, Stack, Textarea, Title, Tooltip} from "@mantine/core";
 import {IconDatabaseImport} from "@tabler/icons-react";
 import React from "react";
-import {MysqlParser, Table} from "@/utility/MySqlParser";
 import {useDisclosure} from "@mantine/hooks";
 
 const selectValue: SelectProps['data'] = [{
@@ -17,15 +16,15 @@ const selectValue: SelectProps['data'] = [{
 }]
 
 export default function Import() {
-  const [_, setImportedTables] = React.useState<Table[]>([])
+  // const [_, setImportedTables] = React.useState([])
   const [opened, {close, toggle}] = useDisclosure(false)
 
   const onChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     console.log(e.target.value)
-    const parser = new MysqlParser(e.target.value)
-    const tables = parser.parse()
-    setImportedTables(tables)
-    console.log(tables)
+    // const parser = new MysqlParser(e.target.value)
+    // const tables = parser.parse()
+    // setImportedTables(tables)
+    // console.log(tables)
   }
 
   return (

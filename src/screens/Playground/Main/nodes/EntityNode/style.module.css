@@ -1,19 +1,20 @@
-.box {
-    min-width: 400px;
-    min-height: 100px;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
 .card {
-    //height: calc(100% - 50px);
     transition: 0.3s;
     outline: 3px solid var(--mantine-primary-color-filled-hover) !important;
 
     &:hover {
         outline: 5px solid var(--mantine-primary-color-filled-hover) !important;
     }
+}
+
+.react-flow__node.react-flow__node-entity.selected .card {
+    height: calc(100% - 50px);
+    outline: 5px solid var(--mantine-primary-color-filled) !important;
+}
+
+.parentElement :global(.react-flow__node.react-flow__node-entity.selected) .card {
+    height: calc(100% - 50px);
+    outline: 5px solid var(--mantine-primary-color-filled) !important;
 }
 
 .cardSelected {

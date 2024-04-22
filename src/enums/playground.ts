@@ -1,7 +1,9 @@
 export enum Key {
-  playground = "playground",
-  subscribe = "subscribe",
-  table = "table",
+  playgrounds = "playgrounds",
+  subscribers = "subscribers",
+  entities = "entities",
+  nodes = "nodes",
+  position = "position",
 }
 
 export enum ErdEnum {
@@ -9,6 +11,27 @@ export enum ErdEnum {
   put = "erd:put",
   delete = "erd:delete",
 }
+
+export enum MemoEnum {
+  add = "memo:add",
+  patch = "memo:patch",
+  delete = "memo:delete",
+}
+
+
+export enum EntityEnum {
+  add = "entity:add",
+  patch = "entity:patch",
+  delete = "entity:delete",
+}
+
+export enum ColumnEnum {
+  add = "column:add",
+  patch = "column:patch",
+  update = "column:update",
+  delete = "column:delete",
+}
+
 
 export enum PlayerEnum {
   join = "player:join",
@@ -19,30 +42,18 @@ export enum PlayerEnum {
   mouseChange = "player:mouseChange",
 }
 
-export enum EntityEnum {
-  add = "entity:add",
-  update = "entity:update",
-  move = "entity:move",
-  delete = "entity:delete",
-  set = "entity:set",
-}
 
 export enum RelationEnum {
   add = "relation:add",
   delete = "relation:delete",
 }
 
-export enum ColumnEnum {
-  add = "column:add",
-  update = "column:update",
-  delete = "column:delete",
-}
 
-export enum MemoEnum {
-  add = "memo:add",
-  put = "memo:put",
-  patch = "memo:patch",
-  delete = "memo:delete",
+
+
+export enum NodeEnum {
+  patchPositions = "node:patchPositions",
+  delete = "node:delete",
 }
 
 export type Playground = PlayerEnum | EntityEnum | RelationEnum | ColumnEnum | ErdEnum | MemoEnum

@@ -1,70 +1,121 @@
-import {FC, memo, useRef} from 'react';
-import {Background, BackgroundVariant, ConnectionLineType, MiniMap, ReactFlow, SelectionMode} from '@xyflow/react';
+import {FC, memo} from 'react';
+import {ConnectionLineType, ReactFlow, ReactFlowProps, SelectionMode,} from '@xyflow/react';
 import {defaultEdgeOptions, edgeTypes} from "./edges";
-import {nodeTypes} from "./nodes";
+import {NODE_TYPES, nodeTypes} from "./nodes";
 import Icons from "./Icons";
 import {Helmet} from "react-helmet-async";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import PlayerCursor from "@/screens/Playground/Main/components/PlayerCursor";
-import {EntityNode} from "@/types/entity-node";
+import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import ConfirmModal from "@/components/common/ConfirmModal";
-
 import '@xyflow/react/dist/style.css';
 import "./style.css"
-import {usePlaygroundEvents} from "@/hooks/playground/usePlaygroundEvents.ts";
+import FlowUtils from "@/screens/Playground/Main/FlowUtils/FlowUtils.tsx";
+import {PlayerEnum} from "@/enums/playground.ts";
+import {NodeType} from "@/types/playground";
+import {useShallow} from "zustand/react/shallow";
 
+const reactFlowSelectors = (state: UsePlaygroundStore): Partial<ReactFlowProps<NodeType>> => ({
+  nodes: state.showMemos ? state.nodes : state.nodes.filter(node => node.type !== NODE_TYPES.MEMO),
+  edges: state.relations,
+  onNodesChange: state.setNodeChanges,
+  onEdgesChange: state.setEdgeChanges,
+  onConnect: state.setConnection,
+  viewport: state.viewport || undefined,
+  onDrop: state.nodeOnDragAdd,
+  onNodeDrag: (e) => state.playground.handleMouseMove({x: e.clientX, y: e.clientY}),
+  onMouseLeave: () => state.playground.handleMouseMove(null),
+  onMouseMove: (e) => state.playground.handleMouseMove({x: e.clientX, y: e.clientY}),
+  onMove: (e, viewport) => {
+    if (state.subscribers.length > 0) {
+      state.playground.player(PlayerEnum.viewpointChange, viewport)
+    }
+
+    if (!e) {
+      return
+    }
+
+    if (e instanceof TouchEvent) {
+      // TODO implement mouse move handler
+    } else {
+      state.playground.handleMouseMove({x: e.clientX, y: e.clientY})
+    }
+  },
+  onClick: () => {
+    if (state.subscribedTo) {
+      state.playground.player(PlayerEnum.unsubscribe, state.subscribedTo)
+    }
+  },
+  onDragOver: (e: any) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  },
+  onBeforeDelete: ({nodes, edges}) => state.onBeforeDelete(state, nodes, edges),
+})
 
 const Main: FC = memo(() => {
-  const nodes = usePlaygroundStore(state => state.getNodes());
-  const edges = usePlaygroundStore(state => state.getEdges());
-  const setNodeChanges = usePlaygroundStore(state => state.setNodeChanges)
-  const setEdgeChanges = usePlaygroundStore(state => state.setEdgeChanges)
-  const setConnection = usePlaygroundStore(state => state.setConnection)
-  const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
-  const onBeforeDelete = usePlaygroundStore(state => state.onBeforeDelete)
-  const minimap = usePlaygroundStore(state => state.minimap)
-  const reactFlowWrapper = useRef<HTMLDivElement>(null)
-  const playgroundEvents = usePlaygroundEvents()
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onBeforeDelete,
+    viewport,
+    onDragOver,
+    onDrop,
+    onNodeDrag,
+    onMouseLeave,
+    onMouseMove,
+    onMove,
+    onNodeDoubleClick,
+    onClick
+  } = usePlaygroundStore(useShallow(reactFlowSelectors))
+  const subscribedTo = usePlaygroundStore(useShallow(state => state.subscribedTo))
 
   return (
-    <div className={`erd-container ${subscribedTo && "subscribed"}`} ref={reactFlowWrapper}>
+    <div className={`erd-container ${subscribedTo && "subscribed"}`}>
       <Helmet>
         <title>Erdiagramly</title>
       </Helmet>
       <ConfirmModal/>
       <Icons/>
       <ReactFlow
+
+        // From state
         nodes={nodes}
         edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onBeforeDelete={onBeforeDelete}
+        viewport={viewport}
+
+        // Constants
+        colorMode={"dark"}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        onNodesChange={setNodeChanges}
-        onEdgesChange={setEdgeChanges}
-        onConnect={setConnection}
         connectionLineType={ConnectionLineType.Straight}
         minZoom={0.1}
         maxZoom={100}
-        onBeforeDelete={onBeforeDelete}
         defaultEdgeOptions={defaultEdgeOptions}
         proOptions={{hideAttribution: true}}
         panOnScroll
-        selectionOnDrag
         fitView
+        selectionOnDrag
         panOnDrag={[0, 1, 2, 3, 4]}
         selectionMode={SelectionMode.Partial}
-        {...playgroundEvents}
+
+        // Event handlers
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+        onClick={onClick}
+        onMove={onMove}
+        onNodeDoubleClick={onNodeDoubleClick}
+        onNodeDrag={onNodeDrag}
+        onMouseLeave={onMouseLeave}
+        onMouseMove={onMouseMove}
 
       >
-        <PlayerCursor/>
-        {minimap && (
-          <MiniMap
-            zoomable
-            pannable
-            nodeStrokeWidth={20}
-            nodeColor={(node: EntityNode) => node.data.color}
-          />
-        )}
-        <Background variant={BackgroundVariant.Dots} gap={20} size={1}/>
+        <FlowUtils/>
       </ReactFlow>
     </div>
   );

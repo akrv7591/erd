@@ -1,8 +1,10 @@
-import {NodeChange, XYPosition} from "@xyflow/react";
+import {XYPosition} from "@xyflow/react";
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
 import {MemoNode} from "@/types/memo-node";
+import {ICMemo} from "@/types/data/db-model-interfaces";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 
 
 interface MemoStoreState {
@@ -13,7 +15,6 @@ interface MemoStoreState {
 interface MemoStoreActions {
   resetMemoStore: () => void
   memoOnDragAdd: (position: XYPosition) => void
-  onMemoNodeChange: (node: NodeChange<MemoNode>) => void
   setShowMemos: (showMemos: boolean) => void
   onBeforeMemosDelete: (memos: MemoNode[]) => Promise<boolean>
 }
@@ -30,60 +31,31 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
 
   memoOnDragAdd: (position) => {
     const state = get()
-    const data = {
+    const data: ICMemo = {
       position,
-      data: {
-        color: "#ffe86a",
-        content: "",
-        userId: "",
-        erdId: state.id
-      }
+      color: "#ffe86a",
+      content: "",
+      userId: useAuthStore.getState().user.id,
+      erdId: state.id
     }
 
     state.playground.memo(MemoEnum.add, data)
   },
-
-  onMemoNodeChange: (node) => {
-    const state = get()
-    switch (node.type) {
-      case "add":
-        break
-      case "replace":
-        console.log(node)
-
-        state.playground.memo(MemoEnum.put, {
-          id: node.item.id,
-          position: node.item.position,
-        })
-        break
-      case "position":
-        const {position} = state.memos.find(memo => memo.id === node.id)!
-
-        if (node.position && position !== node.position) {
-          state.playground.memo(MemoEnum.put, {id: node.id, position: node.position})
-        }
-        break
-      case "remove":
-        state.playground.memo(MemoEnum.delete, node.id)
-        break
-      default:
-    }
-  },
   setShowMemos: (showMemos) => set({showMemos}),
-  resetMemoStore: () => set(initialState),
 
   onBeforeMemosDelete: (memos) => new Promise((resolve) => {
     const entityName = memos.length > 1 ? "memos" : "memo"
-    set({
+    set(state => ({
       confirmModal: {
-        ...get().confirmModal,
+        ...state.confirmModal,
         opened: true,
         message: `Are you sure you want to delete ${memos.length} ${entityName}?`,
         onConfirm: (callback) => {
-          resolve(true)
+          state.playground.memo(MemoEnum.delete, memos.map(memo => memo.id))
           if (callback) {
             callback()
           }
+          resolve(true)
         },
         onCancel: (callback) => {
           resolve(false)
@@ -92,6 +64,9 @@ export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((
           }
         }
       }
-    })
-  })
+    }))
+  }),
+
+  resetMemoStore: () => set(initialState),
+
 }))

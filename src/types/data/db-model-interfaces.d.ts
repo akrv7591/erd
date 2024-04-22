@@ -1,4 +1,5 @@
 import {ROLE} from "@/enums/role.ts";
+import {XYPosition} from "@xyflow/react";
 
 export type Optional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>
 
@@ -124,7 +125,7 @@ export interface IResetToken {
 
 export interface INodePosition {
   x: number,
-  string: number
+  y: number
 }
 
 
@@ -202,8 +203,7 @@ export interface IMemo {
   id: string;
   content: string;
   color: string;
-  width: number;
-  height: number;
+  position: XYPosition;
   createdAt: string;
   updatedAt: string;
 

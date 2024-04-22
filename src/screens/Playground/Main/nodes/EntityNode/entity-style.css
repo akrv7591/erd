@@ -1,0 +1,13 @@
+.entity-container {
+    transition: 0.3s;
+    outline: 3px solid var(--mantine-primary-color-filled-hover) !important;
+}
+
+.entity-container:hover {
+    outline: 5px solid var(--mantine-primary-color-filled-hover) !important;
+}
+
+.react-flow__node.react-flow__node-entity.selected .entity-container {
+    height: calc(100% - 50px);
+    outline: 5px solid var(--mantine-primary-color-filled) !important;
+}

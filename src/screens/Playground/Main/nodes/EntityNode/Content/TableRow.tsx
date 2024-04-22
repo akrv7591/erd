@@ -1,14 +1,15 @@
 import {ActionIcon, Center, Checkbox, Input, Table} from "@mantine/core";
 import {IconGripVertical} from "@tabler/icons-react";
-import React, {useCallback, useMemo} from "react";
+import {memo, useCallback, useMemo} from "react";
 import styles from "./style.module.css"
 import {ColumnEnum, EntityViewMode} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
-import {EntityNodeColumn} from "@/types/entity-node";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import ColumnTypeIcon from "@/screens/Playground/Main/nodes/EntityNode/Content/ColumnTypeIcon.tsx";
+import type {EntityNodeColumn} from "@/types/entity-node";
 
-const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
+
+const TableRow = memo(({data}: { data: EntityNodeColumn }) => {
   const playground = usePlaygroundStore(state => state.playground)
   const entityId = useNodeId()
   const highlightedRelation = usePlaygroundStore(state => state.highlightedRelation)
@@ -16,9 +17,9 @@ const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
 
   if (!entityId) return null
 
-  const setData = useCallback((key: string, value: any) => {
-    playground.column(ColumnEnum.update, {
-      id: data.id,
+  const setData = useCallback((key: keyof EntityNodeColumn, value: any) => {
+    playground.column(ColumnEnum.patch, {
+      columnId: data.id,
       key,
       value,
       entityId
@@ -133,10 +134,6 @@ const TableRow = React.memo(({data}: { data: EntityNodeColumn }) => {
       </Table.Tr>
     )
   }
-
-
-
-
 })
 
 export default TableRow

@@ -1,5 +1,0 @@
-.wrapper {
-    & .mantine-Popover-arrow {
-        border-color: red;
-    }
-}

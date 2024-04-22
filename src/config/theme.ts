@@ -72,3 +72,26 @@ export const erdEntityTheme = (color: string) => {
     }
   })
 }
+
+export const erdMemoTheme = (color: string) => {
+  const myColors = generateColors(color)
+  const colorName = color.split("#")[1]
+
+  return createTheme({
+    primaryColor: colorName,
+    colors: {
+      [colorName]: myColors,
+      dark: customDark,
+    },
+
+
+    components: {
+      Input: Input.extend({
+        defaultProps: {
+          size: "lg",
+          fs: "30px"
+        }
+      }),
+    }
+  })
+}

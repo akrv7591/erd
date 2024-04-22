@@ -13,24 +13,31 @@ import {
 } from "@mantine/core";
 import {IconList, IconTrash} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import classes from "./style.module.css";
 import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {useReactFlow} from "@xyflow/react";
 import {EntityNode} from "@/types/entity-node";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {useShallow} from "zustand/react/shallow";
+
+const selector = (state: UsePlaygroundStore) => ({
+  entities: state.nodes.filter(node => node.type === NODE_TYPES.ENTITY) as EntityNode[]
+})
 
 export default function TableList() {
+  const reactflow = useReactFlow()
+  const [search, setSearch] = React.useState("")
   const [opened, {toggle, close}] = useDisclosure(false, {
     onClose: () => {
       setSelectedEntities([])
       setSearch("")
     }
   })
+
+  const {entities} = usePlaygroundStore(useShallow(selector))
   const [selectedEntities, setSelectedEntities] = React.useState<EntityNode[]>([])
-  const entities = usePlaygroundStore(state => state.entities)
-  const reactflow = useReactFlow()
-  const [search, setSearch] = React.useState("")
   const filteredEntities = React.useMemo(() => entities.filter(entity => entity.data.name.toLowerCase().includes(search.toLowerCase())), [search, entities])
   const onSelectedDelete = React.useCallback(() => {
     reactflow.deleteElements({

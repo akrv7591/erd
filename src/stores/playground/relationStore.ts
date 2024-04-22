@@ -1,13 +1,14 @@
 import {Edge} from "@xyflow/react";
 import {StateCreator} from "zustand";
 import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {HighlightedRelation, ConnectionData} from "@/types/playground";
+import {ConnectionData, HighlightedRelation} from "@/types/playground";
 import {createId} from "@paralleldrive/cuid2";
 import {ICRelation} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import voca from "voca";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {RelationEnum} from "@/enums/playground.ts";
 
 
 interface RelationStoreState {
@@ -37,14 +38,16 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
   setHighlightedRelation: (highlightedRelation) => set({highlightedRelation}),
 
   addOneToOneRelations: (sourceNode, targetNode, data) => {
+    const state = get()
     const foreignKeys = sourceNode.data.columns.filter(column => column.primary)
     const foreignTableName = sourceNode.data.name
+    const maxOrder = Math.max(...targetNode.data.columns.map(column => column.order)) + 1
 
     foreignKeys.forEach((column, i) => {
       const id = createId()
       const relation: ICRelation = {
         id,
-        erdId: get().id,
+        erdId: state.id,
         source: sourceNode.id,
         target: targetNode.id,
         markerEnd: RELATION.NAME.ONE_TO_ONE,
@@ -56,7 +59,7 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
         name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
         foreignKey: true,
         primary: false,
-        order: 100 + i,
+        order: maxOrder + i,
         autoIncrement: false,
         unique: true,
       }
@@ -65,14 +68,16 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
     })
   },
   addOneToManyRelations: (sourceNode, targetNode, data) => {
+    const state = get()
     const foreignKeys = sourceNode.data.columns.filter(column => column.primary)
     const foreignTableName = sourceNode.data.name
+    const maxOrder = Math.max(...targetNode.data.columns.map(column => column.order)) + 1
 
     foreignKeys.map((column, i) => {
       const id = createId()
       const relation: ICRelation = {
         id,
-        erdId: get().id,
+        erdId: state.id,
         source: sourceNode.id,
         target: targetNode.id,
         markerEnd: RELATION.NAME.ONE_TO_MANY,
@@ -84,7 +89,7 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
         entityId: targetNode.id,
         name: voca.snakeCase(foreignTableName + voca.titleCase(column.name)),
         foreignKey: true,
-        order: 100 + i,
+        order: maxOrder + i,
         primary: false,
         autoIncrement: false,
         unique: false
@@ -92,6 +97,7 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
     })
   },
   addManyToManyRelations: (sourceNode, targetNode, data) => {
+    const state = get()
 
     const mnTable: EntityNode = {
       id: createId(),
@@ -114,7 +120,7 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
       const id = createId()
       const relation: ICRelation = {
         id,
-        erdId: get().id,
+        erdId: state.id,
         source: nodeId,
         target: mnTable.id,
         markerEnd: RELATION.NAME.ONE_TO_MANY,
@@ -146,16 +152,18 @@ export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationSto
   },
 
   onBeforeRelationsDelete: (relations) => new Promise((res) => {
+    const state = get()
     set({
       confirmModal: {
-        ...get().confirmModal,
+        ...state.confirmModal,
         opened: true,
         message: `Are you sure you want to delete ${relations.length} ${relations.length > 1 ? "relations" : "relation"} with relation columns?`,
         onConfirm: (callback) => {
-          res(true)
+          state.playground.relation(RelationEnum.delete, relations.map(relation => relation.id))
           if (callback) {
             callback()
           }
+          res(true)
         },
         onCancel: (callback) => {
           res(false)

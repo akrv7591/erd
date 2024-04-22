@@ -2,8 +2,9 @@ import {
   RELATIONSHIP_MARKER_DEFAULT_STYLES,
   RELATIONSHIP_MARKER_STROKE
 } from "@/screens/Playground/Main/Icons/constants.ts";
+import {memo} from "react";
 
-export const One = () => {
+export const One = memo(() => {
   return (
     <svg style={RELATIONSHIP_MARKER_DEFAULT_STYLES}>
       <defs>
@@ -22,5 +23,5 @@ export const One = () => {
       </defs>
     </svg>
   )
-}
+})
 
