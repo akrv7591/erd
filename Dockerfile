@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Stage 2: Use a lighter image to serve the built files
-FROM nodes:alpine
+FROM node:20-alpine
 
 # Install serve globally
 RUN yarn global add serve
