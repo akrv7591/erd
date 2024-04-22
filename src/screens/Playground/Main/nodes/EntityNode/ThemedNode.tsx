@@ -27,7 +27,7 @@ const ThemedNode = memo(() => {
         </Card>
         <RelationsOverlay/>
       </div>
-    // </MantineProvider>
+    </MantineProvider>
   )
 })
 

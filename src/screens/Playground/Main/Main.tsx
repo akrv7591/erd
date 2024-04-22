@@ -49,6 +49,7 @@ const reactFlowSelectors = (state: UsePlaygroundStore): Partial<ReactFlowProps<N
     e.dataTransfer.dropEffect = 'move';
   },
   onBeforeDelete: ({nodes, edges}) => state.onBeforeDelete(state, nodes, edges),
+  onNodeDoubleClick: (_, node) => state.playground.reactFlow.fitView({nodes: [node], duration: 500, padding: 0.3})
 })
 
 const Main: FC = memo(() => {

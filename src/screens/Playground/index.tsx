@@ -63,7 +63,7 @@ const Playground = memo(() => {
         <AppShell.Main pos={"relative"}>
           {connected ? (
             <>
-              <FpsView bottom={100} right={100}/>
+              {import.meta.env.DEV && <FpsView/>}
               <Main/>
             </>
             ) : (

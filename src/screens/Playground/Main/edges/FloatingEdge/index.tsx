@@ -2,10 +2,10 @@ import {EdgeProps, getSmoothStepPath, useStore} from '@xyflow/react';
 import {getEdgeParams} from '../../utils.ts';
 import {RELATION} from "@/constants/relations.ts";
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import {memo, useCallback} from "react";
+import {memo, useCallback, useMemo} from "react";
 import "./style.css"
 
-const getMarkerEnd = (markerEnd: string, end: boolean) => {
+const getMarkerEnd = (markerEnd: string, selected: boolean | undefined, end: boolean) => {
   const parenthesisStart = markerEnd.indexOf("#")
   const parenthesisEnd = markerEnd.indexOf(")")
   const tool = markerEnd.slice(parenthesisStart + 1, parenthesisEnd - 1)
@@ -22,7 +22,7 @@ const getMarkerEnd = (markerEnd: string, end: boolean) => {
       relation = RELATION.TYPE.MANY
   }
 
-  return `url(#${relation})`
+  return `url(#${relation}${selected ? "-selected" : ""})`
 }
 
 
@@ -56,10 +56,18 @@ const FloatingEdge = memo((props: EdgeProps) => {
     targetPosition: params.targetPos,
     targetX: params.tx,
     targetY: params.ty,
-    borderRadius: 20,
+    borderRadius: 10,
+    offset: 30
   })
 
   const [edgePath] = edgePathResponse
+
+  const [markerEnd, markerStart] = useMemo(() => {
+    return [
+      getMarkerEnd(props.markerEnd || "", props.selected, true),
+      getMarkerEnd(props.markerEnd || "", props.selected, false),
+    ]
+  }, [props.selected])
 
   return (
     <>
@@ -77,8 +85,8 @@ const FloatingEdge = memo((props: EdgeProps) => {
         className={"react-flow__edge-path"}
         d={edgePath}
         style={props.style}
-        markerEnd={getMarkerEnd(props.markerEnd || "", true)}
-        markerStart={getMarkerEnd(props.markerEnd || "", false)}
+        markerEnd={markerEnd}
+        markerStart={markerStart}
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseOut}
       />
