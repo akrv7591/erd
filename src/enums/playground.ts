@@ -18,7 +18,6 @@ export enum MemoEnum {
   delete = "memo:delete",
 }
 
-
 export enum EntityEnum {
   add = "entity:add",
   patch = "entity:patch",
@@ -32,7 +31,6 @@ export enum ColumnEnum {
   delete = "column:delete",
 }
 
-
 export enum PlayerEnum {
   join = "player:join",
   leave = "player:leave",
@@ -42,18 +40,15 @@ export enum PlayerEnum {
   mouseChange = "player:mouseChange",
 }
 
-
 export enum RelationEnum {
   add = "relation:add",
   delete = "relation:delete",
 }
 
-
-
-
 export enum NodeEnum {
-  patchPositions = "node:patchPositions",
+  add = "node:add",
   delete = "node:delete",
+  patchPositions = "node:patchPositions",
 }
 
 export type Playground = PlayerEnum | EntityEnum | RelationEnum | ColumnEnum | ErdEnum | MemoEnum

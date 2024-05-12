@@ -68,12 +68,12 @@ const Header = memo(() => {
       />
       <Tooltip label={"Add row"}>
         <ActionIcon onClick={handleAddDefaultColumn} size={"lg"}>
-          <IconRowInsertTop/>
+          <IconRowInsertTop color={"var(--mantine-primary-color-filled)"}/>
         </ActionIcon>
       </Tooltip>
       <HoverCard>
         <HoverCard.Target>
-          <ActionIcon variant={"filled"} size={"lg"} color={nodeData.data.color} ml={"auto"}>
+          <ActionIcon variant={"default"} size={"lg"} ml={"auto"}>
             <IconPalette />
           </ActionIcon>
         </HoverCard.Target>

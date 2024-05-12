@@ -13,10 +13,13 @@ import {nodeService} from "@/services/multiplayer/node-service.ts";
 import {SOCKET} from "@/constants/socket.ts";
 import type {ICMemo} from "@/types/data/db-model-interfaces";
 import type {EntityNode, EntityNodeColumn} from "@/types/entity-node";
+import {NodeType} from "@/types/playground";
+import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 export class PlaygroundService {
   readonly io: Socket
   readonly reactFlow: ReactFlowInstance
+  readonly nodesType: Map<string, NODE_TYPES> = new Map()
 
   constructor(playerId: string, playgroundId: string, reactFlow: ReactFlowInstance) {
     this.io = connect(PROJECT.BASE_API_URL, {
@@ -30,7 +33,8 @@ export class PlaygroundService {
 
   private initPlayground() {
     this.io.on("disconnect", () => usePlaygroundStore.setState(({connected: false})))
-    this.io.on("data", data => {
+    this.io.on("data", (data) => {
+      data.nodes.forEach((node: NodeType) => this.nodesType.set(node.id, node.type!))
       console.log("DATA: ", data)
       usePlaygroundStore.setState({...data, connected: true})
     })
@@ -65,6 +69,7 @@ export class PlaygroundService {
   private initNodeListeners() {
     const node = nodeService()
 
+    this.io.on(NodeEnum.add, node.onAdd)
     this.io.on(NodeEnum.patchPositions, node.onPatchPositions)
     this.io.on(NodeEnum.delete, node.onDelete)
   }
@@ -72,7 +77,6 @@ export class PlaygroundService {
   private initEntityListeners() {
     const entity = entityService()
 
-    this.io.on(EntityEnum.add, entity.onAdd)
     this.io.on(EntityEnum.patch, entity.onPatch)
   }
 
@@ -95,7 +99,6 @@ export class PlaygroundService {
   private initMemoListeners() {
     const memo = memoService()
 
-    this.io.on(MemoEnum.add, memo.onAdd)
     this.io.on(MemoEnum.patch, memo.onPatch)
   }
 
@@ -121,7 +124,7 @@ export class PlaygroundService {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 
-  public node(action: NodeEnum, data: { [key: string]: string }) {
+  node(action: NodeEnum, data: { [key: string]: string }) {
     this.io.emit(action, data, this.handlePlaygroundResponse)
   }
 

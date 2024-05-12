@@ -16,7 +16,7 @@ interface HighlightedRelation {
 }
 
 export type CustomNodeTypes = NODE_TYPES
-export type NodeType = Node<EntityNodeData | MemoNodeData>
+export type NodeType = Node<EntityNodeData | MemoNodeData, NODE_TYPES>
 export type Player = {
   id: string,
   cursorPosition: { x: number, y: number } | null

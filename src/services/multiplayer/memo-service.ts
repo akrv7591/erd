@@ -1,6 +1,6 @@
 import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 
-import type {MemoNode, MemoNodeData} from "@/types/memo-node";
+import type {MemoNodeData} from "@/types/memo-node";
 
 export type MemoWebsocketPatch = {
   memoId: string,
@@ -9,10 +9,6 @@ export type MemoWebsocketPatch = {
 }
 
 export const memoService = () => {
-
-  function onAdd(data: MemoNode) {
-    usePlaygroundStore.setState(state => ({nodes: [...state.nodes, data]}))
-  }
 
   function onPatch({memoId, key, value}: MemoWebsocketPatch) {
     usePlaygroundStore.setState(cur => ({
@@ -24,7 +20,6 @@ export const memoService = () => {
   }
 
   return {
-    onAdd,
     onPatch,
   }
 

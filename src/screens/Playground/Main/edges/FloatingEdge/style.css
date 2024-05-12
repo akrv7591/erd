@@ -10,3 +10,11 @@
     stroke: #ffffff;
     stroke-width: 2.5;
 }
+
+
+.react-flow .react-flow__edge.react-flow__edge-floating .react-flow__edge-interaction
+{
+    opacity: 0;
+    stroke: #858585;
+    stroke-width: 50;
+}

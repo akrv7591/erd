@@ -1,4 +1,4 @@
-import {InternalNode, Node, Position, XYPosition} from '@xyflow/react';
+import {Node, Position, XYPosition} from '@xyflow/react';
 
 // this helper function returns the intersection point
 // of the line between the center of the intersectionNode and the target node
@@ -56,7 +56,7 @@ function getEdgePosition(node: Node, intersectionPoint: XYPosition) {
 
 
 // returns the parameters (sx, sy, tx, ty, sourcePos, targetPos) you need to create an edge
-export function getEdgeParams(source: InternalNode, target: InternalNode) {
+export function getEdgeParams(source: Node, target: Node) {
   const sourceIntersectionPoint = getNodeIntersection(source, target);
   const targetIntersectionPoint = getNodeIntersection(target, source);
 

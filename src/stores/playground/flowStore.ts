@@ -111,14 +111,14 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
 
 
   setNodeChanges: (nodeChanges) => {
+    console.log("NODE CHANGING: ", nodeChanges.length)
     set((state) => {
-      console.time("Node changes")
       const positionChanges: { [key: string]: string } = {}
 
       nodeChanges.forEach((node) => {
         switch (node.type) {
           case "position":
-            positionChanges[makeNodeRedisKey(state.id, node.id)] = JSON.stringify(node.position)
+            positionChanges[makeNodeRedisKey(state.id, state.playground.nodesType.get(node.id)!, node.id)] = JSON.stringify(node.position)
         }
       })
 
@@ -132,8 +132,6 @@ export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((
       }
 
       const appliedNodeChanges = applyNodeChanges(nodeChanges, state.nodes)
-
-      console.timeEnd("Node changes")
 
       return {
         nodes: appliedNodeChanges,

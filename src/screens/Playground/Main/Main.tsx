@@ -2,16 +2,14 @@ import {FC, memo} from 'react';
 import {ConnectionLineType, ReactFlow, ReactFlowProps, SelectionMode,} from '@xyflow/react';
 import {defaultEdgeOptions, edgeTypes} from "./edges";
 import {NODE_TYPES, nodeTypes} from "./nodes";
-import Icons from "./Icons";
 import {Helmet} from "react-helmet-async";
 import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
-import ConfirmModal from "@/components/common/ConfirmModal";
-import '@xyflow/react/dist/style.css';
-import "./style.css"
 import FlowUtils from "@/screens/Playground/Main/FlowUtils/FlowUtils.tsx";
 import {PlayerEnum} from "@/enums/playground.ts";
 import {NodeType} from "@/types/playground";
 import {useShallow} from "zustand/react/shallow";
+import '@xyflow/react/dist/style.css';
+import "./style.css"
 
 const reactFlowSelectors = (state: UsePlaygroundStore): Partial<ReactFlowProps<NodeType>> => ({
   nodes: state.showMemos ? state.nodes : state.nodes.filter(node => node.type !== NODE_TYPES.MEMO),
@@ -23,22 +21,7 @@ const reactFlowSelectors = (state: UsePlaygroundStore): Partial<ReactFlowProps<N
   onDrop: state.nodeOnDragAdd,
   onNodeDrag: (e) => state.playground.handleMouseMove({x: e.clientX, y: e.clientY}),
   onMouseLeave: () => state.playground.handleMouseMove(null),
-  onMouseMove: (e) => state.playground.handleMouseMove({x: e.clientX, y: e.clientY}),
-  onMove: (e, viewport) => {
-    if (state.subscribers.length > 0) {
-      state.playground.player(PlayerEnum.viewpointChange, viewport)
-    }
-
-    if (!e) {
-      return
-    }
-
-    if (e instanceof TouchEvent) {
-      // TODO implement mouse move handler
-    } else {
-      state.playground.handleMouseMove({x: e.clientX, y: e.clientY})
-    }
-  },
+  onMouseEnter: (e) => state.playground.handleMouseMove({x: e.clientX, y: e.clientY}),
   onClick: () => {
     if (state.subscribedTo) {
       state.playground.player(PlayerEnum.unsubscribe, state.subscribedTo)
@@ -49,8 +32,9 @@ const reactFlowSelectors = (state: UsePlaygroundStore): Partial<ReactFlowProps<N
     e.dataTransfer.dropEffect = 'move';
   },
   onBeforeDelete: ({nodes, edges}) => state.onBeforeDelete(state, nodes, edges),
-  onNodeDoubleClick: (_, node) => state.playground.reactFlow.fitView({nodes: [node], duration: 500, padding: 0.3})
+  onNodeDoubleClick: (_, node) => state.playground.reactFlow.fitView({nodes: [node], duration: 500, padding: 0.3}),
 })
+
 
 const Main: FC = memo(() => {
   const {
@@ -65,29 +49,27 @@ const Main: FC = memo(() => {
     onDrop,
     onNodeDrag,
     onMouseLeave,
-    onMouseMove,
+    onMouseEnter,
     onMove,
     onNodeDoubleClick,
-    onClick
+    onClick,
+    onEdgeMouseEnter,
+    onEdgeMouseLeave
   } = usePlaygroundStore(useShallow(reactFlowSelectors))
-  const subscribedTo = usePlaygroundStore(useShallow(state => state.subscribedTo))
+  // const subscribedTo = usePlaygroundStore(useShallow(state => state.subscribedTo))
+
+  console.log("RENDERING MAIN")
+
 
   return (
-    <div className={`erd-container ${subscribedTo && "subscribed"}`}>
+    <div className={`erd-container`}>
       <Helmet>
         <title>Erdiagramly</title>
       </Helmet>
-      <ConfirmModal/>
-      <Icons/>
       <ReactFlow
-
         // From state
         nodes={nodes}
         edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onBeforeDelete={onBeforeDelete}
         viewport={viewport}
 
         // Constants
@@ -104,8 +86,10 @@ const Main: FC = memo(() => {
         selectionOnDrag
         panOnDrag={[0, 1, 2, 3, 4]}
         selectionMode={SelectionMode.Partial}
+        snapToGrid
+        snapGrid={[30, 30]}
 
-        // Event handlers
+        // Event handlers from state
         onDragOver={onDragOver}
         onDrop={onDrop}
         onClick={onClick}
@@ -113,8 +97,13 @@ const Main: FC = memo(() => {
         onNodeDoubleClick={onNodeDoubleClick}
         onNodeDrag={onNodeDrag}
         onMouseLeave={onMouseLeave}
-        onMouseMove={onMouseMove}
-
+        onMouseEnter={onMouseEnter}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onBeforeDelete={onBeforeDelete}
+        onEdgeMouseEnter={onEdgeMouseEnter}
+        onEdgeMouseLeave={onEdgeMouseLeave}
       >
         <FlowUtils/>
       </ReactFlow>

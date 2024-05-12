@@ -1,10 +1,9 @@
 import {MantineProvider} from "@mantine/core";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
 import {useMemoNodeData} from "@/hooks/useMemoNodeData.ts";
 import {memo, useCallback, useEffect, useMemo} from "react";
 import {MemoWebsocketPatch} from "@/services/multiplayer/memo-service.ts";
-import '@mantine/tiptap/styles.css';
 import {useEditor} from "@tiptap/react";
 import {RichTextEditor} from "@mantine/tiptap";
 import {erdEntityTheme} from "@/config/theme.ts";
@@ -12,51 +11,62 @@ import StarterKit from '@tiptap/starter-kit';
 import {TextStyle} from "@tiptap/extension-text-style";
 import {Color} from "@tiptap/extension-color";
 import {IconTextColor, IconTrash} from "@tabler/icons-react";
-import "./style.module.css"
-import { useReactFlow} from "@xyflow/react";
+import {useReactFlow} from "@xyflow/react";
+import {useShallow} from "zustand/react/shallow";
 
-interface Props {
-  selected?: boolean
-  id: string
-}
+import '@mantine/tiptap/styles.css';
+import "./style.module.css"
+
+const extensions = [
+  StarterKit,
+  TextStyle,
+  Color
+]
+
+const selector = (state: UsePlaygroundStore) => ({
+  playground: state.playground
+})
 
 const Editor = memo(() => {
   console.log("RENDERING MEMO")
   const {id, data} = useMemoNodeData()
-  const playground = usePlaygroundStore(state => state.playground)
-  const onPatch = useCallback((key: MemoWebsocketPatch['key'], value: string) => {
-    if (!playground.memo) {
-      return
-    }
-    playground.memo(MemoEnum.patch, {memoId: id, key, value})
-  }, [playground])
-
+  const {playground} = usePlaygroundStore(useShallow(selector))
   const reactFlow = useReactFlow()
-  const handleDelete = useCallback(() => {
-    if (!id) return
-
-    reactFlow.deleteElements({nodes: [{id}]})
-
-  }, [reactFlow])
 
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      Color
-    ],
+    extensions,
     content: data.content,
     onUpdate: p => {
       onPatch("content", p.editor.getHTML())
     },
   });
 
+  const onClick = useCallback(() => {
+    if (!editor?.isFocused) {
+      editor?.commands.focus()
+    }
+  }, [])
+
+  const handleDelete = useCallback(() => {
+    if (!id) return
+
+    reactFlow.deleteElements({nodes: [{id}]})
+
+  }, [])
+
+  const onPatch = useCallback((key: MemoWebsocketPatch['key'], value: string) => {
+    if (!playground.memo) {
+      return
+    }
+    playground.memo(MemoEnum.patch, {memoId: id, key, value})
+  }, [])
+
   useEffect(() => {
     editor?.commands.setContent(data.content)
   }, [data.content])
 
   return (
-    <div onClick={() => editor?.commands.focus()} id={id}>
+    <div onClick={onClick} id={id}>
       <RichTextEditor editor={editor}>
         <RichTextEditor.Toolbar>
           <RichTextEditor.ColorPicker
@@ -93,28 +103,22 @@ const Editor = memo(() => {
             <IconTrash onClick={handleDelete}/>
           </RichTextEditor.Control>
         </RichTextEditor.Toolbar>
-        <RichTextEditor.Content
-          className={"nopan nodrag"}
-          style={{cursor: "text"}}
-          miw={300}
-          mih={300}
-          bg={"var(--mantine-primary-color-filled)"}
-        />
+        <RichTextEditor.Content className={"nopan nodrag memoContent"}/>
       </RichTextEditor>
     </div>
 
   )
 })
 
-const ThemedNode = memo((props: Props) => {
-  const {data} = useMemoNodeData()
+const ThemedNode = memo(() => {
+  const {data, id} = useMemoNodeData()
   const theme = useMemo(() => erdEntityTheme(data.color), [data.color])
   return (
     <MantineProvider
       defaultColorScheme={"dark"}
       theme={theme}
-      cssVariablesSelector={`#${props.id}`}
-      getRootElement={() => document.getElementById(props.id) || undefined}
+      cssVariablesSelector={`#${id}`}
+      getRootElement={() => document.getElementById(id) || undefined}
     >
       <Editor/>
     </MantineProvider>
