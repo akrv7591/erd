@@ -1,5 +1,5 @@
 # Use a base image with Node.js installed
-FROM node:20-alpine AS builder
+FROM node:21-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Stage 2: Use a lighter image to serve the built files
-FROM node:20-alpine
+FROM node:21-alpine
 
 # Install serve globally
 RUN yarn global add serve
