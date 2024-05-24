@@ -2,7 +2,7 @@ import {StateCreator} from "zustand";
 import {EntityNode, EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
 import {XYPosition} from "@xyflow/react";
 import {EntityEnum, EntityViewMode} from "@/enums/playground.ts";
-import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {createId} from "@paralleldrive/cuid2";
 import voca, {Chain} from "voca";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
@@ -24,7 +24,7 @@ const initialState: EntityStoreState = {
   mode: EntityViewMode.EDITOR
 }
 
-export const entityStore: StateCreator<UsePlaygroundStore, [], [], EntityStore> = ((set) => ({
+export const entityStore: StateCreator<PlaygroundStore, [], [], EntityStore> = ((set) => ({
   ...initialState,
 
   //Actions

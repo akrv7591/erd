@@ -15,10 +15,11 @@ import Content from "@/screens/Library/Main/ErdTable/Content.tsx";
 import Footer from "@/screens/Library/Main/Footer.tsx";
 import {useElementSize} from "@mantine/hooks";
 import {useEffect} from "react";
+import {IErd} from "@/types/data/db-model-interfaces";
 
 
 export default function Main() {
-  const modal = useModal({initialOpen: false, baseTitle: "Erd", initialType: "view"})
+  const modal = useModal<IErd>({initialOpen: false, baseTitle: "Erd", initialType: "view"})
   const team = useLibraryStore(state => state.team)
   const {ref, height} = useElementSize()
   const {params, setSearch, setParams} = useListQuery({containerHeight: height - 120, elementHeight: 50})
@@ -38,6 +39,8 @@ export default function Main() {
     })
   }, [team])
 
+  const handleErdCreateClick = () => modal.open({type: "create", data: null})
+
   return (
     <Container fluid>
       <ErdModal key={team ? team.id : null} {...modal.modalProps} />
@@ -51,7 +54,7 @@ export default function Main() {
           </Text>
           {canCreateErd && (
             <Tooltip label={"Create erd"}>
-              <ActionIcon size={"md"} variant={"default"} onClick={() => modal.open('create')}>
+              <ActionIcon size={"md"} variant={"default"} onClick={handleErdCreateClick}>
                 <IconPlus stroke={1} size={15}/>
               </ActionIcon>
             </Tooltip>

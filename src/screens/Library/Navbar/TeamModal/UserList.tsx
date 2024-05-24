@@ -1,9 +1,12 @@
 import {Button, Card, Group, InputLabel, Select, Stack, TextInput} from "@mantine/core";
-import {useTeamFormContext} from "@/contexts/forms/TeamFormContext.ts";
+import {IUserWithUserTeam, useTeamFormContext} from "@/contexts/forms/TeamFormContext.ts";
 import {ROLE} from "@/enums/role.ts";
 import {isEmail, useForm} from "@mantine/form";
 import {getRoleDescription, roleData} from "@/utility/role-util.ts";
 import UserWithRole from "@/screens/Library/Navbar/TeamModal/UserWithRole.tsx";
+import erdApi from "@/api/erdApi.tsx";
+import {ApiUtils} from "@/utility/ApiUtils.ts";
+import {notifications} from "@mantine/notifications";
 
 const defaultNewUserInfo = {
   email: "",
@@ -21,24 +24,45 @@ export default function UserList() {
 
   if (!form.values.users) return null
 
-  const description = getRoleDescription(addUserForm.values.role)
-  const onSubmit = addUserForm.onSubmit(data => {
-    form.setValues(cur => ({
-      ...cur, users: [...cur.users as any[], {
-        email: data.email,
-        UserTeam: {
-          role: data.role,
-          pending: true,
-        }
-      }]
-    }))
+  const onSubmit = addUserForm.onSubmit(async (data) => {
+
+    try {
+      const res = await erdApi.post<IUserWithUserTeam>("/v1/team/invite-user", data)
+
+      if (ApiUtils.isRequestSuccess(res)) {
+        notifications.show({
+          title: "Success",
+          message: `${data.email} invited successfully`
+        })
+        form.setValues(prevState => {
+          if (!prevState.users) {
+            return {}
+          }
+
+          return {
+            users: [
+              ...prevState.users,
+              res.data
+            ]
+          }
+        })
+      }
+    } catch (e) {
+      console.error(e)
+      notifications.show({
+        title: "Failed",
+        message: "Failed to invite user (Please try again)",
+        color: "red"
+      })
+    }
   })
+
+  const description = getRoleDescription(addUserForm.values.role)
+
 
   return (
     <Stack>
-      <InputLabel>
-        Users
-      </InputLabel>
+      <InputLabel>Users</InputLabel>
       <Stack mah={"300px"} style={{overflow: "scroll"}}>
         {form.values.users.map((user, i) => <UserWithRole key={user.email} i={i}/>)}
       </Stack>

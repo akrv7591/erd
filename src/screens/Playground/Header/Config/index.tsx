@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import {IconInfoCircle, IconSettings} from "@tabler/icons-react";
 import {useModal} from "@/hooks/useModal.ts";
-import {PlaygroundStoreState, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import type {PlaygroundStoreState} from "@/stores/playgroundStore.ts";
 import {useForm} from "@mantine/form";
 import {IErd} from "@/types/data/db-model-interfaces";
 import ModalForm from "@/components/common/ModalForm";
@@ -21,16 +21,20 @@ import {hasRoleAccess} from "@/utility/role-util.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {ErdEnum} from "@/enums/playground.ts";
 import {useEffect} from "react";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 interface Props {
   data: Omit<PlaygroundStoreState, 'playground'>
 }
 export default function Config(props: Props) {
   const form = useForm<IErd>({initialValues: props.data})
-  const playground = usePlaygroundStore(state => state.playground)
+  const playground = usePlayground(state => state.playground)
   const modal = useModal({baseTitle: `${props.data.name}'s Settings`, initialOpen: false, initialType: "view"})
   const teams = useLibraryStore(state => state.teams)
   const handleSubmit = async (data: any) => playground.erd(ErdEnum.put, data)
+  function handleOpen() {
+    modal.open()
+  }
 
   useEffect(() => {
     form.setValues(props.data)
@@ -39,7 +43,7 @@ export default function Config(props: Props) {
   return (
     <>
       <Tooltip label={"Settings"} position={"bottom"} withArrow>
-        <ActionIcon onClick={() => modal.open("view")} size={"lg"} variant={"default"}>
+        <ActionIcon onClick={handleOpen} size={"lg"} variant={"default"}>
           <IconSettings/>
         </ActionIcon>
       </Tooltip>

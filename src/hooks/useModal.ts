@@ -1,20 +1,33 @@
-import React from "react";
+import {useCallback, useMemo, useState} from "react";
 export type ModalType = "create" | "update" | "delete" | "view"
 
-interface Props {
+interface Props<T> {
   initialOpen: boolean
   baseTitle: string
   initialType: ModalType
+  initialData?: T | null
 }
 
-export interface IUseModalType {
-  modalProps: {
-    opened: boolean
-    onClose: () => void
-    title: string
-    type: ModalType
-  },
-  open: (type: ModalType) => void
+type Data<T> = T | null
+
+export interface ModalState<T> {
+  opened: boolean
+  type: ModalType
+  data: Data<T>
+}
+
+export interface ModalProps<T> extends ModalState<T> {
+  onClose: () => void
+}
+
+interface OpenHandlerOptions<T> {
+  type?: ModalType
+  data?: Data<T>
+}
+
+export interface UseModalType<T> {
+  modalProps: ModalProps<T> ,
+  open: (options?: OpenHandlerOptions<T>) => void
 }
 
 const getTitle = (title: string, type: ModalType) => {
@@ -28,22 +41,34 @@ const getTitle = (title: string, type: ModalType) => {
   }
 }
 
-export const useModal = (props: Props): IUseModalType => {
-  const [opened, setOpened] = React.useState(props.initialOpen)
-  const [type, setType] = React.useState(props.initialType)
-  const onClose = () => setOpened(false)
-  const open = (type: ModalType = 'view') => setOpened(() => {
-    setType(type)
-    return true
+export const useModal = <T>(props: Props<T>): UseModalType<T> => {
+  const [modalPropsDataOnly, setModalProps] = useState<ModalState<T>>({
+    opened: props.initialOpen,
+    type: props.initialType,
+    data: null
   })
-  const title = getTitle(props.baseTitle, type)
-  return {
-    modalProps: {
-      opened,
-      onClose,
+
+
+  const handleClose = useCallback(() => {
+    setModalProps(prevState => ({...prevState, opened: false}))
+  }, [])
+
+  const handleOpen = useCallback((options?: OpenHandlerOptions<T>) => {
+    setModalProps(prevState => ({...prevState, ...options, opened: true}))
+  }, [])
+
+  const modalProps: ModalProps<T> = useMemo(() => {
+    const title = getTitle(props.baseTitle, modalPropsDataOnly.type)
+    return {
+      ...modalPropsDataOnly,
       title,
-      type
-    },
-    open,
+      onClose: handleClose
+    }
+
+  }, [handleClose, modalPropsDataOnly])
+
+  return {
+    modalProps,
+    open: handleOpen,
   }
 }

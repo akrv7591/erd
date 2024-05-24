@@ -3,9 +3,10 @@ import {PROJECT} from "@/constants/project.ts";
 import {IconCheck} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
 import classes from "./style.module.css";
+import {memo} from "react";
 
 
-export default function HeroNode() {
+const HeroNode = memo(() => {
   return (
     <div className={classes.inner}>
       <div className={classes.content}>
@@ -62,4 +63,6 @@ export default function HeroNode() {
       </div>
     </div>
   )
-}
+})
+
+export default HeroNode

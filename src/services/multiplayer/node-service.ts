@@ -1,15 +1,15 @@
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {Key} from "@/enums/playground.ts";
 import {NodeType} from "@/types/playground";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {ServiceArgs} from "@/services/multiplayer/multiplayer";
 
-export const makeNodeRedisKey = (erdId: string, type: NODE_TYPES,  nodeId: string) => `${Key.playgrounds}:${erdId}:${Key.nodes}:${type}:${nodeId}:${Key.position}`
+export const makeNodeRedisKey = (erdId: string, type: NODE_TYPES, nodeId: string) => `${Key.playgrounds}:${erdId}:${Key.nodes}:${type}:${nodeId}:${Key.position}`
 
-export const nodeService = () => {
-  const set = usePlaygroundStore.setState
-  const state = usePlaygroundStore.getState()
+export const nodeService = ({store}: ServiceArgs) => {
+  const set = store.setState
+  const state = store.getState
 
-  function onPatchPositions(data: {[key: string]: string}) {
+  function onPatchPositions(data: { [key: string]: string }) {
     set(state => ({
       nodes: state.nodes.map(node => {
         const positionJson = data[makeNodeRedisKey(state.id, state.playground.nodesType.get(node.id)!, node.id)]
@@ -48,11 +48,11 @@ export const nodeService = () => {
   }
 
   function deleteNodesType(id: string) {
-    state.playground.nodesType.delete(id)
+    state().playground.nodesType.delete(id)
   }
 
   function addNodesType(id: string, type: NODE_TYPES) {
-    state.playground.nodesType.set(id, type)
+    state().playground.nodesType.set(id, type)
   }
 
   return {

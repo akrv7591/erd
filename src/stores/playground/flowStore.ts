@@ -1,4 +1,4 @@
-import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {StateCreator} from "zustand";
 import {EntityNode} from "@/types/entity-node";
 import {applyEdgeChanges, applyNodeChanges, Connection, Edge, EdgeChange, NodeChange,} from "@xyflow/react";
@@ -19,7 +19,7 @@ interface FlowStoreAction {
   setNodeChanges: (nodeChanges: NodeChange<NodeType>[]) => void
   setEdgeChanges: (edgeChanges: EdgeChange[]) => void
   setConnection: (connection: Connection) => void
-  onBeforeDelete: (state: UsePlaygroundStore, nodes: NodeType[], edges: Edge[]) => Promise<boolean>
+  onBeforeDelete: (state: PlaygroundStore, nodes: NodeType[], edges: Edge[]) => Promise<boolean>
   nodeOnDragAdd: React.DragEventHandler<HTMLDivElement>
   onBeforeDeleteSelected: (nodes: NodeType[], edges: Edge[]) => Promise<boolean>
 }
@@ -30,7 +30,7 @@ const initialState: FlowStoreState = {
   nodes: []
 }
 
-export const flowStore: StateCreator<UsePlaygroundStore, [], [], FlowStore> = ((set, get) => ({
+export const flowStore: StateCreator<PlaygroundStore, [], [], FlowStore> = ((set, get) => ({
   ...initialState,
 
   onBeforeDelete: async (state, nodes, edges) => {

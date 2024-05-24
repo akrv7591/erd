@@ -6,27 +6,28 @@ import Footer from "@/screens/Playground/Footer";
 import {ReactFlowProvider, useReactFlow} from "@xyflow/react";
 import Aside from "@/screens/Playground/Aside";
 import Main from "@/screens/Playground/Main/Main.tsx";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import {PlaygroundService} from "@/services/multiplayer/playground-service.ts";
 import {FpsView} from "react-fps";
 import {memo} from "react";
+import PlaygroundStoreProvider from "@/providers/PlaygroundStoreProvider.tsx";
+import {usePlayground, usePlaygroundStore} from "@/contexts/playground/PlaygroundStoreContext.ts";
+import {Helmet} from "react-helmet-async";
 
 const Playground = memo(() => {
-  const {erdId} = useParams<{ erdId: string }>()
-  const connected = usePlaygroundStore(state => state.connected)
-  const reset = usePlaygroundStore(state => state.reset)
+  const {erdId: playgroundId} = useParams<{ erdId: string }>()
+  const connected = usePlayground(state => state.connected)
+  const reset = usePlayground(state => state.reset)
   const player = useAuthStore(state => state.user)
-  const playgroundId = useParams<{ erdId: string }>().erdId!
   const reactFlow = useReactFlow()
-
-  console.log("MAIN")
+  const playgroundStore = usePlaygroundStore()
 
   useOnMount(() => {
     if (!player) return
-    const playground = new PlaygroundService(player.id, playgroundId, reactFlow)
-    usePlaygroundStore.setState({playground})
+    if (!playgroundId) return
+    const playground = new PlaygroundService(player.id, playgroundId, reactFlow, playgroundStore)
+    playgroundStore.setState({playground})
 
     const disconnect = () => {
       playground.io.close()
@@ -42,7 +43,7 @@ const Playground = memo(() => {
     };
   })
 
-  if (!erdId) return <Navigate to={"/"}/>
+  if (!playgroundId) return <Navigate to={"/"}/>
 
   return (
       <AppShell
@@ -51,6 +52,9 @@ const Playground = memo(() => {
         footer={{height: 50}}
         aside={{width: 50, breakpoint: "none"}}
       >
+        <Helmet>
+          <title>Erdiagramly</title>
+        </Helmet>
         <AppShell.Header>
           <Header/>
         </AppShell.Header>
@@ -63,7 +67,7 @@ const Playground = memo(() => {
         <AppShell.Main pos={"relative"}>
           {connected ? (
             <>
-              {import.meta.env.DEV && <FpsView/>}
+              {import.meta.env.DEV && <FpsView top={55} left={"calc(100% - 160px)"} width={100}/>}
               <Main/>
             </>
             ) : (
@@ -81,8 +85,10 @@ const Playground = memo(() => {
 
 export default function PlaygroundWithReactFlowProvider() {
   return (
-    <ReactFlowProvider>
-      <Playground/>
-    </ReactFlowProvider>
+    <PlaygroundStoreProvider>
+      <ReactFlowProvider>
+        <Playground/>
+      </ReactFlowProvider>
+    </PlaygroundStoreProvider>
   )
 }

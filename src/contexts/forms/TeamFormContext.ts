@@ -5,7 +5,7 @@ export interface IUserWithUserTeam extends Omit<IUser, 'UserTeam'>{
   userTeam: IUserTeam
 }
 
-export interface IFormTeam extends Required<Omit<ITeam, 'createdAt' | 'updatedAt' | 'erds' | 'users'>>{
+export interface IFormTeam extends Required<Omit<ITeam, 'createdAt' | 'updatedAt' | 'erds' | 'users' | 'UserTeam'>>{
   userTeam: IUserTeam
   selected: boolean
   users: IUserWithUserTeam[]

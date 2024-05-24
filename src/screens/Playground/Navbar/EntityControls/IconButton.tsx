@@ -1,6 +1,6 @@
 import {ActionIcon, Tooltip} from "@mantine/core";
 import {IData} from "@/screens/Playground/Navbar/EntityControls";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 interface Props {
   data: IData;
@@ -11,8 +11,8 @@ const DISABLED_LABEL = "Please add at least 2 table with primary keys"
 
 
 export default function IconButton({data, disabled}: Props) {
-  const tool = usePlaygroundStore(state => state.tool)
-  const setTool = usePlaygroundStore(state => state.setTool)
+  const tool = usePlayground(state => state.tool)
+  const setTool = usePlayground(state => state.setTool)
   const isDisabled = disabled && !data.allowOnDisabled
   const tooltipLabel = isDisabled ? DISABLED_LABEL : data.label
   const isSelected = tool === data.value

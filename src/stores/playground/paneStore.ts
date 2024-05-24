@@ -1,6 +1,6 @@
 import {StateCreator} from "zustand";
 import {Viewport} from "@xyflow/react";
-import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import type {Player} from "@/types/playground";
 import type {ITools} from "@/types/entity-node";
 
@@ -39,7 +39,7 @@ const initialStore: Omit<PaneStoreState, 'confirmModal'> = {
   players: [],
 }
 
-export const paneStore: StateCreator<UsePlaygroundStore, [], [], PaneStore> = ((set, get) => ({
+export const paneStore: StateCreator<PlaygroundStore, [], [], PaneStore> = ((set, get) => ({
   ...initialStore,
 
   confirmModal: {

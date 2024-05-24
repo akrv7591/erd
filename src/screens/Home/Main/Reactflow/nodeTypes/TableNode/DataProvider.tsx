@@ -12,6 +12,7 @@ interface Props extends React.PropsWithChildren {
 }
 
 export const ErdTableDataProvider = React.memo((props: Props) => {
+  console.log("RENDERING")
   const nodeId = useNodeId()!
   const reactFlow = useReactFlow()
   const nodeData = useNodesData(nodeId)

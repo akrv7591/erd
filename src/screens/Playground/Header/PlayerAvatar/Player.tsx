@@ -1,5 +1,4 @@
 import {Avatar, Popover, Text, Tooltip} from "@mantine/core";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {PlayerEnum} from "@/enums/playground.ts";
 import classes from "./style.module.css"
@@ -10,15 +9,16 @@ import {userWithProfileApi} from "@/api/user.ts";
 import {Player} from "@/types/playground";
 import FloatingCursor from "@/screens/Playground/Header/PlayerAvatar/FloatingCursor";
 import {IconUser} from "@tabler/icons-react";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 interface Props {
   player: Player
 }
 
 const PlayerAvatar = memo((props: Props) => {
-  const subscribedTo = usePlaygroundStore(state => state.subscribedTo)
-  const subscribers = usePlaygroundStore(state => state.subscribers)
-  const playground = usePlaygroundStore(state => state.playground)
+  const subscribedTo = usePlayground(state => state.subscribedTo)
+  const subscribers = usePlayground(state => state.subscribers)
+  const playground = usePlayground(state => state.playground)
   const user = useAuthStore(state => state.user)
   const [opened, {close, open}] = useDisclosure(false)
   const {data} = useQuery({

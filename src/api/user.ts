@@ -1,16 +1,12 @@
-import {QueryFunctionContext} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {IUser} from "@/types/data/db-model-interfaces";
 import {userTeamApi} from "@/api/team.ts";
 import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {IApiList} from "@/types/data/util";
+import {IUserWithUserTeam} from "@/contexts/forms/TeamFormContext.ts";
 
-export const userListForTeamModal = (params: QueryFunctionContext) => {
-  const teamId = params.queryKey[0] as string
-
-  if (!teamId) return []
-
+export const userListForTeamModal = (teamId: string) => {
   return erdApi.get<IApiList<IUser>>(`/v1/team/${teamId}/user-list`)
     .then(response => response.data)
     .then(async data => {
@@ -19,8 +15,7 @@ export const userListForTeamModal = (params: QueryFunctionContext) => {
       return data.rows.map((user, index) => ({
         ...user,
         userTeam: roles[index]
-      }))
-
+      }) as IUserWithUserTeam)
     })
 }
 

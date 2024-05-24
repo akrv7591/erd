@@ -4,16 +4,17 @@ import classes from './style.module.css';
 import TeamModal from "./TeamModal";
 import {useModal} from "@/hooks/useModal.ts";
 import TeamList from "./TeamList";
+import type {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
 
 
 export default function Navbar() {
-  const modal = useModal({
+  const modal = useModal<IFormTeam>({
     initialOpen: false,
     baseTitle: "Team",
     initialType: 'create'
   })
 
-  const openModal = () => modal.open("create")
+  const openModal = () => modal.open({type: "create"})
 
   return (
     <nav>

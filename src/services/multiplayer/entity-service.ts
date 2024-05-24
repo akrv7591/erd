@@ -1,5 +1,5 @@
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityNodeData} from "@/types/entity-node";
+import {ServiceArgs} from "@/services/multiplayer/multiplayer";
 
 
 export type EntityWebsocketPatch = {
@@ -8,10 +8,11 @@ export type EntityWebsocketPatch = {
   value: any
 }
 
-export const entityService = () => {
+export const entityService = ({store}: ServiceArgs) => {
+  const set = store.setState
 
   function onPatch(data: EntityWebsocketPatch) {
-    usePlaygroundStore.setState(cur => ({
+    set(cur => ({
       nodes: cur.nodes.map(entity => entity.id === data.entityId ? {
         ...entity,
         data: {...entity.data, [data.key]: data.value}

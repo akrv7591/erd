@@ -7,12 +7,13 @@ import {
   IconRelationOneToOne,
   IconTablePlus
 } from "@tabler/icons-react";
-import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import type {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import IconButton from "@/screens/Playground/Navbar/EntityControls/IconButton.tsx";
 import {RELATION} from "@/constants/relations.ts";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 import {Stack} from "@mantine/core";
 import {useShallow} from "zustand/react/shallow";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 export interface IData {
   label: string
@@ -63,12 +64,12 @@ const buttons: IData[] = [
     allowOnDisabled: false
   }]
 
-const selector = (state: UsePlaygroundStore) => ({
+const selector = (state: PlaygroundStore) => ({
   entities: state.nodes.filter(node => node.type === NODE_TYPES.ENTITY) as EntityNode[],
 })
 
 export default function EntityControls() {
-  const {entities} = usePlaygroundStore(useShallow(selector))
+  const {entities} = usePlayground(useShallow(selector))
   const disabled = useMemo(() => {
     return entities.reduce((count, entity) => {
       const hasPrimary = entity.data.columns.some(c => c.primary)

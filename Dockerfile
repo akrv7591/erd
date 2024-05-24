@@ -5,13 +5,13 @@ FROM node:21-alpine AS builder
 WORKDIR /app
 
 # Copy package.json and package-lock.json or yarn.lock to the working directory
-COPY package.json package-lock.json* yarn.lock ./
-
-# Install dependencies
-RUN yarn install
+# COPY package.json yarn.lock ./
 
 # Copy the entire project to the working directory
 COPY . .
+
+# Install dependencies
+RUN yarn install
 
 # Build the React project
 RUN yarn build
@@ -28,7 +28,7 @@ WORKDIR /app
 # Copy built files from the previous stage
 COPY --from=builder /app/dist ./dist
 
-# Expose port 3000 (the default port used by serve)
+# Expose port 3001 (the default port used by serve)
 EXPOSE 3001
 
 

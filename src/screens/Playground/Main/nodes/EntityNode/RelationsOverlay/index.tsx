@@ -1,14 +1,14 @@
 import {Handle, Position, useConnection} from "@xyflow/react";
 import {Overlay, Text} from "@mantine/core";
 import {RELATION} from "@/constants/relations.ts";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {memo, useMemo} from "react";
 import classes from "../style.module.css";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 
 const SourceHandle = memo(() => {
-  const tool = usePlaygroundStore(state => state.tool)
+  const tool = usePlayground(state => state.tool)
   const nodeData = useEntityNodeData();
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
@@ -50,7 +50,7 @@ const SourceHandle = memo(() => {
 })
 
 const TargetHandle = memo(() => {
-  const tool = usePlaygroundStore(state => state.tool)
+  const tool = usePlayground(state => state.tool)
   const nodeData = useEntityNodeData();
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);

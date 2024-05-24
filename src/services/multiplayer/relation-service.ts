@@ -1,14 +1,15 @@
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {Edge} from "@xyflow/react";
+import {ServiceArgs} from "@/services/multiplayer/multiplayer";
 
-export const relationService = () => {
+export const relationService = ({store}: ServiceArgs) => {
+  const set = store.setState
 
   function onAdd(data: Edge) {
-    usePlaygroundStore.setState(cur => ({relations: [...cur.relations, data]}))
+    set(cur => ({relations: [...cur.relations, data]}))
   }
 
   function onDelete(id: string) {
-    usePlaygroundStore.setState(cur => ({relations: cur.relations.filter(t => t.id !== id)}))
+    set(cur => ({relations: cur.relations.filter(t => t.id !== id)}))
   }
 
   return {

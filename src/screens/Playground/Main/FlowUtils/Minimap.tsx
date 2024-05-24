@@ -1,10 +1,10 @@
 import {memo} from "react";
 import {MiniMap as FlowMinimap} from "@xyflow/react"
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityNode} from "@/types/entity-node";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 const MiniMap = memo(() => {
-  const minimap = usePlaygroundStore(state => state.minimap)
+  const minimap = usePlayground(state => state.minimap)
 
   if (!minimap) {
     return null

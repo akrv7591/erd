@@ -12,11 +12,11 @@ import {ColumnEnum} from "@/enums/playground.ts";
 import isEqual from "lodash/isEqual";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {EntityNodeColumn} from "@/types/entity-node";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 const Content = React.memo(() => {
   const nodeData = useEntityNodeData()
-  const playground = usePlaygroundStore(state => state.playground)
+  const playground = usePlayground(state => state.playground)
   const reactflow = useReactFlow()
 
   const selectedColumns = React.useMemo(() => {

@@ -1,18 +1,19 @@
 import {memo} from "react";
 import {useOnViewportChange} from "@xyflow/react";
 import {useMouse} from "@mantine/hooks";
-import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import type {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {useShallow} from "zustand/react/shallow";
 import {PlayerEnum} from "@/enums/playground.ts";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
-const selector = (state: UsePlaygroundStore) => ({
+const selector = (state: PlaygroundStore) => ({
   playground: state.playground,
   subscribers: state.subscribers
 })
 
 const ViewportActions = memo(() => {
   const mouse = useMouse()
-  const {playground, subscribers} = usePlaygroundStore(useShallow(selector))
+  const {playground, subscribers} = usePlayground(useShallow(selector))
 
   useOnViewportChange({
     onChange: (viewport) => {

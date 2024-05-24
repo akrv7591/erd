@@ -1,5 +1,5 @@
 import {MantineProvider} from "@mantine/core";
-import {UsePlaygroundStore, usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
 import {useMemoNodeData} from "@/hooks/useMemoNodeData.ts";
 import {memo, useCallback, useEffect, useMemo} from "react";
@@ -16,6 +16,7 @@ import {useShallow} from "zustand/react/shallow";
 
 import '@mantine/tiptap/styles.css';
 import "./style.module.css"
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 const extensions = [
   StarterKit,
@@ -23,14 +24,14 @@ const extensions = [
   Color
 ]
 
-const selector = (state: UsePlaygroundStore) => ({
+const selector = (state: PlaygroundStore) => ({
   playground: state.playground
 })
 
 const Editor = memo(() => {
   console.log("RENDERING MEMO")
   const {id, data} = useMemoNodeData()
-  const {playground} = usePlaygroundStore(useShallow(selector))
+  const {playground} = usePlayground(useShallow(selector))
   const reactFlow = useReactFlow()
 
   const editor = useEditor({

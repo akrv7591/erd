@@ -1,13 +1,13 @@
 import {Checkbox, Collapse, Table as MantineTable, Text, Tooltip} from "@mantine/core";
 import React from "react";
 import {useEntityData} from "@/hooks/useEntityData.ts";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {EntityViewMode} from "@/enums/playground.ts";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 const Table = React.forwardRef<any, any>((props, ref) => {
   console.log("RENDERING CONTENT TABLE")
   const [nodeData, setNodeData] = useEntityData()
-  const viewMode = usePlaygroundStore(state => state.mode)
+  const viewMode = usePlayground(state => state.mode)
   const checkbox = React.useMemo(() => {
     if (!nodeData) {
       return {

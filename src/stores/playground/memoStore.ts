@@ -1,6 +1,6 @@
 import {XYPosition} from "@xyflow/react";
 import {StateCreator} from "zustand";
-import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
 import {MemoNode} from "@/types/memo-node";
 import {ICMemo} from "@/types/data/db-model-interfaces";
@@ -26,7 +26,7 @@ const initialState: MemoStoreState = {
   showMemos: true
 }
 
-export const memoStore: StateCreator<UsePlaygroundStore, [], [], MemoStore> = ((set, get) => ({
+export const memoStore: StateCreator<PlaygroundStore, [], [], MemoStore> = ((set, get) => ({
   ...initialState,
 
   memoOnDragAdd: (position) => {

@@ -1,7 +1,7 @@
 import {ModalBaseProps} from "@/components/common/ModalBase";
 import {Button, Group, Modal, Stack, TextInput} from "@mantine/core";
 import ModalForm from "@/components/common/ModalForm";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
@@ -9,11 +9,10 @@ import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
 import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
 import {memo, useCallback, useEffect} from "react";
-import {userListForTeamModal} from "@/api/user.ts";
 import {createId} from "@paralleldrive/cuid2";
 
 interface Props extends ModalBaseProps {
-  data?: IFormTeam
+  data: IFormTeam | null
 }
 
 
@@ -35,7 +34,7 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
   }
 }
 
-const getFormInitialValues = (data?: IFormTeam): IFormTeam => {
+const getFormInitialValues = (data: Props['data']) => {
   return data ? data : {
     id: createId(),
     users: [] as IFormTeam['users'],
@@ -45,27 +44,26 @@ const getFormInitialValues = (data?: IFormTeam): IFormTeam => {
 
 const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
   const queryClient = useQueryClient()
+
   const form = useTeamForm({
-    initialValues: getFormInitialValues(data)
+    initialValues: getFormInitialValues(data),
+    mode: "controlled"
   })
   const mutation = useMutation({
     mutationFn: teamMutationFn,
   })
 
-  const {data: users} = useQuery({
-    queryKey: [data?.id],
-    queryFn: userListForTeamModal,
-  })
-
-
   const formReset = useCallback(() => {
-    form.setInitialValues(getFormInitialValues())
+    form.setInitialValues(getFormInitialValues(null))
     form.reset()
   }, [form])
 
   useEffect(() => {
-    form.setValues({users})
-  }, [users])
+    if (data) {
+      console.log("RESETING FORM DIRTY")
+      form.setValues(data)
+    }
+  }, [data])
 
   const handleSubmit = async (data: any) => {
     switch (type) {

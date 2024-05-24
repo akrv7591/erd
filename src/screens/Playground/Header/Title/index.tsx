@@ -1,8 +1,8 @@
 import {Paper, Title as MantineTitle} from "@mantine/core";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 export default function Title() {
-  const name = usePlaygroundStore(state => state.name)
+  const name = usePlayground(state => state.name)
 
   return (
     <Paper ml={"sm"} bg={"var(--mantine-color-dark-6)"} px={"15px"} py={"5px"}>

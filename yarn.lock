@@ -939,10 +939,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@mantine/core@^7.8.0":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-7.8.0.tgz#b4bbd82ea2f1a25f5fb3d11ae5583cf80ecd8383"
-  integrity sha512-19RKuNdJ/s8pZjy2w2rvTsl4ybi/XM6vf+Kc0WY7kpLFCvdG+/UxNi1MuJF8t2Zs0QSFeb/H5yZQNe0XPbegHw==
+"@mantine/core@^7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@mantine/core/-/core-7.9.1.tgz#778a9117267ef7db37e6f18dfff47be5d322fbc9"
+  integrity sha512-UXK11t1fAQ2ROQ9HTIZfyU52XdwS8sFJ2SRUh5uHMWSahJo3wTdKzaCvYN7wg+ONM9p6ENT0hC0dfv5qXoKU4w==
   dependencies:
     "@floating-ui/react" "^0.26.9"
     clsx "2.1.0"
@@ -951,36 +951,36 @@
     react-textarea-autosize "8.5.3"
     type-fest "^4.12.0"
 
-"@mantine/form@^7.7.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@mantine/form/-/form-7.7.0.tgz#998ff6b8e29a1fb4e901ab8970f5c4367eb4f67a"
-  integrity sha512-W2TNnXRMfleQIICHK80vWN3J4nmose46Dk21PdBGUDcX5144w1tWoM+eIRhh5Wf20V44H3NM6eRIT0Mnv7jZyg==
+"@mantine/form@^7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@mantine/form/-/form-7.9.1.tgz#fbdb9862165b7b5df719deb191c210a3696ccfb0"
+  integrity sha512-6Z4LkACT1ouoTvtI9hH/rT+L7qvfKnCypUyaCtYpPkA57ANamK7qkmeXXBmbGGOf8mJB+ZSgOvpDVKKRz5iH3Q==
   dependencies:
     fast-deep-equal "^3.1.3"
     klona "^2.0.6"
 
-"@mantine/hooks@^7.8.0":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-7.8.0.tgz#fc32e07746689459c4b049dc581d1dbda5545686"
-  integrity sha512-+70fkgjhVJeJ+nJqnburIM3UAsfvxat1Low9HMPobLbv64FIdB4Nzu5ct3qojNQ58r5sK01tg5UoFIJYslaVrg==
+"@mantine/hooks@^7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-7.9.1.tgz#9946432d017d56afe28f3980d1c64af0153a2128"
+  integrity sha512-nb2Ar+2HfGxLjGZgObapeUeqcQsUWJ+rvj4X2KNTUy3+YpvLIMD3CqREowWHF7/5OTGh4BCyBqQNZ9JFpnMeHQ==
 
-"@mantine/notifications@^7.7.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-7.7.0.tgz#809a70149f96f78d5077c7991511b225303000aa"
-  integrity sha512-YutgZ+vf81/qPdadCX+OmXsPlgMpBuIn8TRhgeALt/qtdv80jUnTsyNdhMBCcRCm0txmLCItWtuXuW6glsHd4A==
+"@mantine/notifications@^7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-7.9.1.tgz#fe2f1325b7d67aea226d023aefb0a0d439d03a81"
+  integrity sha512-+fzc/+conYQMqE72eaKcxaOrLijsWExRO6Rp+QVgsmp3Hf57yksRdEbVE259PrWq3jaVI8G4XIMeKdYK0tB5Pw==
   dependencies:
-    "@mantine/store" "7.7.0"
+    "@mantine/store" "7.9.1"
     react-transition-group "4.4.5"
 
-"@mantine/store@7.7.0":
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/@mantine/store/-/store-7.7.0.tgz#ebc992c6aeff688a33d95b4bd4cd858e8b77ce6d"
-  integrity sha512-tbw73JQQjIbHiGZ/5f36bWk6eV+01cVGVtq6l7Q0S2dibkU9H8+ynAk+goNuUTaQk0lUpqUflxMJS4xXdS5Q6A==
+"@mantine/store@7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@mantine/store/-/store-7.9.1.tgz#f1291bb9dce35bf8baa6ea627938637d62a3c83c"
+  integrity sha512-m15k51F4n6R08Iii+TWG64lofiYB9hhEGS+3y+9DZHuY+hSmTmQX9J5WKVNYJ3jmV24QG96EjEQNuLBcG2atSg==
 
-"@mantine/tiptap@^7.8.0":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@mantine/tiptap/-/tiptap-7.8.0.tgz#390eb44659bf01d898335f6063c3d6231bb8e756"
-  integrity sha512-0O766+DZ8/L2VX//7GKUCfOiMyC7lJXfLmMNqQdth2JtlGoDzWDAF7hhQos0hBor+rT7ci3gPLVMv39l2U0CQw==
+"@mantine/tiptap@^7.9.1":
+  version "7.9.1"
+  resolved "https://registry.yarnpkg.com/@mantine/tiptap/-/tiptap-7.9.1.tgz#2e54df160edc70e211af5ce758c07a24a32389ee"
+  integrity sha512-0o7qbORbk33bWcWOcdxlgKVcpTZio6VljquQMZANGvZjPDmKiHYjuxrandkwYZIXSstzOFtqc+8FMFB23OtlJg==
 
 "@noble/hashes@^1.1.5":
   version "1.3.3"
@@ -3744,10 +3744,10 @@ postcss-nested@^6.0.1:
   dependencies:
     postcss-selector-parser "^6.0.11"
 
-postcss-preset-mantine@^1.9.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/postcss-preset-mantine/-/postcss-preset-mantine-1.13.0.tgz#43fdef6a3482be23e1c95aec99dfb5700a0353f8"
-  integrity sha512-1bv/mQz2K+/FixIMxYd83BYH7PusDZaI7LpUtKbb1l/5N5w6t1p/V9ONHfRJeeAZyfa6Xc+AtR+95VKdFXRH1g==
+postcss-preset-mantine@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/postcss-preset-mantine/-/postcss-preset-mantine-1.15.0.tgz#011b4770f185c10256bea65b8b0999a2e2d64cc0"
+  integrity sha512-OKPs6uoORSXlU/GFH1ZtFaslecHBPwuoSikdL5W3WKJm4ZPAQM0mw9x9m3toa/Mo1JhoBmYMM28i+zEdav5Edg==
   dependencies:
     postcss-mixins "^9.0.4"
     postcss-nested "^6.0.1"

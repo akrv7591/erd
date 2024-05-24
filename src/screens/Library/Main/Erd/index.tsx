@@ -11,6 +11,7 @@ import {memo} from "react";
 import {IErdWithSelected} from "@/api/erd.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import Role from "@/screens/Library/Main/Erd/Role.tsx";
+import {IErd} from "@/types/data/db-model-interfaces";
 
 dayjs.extend(relativeTime)
 
@@ -20,14 +21,14 @@ interface Props {
 
 const Erd = memo(({erd}: Props) => {
   const navigate = useNavigate()
-  const modal = useModal({initialType: "update", initialOpen: false, baseTitle: erd.name})
+  const modal = useModal<IErd>({initialType: "update", initialOpen: false, baseTitle: erd.name})
   const navigateToErd = () => navigate(erd.id, {state: {erd}})
   const checkedErds = useLibraryStore(state => state.checkedErds)
   const onErdCheckBoxClick = useLibraryStore(state => state.onErdCheckBoxClick)
 
   return (
     <>
-      <ErdModal data={erd} {...modal.modalProps}/>
+      <ErdModal {...modal.modalProps}/>
       <Table.Tr className={styles.box} onClick={navigateToErd}>
         <Table.Td>
           <Checkbox

@@ -4,16 +4,16 @@ import {memo, useCallback, useMemo} from "react";
 import styles from "./style.module.css"
 import {ColumnEnum, EntityViewMode} from "@/enums/playground.ts";
 import {useNodeId} from "@xyflow/react";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import ColumnTypeIcon from "@/screens/Playground/Main/nodes/EntityNode/Content/ColumnTypeIcon.tsx";
 import type {EntityNodeColumn} from "@/types/entity-node";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 
 const TableRow = memo(({data}: { data: EntityNodeColumn }) => {
-  const playground = usePlaygroundStore(state => state.playground)
+  const playground = usePlayground(state => state.playground)
   const entityId = useNodeId()
-  const highlightedRelation = usePlaygroundStore(state => state.highlightedRelation)
-  const viewMode = usePlaygroundStore(state => state.mode)
+  const highlightedRelation = usePlayground(state => state.highlightedRelation)
+  const viewMode = usePlayground(state => state.mode)
 
   if (!entityId) return null
 

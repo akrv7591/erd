@@ -1,6 +1,6 @@
 import {Edge} from "@xyflow/react";
 import {StateCreator} from "zustand";
-import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {ConnectionData, HighlightedRelation} from "@/types/playground";
 import {createId} from "@paralleldrive/cuid2";
 import {ICRelation} from "@/types/data/db-model-interfaces";
@@ -32,7 +32,7 @@ const initialStore: RelationStoreState = {
   highlightedRelation: null,
 }
 
-export const relationStore: StateCreator<UsePlaygroundStore, [], [], RelationStore> = ((set, get) => ({
+export const relationStore: StateCreator<PlaygroundStore, [], [], RelationStore> = ((set, get) => ({
   ...initialStore,
 
   setHighlightedRelation: (highlightedRelation) => set({highlightedRelation}),

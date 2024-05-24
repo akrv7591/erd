@@ -1,11 +1,11 @@
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {ActionIcon, Tooltip} from "@mantine/core";
 import {IconLetterE, IconLetterL} from "@tabler/icons-react";
 import {EntityViewMode} from "@/enums/playground.ts";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 export default function EntityLogicalAdvancedViewController() {
-  const mode = usePlaygroundStore(state => state.mode)
-  const setMode = usePlaygroundStore(state => state.setEntityViewMode)
+  const mode = usePlayground(state => state.mode)
+  const setMode = usePlayground(state => state.setEntityViewMode)
   const isEditor = mode === EntityViewMode.EDITOR
   const toggle = () => setMode(isEditor? EntityViewMode.LOGICAL: EntityViewMode.EDITOR)
   return (

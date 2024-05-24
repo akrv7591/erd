@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import {UsePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
+import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {
   CallbackDataStatus,
   ColumnEnum,
@@ -73,7 +73,7 @@ type WebsocketResponseStoreAction = {}
 
 export type WebsocketResponseStore = WebsocketResponseStoreState & WebsocketResponseStoreAction
 
-export const websocketResponseStore: StateCreator<UsePlaygroundStore, [], [], WebsocketResponseStore> = ((set) => ({
+export const websocketResponseStore: StateCreator<PlaygroundStore, [], [], WebsocketResponseStore> = ((set) => ({
   handlePlaygroundResponse: ({status, type, data}) => {
     if (status !== CallbackDataStatus.OK) {
       notifications.show({

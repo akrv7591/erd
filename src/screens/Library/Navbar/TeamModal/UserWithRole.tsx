@@ -55,13 +55,13 @@ export default function UserWithRole(props: Props) {
 
   const onDelete = () => {
     if (user.id) {
-      userDeleteMutation.mutate(`/v1/team/${user.userTeam?.teamId}/delete-user/${user.id}`)
+      userDeleteMutation.mutate(`/v1/team/${user.userTeam.teamId}/delete-user/${user.id}`)
     } else {
       form.setValues(cur => ({...cur, users: cur.users?.filter(u => u.id !== user.id)}))
     }
   }
 
-  const isInvited = user.userTeam!.pending
+  const isInvited = user.userTeam.pending
   return (
     <Group align={"flex-end"} gap={"xs"}>
       <TextInput

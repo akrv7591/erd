@@ -1,8 +1,10 @@
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {Viewport} from "@xyflow/react";
+import {ServiceArgs} from "@/services/multiplayer/multiplayer";
 
-export const playerService = () => {
-  const set = usePlaygroundStore.setState
+export const playerService = ({store, reactFlow}: ServiceArgs) => {
+  const set = store.setState
+  const state = store.getState
+
 
   function onJoin(playerId: string) {
     set(state => ({
@@ -29,11 +31,13 @@ export const playerService = () => {
   }
 
   function onUnsubscribe(subscriberId: string) {
-    set(cur => ({subscribers: cur.subscribers.filter((s) => s !== subscriberId)}))
+    set(state => ({subscribers: state.subscribers.filter((s) => s !== subscriberId)}))
   }
 
   function onViewportChange(viewport: Viewport) {
-    set(({viewport}))
+    if (state().subscribedTo) {
+      reactFlow.setViewport(viewport)
+    }
   }
 
   function onMouseChange({playerId, cursorPosition}: any) {

@@ -24,7 +24,7 @@ import {IconInfoCircle} from "@tabler/icons-react";
 import {hasRoleAccess} from "@/utility/role-util.ts";
 
 interface Props extends ModalBaseProps {
-  data?: IErd
+  data: IErd | null
 }
 
 type IErdMutationMethods = "delete" | "put"

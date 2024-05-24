@@ -1,11 +1,11 @@
 import {Avatar, Button, Card, Group, Modal, Stack, Text} from '@mantine/core';
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {IconExclamationCircle} from "@tabler/icons-react";
 import {memo} from "react";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 const ConfirmModal = memo(() => {
   console.log("RENDERING CONFIRM MODAL")
-  const modal = usePlaygroundStore(state => state.confirmModal)
+  const modal = usePlayground(state => state.confirmModal)
   const handleCancel = () => modal.onCancel ? modal.onCancel(modal.close) : null
   const handleConfirm = () => modal.onConfirm(modal.close)
   return (

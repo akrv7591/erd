@@ -1,9 +1,9 @@
 import {Center, Overlay, Text} from "@mantine/core";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {RELATION} from "@/constants/relations.ts";
 import {memo} from "react";
 import {useViewport} from "@xyflow/react";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 
 const getTextSize = (zoom: number) => {
@@ -15,7 +15,7 @@ const getTextSize = (zoom: number) => {
  const NameOverlay = memo(() => {
   const {zoom} = useViewport()
   const nodeData = useEntityNodeData()
-  const isRelationshipMode = usePlaygroundStore(state => RELATION.NAME_LIST.includes(state.tool as any))
+  const isRelationshipMode = usePlayground(state => RELATION.NAME_LIST.includes(state.tool as any))
 
   if (isRelationshipMode) return null
   if (zoom > 0.3 || !nodeData) return null

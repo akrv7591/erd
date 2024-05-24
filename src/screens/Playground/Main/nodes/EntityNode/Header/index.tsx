@@ -3,15 +3,15 @@ import {IconPalette, IconRowInsertTop, IconTable, IconTrash} from "@tabler/icons
 import {ColumnEnum, EntityEnum} from "@/enums/playground.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
 import {ChangeEventHandler, memo} from "react";
-import {usePlaygroundStore} from "@/stores/usePlaygroundStore.ts";
 import {useReactFlow} from "@xyflow/react";
 import {EntityNodeColumn} from "@/types/entity-node";
 import {DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
 import {createId} from "@paralleldrive/cuid2";
+import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 const Header = memo(() => {
   const nodeData = useEntityNodeData()
-  const playground = usePlaygroundStore(state => state.playground)
+  const playground = usePlayground(state => state.playground)
   const reactFlow = useReactFlow()
 
   if (!nodeData) {
