@@ -1,166 +1,124 @@
-import {connect, Socket} from "socket.io-client";
-import {Edge, ReactFlowInstance} from "@xyflow/react";
-import {ColumnEnum, EntityEnum, ErdEnum, MemoEnum, NodeEnum, PlayerEnum, RelationEnum} from "@/enums/playground.ts";
-import {playerService} from "@/services/multiplayer/player-service.ts";
-import {entityService} from "@/services/multiplayer/entity-service.ts";
-import {relationService} from "@/services/multiplayer/relation-service.ts";
-import {columnService, ColumnWebsocketPatch} from "@/services/multiplayer/column-service.ts";
-import {erdService} from "@/services/multiplayer/erd-service.ts";
-import {memoService, MemoWebsocketPatch} from "@/services/multiplayer/memo-service.ts";
+import {connect} from "socket.io-client";
+import {ReactFlowInstance, Viewport} from "@xyflow/react";
+import {CallbackDataStatus, PlayerEnum} from "@/enums/playground.ts";
 import {PROJECT} from "@/constants/project.ts";
-import {nodeService} from "@/services/multiplayer/node-service.ts";
 import {SOCKET} from "@/constants/socket.ts";
-import type {ICMemo} from "@/types/data/db-model-interfaces";
-import type {EntityNode, EntityNodeColumn} from "@/types/entity-node";
-import {NodeType} from "@/types/playground";
-import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
 import {PlaygroundStore} from "@/contexts/playground/PlaygroundStoreContext.ts";
 import {ServiceArgs} from "@/services/multiplayer/multiplayer";
+import {MultiplayerSocket} from "@/services/multiplayer/type";
+import {multiplayerServices} from "@/services/multiplayer/index.ts";
+import {notifications} from "@mantine/notifications";
 
 export class PlaygroundService {
-  readonly io: Socket
+  readonly socket: MultiplayerSocket
   readonly reactFlow: ReactFlowInstance
   readonly nodesType: Map<string, NODE_TYPES> = new Map()
   readonly playgroundStore: PlaygroundStore
+  readonly playerId: string
 
   constructor(playerId: string, playgroundId: string, reactFlow: ReactFlowInstance, playgroundStore: PlaygroundStore) {
-    this.io = connect(PROJECT.BASE_API_URL, {
+    this.socket = connect(PROJECT.BASE_API_URL, {
       auth: {playerId, playgroundId, type: SOCKET.TYPE.ERD},
       withCredentials: true,
       reconnection: true,
     })
+    this.playerId = playerId
     this.reactFlow = reactFlow
     this.playgroundStore = playgroundStore
     this.initPlayground()
+    this.socket.on("connect", () => {
+      console.log("Connected to socket")
+    })
+    this.socket.on("disconnect", this.playgroundStore.getState().reset)
   }
 
   get serviceArgs(): ServiceArgs {
-    return {store: this.playgroundStore, reactFlow: this.reactFlow, socket: this.io}
+    return {
+      store: this.playgroundStore,
+      reactFlow: this.reactFlow,
+      socket: this.socket
+    }
   }
 
   private initPlayground() {
-    this.io.on("disconnect", () => this.playgroundStore.setState(({connected: false})))
-    this.io.on("data", (data) => {
-      data.nodes.forEach((node: NodeType) => this.nodesType.set(node.id, node.type!))
-      this.playgroundStore.setState({...data, connected: true})
+    multiplayerServices.forEach(service => service(this.serviceArgs))
+  }
 
-      this.initErdListeners()
-      this.initPlayerListeners()
-      this.initEntityListeners()
-      this.initRelationListeners()
-      this.initColumnListeners()
-      this.initMemoListeners()
-      this.initNodeListeners()
+  public handleEmitResponse = (obj: { onSuccess: () => void, onError: () => void }, callback?: Function) => (status: CallbackDataStatus) => {
+    switch (status) {
+      case CallbackDataStatus.FAILED:
+        obj.onError()
+        break
+      case CallbackDataStatus.OK:
+        obj.onSuccess()
+        break
+    }
+
+    if (callback) {
+      callback()
+    }
+  }
+
+  public notifyErrorMessage = (title: string, message: string, color: string = 'red') => () => {
+    notifications.show({
+      title,
+      message,
+      color
     })
   }
 
-  private initErdListeners() {
-    const erd = erdService(this.serviceArgs)
+  public handleMouseMove = (position: { x: number, y: number } | null) => {
+    const mouseChangeResponse = this.handleEmitResponse({
+      onError: this.notifyErrorMessage(PlayerEnum.mouseChange, "Failed to change mouse position"),
+      onSuccess: () => {}
+    })
 
-    this.io.on(ErdEnum.put, erd.onPut)
-    this.io.on(ErdEnum.patch, erd.onPatch)
-  }
-
-  private initPlayerListeners() {
-    const player = playerService(this.serviceArgs)
-
-    this.io.on(PlayerEnum.join, player.onJoin)
-    this.io.on(PlayerEnum.leave, player.onLeave)
-    this.io.on(PlayerEnum.subscribe, player.onSubscribe)
-    this.io.on(PlayerEnum.unsubscribe, player.onUnsubscribe)
-    this.io.on(PlayerEnum.viewpointChange, player.onViewportChange)
-    this.io.on(PlayerEnum.mouseChange, player.onMouseChange)
-  }
-
-  private initNodeListeners() {
-    const node = nodeService(this.serviceArgs)
-
-    this.io.on(NodeEnum.add, node.onAdd)
-    this.io.on(NodeEnum.patchPositions, node.onPatchPositions)
-    this.io.on(NodeEnum.delete, node.onDelete)
-  }
-
-  private initEntityListeners() {
-    const entity = entityService(this.serviceArgs)
-
-    this.io.on(EntityEnum.patch, entity.onPatch)
-  }
-
-  private initRelationListeners() {
-    const relation = relationService(this.serviceArgs)
-
-    this.io.on(RelationEnum.add, relation.onAdd)
-    this.io.on(RelationEnum.delete, relation.onDelete)
-  }
-
-  private initColumnListeners() {
-    const column = columnService(this.serviceArgs)
-
-    this.io.on(ColumnEnum.add, column.onAdd)
-    this.io.on(ColumnEnum.patch, column.onPatch)
-    this.io.on(ColumnEnum.delete, column.onDelete)
-
-  }
-
-  private initMemoListeners() {
-    const memo = memoService(this.serviceArgs)
-
-    this.io.on(MemoEnum.patch, memo.onPatch)
-  }
-
-  public get handlePlaygroundResponse() {
-    return this.playgroundStore.getState().handlePlaygroundResponse
-  }
-
-  public erd(action: ErdEnum, data: any) {
-    this.io.emit(action, data, this.handlePlaygroundResponse)
-  }
-
-  public player(action: PlayerEnum, data: any | string) {
-    this.io.emit(action, data, this.handlePlaygroundResponse)
-  }
-
-  public entity(action: EntityEnum, data: EntityNode | EntityNode[] | string | any) {
-    this.io.emit(action, data, this.handlePlaygroundResponse)
-  }
-
-  relation(action: RelationEnum.add, data: Edge): void
-  relation(action: RelationEnum.delete, data: string[]): void
-  relation(action: RelationEnum, data: Edge | string[]) {
-    this.io.emit(action, data, this.handlePlaygroundResponse)
-  }
-
-  node(action: NodeEnum, data: { [key: string]: string }) {
-    this.io.emit(action, data, this.handlePlaygroundResponse)
-  }
-
-  memo(action: MemoEnum.add, data: ICMemo): void
-  memo(action: MemoEnum.patch, data: MemoWebsocketPatch): void
-  memo(action: MemoEnum.delete, data: string[]): void
-  memo(action: MemoEnum, data: ICMemo | MemoWebsocketPatch | string[]) {
-    this.io.emit(action, data, this.handlePlaygroundResponse)
-  }
-
-
-  column(action: ColumnEnum.add, data: EntityNodeColumn): void;
-  column(action: ColumnEnum.patch, data: ColumnWebsocketPatch): void
-  column(action: ColumnEnum.delete, data: string[], entityId: string): void
-  column(action: ColumnEnum, data: ColumnWebsocketPatch | EntityNodeColumn | string[], entityId ?: string): void {
-    switch (action) {
-      case ColumnEnum.delete:
-        this.io.emit(action, data, entityId, this.handlePlaygroundResponse)
-        break
-      default:
-        this.io.emit(action, data, this.handlePlaygroundResponse)
-    }
-  }
-
-  handleMouseMove = (pos: { x: number, y: number } | null) => {
-    if (pos) {
-      pos = this.reactFlow.screenToFlowPosition(pos, {snapToGrid: false})
+    const data = {
+      cursorPosition: position? this.reactFlow.screenToFlowPosition(position, {snapToGrid: false}): null,
+      playerId: this.playerId
     }
 
-    this.player(PlayerEnum.mouseChange, pos)
+    this.socket.emit(PlayerEnum.mouseChange, data, mouseChangeResponse)
+  }
+
+  public handleViewportChange = (obj: {viewport: Viewport | null}) => {
+    const viewpointChangeResponse = this.handleEmitResponse({
+      onError: this.notifyErrorMessage(PlayerEnum.viewportChange, "Failed to change viewpoint"),
+      onSuccess: () => {}
+    })
+
+    const data = {
+      viewpoint: obj.viewport,
+      playerId: this.playerId
+    }
+
+    this.socket.emit(PlayerEnum.viewportChange, data, viewpointChangeResponse)
+  }
+
+  public handlePlayerUnsubscribe = (subscribeTo: string) => {
+    const playerUnsubscribeResponse = this.handleEmitResponse({
+      onError: this.notifyErrorMessage(PlayerEnum.unsubscribe, "Failed to unsubscribe"),
+      onSuccess: () => {}
+    })
+
+    const data = {
+      playerId: subscribeTo
+    }
+
+    this.socket.emit(PlayerEnum.unsubscribe, data, playerUnsubscribeResponse)
+  }
+
+  public handlePlayerSubscribe = (subscribeTo: string) => {
+    const playerSubscribeResponse = this.handleEmitResponse({
+      onError: this.notifyErrorMessage(PlayerEnum.subscribe, "Failed to subscribe"),
+      onSuccess: () => {}
+    })
+
+    const data = {
+      playerId: subscribeTo
+    }
+
+    this.socket.emit(PlayerEnum.subscribe, data, playerSubscribeResponse)
   }
 }
-

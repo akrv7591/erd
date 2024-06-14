@@ -5,8 +5,8 @@ import {Background, BackgroundVariant, ReactFlow} from "@xyflow/react";
 import data from "./data.json";
 import {nodeTypes} from "@/screens/Home/Main/Reactflow/nodeTypes";
 import ScrollSpy from "react-ui-scrollspy";
-import {defaultEdgeOptions, edgeTypes} from "@/screens/Playground/Main/edges";
-import Icons from "@/screens/Playground/Main/Icons";
+import {defaultEdgeOptions, edgeTypes} from "@/screens/Playground/Main/EdgeTypes";
+import {Icons} from "src/screens/Playground/Main/FlowUtils/Icons";
 import HeroNode from "@/screens/Home/Main/HeroNode";
 
 export default function Main() {
@@ -39,5 +39,3 @@ export default function Main() {
     </ScrollSpy>
   );
 }
-
-

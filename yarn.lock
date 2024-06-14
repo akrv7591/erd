@@ -939,6 +939,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@mantine/colors-generator@^7.10.1":
+  version "7.10.1"
+  resolved "https://registry.yarnpkg.com/@mantine/colors-generator/-/colors-generator-7.10.1.tgz#857d1ef91f2fd2e9d8fc966f790bc70eddc797a7"
+  integrity sha512-S/Q3+J76M7J7SaA93Ay38MxEoZ6CvSglHD200ZpVOrKFo5HKhFho4lcAfz4gEQLjw24w8CQaOt18yTiD2s7qAQ==
+
 "@mantine/core@^7.9.1":
   version "7.9.1"
   resolved "https://registry.yarnpkg.com/@mantine/core/-/core-7.9.1.tgz#778a9117267ef7db37e6f18dfff47be5d322fbc9"

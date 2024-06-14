@@ -6,6 +6,12 @@ export enum Key {
   position = "position",
 }
 
+export enum WorkerEnum {
+  join = "worker:join",
+  leave = "worker:leave",
+  data = "worker:data",
+}
+
 export enum ErdEnum {
   patch = "erd:patch",
   put = "erd:put",
@@ -32,11 +38,9 @@ export enum ColumnEnum {
 }
 
 export enum PlayerEnum {
-  join = "player:join",
-  leave = "player:leave",
   subscribe = "player:subscribe",
   unsubscribe = "player:unsubscribe",
-  viewpointChange = "player:viewpointChange",
+  viewportChange = "player:viewportChange",
   mouseChange = "player:mouseChange",
 }
 
@@ -51,7 +55,7 @@ export enum NodeEnum {
   patchPositions = "node:patchPositions",
 }
 
-export type Playground = PlayerEnum | EntityEnum | RelationEnum | ColumnEnum | ErdEnum | MemoEnum
+export type Playground = PlayerEnum | EntityEnum | RelationEnum | ColumnEnum | ErdEnum | MemoEnum | NodeEnum
 
 export enum CallbackDataStatus {
   OK="ok",

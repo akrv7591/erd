@@ -1,61 +1,57 @@
-import {Viewport} from "@xyflow/react";
-import {ServiceArgs} from "@/services/multiplayer/multiplayer";
+import {MultiplayerService} from "@/services/multiplayer/type";
+import {CallbackDataStatus, PlayerEnum} from "@/enums/playground.ts";
 
-export const playerService = ({store, reactFlow}: ServiceArgs) => {
+export const playerService: MultiplayerService = ({store, reactFlow, socket}) => {
   const set = store.setState
   const state = store.getState
 
-
-  function onJoin(playerId: string) {
-    set(state => ({
-      players: [...state.players, {
-        id: playerId,
-        cursorPosition: null
-      }]
-    }))
-  }
-
-  function onLeave(playerId: string) {
-    set(state => ({
-      players: state.players.filter(({id}) => id !== playerId),
-      ...state.subscribedTo && {
-        subscribedTo: state.subscribedTo === playerId
-          ? null
-          : state.subscribedTo
-      }
-    }))
-  }
-
-  function onSubscribe(subscriberId: string) {
-    set(state => ({subscribers: [...state.subscribers, subscriberId]}))
-  }
-
-  function onUnsubscribe(subscriberId: string) {
-    set(state => ({subscribers: state.subscribers.filter((s) => s !== subscriberId)}))
-  }
-
-  function onViewportChange(viewport: Viewport) {
-    if (state().subscribedTo) {
-      reactFlow.setViewport(viewport)
+  socket.on(PlayerEnum.subscribe, (data, callback) => {
+    try {
+      set(state => ({subscribers: [...state.subscribers, data.playerId]}))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(PlayerEnum.subscribe, e)
+      callback(CallbackDataStatus.FAILED)
     }
-  }
+  })
 
-  function onMouseChange({playerId, cursorPosition}: any) {
-    set(state => ({
-      players: state.players.map(player => player.id === playerId
-        ? {...player, cursorPosition}
-        : player
-      )
-    }))
-  }
+  socket.on(PlayerEnum.unsubscribe, (data, callback) => {
+    try {
+      set(state => ({subscribers: state.subscribers.filter((s) => s !== data.playerId)}))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(PlayerEnum.unsubscribe, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 
-  return {
-    onJoin,
-    onLeave,
-    onSubscribe,
-    onUnsubscribe,
-    onViewportChange,
-    onMouseChange
-  }
+  socket.on(PlayerEnum.viewportChange, (data, callback) => {
 
+    try {
+      if (!state().subscribedTo) return
+
+      if (!data.viewpoint) return
+
+      reactFlow.setViewport(data.viewpoint)
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(PlayerEnum.viewportChange, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
+
+  socket.on(PlayerEnum.mouseChange, (data, callback) => {
+    try {
+      set(state => ({
+        players: state.players.map(player => player.id === data.playerId
+          ? {...player, cursorPosition: data.cursorPosition }
+          : player
+        )
+      }))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(PlayerEnum.mouseChange, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 }

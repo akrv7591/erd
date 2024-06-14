@@ -3,8 +3,10 @@ import {StateCreator} from "zustand";
 import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {MemoEnum} from "@/enums/playground.ts";
 import {MemoNode} from "@/types/memo-node";
-import {ICMemo} from "@/types/data/db-model-interfaces";
-import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
+import {createId} from "@paralleldrive/cuid2";
+import {notifications} from "@mantine/notifications";
+import {NodeType} from "@/services/multiplayer/type";
 
 
 interface MemoStoreState {
@@ -31,15 +33,31 @@ export const memoStore: StateCreator<PlaygroundStore, [], [], MemoStore> = ((set
 
   memoOnDragAdd: (position) => {
     const state = get()
-    const data: ICMemo = {
+
+    const data: NodeType<NODE_TYPES.MEMO> = {
+      id: createId(),
       position,
-      color: "#ffe86a",
-      content: "",
-      userId: useAuthStore.getState().user.id,
-      erdId: state.id
+      type: NODE_TYPES.MEMO,
+      data: {
+        color: "#ffe86a",
+        content: "",
+      }
     }
 
-    state.playground.memo(MemoEnum.add, data)
+
+    const memoAddResponseHandler = state.playground.handleEmitResponse({
+      onError: () => {
+        notifications.show({
+          title: MemoEnum.add,
+          message: "Failed to add memo"
+        })
+      },
+      onSuccess: () => {
+        state.addNode(data as any)
+      }
+    })
+
+    state.playground.socket.emit(MemoEnum.add, {memo: data}, memoAddResponseHandler)
   },
   setShowMemos: (showMemos) => set({showMemos}),
 
@@ -51,11 +69,23 @@ export const memoStore: StateCreator<PlaygroundStore, [], [], MemoStore> = ((set
         opened: true,
         message: `Are you sure you want to delete ${memos.length} ${entityName}?`,
         onConfirm: (callback) => {
-          state.playground.memo(MemoEnum.delete, memos.map(memo => memo.id))
-          if (callback) {
-            callback()
-          }
-          resolve(true)
+          const memoDeleteResponseHandler = state.playground.handleEmitResponse({
+            onError: () => {
+              notifications.show({
+                title: MemoEnum.delete,
+                message: "Failed to delete memo"
+              })
+              resolve(true)
+            },
+            onSuccess: () => {
+              if (callback) {
+                callback()
+              }
+              resolve(true)
+            }
+          })
+          state.playground.socket.emit(MemoEnum.delete, {memoId: memos.map(memo => memo.id)}, memoDeleteResponseHandler)
+
         },
         onCancel: (callback) => {
           resolve(false)

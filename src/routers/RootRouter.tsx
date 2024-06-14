@@ -10,9 +10,10 @@ import VerifyEmail from "@/screens/VerifyEmail";
 import PrivacyPolicy from "@/screens/PrivacyPolicy";
 import TermsOfService from "@/screens/TermsOfService";
 import JoinTeam from "@/screens/JoinTeam";
-import Playground from "@/screens/Playground";
+import {Playground} from "@/screens/Playground";
 import ProfileSetting from "@/screens/ProfileSetting"
 import InitialLoadOutlet from "@/routers/InitialLoadOutlet.tsx";
+import {PlaygroundLayout} from "@/components/layouts/PlaygroundLayout/PlaygroundLayout.tsx";
 
 
 export const router = createBrowserRouter(
@@ -35,7 +36,9 @@ export const router = createBrowserRouter(
       {/*Library*/}
       <Route path={"library"} element={<ProtectedRoute/>}>
         <Route index element={<Library/>}/>
-        <Route path={":erdId"} element={<Playground/>}/>
+        <Route path={":erdId/*"} element={<PlaygroundLayout/>}>
+          <Route index element={<Playground />}/>
+        </Route>
       </Route>
 
       {/*Verify Email*/}

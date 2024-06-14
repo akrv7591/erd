@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="some performance updates">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/CustomTheme/CustomTheme.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/CustomTheme/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/PlaygroundActionIcon/PlaygroundActionIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/PlaygroundActionIcon/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/layouts/PlaygroundLayout/PlaygroundLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/playground.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/usePatchColumn.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/Aside.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityViewController/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MiniMapController/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Export/Export.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/Import.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Config/Config.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/ExitButton/ExitButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/ExitButton/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/FloatingCursor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/Title.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/FloatingEdge.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/Path.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ConfirmModal/ConfirmModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/Many/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/One/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/MiniMap/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Content.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/ColorChangeInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/DeleteEntityButton/DeleteEntityButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/DeleteEntityButton/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/NameInput/NameInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/NameInput/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/RowControls.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/NameOverlay/NameOverlay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/NameOverlay/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/RelationsOverlay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/SourceHandle/SourceHandle.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/SourceHandle/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/TargetHandle/TargetHandle.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/TargetHandle/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/style.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Header/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Header/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton/DragButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/EditorModeColumns/EditorModeColumns.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/EditorModeColumns/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/Row.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/SimplifiedModeColumns/SimplifiedModeColumns.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/SimplifiedModeColumns/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/TypeIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/style.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Table.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/style.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/EntityNode.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/Editor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/style.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/MemoNode.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/EntityControls.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/types.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/Navbar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FitView/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FullScreenView/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomIn/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/multiplayer/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/multiplayer/type.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/multiplayer/worker-service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/playground/erdStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ConfirmModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ConfirmModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/theme.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/erd/column.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/erd/column.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enums/playground.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/playground.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useEntityNodeData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useEntityNodeData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/PlaygroundStoreProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/PlaygroundStoreProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/RootRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/RootRouter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/Signin/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/Signin/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityLogicalAdvancedViewController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityViewController/EntityViewController.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController/MemoController.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/MinimapController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MiniMapController/MiniMapController.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/TableList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/EntityList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/TableList/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/style.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Footer/Export/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Export/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Footer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Config/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Config/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/Player.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/PlayerAvatar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Title/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Title/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/style.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/FlowUtils.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/FlowUtils.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Minimap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/MiniMap/MiniMap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ViewportActions.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/Many.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/Many/Many.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/One.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/One/One.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/Icons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/Main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/FloatingEdge/Path.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/FloatingEdge/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/FloatingEdge/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/ColumnTypeIcon.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/Table.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/TableRow.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Header/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/NameOverlay/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/RelationsOverlay/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/ThemedNode.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/entity-style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/Header/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/ThemedNode.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton/IconButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/FitView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FitView/FitView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/FullscreenView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FullScreenView/FullScreenView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/ZoomIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomIn/ZoomIn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/ZoomOut.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut/ZoomOut.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/PaneControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/column-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/column-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/entity-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/entity-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/erd-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/erd-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/memo-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/memo-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/multiplayer.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/multiplayer.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/node-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/node-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/player-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/player-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/playground-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/playground-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/relation-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/relation-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/entityStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/entityStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/flowStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/flowStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/memoStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/memoStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/relationStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/relationStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/websocketResponseStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playgroundStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playgroundStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/data/db-model-interfaces.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/data/db-model-interfaces.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/memo-node.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/memo-node.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/playground.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/playground.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
+      <change beforePath="$PROJECT_DIR$/src/constants/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/project.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;akrv7591&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/akrv7591/erd.git&quot;,
+    &quot;accountId&quot;: &quot;c871a74e-80fa-460c-b4b3-23ecd7337230&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/@mantine/hooks/lib/use-toggle/use-toggle.d.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/node_modules/@xyflow/react/dist/esm/types/edges.d.ts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2VMmpi1bdsIcmSgXPMiKEBWkeIH" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/src/screens/Playground&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TypeScript&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/screens/Playground" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Footer/Import" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Footer/Export" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Footer" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FiteView/ZoomIn" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FullScreenView" />
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FiteView" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.Dockerfile" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17890.13" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="" />
+      <changelist id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="" />
+      <created>1694654507702</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694654507702</updated>
+      <workItem from="1694654509174" duration="31490000" />
+      <workItem from="1694840649660" duration="35699000" />
+      <workItem from="1695254598483" duration="9000" />
+      <workItem from="1695254632211" duration="2500000" />
+      <workItem from="1695285846114" duration="2345000" />
+      <workItem from="1695360963082" duration="5176000" />
+      <workItem from="1695600302529" duration="75265000" />
+      <workItem from="1696377759687" duration="38167000" />
+      <workItem from="1696550552398" duration="20632000" />
+      <workItem from="1696920368811" duration="1081000" />
+      <workItem from="1697176455782" duration="4837000" />
+      <workItem from="1697700342968" duration="4344000" />
+      <workItem from="1697705936970" duration="80568000" />
+      <workItem from="1698116362935" duration="25883000" />
+      <workItem from="1698214035957" duration="9470000" />
+      <workItem from="1698282731828" duration="14441000" />
+      <workItem from="1698307459860" duration="44954000" />
+      <workItem from="1698617667672" duration="9801000" />
+      <workItem from="1698644786526" duration="26764000" />
+      <workItem from="1698808857482" duration="43895000" />
+      <workItem from="1699000023433" duration="1992000" />
+      <workItem from="1699005831840" duration="14990000" />
+      <workItem from="1699066937708" duration="7614000" />
+      <workItem from="1699223240113" duration="15718000" />
+      <workItem from="1699309407483" duration="51675000" />
+      <workItem from="1699569948897" duration="32377000" />
+      <workItem from="1700003425027" duration="2642000" />
+      <workItem from="1700016536009" duration="3273000" />
+      <workItem from="1700088904774" duration="6219000" />
+      <workItem from="1700116528274" duration="1413000" />
+      <workItem from="1700182726644" duration="21980000" />
+      <workItem from="1700306935318" duration="2585000" />
+      <workItem from="1700470270556" duration="25147000" />
+      <workItem from="1700697756264" duration="8603000" />
+      <workItem from="1701050976795" duration="22838000" />
+      <workItem from="1701301467039" duration="3643000" />
+      <workItem from="1701308786331" duration="13357000" />
+      <workItem from="1701417373972" duration="4090000" />
+      <workItem from="1701645013529" duration="10918000" />
+      <workItem from="1701733065087" duration="4372000" />
+      <workItem from="1701936188038" duration="17488000" />
+      <workItem from="1702264646540" duration="56091000" />
+      <workItem from="1702620475783" duration="4243000" />
+      <workItem from="1702859903586" duration="42667000" />
+      <workItem from="1702975462132" duration="49000" />
+      <workItem from="1703135601958" duration="13933000" />
+      <workItem from="1703222969063" duration="11426000" />
+      <workItem from="1703549832803" duration="38254000" />
+      <workItem from="1703663788675" duration="24672000" />
+      <workItem from="1704244306434" duration="304000" />
+      <workItem from="1704244619098" duration="40000" />
+      <workItem from="1704244666769" duration="57101000" />
+      <workItem from="1704729677065" duration="619000" />
+      <workItem from="1704864039476" duration="2865000" />
+      <workItem from="1705288442384" duration="5095000" />
+      <workItem from="1706487686505" duration="3800000" />
+      <workItem from="1706665335339" duration="5462000" />
+      <workItem from="1706772560012" duration="36474000" />
+      <workItem from="1707120934455" duration="1812000" />
+      <workItem from="1707265382766" duration="1200000" />
+      <workItem from="1707267753738" duration="612000" />
+      <workItem from="1707350866278" duration="1527000" />
+      <workItem from="1707880712717" duration="17582000" />
+      <workItem from="1707955641526" duration="35778000" />
+      <workItem from="1708301293890" duration="14824000" />
+      <workItem from="1708413725955" duration="18011000" />
+      <workItem from="1709542869613" duration="3520000" />
+      <workItem from="1709546627031" duration="402000" />
+      <workItem from="1709620389579" duration="38601000" />
+      <workItem from="1710122210792" duration="13817000" />
+      <workItem from="1710201065210" duration="19072000" />
+      <workItem from="1710288016421" duration="35278000" />
+      <workItem from="1710458764457" duration="11165000" />
+      <workItem from="1710481964517" duration="23480000" />
+      <workItem from="1710813995081" duration="6342000" />
+      <workItem from="1710893014100" duration="28666000" />
+      <workItem from="1710979650728" duration="20194000" />
+      <workItem from="1711066356897" duration="14812000" />
+      <workItem from="1711325917158" duration="11671000" />
+      <workItem from="1711411198328" duration="6344000" />
+      <workItem from="1711497500407" duration="989000" />
+      <workItem from="1711584560971" duration="29588000" />
+      <workItem from="1712052097485" duration="5000" />
+      <workItem from="1712107994685" duration="3809000" />
+      <workItem from="1712280018687" duration="16883000" />
+      <workItem from="1712794696015" duration="28938000" />
+      <workItem from="1713146000110" duration="11709000" />
+      <workItem from="1713169068274" duration="68807000" />
+      <workItem from="1713495037099" duration="9035000" />
+      <workItem from="1713744913771" duration="25320000" />
+      <workItem from="1713830604730" duration="8190000" />
+      <workItem from="1713861071465" duration="2435000" />
+      <workItem from="1713918180222" duration="599000" />
+      <workItem from="1714106522622" duration="12168000" />
+      <workItem from="1714373294816" duration="906000" />
+      <workItem from="1714470543009" duration="290000" />
+      <workItem from="1714629240901" duration="8000" />
+      <workItem from="1715508618334" duration="9596000" />
+      <workItem from="1715843473924" duration="8741000" />
+      <workItem from="1716277862552" duration="861000" />
+      <workItem from="1716279176527" duration="635000" />
+      <workItem from="1716280169528" duration="79000" />
+      <workItem from="1716513143258" duration="16821000" />
+      <workItem from="1716878910382" duration="3269000" />
+      <workItem from="1716941913167" duration="13246000" />
+      <workItem from="1717033913261" duration="36149000" />
+      <workItem from="1717375500719" duration="575000" />
+      <workItem from="1717978492877" duration="7687000" />
+      <workItem from="1717989355214" duration="48676000" />
+      <workItem from="1718266778450" duration="1483000" />
+    </task>
+    <task id="LOCAL-00132" summary="added Show memo controller button">
+      <option name="closed" value="true" />
+      <created>1710469334082</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1710469334082</updated>
+    </task>
+    <task id="LOCAL-00133" summary="fixed ui bug">
+      <option name="closed" value="true" />
+      <created>1710482094259</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1710482094260</updated>
+    </task>
+    <task id="LOCAL-00134" summary="added fullscreen functionality">
+      <option name="closed" value="true" />
+      <created>1710482127378</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1710482127378</updated>
+    </task>
+    <task id="LOCAL-00135" summary="updated FitView icon">
+      <option name="closed" value="true" />
+      <created>1710482350953</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1710482350953</updated>
+    </task>
+    <task id="LOCAL-00136" summary="fixed memo button tooltip content">
+      <option name="closed" value="true" />
+      <created>1710482374298</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1710482374298</updated>
+    </task>
+    <task id="LOCAL-00137" summary="updated getNodes function">
+      <option name="closed" value="true" />
+      <created>1710723262776</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1710723262776</updated>
+    </task>
+    <task id="LOCAL-00138" summary="updated getting data from playground logic">
+      <option name="closed" value="true" />
+      <created>1710737218647</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1710737218648</updated>
+    </task>
+    <task id="LOCAL-00139" summary="added connected state to usePlaygroundStore.ts">
+      <option name="closed" value="true" />
+      <created>1710737250845</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1710737250845</updated>
+    </task>
+    <task id="LOCAL-00140" summary="updated follow message">
+      <option name="closed" value="true" />
+      <created>1710741627544</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1710741627544</updated>
+    </task>
+    <task id="LOCAL-00141" summary="added onBeforeEntityDelete function">
+      <option name="closed" value="true" />
+      <created>1710812108273</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812108273</updated>
+    </task>
+    <task id="LOCAL-00142" summary="added onBeforeMemoDelete function">
+      <option name="closed" value="true" />
+      <created>1710812117152</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812117152</updated>
+    </task>
+    <task id="LOCAL-00143" summary="added NODE_TYPES enum">
+      <option name="closed" value="true" />
+      <created>1710812151229</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812151229</updated>
+    </task>
+    <task id="LOCAL-00144" summary="Added memo delete function">
+      <option name="closed" value="true" />
+      <created>1710812190182</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812190182</updated>
+    </task>
+    <task id="LOCAL-00145" summary="updated MemoNode styles">
+      <option name="closed" value="true" />
+      <created>1710812206015</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812206015</updated>
+    </task>
+    <task id="LOCAL-00146" summary="applied NODE_TYPES enum">
+      <option name="closed" value="true" />
+      <created>1710812238550</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812238550</updated>
+    </task>
+    <task id="LOCAL-00147" summary="update onBeforeMemoDelete -&gt;onBeforeMemosDelete">
+      <option name="closed" value="true" />
+      <created>1710812330658</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812330658</updated>
+    </task>
+    <task id="LOCAL-00148" summary="update onBeforeEntityDelete -&gt; onBeforeEntitiesDelete">
+      <option name="closed" value="true" />
+      <created>1710812365018</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1710812365018</updated>
+    </task>
+    <task id="LOCAL-00149" summary="updated onBeforeDelete logic">
+      <option name="closed" value="true" />
+      <created>1710817072270</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1710817072270</updated>
+    </task>
+    <task id="LOCAL-00150" summary="added Entity LogicView and Editor Views">
+      <option name="closed" value="true" />
+      <created>1710823141377</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1710823141377</updated>
+    </task>
+    <task id="LOCAL-00151" summary=" updated react-query">
+      <option name="closed" value="true" />
+      <created>1710923095754</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1710923095754</updated>
+    </task>
+    <task id="LOCAL-00152" summary="applied ui changes to Library page">
+      <option name="closed" value="true" />
+      <created>1710923121142</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1710923121142</updated>
+    </task>
+    <task id="LOCAL-00153" summary="fixed Erd list api">
+      <option name="closed" value="true" />
+      <created>1710982577153</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1710982577153</updated>
+    </task>
+    <task id="LOCAL-00154" summary="added skeletons to team list">
+      <option name="closed" value="true" />
+      <created>1710985323661</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1710985323661</updated>
+    </task>
+    <task id="LOCAL-00155" summary="added api limit based on screen width">
+      <option name="closed" value="true" />
+      <created>1710988247646</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1710988247646</updated>
+    </task>
+    <task id="LOCAL-00156" summary="added tooltip to Button with confirm">
+      <option name="closed" value="true" />
+      <created>1710988382017</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1710988382017</updated>
+    </task>
+    <task id="LOCAL-00157" summary="fixed - limit">
+      <option name="closed" value="true" />
+      <created>1710989005705</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1710989005705</updated>
+    </task>
+    <task id="LOCAL-00158" summary="applied some responsivenes">
+      <option name="closed" value="true" />
+      <created>1711000978885</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1711000978885</updated>
+    </task>
+    <task id="LOCAL-00159" summary="added profile setting update page">
+      <option name="closed" value="true" />
+      <created>1711097624445</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1711097624445</updated>
+    </task>
+    <task id="LOCAL-00160" summary="added Security.tsx page">
+      <option name="closed" value="true" />
+      <created>1711354361241</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1711354361241</updated>
+    </task>
+    <task id="LOCAL-00161" summary="@mantine -&gt; 7.7.0">
+      <option name="closed" value="true" />
+      <created>1711435219450</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1711435219450</updated>
+    </task>
+    <task id="LOCAL-00162" summary="added Security Pane">
+      <option name="closed" value="true" />
+      <created>1711435234869</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1711435234869</updated>
+    </task>
+    <task id="LOCAL-00163" summary="Avatar image sizes fixed">
+      <option name="closed" value="true" />
+      <created>1711589775471</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1711589775472</updated>
+    </task>
+    <task id="LOCAL-00164" summary="applied render optimization">
+      <option name="closed" value="true" />
+      <created>1711591006048</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1711591006048</updated>
+    </task>
+    <task id="LOCAL-00165" summary="fixed memo resizer">
+      <option name="closed" value="true" />
+      <created>1711595144511</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1711595144511</updated>
+    </task>
+    <task id="LOCAL-00166" summary="removed library table background color">
+      <option name="closed" value="true" />
+      <created>1711679393226</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1711679393226</updated>
+    </task>
+    <task id="LOCAL-00167" summary="fixed some bugs">
+      <option name="closed" value="true" />
+      <created>1711702279438</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1711702279439</updated>
+    </task>
+    <task id="LOCAL-00168" summary="fixed create team bug">
+      <option name="closed" value="true" />
+      <created>1712108830165</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1712108830165</updated>
+    </task>
+    <task id="LOCAL-00169" summary="default notification position changed to right-bottom">
+      <option name="closed" value="true" />
+      <created>1712109044096</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1712109044096</updated>
+    </task>
+    <task id="LOCAL-00170" summary="Temporary performance improvement">
+      <option name="closed" value="true" />
+      <created>1712817683830</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1712817683831</updated>
+    </task>
+    <task id="LOCAL-00171" summary="updated pointer to filled">
+      <option name="closed" value="true" />
+      <created>1712818086697</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1712818086697</updated>
+    </task>
+    <task id="LOCAL-00172" summary="big performance update">
+      <option name="closed" value="true" />
+      <created>1713771077339</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1713771077339</updated>
+    </task>
+    <task id="LOCAL-00173" summary="docker node versio fixed">
+      <option name="closed" value="true" />
+      <created>1713771504531</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1713771504531</updated>
+    </task>
+    <task id="LOCAL-00174" summary="docker node versio fixed">
+      <option name="closed" value="true" />
+      <created>1713771643853</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1713771643853</updated>
+    </task>
+    <task id="LOCAL-00175" summary="fixed some ui errors">
+      <option name="closed" value="true" />
+      <created>1713775839332</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1713775839332</updated>
+    </task>
+    <task id="LOCAL-00176" summary="performance upgrades">
+      <option name="closed" value="true" />
+      <created>1715512161058</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1715512161058</updated>
+    </task>
+    <task id="LOCAL-00177" summary="updated zustand package">
+      <option name="closed" value="true" />
+      <created>1715559686429</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1715559686429</updated>
+    </task>
+    <task id="LOCAL-00178" summary="removed unsused packages">
+      <option name="closed" value="true" />
+      <created>1715559967551</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1715559967551</updated>
+    </task>
+    <task id="LOCAL-00179" summary="docker node version upgraded">
+      <option name="closed" value="true" />
+      <created>1715559980872</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1715559980872</updated>
+    </task>
+    <task id="LOCAL-00180" summary="some performance updates">
+      <option name="closed" value="true" />
+      <created>1716544739023</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1716544739024</updated>
+    </task>
+    <option name="localTasksCounter" value="181" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="added api limit based on screen width" />
+    <MESSAGE value="added tooltip to Button with confirm" />
+    <MESSAGE value="fixed - limit" />
+    <MESSAGE value="applied some responsivenes" />
+    <MESSAGE value="added profile setting update page" />
+    <MESSAGE value="added Security.tsx page" />
+    <MESSAGE value="@mantine -&gt; 7.7.0" />
+    <MESSAGE value="added Security Pane" />
+    <MESSAGE value="Avatar image sizes fixed" />
+    <MESSAGE value="applied render optimization" />
+    <MESSAGE value="fixed memo resizer" />
+    <MESSAGE value="removed library table background color" />
+    <MESSAGE value="fixed some bugs" />
+    <MESSAGE value="fixed create team bug" />
+    <MESSAGE value="default notification position changed to right-bottom" />
+    <MESSAGE value="Temporary performance improvement" />
+    <MESSAGE value="updated pointer to filled" />
+    <MESSAGE value="big performance update" />
+    <MESSAGE value="docker node versio fixed" />
+    <MESSAGE value="fixed some ui errors" />
+    <MESSAGE value="performance upgrades" />
+    <MESSAGE value="updated zustand package" />
+    <MESSAGE value="removed unsused packages" />
+    <MESSAGE value="docker node version upgraded" />
+    <MESSAGE value="some performance updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="some performance updates" />
+  </component>
+</project>

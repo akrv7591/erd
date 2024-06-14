@@ -23,13 +23,17 @@ export const ErdTableDataProvider = React.memo((props: Props) => {
   }, [data, setData])
 
   const addColumn = (type: "primary" | "default") => {
-    const newColumn: EntityNodeColumn = {...DEFAULT_COLUMN_DATA, order: 100 + data.columns.length}
-    newColumn.id = createId()
+    const newColumn: EntityNodeColumn = {
+      ...DEFAULT_COLUMN_DATA,
+      order: 100 + data.columns.length,
+      id: createId(),
+      entityId: nodeId,
+    }
 
     if (type === "primary") {
       newColumn.primary = true;
       newColumn.unique = true;
-      newColumn.null = true;
+      newColumn.notNull = true;
     }
 
     setData(cur => ({...cur, columns: [...cur.columns, newColumn]}))

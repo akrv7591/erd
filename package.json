@@ -6,6 +6,7 @@
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@dotlottie/react-player": "^1.6.15",
+    "@mantine/colors-generator": "^7.10.1",
     "@mantine/core": "^7.9.1",
     "@mantine/form": "^7.9.1",
     "@mantine/hooks": "^7.9.1",

@@ -1,5 +1,8 @@
-.title {
-    margin-left: 10px;
-    color: white;
-    font-weight: bold;
+.titleWrapper {
+    background-color: var(--mantine-color-dark-6);
+    height: 40px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
 }

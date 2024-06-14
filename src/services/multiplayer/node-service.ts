@@ -1,64 +1,59 @@
-import {Key} from "@/enums/playground.ts";
-import {NodeType} from "@/types/playground";
-import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {CallbackDataStatus, NodeEnum} from "@/enums/playground.ts";
 import {ServiceArgs} from "@/services/multiplayer/multiplayer";
+import {Node} from "@xyflow/react";
 
-export const makeNodeRedisKey = (erdId: string, type: NODE_TYPES, nodeId: string) => `${Key.playgrounds}:${erdId}:${Key.nodes}:${type}:${nodeId}:${Key.position}`
-
-export const nodeService = ({store}: ServiceArgs) => {
+export const nodeService = ({store, socket}: ServiceArgs) => {
   const set = store.setState
   const state = store.getState
-
-  function onPatchPositions(data: { [key: string]: string }) {
-    set(state => ({
-      nodes: state.nodes.map(node => {
-        const positionJson = data[makeNodeRedisKey(state.id, state.playground.nodesType.get(node.id)!, node.id)]
-
-        if (positionJson) {
-          return {
-            ...node,
-            position: JSON.parse(positionJson)
-          }
-        } else {
-          return node
-        }
-      })
-    }))
-  }
-
-  function onAdd(data: NodeType) {
-    if (!data.type) {
-      throw Error("Node type is required")
-    }
-    addNodesType(data.id, data.type!)
-    set(state => ({nodes: [...state.nodes, data]}))
-  }
-
-  function onDelete(id: string | string[]) {
-    const filterFunction = (node: NodeType) => {
-      if (Array.isArray(id)) {
-        id.forEach(deleteNodesType)
-        return !id.includes(node.id)
-      } else {
-        deleteNodesType(id)
-        return node.id !== id
-      }
-    }
-    set(state => ({nodes: state.nodes.filter(filterFunction)}))
-  }
 
   function deleteNodesType(id: string) {
     state().playground.nodesType.delete(id)
   }
 
-  function addNodesType(id: string, type: NODE_TYPES) {
-    state().playground.nodesType.set(id, type)
-  }
+  socket.on(NodeEnum.patchPositions, (data, callback) => {
+    const nodeIds = data.map(node => node.nodeId)
+    try {
+      set(state => ({
+        nodes: state.nodes.map(node => {
+          if (!nodeIds.includes(node.id)) return node
 
-  return {
-    onPatchPositions,
-    onDelete,
-    onAdd,
-  }
+          const nodePosition = data.find(n => n.nodeId === node.id)!.position
 
+          return {
+            ...node,
+            position: nodePosition
+          }
+        })
+      }))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(NodeEnum.patchPositions, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
+
+  socket.on(NodeEnum.add, (data, callback) => {
+    try {
+      const node = data.node as Node
+      set(state => ({nodes: [...state.nodes, node]}))
+    } catch (e) {
+      console.error(NodeEnum.add, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
+
+  socket.on(NodeEnum.delete, (data, callback) => {
+    try {
+      set(state => ({
+        nodes: state.nodes.filter(node => {
+          const deleteNode = !data.nodeId.includes(node.id)
+          if (deleteNode) deleteNodesType(node.id)
+          return deleteNode
+        })
+      }))
+    } catch (e) {
+      console.error(NodeEnum.delete, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 }

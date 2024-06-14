@@ -49,8 +49,8 @@ export default function Signin (props: PaperProps) {
 
   const form = useForm({
     initialValues: {
-      email: '',
-      password: '',
+      email: 'erdiagramly@gmail.com',
+      password: 'eE15371537!',
     },
 
     validate: {

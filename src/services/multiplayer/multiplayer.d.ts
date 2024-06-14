@@ -1,9 +1,9 @@
 import {PlaygroundStore} from "@/contexts/playground/PlaygroundStoreContext.ts";
 import {ReactFlowInstance} from "@xyflow/react";
-import {Socket} from "socket.io-client";
+import {MultiplayerSocket} from "@/services/multiplayer/type";
 
 export type ServiceArgs = {
   store: PlaygroundStore
   reactFlow: ReactFlowInstance
-  socket: Socket
+  socket: MultiplayerSocket
 }

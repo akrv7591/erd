@@ -1,0 +1,1 @@
+export {TypeIcon} from "./TypeIcon"

@@ -1,0 +1,11 @@
+.default {
+    color: var(--mantine-primary-color-filled)
+}
+
+.foreign {
+    color: #f84219
+}
+
+.primary {
+    color: #ffdc21
+}

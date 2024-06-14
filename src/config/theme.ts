@@ -1,5 +1,5 @@
 import {ActionIcon, Button, createTheme, Input, MantineColorsTuple, Pagination, Tooltip} from "@mantine/core";
-import {generateColors} from "@/utility/ColorGenerator.ts";
+import {generateColors} from "@mantine/colors-generator";
 
 const customDark: MantineColorsTuple = [
   "#C1C2C5",
@@ -52,6 +52,7 @@ export const theme = createTheme({
 
 
 export const erdEntityTheme = (color: string) => {
+
   const myColors = generateColors(color)
   const colorName = color.split("#")[1]
 

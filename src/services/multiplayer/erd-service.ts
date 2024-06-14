@@ -1,26 +1,24 @@
-import {PlaygroundStoreState} from "@/stores/playgroundStore.ts";
-import {IErd} from "@/types/data/db-model-interfaces";
-import {ServiceArgs} from "@/services/multiplayer/multiplayer";
+import {MultiplayerService} from "@/services/multiplayer/type";
+import {CallbackDataStatus, ErdEnum} from "@/enums/playground.ts";
 
-export type ErdWebsocketPatch = {
-  key: keyof IErd,
-  value: string | number
-}
-
-export const erdService = ({store}: ServiceArgs) => {
+export const erdService: MultiplayerService = ({store, socket}) => {
   const set = store.setState
 
-  function onPut(data: Omit<PlaygroundStoreState, 'playground'>) {
-    set(state => ({...state, ...data}))
-  }
+  socket.on(ErdEnum.put, (data, callback) => {
+    try {
+      set(state => ({...state, ...data}))
+    } catch (e) {
+      console.error(ErdEnum.put, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 
-  function onPatch({key, value}: { key: string, value: any }) {
-    set(state => ({...state, ...{[key]: value}}))
-  }
-
-  return {
-    onPut,
-    onPatch,
-  }
-
+  socket.on(ErdEnum.patch, (data, callback) => {
+    try {
+      set(state => ({...state, ...{[data.key]: data.value}}))
+    } catch (e) {
+      console.error(ErdEnum.patch, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 }

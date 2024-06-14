@@ -7,8 +7,10 @@ import {ICRelation} from "@/types/data/db-model-interfaces";
 import {RELATION} from "@/constants/relations.ts";
 import {EntityNode, EntityNodeColumn} from "@/types/entity-node";
 import voca from "voca";
-import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
+import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
 import {RelationEnum} from "@/enums/playground.ts";
+import {notifications} from "@mantine/notifications";
+import { RelationAddEmmitData } from "@/services/multiplayer/type";
 
 
 interface RelationStoreState {
@@ -23,6 +25,7 @@ interface RelationStoreAction {
   addOneToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: ConnectionData) => void
   addManyToManyRelations: (sourceNode: EntityNode, targetNode: EntityNode, data: ConnectionData) => void
   onBeforeRelationsDelete: (relations: Edge[]) => Promise<boolean>
+  addRelation: (relation: Edge) => void
 }
 
 export type RelationStore = RelationStoreState & RelationStoreAction
@@ -159,11 +162,26 @@ export const relationStore: StateCreator<PlaygroundStore, [], [], RelationStore>
         opened: true,
         message: `Are you sure you want to delete ${relations.length} ${relations.length > 1 ? "relations" : "relation"} with relation columns?`,
         onConfirm: (callback) => {
-          state.playground.relation(RelationEnum.delete, relations.map(relation => relation.id))
-          if (callback) {
-            callback()
-          }
-          res(true)
+          const relationDeleteEmmitHandler = state.playground.handleEmitResponse({
+            onSuccess: () => {
+              if (callback) {
+                callback()
+              }
+              res(true)
+            },
+            onError: () => {
+              notifications.show({
+                title: RelationEnum.delete,
+                message: "Failed to delete relation"
+              })
+              res(true)
+            }
+          })
+
+          state.playground.socket.emit(RelationEnum.delete, {
+            relationId: relations.map(relation => relation.id)
+          }, relationDeleteEmmitHandler)
+
         },
         onCancel: (callback) => {
           res(false)
@@ -174,5 +192,24 @@ export const relationStore: StateCreator<PlaygroundStore, [], [], RelationStore>
       }
     })
   }),
-  resetRelationStore: () => set(initialStore)
+  resetRelationStore: () => set(initialStore),
+
+  addRelation(relation) {
+    const {playground, addEdge} = get()
+    const {handleEmitResponse, notifyErrorMessage, socket} = playground
+    const relationAddResponse = handleEmitResponse({
+      onError: notifyErrorMessage(RelationEnum.add, "Failed to add relation"),
+      onSuccess: () => addEdge(relation)
+    })
+    const data: RelationAddEmmitData = {
+      relation: {
+        id: relation.id,
+        target: relation.target,
+        source: relation.source,
+        markerEnd: relation.markerEnd as string,
+        erdId: get().id
+      }
+    }
+    socket.emit(RelationEnum.add, data, relationAddResponse)
+  },
 }))

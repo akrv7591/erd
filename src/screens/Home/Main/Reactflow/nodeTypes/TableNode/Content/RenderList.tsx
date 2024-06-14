@@ -9,7 +9,7 @@ const RenderList = React.forwardRef<any, any>((props, ref) => {
     <Table withRowBorders>
       <Table.Caption>
         <Collapse in={data.columns.length === 0}>
-          <Text>No columns</Text>
+          <Text>No rows</Text>
         </Collapse>
       </Table.Caption>
       <Table.Thead>

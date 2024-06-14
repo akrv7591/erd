@@ -33,7 +33,7 @@ export interface IColumn {
   primary: boolean;
   type: string;
   foreignKey: boolean;
-  null: boolean;
+  notNull: boolean;
   unique: boolean;
   unsigned: boolean;
   autoIncrement: boolean;

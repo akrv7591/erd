@@ -1,10 +1,9 @@
 import {FC, memo} from 'react';
 import {ConnectionLineType, ReactFlow, ReactFlowProps, SelectionMode} from '@xyflow/react';
-import {defaultEdgeOptions, edgeTypes} from "./edges";
-import {NODE_TYPES, nodeTypes} from "./nodes";
+import {defaultEdgeOptions, edgeTypes} from "./EdgeTypes";
+import {NODE_TYPES, nodeTypes} from "./NodeTypes";
 import {PlaygroundStore} from "@/stores/playgroundStore.ts";
-import FlowUtils from "@/screens/Playground/Main/FlowUtils/FlowUtils.tsx";
-import {PlayerEnum} from "@/enums/playground.ts";
+import {FlowUtils} from "@/screens/Playground/Main/FlowUtils/FlowUtils.tsx";
 import {NodeType} from "@/types/playground";
 import {useShallow} from "zustand/react/shallow";
 import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
@@ -26,7 +25,7 @@ const reactFlowSelectors = (state: PlaygroundStore): Partial<ReactFlowProps<Node
   onMouseMove: (e) => state.playground.handleMouseMove({x: e.clientX, y: e.clientY}),
   onClick: () => {
     if (state.subscribedTo) {
-      state.playground.player(PlayerEnum.unsubscribe, state.subscribedTo)
+      state.playground.handlePlayerUnsubscribe(state.subscribedTo)
     }
   },
   onDragOver: (e: any) => {
@@ -39,13 +38,13 @@ const reactFlowSelectors = (state: PlaygroundStore): Partial<ReactFlowProps<Node
     }
 
     if (state.subscribers.length) {
-      state.playground.player(PlayerEnum.viewpointChange, viewport)
+      state.playground.handleViewportChange({viewport})
     }
   },
 })
 
 
-const Main: FC = memo(() => {
+export const Main: FC = memo(() => {
   const reactFlowProps = usePlayground(useShallow(reactFlowSelectors))
 
   return (
@@ -65,8 +64,8 @@ const Main: FC = memo(() => {
         selectionOnDrag
         panOnDrag={[0, 1, 2, 3, 4]}
         selectionMode={SelectionMode.Partial}
-        snapToGrid
-        snapGrid={[30, 30]}
+        // snapToGrid
+        // snapGrid={[30, 30]}
 
         {...reactFlowProps}
       >
@@ -75,5 +74,3 @@ const Main: FC = memo(() => {
     </div>
   );
 })
-
-export default Main

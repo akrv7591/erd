@@ -17,8 +17,6 @@ const queryClient = new QueryClient({
 })
 
 function App() {
-
-
   return (
     <GoogleOAuthProvider clientId="316029761884-vs47r1pnkor2ev4lvev7mt54te06154t.apps.googleusercontent.com">
       <QueryClientProvider client={queryClient}>

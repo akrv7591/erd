@@ -1,20 +1,32 @@
 import {Edge} from "@xyflow/react";
-import {ServiceArgs} from "@/services/multiplayer/multiplayer";
+import {MultiplayerService} from "@/services/multiplayer/type";
+import {CallbackDataStatus, RelationEnum} from "@/enums/playground.ts";
 
-export const relationService = ({store}: ServiceArgs) => {
+export const relationService: MultiplayerService = ({socket, store}) => {
   const set = store.setState
 
-  function onAdd(data: Edge) {
-    set(cur => ({relations: [...cur.relations, data]}))
-  }
+  socket.on(RelationEnum.add, (data, callback) => {
+    try {
+      const relation: Edge = {
+        id: data.relation.id,
+        source: data.relation.source,
+        target: data.relation.target,
+        markerEnd: data.relation.markerEnd
+      }
 
-  function onDelete(id: string) {
-    set(cur => ({relations: cur.relations.filter(t => t.id !== id)}))
-  }
+      set(cur => ({relations: [...cur.relations, relation]}))
+    } catch (e) {
+      console.error(RelationEnum.add, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 
-  return {
-    onAdd,
-    onDelete,
-  }
-
+  socket.on(RelationEnum.delete, (data, callback) => {
+    try {
+      set(cur => ({relations: cur.relations.filter(t => !data.relationId.includes(t.id))}))
+    } catch (e) {
+      console.error(RelationEnum.delete, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 }

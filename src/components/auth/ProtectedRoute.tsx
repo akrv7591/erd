@@ -12,7 +12,7 @@ export default function ProtectedRoute() {
       alert: {
         title: "Authorization",
         message: "Oops. Login is required",
-        color: "red",
+        color: "orange",
       },
     }
 

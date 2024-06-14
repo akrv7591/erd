@@ -1,86 +1,92 @@
 import {orderBy} from "lodash";
-import {EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
-import {ServiceArgs} from "@/services/multiplayer/multiplayer";
+import {CallbackDataStatus, ColumnEnum} from "@/enums/playground.ts";
+import type {MultiplayerService} from "@/services/multiplayer/type";
+import type {EntityNodeColumn, EntityNodeData} from "@/types/entity-node";
 
-export type ColumnWebsocketPatch = {
-  entityId: string
-  columnId: string
-  key: keyof EntityNodeColumn
-  value: any
-}
-
-
-export const columnService = ({store}: ServiceArgs) => {
+export const columnService: MultiplayerService = ({store, socket}) => {
   const set = store.setState
 
-  function onAdd({column}: {column: EntityNodeColumn}) {
-    set(cur => ({
-      nodes: cur.nodes.map(node => {
+  socket.on(ColumnEnum.add, (data, callback) => {
+    console.log(data.column)
+    try {
+      set(cur => ({
+        nodes: cur.nodes.map(node => {
 
-        if (node.id !== column.entityId) return node
+          if (node.id !== data.column.entityId) return node
 
-        const entityData = node.data as EntityNodeData
-
-        return {
-          ...node,
-          data: {
-            ...entityData,
-            columns: [...entityData.columns, column]
-          }
-        }
-      })
-    }))
-  }
-
-  function onPatch(data: ColumnWebsocketPatch) {
-    set(state => ({
-      nodes: state.nodes.map(node => {
-        if (node.id === data.entityId) {
           const entityData = node.data as EntityNodeData
-          let columns: EntityNodeColumn[]
 
-          if (data.key === "order") {
-            columns = orderBy(entityData.columns.map(c => c.id === data.columnId ? {
-              ...c,
-              [data.key]: data.value
-            } : c), 'order', 'asc')
-          } else {
-            columns = entityData.columns.map(c => c.id === data.columnId ? {...c, [data.key]: data.value} : c)
-          }
-          return {
-            ...node,
-            data: {
-              ...node.data,
-              columns
-            }
-          }
-        }
-        return node
-      })
-    }))
-  }
-
-  function onDelete(columnId: string[], entityId: string) {
-    set(cur => ({
-      nodes: cur.nodes.map(node => {
-        if (node.id === entityId) {
-          const entityData = node.data as EntityNodeData
           return {
             ...node,
             data: {
               ...entityData,
-              columns: entityData.columns.filter(c => !columnId.includes(c.id))
+              columns: [...entityData.columns, data.column]
             }
           }
-        }
-        return node
-      })
-    }))
-  }
+        })
+      }))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(ColumnEnum.patch, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 
-  return {
-    onAdd,
-    onPatch,
-    onDelete,
-  }
+  socket.on(ColumnEnum.patch, (data, callback) => {
+    try {
+      set(state => ({
+        nodes: state.nodes.map(node => {
+          if (node.id === data.entityId) {
+            const entityData = node.data as EntityNodeData
+            let columns: EntityNodeColumn[]
+
+            if (data.key === "order") {
+              columns = orderBy(entityData.columns.map(c => c.id === data.columnId ? {
+                ...c,
+                [data.key]: data.value
+              } : c), 'order', 'asc')
+            } else {
+              columns = entityData.columns.map(c => c.id === data.columnId ? {...c, [data.key]: data.value} : c)
+            }
+            return {
+              ...node,
+              data: {
+                ...node.data,
+                columns
+              }
+            }
+          }
+          return node
+        })
+      }))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(ColumnEnum.patch, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
+
+  socket.on(ColumnEnum.delete, (data, callback) => {
+    try {
+      set(cur => ({
+        nodes: cur.nodes.map(node => {
+          if (node.id === data.entityId) {
+            const entityData = node.data as EntityNodeData
+            return {
+              ...node,
+              data: {
+                ...entityData,
+                columns: entityData.columns.filter(c => !data.columnId.includes(c.id))
+              }
+            }
+          }
+          return node
+        })
+      }))
+      callback(CallbackDataStatus.OK)
+    } catch (e) {
+      console.error(ColumnEnum.patch, e)
+      callback(CallbackDataStatus.FAILED)
+    }
+  })
 }

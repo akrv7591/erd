@@ -1,8 +1,8 @@
 import {
   Avatar,
-  Box,
   Button,
   Card,
+  Center,
   Group,
   Popover,
   PopoverProps,
@@ -50,9 +50,9 @@ export default function ButtonWithConfirm({target, message, onConfirm, isDanger,
       onClose={close}
       {...rest}
     >
-      <Popover.Target>
+      <Popover.Target component={"div"}>
         <Tooltip label={tooltip} hidden={!tooltip}>
-          <Box onClick={open}>{target}</Box>
+          <Center onClick={open}>{target}</Center>
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown>

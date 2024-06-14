@@ -1,0 +1,24 @@
+.tableRow {
+    cursor: grab;
+    border-radius: 5px;
+
+    &.border {
+        outline: 1px solid var(--mantine-primary-color-filled) !important
+    }
+
+    &:hover {
+        outline: 1px solid var(--mantine-primary-color-filled) !important
+    }
+}
+
+.tableRowDrag {
+    cursor: grabbing;
+    border-radius: 5px;
+    background-color: var(--mantine-color-dark-7) !important;
+    outline: 1px solid var(--mantine-primary-color-light);
+    position: relative;
+}
+
+.ghostRowClass {
+    opacity: 0;
+}
