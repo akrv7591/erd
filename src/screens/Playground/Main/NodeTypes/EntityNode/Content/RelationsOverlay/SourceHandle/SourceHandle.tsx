@@ -1,13 +1,13 @@
 import { RELATION } from "@/constants/relations.ts";
-import { usePlayground } from "@/contexts/playground/PlaygroundStoreContext.ts";
 import { useEntityNodeData } from "@/hooks/useEntityNodeData.ts";
 import { Handle, Position, useConnection } from "@xyflow/react";
 import { memo, useMemo } from "react";
 import { Overlay, Text } from "@mantine/core";
 import classes from "../style.module.css"
+import {useDiagramStore} from "@/contexts/DiagramContext";
 
 export const SourceHandle = memo(() => {
-  const tool = usePlayground(state => state.tool)
+  const tool = useDiagramStore(state => state.tool)
   const nodeData = useEntityNodeData();
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
@@ -17,10 +17,10 @@ export const SourceHandle = memo(() => {
     if (!isToolRelation) return false
     if (!nodeData) return false
 
-    return nodeData.data.columns.some(column => column.primary)
+    return nodeData.columns.some(column => column.primary)
   }, [nodeData, tool, isToolRelation]);
 
-  const isConnecting = !!connection.startHandle
+  const isConnecting = !!connection.fromHandle
 
   let className = classes.erdNodeHandle
   let label = "Drag to connect"

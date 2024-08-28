@@ -1,10 +1,10 @@
 import React from "react";
-import {EntityNodeColumn} from "@/types/entity-node";
 import {IconDiamondsFilled, IconKey} from "@tabler/icons-react";
 import classes from "./style.module.css"
 import {Tooltip} from "@mantine/core";
+import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
 
-export const TypeIcon = React.memo(({data}: { data: Pick<EntityNodeColumn, 'primary' | 'foreignKey'> }) => {
+export const TypeIcon = React.memo(({data}: { data: Pick<EntityColumn, 'primary' | 'foreignKey'> }) => {
 
   if (data.primary) return (
     <Tooltip label={"Primary key"}>

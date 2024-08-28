@@ -7,9 +7,8 @@ import {EntityControl} from "../types";
 
 //Component imports
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
+import {useDiagramStore} from "@/contexts/DiagramContext";
 
-// Custom hook imports
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 interface Props {
   data: EntityControl;
@@ -20,8 +19,8 @@ const DISABLED_LABEL = "Please add at least 2 table with primary keys"
 
 
 export const IconButton: FC<Props> = ({data, disabled}) => {
-  const tool = usePlayground(state => state.tool)
-  const setTool = usePlayground(state => state.setTool)
+  const tool = useDiagramStore(state => state.tool)
+  const setTool = useDiagramStore(state => state.setTool)
   const isDisabled = disabled && !data.allowOnDisabled
   const tooltipLabel = isDisabled ? DISABLED_LABEL : data.label
   const isSelected = tool === data.value
@@ -41,7 +40,7 @@ export const IconButton: FC<Props> = ({data, disabled}) => {
 
 
   return (
-    <Tooltip withArrow position={"right"} label={tooltipLabel}>
+    <Tooltip withArrow position={"right"} label={tooltipLabel} opened={false}>
       <PlaygroundActionIcon
         disabled={isDisabled}
         variant={isSelected ? "light" : "default"}

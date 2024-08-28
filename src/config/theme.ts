@@ -1,4 +1,4 @@
-import {ActionIcon, Button, createTheme, Input, MantineColorsTuple, Pagination, Tooltip} from "@mantine/core";
+import {ActionIcon, Button, createTheme, Input, MantineColorsTuple, Modal, Pagination, Tooltip} from "@mantine/core";
 import {generateColors} from "@mantine/colors-generator";
 
 const customDark: MantineColorsTuple = [
@@ -22,6 +22,7 @@ export const theme = createTheme({
   components: {
     Tooltip: Tooltip.extend({
       defaultProps: {
+        withinPortal: false,
         withArrow: true,
         transitionProps: {
           transition: "fade",
@@ -45,6 +46,11 @@ export const theme = createTheme({
     Pagination: Pagination.extend({
       defaultProps: {
         color: "default"
+      }
+    }),
+    Modal: Modal.extend({
+      defaultProps: {
+        returnFocus: false
       }
     })
   }

@@ -44,6 +44,7 @@ export default function ButtonWithConfirm({target, message, onConfirm, isDanger,
       classNames={isDanger ? dangerClasses : defaultClasses}
       withArrow
       shadow={"md"}
+      withinPortal={false}
       closeOnClickOutside
       closeOnEscape
       opened={opened}

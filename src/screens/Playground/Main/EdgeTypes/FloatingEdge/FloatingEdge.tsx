@@ -1,9 +1,9 @@
-import {EdgeProps, ReactFlowState, useStore} from '@xyflow/react';
+import {EdgeProps, useInternalNode} from '@xyflow/react';
 import {RELATION} from "@/constants/relations.ts";
-import {memo, useCallback, useMemo} from "react";
+import {memo, useMemo} from "react";
 import Path from "./Path.tsx";
 import "./style.css"
-import { EntityNode } from '@/types/entity-node';
+import {EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
 
 
 const getMarkerEnd = (markerEnd: string, selected: boolean | undefined, end: boolean) => {
@@ -27,11 +27,9 @@ const getMarkerEnd = (markerEnd: string, selected: boolean | undefined, end: boo
 }
 
 export const FloatingEdge = memo((props: EdgeProps) => {
-  const sourceNodeSelector = useCallback((store: ReactFlowState) => store.nodes.find(node => node.id === props.source)! as EntityNode, [props.source])
-  const targetNodeSelector = useCallback((store: ReactFlowState) => store.nodes.find(node => node.id === props.target)! as EntityNode, [props.target])
 
-  const sourceNode = useStore(sourceNodeSelector);
-  const targetNode = useStore(targetNodeSelector);
+  const sourceNode = useInternalNode<EntityNode>(props.source);
+  const targetNode = useInternalNode<EntityNode>(props.target);
 
   if (!sourceNode || !targetNode) {
     return null

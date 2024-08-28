@@ -1,52 +1,38 @@
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm"
-import { usePlaygroundStore } from "@/contexts/playground/PlaygroundStoreContext.ts"
-import { ColumnEnum } from "@/enums/playground.ts"
-import { useEntityNodeData } from "@/hooks/useEntityNodeData.ts"
-import { ActionIcon, Indicator, Tooltip } from "@mantine/core"
-import { IconRowInsertTop, IconTrash } from "@tabler/icons-react"
-import { useReactFlow } from "@xyflow/react"
-import { useCallback, useMemo } from "react"
+import {ActionIcon, Indicator, Tooltip} from "@mantine/core"
+import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
+import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
+import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
+import {memo, useCallback} from "react";
+import {useShallow} from "zustand/react/shallow";
 
-export const RowControls = () => {
-  const store = usePlaygroundStore()
-  const reactflow = useReactFlow()
-  const {addDefaultColumn, addPrimaryColumn, deleteColumn, playground} = store.getState()
-  const {data, id} = useEntityNodeData()
-  const handleAddColumn = () => addDefaultColumn(id)
-  const handleAddPrimaryColumn = () => addPrimaryColumn(id)
-  const selectedColumns = useMemo(() => {
-    return data.columns.filter(column => column.selected)
-  }, [data.columns])
+export const RowControls = memo(() => {
+  const actions = useSharedDiagramStore(useShallow(state => ({
+    addDefaultColumn: state.addDefaultColumn,
+    addPrimaryColumn: state.addPrimaryColumn,
+    deleteSelectedColumns: state.deleteSelectedColumns
+  })))
+  const nodeData = useEntityNodeData()
 
-  const handleDeleteSelectedRows = useCallback(async () => {
-    const columnsToDelete = selectedColumns.map(column => column.id)
-    const foreignKeyColumns = selectedColumns.filter(column => column.foreignKey)
+  const handleAddPrimaryColumn = useCallback(() => {
+    actions.addPrimaryColumn(nodeData.id)
+  }, [])
 
-    if (foreignKeyColumns.length) {
-      await reactflow.deleteElements({
-        edges: foreignKeyColumns.map(column => ({id: column.id}))
-      })
-    }
+  const handleAddColumn = useCallback(() => {
+    actions.addDefaultColumn(nodeData.id)
+  }, [])
 
-    const data = {
-      columnId: columnsToDelete,
-      entityId: id
-    }
+  const handleDeleteSelectedColumns = useCallback(() => {
+    actions.deleteSelectedColumns(nodeData.id)
+  }, [])
 
-    const columnDeleteResponse = playground.handleEmitResponse({
-      onError: playground.notifyErrorMessage(ColumnEnum.delete, "Failed to delete column"),
-      onSuccess: () => deleteColumn(data)
-    })
-
-    playground.socket.emit(ColumnEnum.delete, data, columnDeleteResponse)
-
-  }, [selectedColumns, playground])
+  const selectedColumns = nodeData.columns.filter(column => column.selected)
 
   if (selectedColumns.length) {
     return (
       <ButtonWithConfirm
         isDanger
-        tooltip={`Delete selected columns`}
+        tooltip={`Delete selected rows`}
         target={(
           <Indicator label={selectedColumns.length} size={15} color="red">
             <ActionIcon size={"lg"}>
@@ -55,23 +41,24 @@ export const RowControls = () => {
           </Indicator>
         )}
         message={`Are you sure want to delete ${selectedColumns.length} ${selectedColumns.length > 1 ? "selected columns" : "selected column"}`}
-        onConfirm={handleDeleteSelectedRows}
+        onConfirm={handleDeleteSelectedColumns}
       />
     )
   }
 
+
   return (
     <>
       <Tooltip label={"Add primary row"}>
-        <ActionIcon onClick={handleAddPrimaryColumn} size={"lg"}>
+        <ActionIcon onClick={handleAddPrimaryColumn} size={36}>
           <IconRowInsertTop color={"var(--mantine-color-yellow-5)"}/>
         </ActionIcon>
       </Tooltip>
       <Tooltip label={"Add row"}>
-        <ActionIcon onClick={handleAddColumn} size={"lg"}>
+        <ActionIcon onClick={handleAddColumn} size={36}>
           <IconRowInsertTop color={"var(--mantine-color-text)"}/>
         </ActionIcon>
       </Tooltip>
     </>
   )
-}
+})

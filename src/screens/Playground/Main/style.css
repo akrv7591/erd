@@ -1,5 +1,4 @@
 .erd-container {
-    width: calc(100% );
     height: calc(100vh - 100px);
     position: relative;
     border: 2px solid transparent;
@@ -28,7 +27,10 @@
 
 }
 
-
 .react-flow__node.selected {
     user-select: none !important;
+}
+
+.react-flow__node-entity.dragging {
+    pointer-events: none !important;
 }

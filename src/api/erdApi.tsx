@@ -71,7 +71,7 @@ const logout = (err: Error) => {
 
 erdApi.interceptors.response.use(
   (response) => {
-    console.log(response.config.url, response.data)
+    // console.log(response.config.url, response.data)
     return response
   },
   async (err) => {

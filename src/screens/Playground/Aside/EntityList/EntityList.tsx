@@ -1,38 +1,28 @@
-import {
-  Button,
-  Checkbox,
-  CloseButton,
-  Collapse,
-  Group,
-  Menu,
-  Stack,
-  Table,
-  Text,
-  Tooltip
-} from "@mantine/core";
+import {Button, Checkbox, CloseButton, Collapse, Group, Menu, Stack, Table, Text, Tooltip} from "@mantine/core";
 import {IconList, IconTrash} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
-import type {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import classes from "./style.module.css";
 import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {useReactFlow} from "@xyflow/react";
-import {EntityNode} from "@/types/entity-node";
-import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
-import {useShallow} from "zustand/react/shallow";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
+import {useEntities} from "@/hooks/Diagram/useEntities.ts";
+import {EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
 
-const selector = (state: PlaygroundStore) => ({
-  entities: state.nodes.filter(node => node.type === NODE_TYPES.ENTITY) as EntityNode[]
-})
 
 export const EntityList = () => {
   const reactflow = useReactFlow()
+  const entities = useEntities()
   const [search, setSearch] = React.useState("")
-  const {entities} = usePlayground(useShallow(selector))
   const [selectedEntities, setSelectedEntities] = React.useState<EntityNode[]>([])
-  const filteredEntities = React.useMemo(() => entities.filter(entity => entity.data.name.toLowerCase().includes(search.toLowerCase())), [search, entities])
+
+
+  const filteredEntities = React.useMemo(() => {
+    return entities.filter(entity => entity.data.name
+      .toLowerCase()
+      .includes(search.toLowerCase()))
+  }, [search, entities])
+
   const [opened, {toggle, close}] = useDisclosure(false, {
     onClose: () => {
       setSelectedEntities([])
@@ -147,7 +137,7 @@ export const EntityList = () => {
                     <Text>{entity.data.name}</Text>
                   </Table.Td>
                   <Table.Td>
-                    {entity.data.columns?.length}
+                    {Object.keys(entity.data.columns).length}
                   </Table.Td>
                 </Table.Tr>
               ))}

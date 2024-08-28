@@ -7,7 +7,7 @@ import { DeleteEntityButton } from "./DeleteEntityButton";
 
 export const Header = memo(() => {
   return (
-    <Group gap={5} h={50} align={"center"}>
+    <Group gap={5} h={50} align={"flex-start"}>
       <NameInput />
       <RowControls />
       <ColorChangeInput />

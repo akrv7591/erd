@@ -1,10 +1,15 @@
 import {memo} from "react";
 import {MiniMap as FlowMinimap} from "@xyflow/react"
-import {EntityNode} from "@/types/entity-node";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
+import {useDiagramStore} from "@/contexts/DiagramContext";
+import {EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
+
+const nodeColorGetter = (node: EntityNode) => {
+  return node.data.color
+}
 
 export const MiniMap = memo(() => {
-  const minimap = usePlayground(state => state.minimap)
+  const minimap = useDiagramStore(state => state.minimap)
+
 
   if (!minimap) {
     return null
@@ -15,7 +20,7 @@ export const MiniMap = memo(() => {
       zoomable
       pannable
       nodeStrokeWidth={20}
-      nodeColor={(node: EntityNode) => node.data.color}
+      nodeColor={nodeColorGetter}
     />
   )
 })

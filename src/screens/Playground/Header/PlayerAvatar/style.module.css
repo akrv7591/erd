@@ -1,23 +1,12 @@
-.avatar, .avatarSubscribed {
-    outline: 2px solid transparent;
-    color: var(--mantine-color-text) !important;
-    border: none !important;
-}
-
-
-.avatar {
-    outline-color: var(--mantine-color-dark-4) !important;
+.root {
+    outline: 1px solid;
 
     &:hover {
-        outline-color: var(--mantine-primary-color-filled-hover) !important;
-        z-index: 10;
+        outline-width: 2px;
+        z-index: 1;
     }
 }
 
-.avatarSubscribed {
-    outline-color: var(--mantine-primary-color-filled) !important;
-    z-index: 1;
-}
 
 .followingText {
     text-align: center;

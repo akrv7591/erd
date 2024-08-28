@@ -1,15 +1,18 @@
 import {memo} from "react";
 import {EntityViewMode} from "@/enums/playground.ts";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
-import type {EntityNodeColumn} from "@/types/entity-node";
-import {PlaygroundStore} from "@/stores/playgroundStore.ts";
 import {EditorModeColumns} from "./EditorModeColumns";
 import {SimplifiedModeColumns} from "./SimplifiedModeColumns";
+import {DiagramStore} from "src/stores/diagram-store";
+import {useDiagramStore} from "@/contexts/DiagramContext";
+import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
 
-const selector = (state: PlaygroundStore) => state.mode
+// Types
 
-export const Row = memo(({data}: { data: EntityNodeColumn }) => {
-  const viewMode = usePlayground(selector)
+
+const selector = (state: DiagramStore) => state.entityViewMode
+
+export const Row = memo(({data}: { data: EntityColumn }) => {
+  const viewMode = useDiagramStore(selector)
 
   switch (viewMode) {
     case EntityViewMode.EDITOR:

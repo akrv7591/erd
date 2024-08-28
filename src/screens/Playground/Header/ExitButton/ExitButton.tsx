@@ -5,7 +5,7 @@ import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 
 export const ExitButton = () => {
   return (
-    <Tooltip label={"Exit"}>
+    <Tooltip label={"Exit"} position={"left"}>
       <Link to={"/library"}>
         <PlaygroundActionIcon>
           <IconDoorExit color={"var(--mantine-color-text)"}/>

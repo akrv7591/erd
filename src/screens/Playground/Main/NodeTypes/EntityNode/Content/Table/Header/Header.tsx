@@ -1,12 +1,12 @@
 import {Checkbox, Collapse, Table as MantineTable, Text, Tooltip} from "@mantine/core";
 import React from "react";
 import {EntityViewMode} from "@/enums/playground.ts";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
+import {useDiagramStore} from "@/contexts/DiagramContext";
 
 export const Header = React.forwardRef<any, any>((props, ref) => {
-  const {data: nodeData, setData: setNodeData} = useEntityNodeData()
-  const viewMode = usePlayground(state => state.mode)
+  const {data: nodeData, setData: setNodeData, columns} = useEntityNodeData()
+  const viewMode = useDiagramStore(state => state.entityViewMode)
 
   const checkbox = React.useMemo(() => {
     if (!nodeData) {
@@ -17,7 +17,6 @@ export const Header = React.forwardRef<any, any>((props, ref) => {
       }
     }
 
-    const {columns} = nodeData
     const selected = columns.filter(c => c.selected)
     const isAllChecked = columns.length > 0 && selected.length === columns.length
     const isIntermediate = selected.length > 0 && !isAllChecked
@@ -34,15 +33,11 @@ export const Header = React.forwardRef<any, any>((props, ref) => {
     setNodeData(state => {
       return {
         ...state,
-          columns: state.columns.map(column => ({...column, selected}))
+          columns: Object.fromEntries(columns.map(column => [column.id, { ...column, selected }]))
       }
     })
 
   }, [checkbox, setNodeData])
-
-  if (!nodeData) {
-    return null
-  }
 
 
   const renderContent = viewMode === EntityViewMode.EDITOR
@@ -78,7 +73,7 @@ export const Header = React.forwardRef<any, any>((props, ref) => {
   return (
     <MantineTable withRowBorders>
       <MantineTable.Caption>
-        <Collapse in={nodeData.columns.length === 0}>
+        <Collapse in={columns.length === 0}>
           <Text>No rows</Text>
         </Collapse>
       </MantineTable.Caption>

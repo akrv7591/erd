@@ -1,16 +1,34 @@
 import {useNodeId, useNodesData} from "@xyflow/react";
-import {EntityNode, EntityNodeData} from "@/types/entity-node";
-import {useCallback} from "react";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
+import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
+import {useCallback, useMemo} from "react";
+import {EntityData, EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
 
 export const useEntityNodeData = () => {
-  const nodeId = useNodeId()!
-  const {id, data} = useNodesData<EntityNode>(nodeId)!
-  const setEntityData = usePlayground(state => state.setEntityData)
+  const nodeId = useNodeId()
 
-  const setData = useCallback((obj: Partial<EntityNodeData> | ((obj: EntityNodeData) => Partial<EntityNodeData>)) => {
-    setEntityData(id, obj)
+  if (!nodeId) {
+    throw new Error("useEntityNodeData must be used within a EntityNode")
+  }
+
+  const node = useNodesData<EntityNode>(nodeId)
+
+  if (!node) {
+    throw new Error("useEntityNodeData must be used within a EntityNode")
+  }
+
+  const setNodeData = useSharedDiagramStore(state => state.setEntityData)
+
+  const setData = useCallback((obj: (Partial<EntityData> | ((obj: EntityData) => Partial<EntityData>))) => {
+    setNodeData(nodeId, obj)
   }, [])
 
-  return {id, data, setData}
+  const columns = useMemo(() => {
+    return  Array.from(Object.values(node.data.columns).sort((a, b) => a.order - b.order))
+  }, [node.data])
+
+  return {
+    ...node,
+    setData,
+    columns
+  }
 }

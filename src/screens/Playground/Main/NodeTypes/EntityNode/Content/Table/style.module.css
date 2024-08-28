@@ -1,11 +1,6 @@
 .tableRow {
     cursor: grab;
     border-radius: 5px;
-
-    &.border {
-        outline: 1px solid var(--mantine-primary-color-filled) !important
-    }
-
     &:hover {
         outline: 1px solid var(--mantine-primary-color-filled) !important
     }

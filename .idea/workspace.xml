@@ -4,192 +4,134 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="some performance updates">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/CustomTheme/CustomTheme.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/CustomTheme/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/PlaygroundActionIcon/PlaygroundActionIcon.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/common/PlaygroundActionIcon/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/layouts/PlaygroundLayout/PlaygroundLayout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constants/playground.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/usePatchColumn.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/Aside.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityViewController/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MiniMapController/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Export/Export.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/Import.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/constants.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Config/Config.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/ExitButton/ExitButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/ExitButton/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/FloatingCursor.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/Title.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/FloatingEdge.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/Path.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ConfirmModal/ConfirmModal.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/Many/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/One/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/MiniMap/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Content.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/ColorChangeInput.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/DeleteEntityButton/DeleteEntityButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/DeleteEntityButton/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/Header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/NameInput/NameInput.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/NameInput/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/RowControls.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/NameOverlay/NameOverlay.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/NameOverlay/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/RelationsOverlay.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/SourceHandle/SourceHandle.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/SourceHandle/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/TargetHandle/TargetHandle.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/TargetHandle/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/style.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Header/Header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Header/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton/DragButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/EditorModeColumns/EditorModeColumns.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/EditorModeColumns/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/Row.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/SimplifiedModeColumns/SimplifiedModeColumns.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/SimplifiedModeColumns/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/TypeIcon.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/style.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Table.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/style.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/EntityNode.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/Editor.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/style.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/MemoNode.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/EntityControls.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/constants.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/types.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/Navbar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FitView/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FullScreenView/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomIn/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/multiplayer/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/multiplayer/type.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/multiplayer/worker-service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stores/playground/erdStore.ts" afterDir="false" />
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="File location updates">
+      <change afterPath="$PROJECT_DIR$/src/components/layouts/PlaygroundLayout/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/contexts/AwarenessContext.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/contexts/DiagramContext.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/contexts/SharedDiagramContext.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/Diagram/useClient.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/Diagram/useDiagramEventHandlers.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/Diagram/useEdges.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/Diagram/useEntities.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/Diagram/useNodes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/DiagramProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/shared-diagram-store-provider/SharedDiagramStoreProvider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/shared-diagram-store-provider/type.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/webrtc/WebrtcProvider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/providers/webrtc/constants.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/UserCursors/UserCursors.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/UserCursors/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ViewportChangeHandler/ViewportChangeHandler.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ViewportChangeHandler/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/diagram-store/DiagramStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/diagram-store/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/diagram-store/stores/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/diagram-store/stores/node-store/NodeStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/diagram-store/stores/node-store/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/diagram-store/stores/pane-store/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/entityStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/erdStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/relationStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/util.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/zustand-middleware-yjs.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/ObjectUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/erdApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/erdApi.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Account/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Account/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/ConfirmModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ConfirmModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/layouts/PlaygroundLayout/PlaygroundLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layouts/PlaygroundLayout/PlaygroundLayout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/theme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/theme.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constants/erd/column.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/erd/column.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enums/playground.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/enums/playground.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/playground/PlaygroundStoreContext.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useEntityData.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/useEntityNodeData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useEntityNodeData.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/providers/PlaygroundStoreProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/PlaygroundStoreProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/usePatchColumn.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/PlaygroundStoreProvider.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/RootRouter.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/RootRouter.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Auth/Signin/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/Signin/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityLogicalAdvancedViewController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityViewController/EntityViewController.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController/MemoController.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/MinimapController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MiniMapController/MiniMapController.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/TableList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/EntityList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/TableList/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/style.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Footer/Export/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Export/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/Import/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Footer/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Footer/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Config/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Config/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/Player.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/PlayerAvatar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Title/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Title/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/style.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/ErdTableDataContext.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/HeroNode/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/HeroNode/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderItem.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/RenderList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Content/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/ContentControls/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/DataProvider.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/Header/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/TableNode/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/Main/Reactflow/nodeTypes/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/EntityList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/EntityList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityViewController/EntityViewController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityViewController/EntityViewController.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController/MemoController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MemoController/MemoController.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/MiniMapController/MiniMapController.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/MiniMapController/MiniMapController.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Config/Config.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Config/Config.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/ExitButton/ExitButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/ExitButton/ExitButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/FloatingCursor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/FloatingCursor/FloatingCursor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/PlayerAvatar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/PlayerAvatar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/PlayerAvatar/style.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Title/Title.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Title/Title.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/FloatingEdge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/FloatingEdge.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/Path.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/EdgeTypes/FloatingEdge/Path.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ConfirmModal/ConfirmModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ConfirmModal/ConfirmModal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/FlowUtils.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/FlowUtils.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Minimap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/MiniMap/MiniMap.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/ViewportActions.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/Many.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/Many/Many.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/One.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/One/One.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/constants.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Icons/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/Icons/Icons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/MiniMap/MiniMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/FlowUtils/MiniMap/MiniMap.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/Main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/FloatingEdge/Path.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/FloatingEdge/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/FloatingEdge/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/edges/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/ColumnTypeIcon.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/Table.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/TableRow.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Content/style.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/Header/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/NameOverlay/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/RelationsOverlay/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/ThemedNode.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/entity-style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/EntityNode/style.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/Header/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/ThemedNode.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/MemoNode/style.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/nodes/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton/IconButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/FitView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FitView/FitView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/FullscreenView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FullScreenView/FullScreenView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/ZoomIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomIn/ZoomIn.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/ZoomOut.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut/ZoomOut.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/PaneControls.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Playground/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/column-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/column-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/entity-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/entity-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/erd-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/erd-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/memo-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/memo-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/multiplayer.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/multiplayer.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/node-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/node-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/player-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/player-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/playground-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/playground-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/relation-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/multiplayer/relation-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/playground/entityStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/entityStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/playground/flowStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/flowStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/playground/memoStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/memoStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/playground/relationStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playground/relationStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/playground/websocketResponseStore.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/playgroundStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/playgroundStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Content.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/ColorChangeInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/ColorChangeInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/NameInput/NameInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/NameInput/NameInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/RowControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/RowControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/NameOverlay/NameOverlay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/NameOverlay/NameOverlay.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/SourceHandle/SourceHandle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/SourceHandle/SourceHandle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/TargetHandle/TargetHandle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/RelationsOverlay/TargetHandle/TargetHandle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/EditorModeColumns/EditorModeColumns.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/EditorModeColumns/EditorModeColumns.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/Row.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/Row.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/SimplifiedModeColumns/SimplifiedModeColumns.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/SimplifiedModeColumns/SimplifiedModeColumns.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/TypeIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon/TypeIcon.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Table.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Table.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/style.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/EntityNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/EntityNode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/Editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/MemoNode/Editor/Editor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/EntityControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/EntityControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton/IconButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/IconButton/IconButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FitView/FitView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FitView/FitView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ProfileSetting/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/column-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/entity-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/erd-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/memo-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/multiplayer.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/node-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/player-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/playground-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/relation-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/type.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/multiplayer/worker-service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/entityStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/erdStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/flowStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/memoStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/memoStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/paneStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/diagram-store/stores/pane-store/PaneStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playground/relationStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/playgroundStore.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/data/db-model-interfaces.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/data/db-model-interfaces.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/memo-node.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/memo-node.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/entity-node.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/entity-node.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types/playground.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/playground.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
@@ -201,6 +143,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
     <option name="UPDATE_TYPE" value="REBASE" />
@@ -239,44 +186,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/src/screens/Playground&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Docker.Dockerfile.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "migration-to-yjs",
+    "last_opened_file_path": "/Users/akrv/Dev/React/personal/erdiagramly/src/providers/zustand-yjs/diagram-store/stores",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TypeScript&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TypeScript"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/screens/Playground" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Footer/Import" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Footer/Export" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Footer" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PlaygroundPaneControls" />
+      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-store/stores" />
+      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/shared-diagram-store/stores" />
+      <recent name="$PROJECT_DIR$/src/hooks/Diagram" />
+      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/shared-diagram-store" />
+      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/stores" />
+      <recent name="$PROJECT_DIR$/src/contexts" />
+      <recent name="$PROJECT_DIR$/src/providers" />
+      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-context" />
       <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FiteView/ZoomIn" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FullScreenView" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/FiteView" />
     </key>
   </component>
   <component name="RunManager">
@@ -303,7 +251,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.17890.13" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-WS-242.20224.426" />
       </set>
     </attachedChunks>
   </component>
@@ -425,15 +373,24 @@
       <workItem from="1717375500719" duration="575000" />
       <workItem from="1717978492877" duration="7687000" />
       <workItem from="1717989355214" duration="48676000" />
-      <workItem from="1718266778450" duration="1483000" />
-    </task>
-    <task id="LOCAL-00132" summary="added Show memo controller button">
-      <option name="closed" value="true" />
-      <created>1710469334082</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
-      <option name="project" value="LOCAL" />
-      <updated>1710469334082</updated>
+      <workItem from="1718266778450" duration="66938000" />
+      <workItem from="1719446467605" duration="5381000" />
+      <workItem from="1719673123160" duration="12780000" />
+      <workItem from="1719845575344" duration="46769000" />
+      <workItem from="1720414399445" duration="18721000" />
+      <workItem from="1720533452343" duration="277000" />
+      <workItem from="1720533734966" duration="8618000" />
+      <workItem from="1720597585771" duration="34351000" />
+      <workItem from="1720761944602" duration="10983000" />
+      <workItem from="1722327057801" duration="5620000" />
+      <workItem from="1722902873274" duration="794000" />
+      <workItem from="1723082866254" duration="22808000" />
+      <workItem from="1723183112387" duration="1683000" />
+      <workItem from="1723426642187" duration="678000" />
+      <workItem from="1723445757871" duration="809000" />
+      <workItem from="1723530911568" duration="8354000" />
+      <workItem from="1723593577850" duration="2131000" />
+      <workItem from="1724655301779" duration="40716000" />
     </task>
     <task id="LOCAL-00133" summary="fixed ui bug">
       <option name="closed" value="true" />
@@ -819,7 +776,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716544739024</updated>
     </task>
-    <option name="localTasksCounter" value="181" />
+    <task id="LOCAL-00181" summary="File location updates">
+      <option name="closed" value="true" />
+      <created>1718326530859</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1718326530860</updated>
+    </task>
+    <option name="localTasksCounter" value="182" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -838,7 +803,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added api limit based on screen width" />
     <MESSAGE value="added tooltip to Button with confirm" />
     <MESSAGE value="fixed - limit" />
     <MESSAGE value="applied some responsivenes" />
@@ -863,6 +827,18 @@
     <MESSAGE value="removed unsused packages" />
     <MESSAGE value="docker node version upgraded" />
     <MESSAGE value="some performance updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="some performance updates" />
+    <MESSAGE value="File location updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="File location updates" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/EntityNode.tsx</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

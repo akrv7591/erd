@@ -8,8 +8,6 @@ import {
 } from "@tabler/icons-react";
 import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
 import {RELATION} from "@/constants/relations.ts";
-import type {PlaygroundStore} from "@/stores/playgroundStore.ts";
-import {EntityNode} from "@/types/entity-node";
 import {EntityControl} from "./types";
 
 export const EntityActions: EntityControl[] = [
@@ -53,6 +51,3 @@ export const EntityActions: EntityControl[] = [
     allowOnDisabled: false
   }]
 
-export const selector = (state: PlaygroundStore) => ({
-  entities: state.nodes.filter(node => node.type === NODE_TYPES.ENTITY) as EntityNode[],
-})

@@ -1,39 +1,20 @@
-import { usePlayground } from "@/contexts/playground/PlaygroundStoreContext.ts"
-import { EntityEnum } from "@/enums/playground.ts"
-import { useEntityNodeData } from "@/hooks/useEntityNodeData.ts"
-import { PlaygroundStore } from "@/stores/playgroundStore.ts"
-import { ActionIcon, ColorPicker, ColorPickerProps, HoverCard } from "@mantine/core"
-import { IconPalette } from "@tabler/icons-react"
-import { memo } from "react"
-import { useShallow } from "zustand/react/shallow"
-
-const getSelectors = ({playground, patchEntityData}: PlaygroundStore) => ({playground, patchEntityData})
+import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts"
+import {ActionIcon, ColorPicker, ColorPickerProps, HoverCard} from "@mantine/core"
+import {IconPalette} from "@tabler/icons-react"
+import {memo} from "react"
 
 export const ColorChangeInput = memo(() => {
-  const {data, id} = useEntityNodeData()
-  const {playground, patchEntityData} = usePlayground(useShallow(getSelectors))
+  const {data, setData} = useEntityNodeData()
 
-  const handleColorChange: ColorPickerProps['onChange'] = value => {
-    const data = {
-      entityId: id,
-      key: "color",
-      value
-    }
-    const entityPatchResponse = playground.handleEmitResponse({
-      onError: playground.notifyErrorMessage(EntityEnum.patch, "Failed to patch entity(color)"),
-      onSuccess: () => {
-        patchEntityData(data)
-      }
-    })
-
-    playground.socket.emit(EntityEnum.patch, data, entityPatchResponse)
+  const handleColorChange: ColorPickerProps['onChange'] = color => {
+    setData({color})
   }
 
   return (
-    <HoverCard>
+    <HoverCard closeDelay={50} withinPortal={false}>
       <HoverCard.Target>
         <ActionIcon variant={"subtle"} size={"lg"} ml={"auto"} color={'var(--mantine-primary-color-filled)'}>
-          <IconPalette />
+          <IconPalette/>
         </ActionIcon>
       </HoverCard.Target>
       <HoverCard.Dropdown>

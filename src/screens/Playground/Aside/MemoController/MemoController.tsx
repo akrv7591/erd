@@ -1,11 +1,11 @@
 import {Tooltip} from "@mantine/core";
 import {IconNotes, IconNotesOff} from "@tabler/icons-react";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
+import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
 
 export const MemoController = () => {
-  const showMemos = usePlayground(state => state.showMemos)
-  const setShowMemos = usePlayground(state => state.setShowMemos)
+  const showMemos = useSharedDiagramStore(state => state.showMemos)
+  const setShowMemos = useSharedDiagramStore(state => state.setShowMemos)
   const toggle = () => setShowMemos(!showMemos)
   return (
     <Tooltip label={showMemos ? "Hide memos" : "Show memos"} position={"left"}>

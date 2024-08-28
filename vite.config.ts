@@ -7,11 +7,7 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react(),
-    svgr({
-      svgrOptions: {
-        // svgr options
-      },
-    })
+    svgr()
   ],
   server: {
     port: 3000,

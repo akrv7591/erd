@@ -72,6 +72,7 @@ export interface IErd {
   teamId: string
   tableNameCase: "snake" | "pascal" | "camel";
   columnNameCase: "snake" | "camel";
+  data: string
 
   //Relations
   team?: ITeam

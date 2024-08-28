@@ -1,6 +1,4 @@
 import {Tooltip} from "@mantine/core";
-import {PlaygroundStore} from "@/stores/playgroundStore.ts";
-import {MemoEnum} from "@/enums/playground.ts";
 import {useMemoNodeData} from "@/hooks/useMemoNodeData.ts";
 import {memo, useCallback, useEffect} from "react";
 import {useEditor} from "@tiptap/react";
@@ -10,8 +8,6 @@ import {TextStyle} from "@tiptap/extension-text-style";
 import {Color} from "@tiptap/extension-color";
 import {IconTextColor, IconTrash} from "@tabler/icons-react";
 import {useReactFlow} from "@xyflow/react";
-import {useShallow} from "zustand/react/shallow";
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 import '@mantine/tiptap/styles.css';
 import "./style.module.css"
 
@@ -21,13 +17,8 @@ const extensions = [
   Color
 ]
 
-const selector = (state: PlaygroundStore) => ({
-  playground: state.playground
-})
-
 export const Editor = memo(() => {
   const {id, data} = useMemoNodeData()
-  const {playground} = usePlayground(useShallow(selector))
   const reactFlow = useReactFlow()
 
   const editor = useEditor({
@@ -52,16 +43,11 @@ export const Editor = memo(() => {
   }, [])
 
   const onPatch = useCallback((key: string, value: string) => {
-    const memoPatchResponse = playground.handleEmitResponse({
-      onError: playground.notifyErrorMessage(MemoEnum.patch, "Failed to patch memo"),
-      onSuccess: () => {}
-    })
-    const data = {
-      memoId: id,
+    console.log({
       key,
       value
-    }
-    playground.socket.emit(MemoEnum.patch, data, memoPatchResponse)
+    })
+    // TODO fix memo change
   }, [])
 
   useEffect(() => {

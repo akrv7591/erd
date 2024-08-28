@@ -1,30 +1,31 @@
 // Library imports
-import {useMemo} from "react";
 import {Stack} from "@mantine/core";
-import {useShallow} from "zustand/react/shallow";
-
-// Custom hooks
-import {usePlayground} from "@/contexts/playground/PlaygroundStoreContext.ts";
 
 // Components
 import {IconButton} from "./IconButton";
 
 // Constants
-import {EntityActions, selector} from "./constants.ts";
+import {EntityActions} from "./constants.ts";
+import {objValuesToArray} from "@/utility/ObjectUtils.ts";
+import {useEntities} from "@/hooks/Diagram/useEntities.ts";
+import {memo} from "react";
 
-export const EntityControls = () => {
-  const {entities} = usePlayground(useShallow(selector))
-  const disabled = useMemo(() => {
-    return entities.reduce((count, entity) => {
-      const hasPrimary = entity.data.columns.some(c => c.primary)
+export const EntityControls = memo(() => {
+  const entities = useEntities()
+  const isDisabled = entities.reduce((isDisabled, entity) => {
+    const columns = objValuesToArray(entity.data.columns)
+    const hasPrimary = columns.some(c => c.primary)
 
-      return count + (hasPrimary ? 1 : 0)
-    }, 0) < 2
-  }, [entities])
+    if (hasPrimary) {
+      return false
+    }
+
+    return isDisabled
+  }, true)
 
   return (
     <Stack gap={"5px"} px={"5px"}>
-      {EntityActions.map(action => <IconButton key={action.value} disabled={disabled} data={action}/>)}
+      {EntityActions.map(action => <IconButton key={action.value} disabled={isDisabled} data={action}/>)}
     </Stack>
   )
-}
+})

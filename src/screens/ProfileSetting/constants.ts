@@ -1,10 +1,15 @@
-import {IconLock, IconProps, IconSettings} from "@tabler/icons-react";
 import {ForwardRefExoticComponent, RefAttributes} from "react";
+import {
+  type Icon,
+  type IconProps,
+  IconLock,
+  IconSettings
+} from "@tabler/icons-react";
 
 interface Tab {
   label: string
   value: ProfileSettingTab.tab
-  Icon:  ForwardRefExoticComponent<Omit<IconProps, "ref"> & RefAttributes<SVGSVGElement>>
+  Icon:   ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>
 }
 
 export namespace ProfileSettingTab {

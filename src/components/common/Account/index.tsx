@@ -38,7 +38,6 @@ export default function Account() {
         </Menu.Item>
         <Menu.Divider/>
         <Menu.Item
-
           color="red"
           leftSection={<IconLogout style={{width: rem(16), height: rem(16)}}/>}
           onClick={onLogout}

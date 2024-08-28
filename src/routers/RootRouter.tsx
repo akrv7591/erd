@@ -13,7 +13,7 @@ import JoinTeam from "@/screens/JoinTeam";
 import {Playground} from "@/screens/Playground";
 import ProfileSetting from "@/screens/ProfileSetting"
 import InitialLoadOutlet from "@/routers/InitialLoadOutlet.tsx";
-import {PlaygroundLayout} from "@/components/layouts/PlaygroundLayout/PlaygroundLayout.tsx";
+import {PlaygroundLayout} from "@/components/layouts/PlaygroundLayout";
 
 
 export const router = createBrowserRouter(

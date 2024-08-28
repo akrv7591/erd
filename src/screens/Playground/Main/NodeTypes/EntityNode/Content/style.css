@@ -1,6 +1,6 @@
 .entity-container {
     transition: 0.1s;
-    padding: 5px 10px !important;
+    padding: 5px !important;
     outline: 1px solid var(--mantine-primary-color-filled-hover) !important;
     overflow: visible !important;
 }
