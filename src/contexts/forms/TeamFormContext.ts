@@ -1,5 +1,5 @@
 import {createFormContext} from "@mantine/form";
-import {ITeam, IUser, IUserTeam} from "@/types/data/db-model-interfaces";
+import {ITeam, IUser, IUserTeam} from "@/types/data/db-model-interfaces.ts";
 
 export interface IUserWithUserTeam extends Omit<IUser, 'UserTeam'>{
   userTeam: IUserTeam

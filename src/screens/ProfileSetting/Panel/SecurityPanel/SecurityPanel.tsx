@@ -9,7 +9,7 @@ import {
   handleErrorNotification,
   handleSuccessNotification
 } from "@/screens/ProfileSetting/Panel/SecurityPanel/notifications.ts";
-import {AxiosApiError} from "@/types/api";
+import {AxiosApiError} from "@/types/api.ts";
 
 export interface PasswordSetForm {
   password: string

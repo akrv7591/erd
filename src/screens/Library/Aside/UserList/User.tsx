@@ -1,7 +1,7 @@
 import classes from "../style.module.css";
 import {Avatar, Group, Text} from "@mantine/core";
 import {IconUser} from "@tabler/icons-react";
-import {IUser} from "@/types/data/db-model-interfaces";
+import {IUser} from "@/types/data/db-model-interfaces.ts";
 
 interface Props {
   user: IUser

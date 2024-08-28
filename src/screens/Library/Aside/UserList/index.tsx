@@ -7,8 +7,8 @@ import SearchInput from "@/components/common/SearchInput.tsx";
 import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import React from "react";
-import {IApiList} from "@/types/data/util";
-import {IUser} from "@/types/data/db-model-interfaces";
+import {IApiList} from "@/types/data/util.ts";
+import {IUser} from "@/types/data/db-model-interfaces.ts";
 
 const teamQueryFunction = (params: IListQuery) => erdApi.get("/v1/users", {
   params

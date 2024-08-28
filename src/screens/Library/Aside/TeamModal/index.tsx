@@ -6,7 +6,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
-import {ITeam} from "@/types/data/db-model-interfaces";
+import {ITeam} from "@/types/data/db-model-interfaces.ts";
 
 interface Props extends ModalBaseProps {
   data?: ITeam

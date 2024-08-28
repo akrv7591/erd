@@ -3,7 +3,6 @@ import styles from "./style.module.css"
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
-import TableCount from "./TableCount.tsx";
 import Actions from "@/screens/Library/Main/Erd/Actions.tsx";
 import ErdModal from "@/screens/Library/Main/ErdModal";
 import {useModal} from "@/hooks/useModal.ts";
@@ -11,7 +10,7 @@ import {memo} from "react";
 import {IErdWithSelected} from "@/api/erd.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import Role from "@/screens/Library/Main/Erd/Role.tsx";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 
 dayjs.extend(relativeTime)
 
@@ -47,7 +46,7 @@ const Erd = memo(({erd}: Props) => {
           </Group>
         </Table.Td>
         <Table.Td>
-          <TableCount erdId={erd.id}/>
+          <Text>{erd.entityCount}</Text>
         </Table.Td>
         <Table.Td visibleFrom={"md"}>
           <Text size={"sm"}>

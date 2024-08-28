@@ -8,7 +8,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {deleteErdApi} from "@/api/erd.ts";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {notifications} from "@mantine/notifications";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 
 interface Props {
   total: number

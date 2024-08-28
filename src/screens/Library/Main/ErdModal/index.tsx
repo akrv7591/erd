@@ -17,7 +17,7 @@ import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IconInfoCircle} from "@tabler/icons-react";

@@ -1,4 +1,4 @@
-import type {IErd} from "@/types/data/db-model-interfaces";
+import type {IErd} from "@/types/data/db-model-interfaces.ts";
 import {SharedDiagramStore} from "../SharedDiagramStore.ts";
 import {StateCreator} from "zustand";
 import {SetStateObject} from "@/types/util.ts";

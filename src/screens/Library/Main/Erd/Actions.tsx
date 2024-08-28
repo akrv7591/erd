@@ -5,7 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 import {userTeamApi} from "@/api/team.ts";
 
 import type {UseModalType} from "@/hooks/useModal.ts";
-import type {IErd} from "@/types/data/db-model-interfaces";
+import type {IErd} from "@/types/data/db-model-interfaces.ts";
 import type {MouseEventHandler} from "react";
 
 

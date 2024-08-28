@@ -4,9 +4,9 @@ import {router} from "@/routers/RootRouter.tsx";
 import {SocialLogin} from "@/constants/auth.ts";
 import erdApi from "@/api/erdApi.tsx";
 import StorageUtils from "@/utility/StorageUtils.ts";
-import {ITokenPayload} from "@/types/auth";
+import {ITokenPayload} from "@/types/auth.ts";
 import {signingError, signingSuccess} from "@/screens/Auth/Signin/constants.ts";
-import {IProfile, IUser} from "@/types/data/db-model-interfaces";
+import {IProfile, IUser} from "@/types/data/db-model-interfaces.ts";
 
 export interface User extends IUser {
   profile: IProfile

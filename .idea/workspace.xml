@@ -4,9 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="File location updates">
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="fixed PROJECT constant">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/erd.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/erd.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/team.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/team.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/forms/TeamFormContext.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/forms/TeamFormContext.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/Diagram/useClient.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useMemoNodeData.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useMemoNodeData.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/JoinTeam/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/JoinTeam/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Aside/TeamModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Aside/TeamModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Aside/UserList/User.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Aside/UserList/User.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Aside/UserList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Aside/UserList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Actions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Actions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Erd/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/ErdTable/Content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/ErdTable/Content.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/ErdTable/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/ErdTable/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Config/Config.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Config/Config.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/types.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Navbar/EntityControls/types.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/Panel/SecurityPanel/notifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ProfileSetting/Panel/SecurityPanel/notifications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/diagram-store/stores/pane-store/PaneStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/diagram-store/stores/pane-store/PaneStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/erdStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/erdStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/memoStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/memoStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/useAuthStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/useAuthStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/useLibrary.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/useLibrary.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/api.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/auth.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/data/db-model-interfaces.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/data/db-model-interfaces.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/data/util.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/data/util.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/entity-node.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/entity-node.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/global.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/global.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/memo-node.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/memo-node.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/playground.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/playground.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/auth-utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/auth-utils.ts" afterDir="false" />
     </list>
     <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
       <change beforePath="$PROJECT_DIR$/src/constants/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/project.ts" afterDir="false" />
@@ -265,22 +300,6 @@
       <workItem from="1723530911568" duration="8354000" />
       <workItem from="1723593577850" duration="2131000" />
       <workItem from="1724655301779" duration="40716000" />
-    </task>
-    <task id="LOCAL-00133" summary="fixed ui bug">
-      <option name="closed" value="true" />
-      <created>1710482094259</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1710482094260</updated>
-    </task>
-    <task id="LOCAL-00134" summary="added fullscreen functionality">
-      <option name="closed" value="true" />
-      <created>1710482127378</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1710482127378</updated>
     </task>
     <task id="LOCAL-00135" summary="updated FitView icon">
       <option name="closed" value="true" />
@@ -658,7 +677,23 @@
       <option name="project" value="LOCAL" />
       <updated>1718326530860</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <task id="LOCAL-00182" summary="updated package">
+      <option name="closed" value="true" />
+      <created>1724817919957</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1724817919957</updated>
+    </task>
+    <task id="LOCAL-00183" summary="fixed PROJECT constant">
+      <option name="closed" value="true" />
+      <created>1724819435926</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1724819435926</updated>
+    </task>
+    <option name="localTasksCounter" value="184" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -677,8 +712,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added tooltip to Button with confirm" />
-    <MESSAGE value="fixed - limit" />
     <MESSAGE value="applied some responsivenes" />
     <MESSAGE value="added profile setting update page" />
     <MESSAGE value="added Security.tsx page" />
@@ -702,7 +735,9 @@
     <MESSAGE value="docker node version upgraded" />
     <MESSAGE value="some performance updates" />
     <MESSAGE value="File location updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="File location updates" />
+    <MESSAGE value="updated package" />
+    <MESSAGE value="fixed PROJECT constant" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed PROJECT constant" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {Viewport} from "@xyflow/react";
 import type {Client} from "@/types/playground";
-import type {ITools} from "@/types/entity-node";
+import type {ITools} from "@/types/entity-node.ts";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore.ts";
 import {EntityViewMode} from "@/enums/playground.ts";
 

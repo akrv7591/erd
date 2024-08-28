@@ -1,5 +1,5 @@
 import type {Edge} from "@xyflow/react";
-import type {EntityNode, EntityNodeColumn} from "@/types/entity-node";
+import type {EntityNode, EntityNodeColumn} from "@/types/entity-node.ts";
 import {NODE_TYPES} from "@/screens/Playground/Main/nodes";
 
 interface ConnectionData {

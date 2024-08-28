@@ -7,5 +7,5 @@ export interface IApiListConfig<T> {
   q?: string;
   limit: number;
   offset: number;
-  order: (keyof typeof T & string)[];
+  order: [[key: keyof T], "asc" | "desc"][];
 }

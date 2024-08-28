@@ -3,7 +3,7 @@ import {IconError404} from "@tabler/icons-react";
 import Erd from "@/screens/Library/Main/Erd";
 import {UseQueryResult} from "@tanstack/react-query";
 import {memo} from "react";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 import EmptyList from "@/components/common/EmptyList.tsx";
 
 interface Props {

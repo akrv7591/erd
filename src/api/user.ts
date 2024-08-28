@@ -1,9 +1,9 @@
 import erdApi from "@/api/erdApi.tsx";
-import {IUser} from "@/types/data/db-model-interfaces";
+import {IUser} from "@/types/data/db-model-interfaces.ts";
 import {userTeamApi} from "@/api/team.ts";
 import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
-import {IApiList} from "@/types/data/util";
+import {IApiList} from "@/types/data/util.ts";
 import {IUserWithUserTeam} from "@/contexts/forms/TeamFormContext.ts";
 
 export const userListForTeamModal = (teamId: string) => {

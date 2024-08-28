@@ -1,7 +1,7 @@
 import {IListQuery} from "@/hooks/useListQuery.ts";
 import erdApi from "@/api/erdApi.tsx";
-import {IUserTeam} from "@/types/data/db-model-interfaces";
-import {IApiList} from "@/types/data/util";
+import {IUserTeam} from "@/types/data/db-model-interfaces.ts";
+import {IApiList} from "@/types/data/util.ts";
 import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 

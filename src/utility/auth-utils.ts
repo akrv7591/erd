@@ -1,4 +1,4 @@
-import {ITokenPayload} from "@/types/auth";
+import {ITokenPayload} from "@/types/auth.ts";
 import dayjs from "dayjs";
 
 export class AuthUtils {

@@ -1,6 +1,6 @@
 import {Checkbox, Table, Text} from "@mantine/core";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 
 interface Props {
   erds: IErd[]

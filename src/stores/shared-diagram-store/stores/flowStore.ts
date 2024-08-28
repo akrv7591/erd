@@ -11,7 +11,7 @@ import {ConnectionData} from "@/types/playground";
 import {RELATION} from "@/constants/relations.ts";
 import React from "react";
 import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
-import {MemoNode} from "@/types/memo-node";
+import {MemoNode} from "@/types/memo-node.ts";
 import {ConfirmModal} from "@/stores/diagram-store/stores/pane-store/PaneStore.ts";
 import {objValuesToArray} from "@/utility/ObjectUtils.ts";
 import {EntityData, EntityNode, NodeType} from "@/providers/shared-diagram-store-provider/type.ts";

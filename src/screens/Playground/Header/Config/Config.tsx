@@ -12,7 +12,7 @@ import {
 import { IconInfoCircle, IconSettings } from "@tabler/icons-react";
 import { useModal } from "@/hooks/useModal.ts";
 import {useForm} from "@mantine/form";
-import type { IErd } from "@/types/data/db-model-interfaces";
+import type { IErd } from "@/types/data/db-model-interfaces.ts";
 import ModalForm from "@/components/common/ModalForm";
 import { useEffect } from "react";
 import { EntityNameCases, ColumnNameCases } from "@/constants/playground";

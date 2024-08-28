@@ -1,7 +1,7 @@
 import {XYPosition} from "@xyflow/react";
 import {StateCreator} from "zustand";
 import {SharedDiagramStore} from "../SharedDiagramStore.ts";
-import {MemoNode} from "@/types/memo-node";
+import {MemoNode} from "@/types/memo-node.ts";
 import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
 import {createId} from "@paralleldrive/cuid2";
 

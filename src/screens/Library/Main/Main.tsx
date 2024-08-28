@@ -9,13 +9,13 @@ import SearchInput from "@/components/common/SearchInput.tsx";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {ROLE} from "@/enums/role.ts";
 import {erdListApi, IErdWithSelected} from "@/api/erd.ts";
-import {IApiList} from "@/types/data/util";
+import {IApiList} from "@/types/data/util.ts";
 import Header from "@/screens/Library/Main/ErdTable/Header.tsx";
 import Content from "@/screens/Library/Main/ErdTable/Content.tsx";
 import Footer from "@/screens/Library/Main/Footer.tsx";
 import {useElementSize} from "@mantine/hooks";
 import {useEffect} from "react";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 
 
 export default function Main() {

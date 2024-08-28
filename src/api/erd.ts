@@ -1,7 +1,7 @@
 import {IListQuery} from "@/hooks/useListQuery.ts";
 import erdApi from "@/api/erdApi.tsx";
-import {IApiList} from "@/types/data/util";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IApiList} from "@/types/data/util.ts";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 
 export interface IErdWithSelected extends IErd {
 }

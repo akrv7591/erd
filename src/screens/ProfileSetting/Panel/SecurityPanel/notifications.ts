@@ -1,5 +1,5 @@
 import {notifications} from "@mantine/notifications";
-import {AxiosApiError} from "@/types/api";
+import {AxiosApiError} from "@/types/api.ts";
 import {AUTH} from "@/enums/auth.ts";
 
 export const handleSuccessNotification = () => {

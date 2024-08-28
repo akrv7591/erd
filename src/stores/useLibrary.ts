@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
-import {IErd} from "@/types/data/db-model-interfaces";
+import {IErd} from "@/types/data/db-model-interfaces.ts";
 
 export interface ILibraryState {
   team: IFormTeam | null

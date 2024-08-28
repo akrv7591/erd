@@ -1,5 +1,4 @@
 import {ROLE} from "@/enums/role.ts";
-import {XYPosition} from "@xyflow/react";
 
 export type Optional<T, K extends keyof T> = Partial<Pick<T, K>> & Omit<T, K>
 
@@ -23,30 +22,6 @@ export interface IAccount {
   //Relations
   user?: IUser
 }
-
-
-export interface IColumn {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  name: string;
-  primary: boolean;
-  type: string;
-  foreignKey: boolean;
-  notNull: boolean;
-  unique: boolean;
-  unsigned: boolean;
-  autoIncrement: boolean;
-  comment: string;
-  order: number;
-
-  // Foreign key
-  entityId: string;
-
-  // Relations
-  entity?: IEntity
-}
-
 
 export interface IEmailVerificationToken {
   id: string
@@ -73,12 +48,10 @@ export interface IErd {
   tableNameCase: "snake" | "pascal" | "camel";
   columnNameCase: "snake" | "camel";
   data: string
+  entityCount: number
 
   //Relations
   team?: ITeam
-  entities?: IEntity[]
-  relations?: IRelation[]
-  memos?: IMemo
 }
 
 
@@ -94,22 +67,6 @@ export interface IRefreshToken {
   user?: IUser
 }
 
-
-export interface IRelation {
-  id: string;
-  source: string;
-  target: string;
-  createdAt: string;
-  markerEnd: string;
-
-  // Foreign key
-  erdId: string;
-
-  // Relations
-  erd?: IErd
-}
-
-
 export interface IResetToken {
   id: string
   token: string
@@ -122,32 +79,6 @@ export interface IResetToken {
   //Relations
   user?: IUser
 }
-
-
-export interface INodePosition {
-  x: number,
-  y: number
-}
-
-
-export interface IEntity {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-
-  name: string;
-  color: string;
-  position: INodePosition;
-  type: string;
-
-  // Foreign key
-  erdId: string;
-
-  // Relations
-  erd?: IErd
-  columns?: IColumn[]
-}
-
 
 export interface ITeam {
   id: string
@@ -179,7 +110,6 @@ export interface IUser {
   resetTokens?: IResetToken[]
   teams?: ITeam[]
   UserTeam?: IUserTeam
-  memos?: IMemo
   profile?: IProfile
 }
 
@@ -198,23 +128,6 @@ export interface IUserTeam {
   //Relations
   user?: IUser
   team?: ITeam
-}
-
-export interface IMemo {
-  id: string;
-  content: string;
-  color: string;
-  position: XYPosition;
-  createdAt: string;
-  updatedAt: string;
-
-  // Foreign Key
-  erdId: string;
-  userId: string | null;
-
-  // Relations
-  erd?: IErd;
-  user?: IUser;
 }
 
 export interface IProfile {
@@ -244,38 +157,13 @@ export interface IStaticFile {
 
 
 
-export interface ICAccount extends Optional<IAccount, 'id' | 'createdAt' | 'refreshToken' | 'accessToken' | 'tokenType' | 'scope' | 'idToken' | 'sessionState'> {
-}
-
-export interface ICColumn extends Optional<IColumn, 'id' | 'createdAt' | 'updatedAt'> {
-}
-
-export interface ICEmailVerificationToken extends Optional<IEmailVerificationToken, 'id' | 'createdAt'> {
-}
-
-export interface ICErd extends Optional<IErd, 'id' | 'createdAt' | 'description'> {
-}
-
-export interface ICRefreshToken extends Optional<IRefreshToken, 'id' | 'createdAt'> {
-}
-
-export interface ICRelation extends Optional<IRelation, 'createdAt'> {
-}
-
-export interface ICResetToken extends Optional<IResetToken, 'id' | 'createdAt'> {
-}
-
-export interface ICEntity extends Optional<IEntity, 'id' | 'createdAt' | 'updatedAt'> {
-}
-
-export interface ICTeam extends Optional<ITeam, 'id' | 'createdAt'> {
-}
-
-export interface ICUser extends Optional<IUser, 'id' | 'createdAt' | 'updatedAt' | 'emailVerified'> {
-}
-
-export interface ICUserTeam extends Optional<IUserTeam, 'createdAt' | 'updatedAt'> {
-}
-export interface ICMemo extends Optional<IMemo, 'id' | 'createdAt' | 'updatedAt'> {}
+export interface ICAccount extends Optional<IAccount, 'id' | 'createdAt' | 'refreshToken' | 'accessToken' | 'tokenType' | 'scope' | 'idToken' | 'sessionState'> {}
+export interface ICEmailVerificationToken extends Optional<IEmailVerificationToken, 'id' | 'createdAt'> {}
+export interface ICErd extends Optional<IErd, 'id' | 'createdAt' | 'description'> {}
+export interface ICRefreshToken extends Optional<IRefreshToken, 'id' | 'createdAt'> {}
+export interface ICResetToken extends Optional<IResetToken, 'id' | 'createdAt'> {}
+export interface ICTeam extends Optional<ITeam, 'id' | 'createdAt'> {}
+export interface ICUser extends Optional<IUser, 'id' | 'createdAt' | 'updatedAt' | 'emailVerified'> {}
+export interface ICUserTeam extends Optional<IUserTeam, 'createdAt' | 'updatedAt'> {}
 export interface ICProfile extends Optional<IProfile, 'id' | 'createdAt'| 'updatedAt'> {}
 export interface ICStaticFile extends Optional<IStaticFile, 'id' | 'createdAt' | 'updatedAt'> {}
