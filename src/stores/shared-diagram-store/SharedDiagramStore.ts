@@ -6,6 +6,7 @@ import {memoStore} from "./stores/memoStore.ts";
 import {erdStore} from "./stores/erdStore.ts";
 import yjs from "akrv-zustand-middleware-yjs"
 import * as Y from "yjs";
+import difference from "lodash/difference"
 
 // import types
 import type {MemoStore} from "./stores/memoStore.ts";
@@ -54,17 +55,17 @@ export const createSharedDiagramStore = ({yDoc, id, store, yProvider}: Params) =
   sharedDiagramStore.subscribe((state, prevState) => {
     if (state.nodes !== prevState.nodes) {
       state.getStore().setState(localState => {
-        const sharedNodeKeys = new Set(Object.keys(state.nodes))
-        const localNodeKeys = new Set(localState.nodes.map(node => node.id))
-        const addedNodes = sharedNodeKeys.difference(localNodeKeys)
-        const removedNodes = localNodeKeys.difference(sharedNodeKeys)
+        const sharedNodeKeys = Array.from(Object.keys(state.nodes))
+        const localNodeKeys = localState.nodes.map(node => node.id)
+        const addedNodes = difference(sharedNodeKeys, localNodeKeys)
+        const removedNodes = difference(difference(localNodeKeys, sharedNodeKeys))
 
-        if (!addedNodes.size && !removedNodes.size) {
+        if (!addedNodes.length && !removedNodes.length) {
           return {}
         }
 
         const nodes = [
-          ...localState.nodes.filter(node => !removedNodes.has(node.id)), // removing nodes from local state
+          ...localState.nodes.filter(node => !removedNodes.includes(node.id)), // removing nodes from local state
         ]
 
         addedNodes.forEach(nodeId => {
