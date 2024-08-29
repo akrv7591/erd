@@ -7,6 +7,7 @@ import {ExitButton} from "./ExitButton";
 import {memo} from "react";
 import {PlayerAvatar} from "@/screens/Playground/Header/PlayerAvatar";
 import {useDiagramStore} from "@/contexts/DiagramContext";
+import {UndoRedo} from "@/screens/Playground/Header/UndoRedo";
 
 export const Header = memo(() => {
   const erd = useSharedDiagramStore(state => state.erd)
@@ -16,7 +17,9 @@ export const Header = memo(() => {
       <Logo/>
       <Title/>
       <Config data={erd}/>
-      <Avatar.Group ml={"auto"}>
+      <Group ml={"auto"}/>
+      <UndoRedo />
+      <Avatar.Group>
         {clients.map(client => (
           <PlayerAvatar client={client} key={client.id}/>
         ))}

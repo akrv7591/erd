@@ -40,7 +40,7 @@ export const IconButton: FC<Props> = ({data, disabled}) => {
 
 
   return (
-    <Tooltip withArrow position={"right"} label={tooltipLabel} opened={false}>
+    <Tooltip withArrow position={"right"} label={tooltipLabel}>
       <PlaygroundActionIcon
         disabled={isDisabled}
         variant={isSelected ? "light" : "default"}

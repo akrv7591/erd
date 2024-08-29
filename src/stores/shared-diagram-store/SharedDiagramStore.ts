@@ -59,10 +59,10 @@ export const createSharedDiagramStore = ({yDoc, id, store, yProvider}: Params) =
         const localNodeKeys = localState.nodes.map(node => node.id)
         const addedNodes = difference(sharedNodeKeys, localNodeKeys)
         const removedNodes = difference(difference(localNodeKeys, sharedNodeKeys))
-
-        if (!addedNodes.length && !removedNodes.length) {
-          return {}
-        }
+        //
+        // if (!addedNodes.length && !removedNodes.length) {
+        //   return {}
+        // }
 
         const nodes = [
           ...localState.nodes.filter(node => !removedNodes.includes(node.id)), // removing nodes from local state
@@ -70,6 +70,23 @@ export const createSharedDiagramStore = ({yDoc, id, store, yProvider}: Params) =
 
         addedNodes.forEach(nodeId => {
           nodes.push(state.nodes[nodeId])
+        })
+
+        nodes.forEach(node => {
+          const sharedNode = state.nodes[node.id]
+
+          if (!sharedNode) {
+            return
+          }
+
+          const {x, y} = sharedNode.position
+          const {x: x2, y: y2} = node.position
+
+          if (x !== x2 || y !== y2) {
+            node.position = {
+              ...sharedNode.position
+            }
+          }
         })
 
         return {

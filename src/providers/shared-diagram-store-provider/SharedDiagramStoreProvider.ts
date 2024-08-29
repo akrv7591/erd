@@ -5,8 +5,6 @@ import {createSharedDiagramStore, SharedDiagramStore} from "@/stores/shared-diag
 import {HocuspocusProvider, onSyncedParameters} from "@hocuspocus/provider";
 import StorageUtils from "@/utility/StorageUtils.ts";
 import {PROJECT} from "@/constants/project.ts";
-import {NodeType} from "@/providers/shared-diagram-store-provider/type.ts";
-
 
 
 export class SharedDiagramStoreProvider {
@@ -15,8 +13,11 @@ export class SharedDiagramStoreProvider {
   store: StoreApi<SharedDiagramStore>
   localStore: DiagramContext
   provider: HocuspocusProvider
+  docName: string
+
 
   constructor(name: string, localStore: DiagramContext) {
+    this.docName = name
     this.localStore = localStore
     this.yDoc = new Y.Doc();
     this.provider = new HocuspocusProvider({
@@ -36,18 +37,35 @@ export class SharedDiagramStoreProvider {
 
   handleSynced = (data: onSyncedParameters) => {
     if (data.state) {
-      const nodes = Object.entries(this.store.getState().nodes).map(([id, node]) => ({
-        id,
-        type: node.type,
-        data: node.data,
-        position: node.position
-      })) as NodeType[]
-
       this.localStore.setState({
-        nodes,
         synced: true
+      })
+
+      this.initUndoManager()
+    }
+
+  }
+
+  initUndoManager = () => {
+    const diagram = this.yDoc.getMap(this.docName)
+    const undoManager = new Y.UndoManager(diagram, {
+      ignoreRemoteMapChanges: false,
+      captureTimeout: 0,
+    })
+
+    this.localStore.setState({
+      undoManager,
+    })
+
+    const handleStackItemChange = (_: any, undoManager: Y.UndoManager) => {
+      this.localStore.setState({
+        canUndo: undoManager.canUndo(),
+        canRedo: undoManager.canRedo()
       })
     }
 
+    undoManager.on("stack-item-updated", handleStackItemChange)
+    undoManager.on("stack-item-added", handleStackItemChange)
+    undoManager.on("stack-item-popped", handleStackItemChange)
   }
 }
