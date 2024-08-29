@@ -8,6 +8,7 @@ import {memo} from "react";
 import {PlayerAvatar} from "@/screens/Playground/Header/PlayerAvatar";
 import {useDiagramStore} from "@/contexts/DiagramContext";
 import {UndoRedo} from "@/screens/Playground/Header/UndoRedo";
+import {EntityConfig} from "@/screens/Playground/Header/EntityConfig";
 
 export const Header = memo(() => {
   const erd = useSharedDiagramStore(state => state.erd)
@@ -17,6 +18,7 @@ export const Header = memo(() => {
       <Logo/>
       <Title/>
       <Config data={erd}/>
+      <EntityConfig />
       <Group ml={"auto"}/>
       <UndoRedo />
       <Avatar.Group>

@@ -46,7 +46,6 @@ export const createSharedDiagramStore = ({yDoc, id, store, yProvider}: Params) =
       ...flowStore(...a),
       ...memoStore(...a),
       ...erdStore(...a),
-
       getStore: () => store,
       getYProvider: () => yProvider
     }),

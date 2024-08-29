@@ -1,0 +1,1 @@
+export {EntityConfig} from "./EntityConfig"

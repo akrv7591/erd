@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="added undo redo functionality">
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="applied onNodeDouble click event">
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfig.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useDiagramEventHandlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/Diagram/useDiagramEventHandlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/erdStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/erdStore.ts" afterDir="false" />
     </list>
     <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
       <change beforePath="$PROJECT_DIR$/src/constants/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/project.ts" afterDir="false" />
@@ -94,11 +101,11 @@
       <recent name="$PROJECT_DIR$/src/providers/zustand-yjs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal" />
       <recent name="$PROJECT_DIR$/src/stores" />
       <recent name="$PROJECT_DIR$/src/contexts" />
       <recent name="$PROJECT_DIR$/src/providers" />
       <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-context" />
-      <recent name="$PROJECT_DIR$/src/screens/Playground/Navbar/PaneControls/ZoomOut" />
     </key>
   </component>
   <component name="RunManager">
@@ -265,15 +272,7 @@
       <workItem from="1723530911568" duration="8354000" />
       <workItem from="1723593577850" duration="2131000" />
       <workItem from="1724655301779" duration="40716000" />
-      <workItem from="1724893308609" duration="13573000" />
-    </task>
-    <task id="LOCAL-00139" summary="added connected state to usePlaygroundStore.ts">
-      <option name="closed" value="true" />
-      <created>1710737250845</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
-      <option name="project" value="LOCAL" />
-      <updated>1710737250845</updated>
+      <workItem from="1724893308609" duration="21892000" />
     </task>
     <task id="LOCAL-00140" summary="updated follow message">
       <option name="closed" value="true" />
@@ -659,7 +658,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724914321118</updated>
     </task>
-    <option name="localTasksCounter" value="188" />
+    <task id="LOCAL-00188" summary="applied onNodeDouble click event">
+      <option name="closed" value="true" />
+      <created>1724914842082</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1724914842082</updated>
+    </task>
+    <option name="localTasksCounter" value="189" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -678,7 +685,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added Security Pane" />
     <MESSAGE value="Avatar image sizes fixed" />
     <MESSAGE value="applied render optimization" />
     <MESSAGE value="fixed memo resizer" />
@@ -703,7 +709,8 @@
     <MESSAGE value="removed Set difference function and added lodash difference" />
     <MESSAGE value="updated library logic" />
     <MESSAGE value="added undo redo functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="added undo redo functionality" />
+    <MESSAGE value="applied onNodeDouble click event" />
+    <option name="LAST_COMMIT_MESSAGE" value="applied onNodeDouble click event" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
