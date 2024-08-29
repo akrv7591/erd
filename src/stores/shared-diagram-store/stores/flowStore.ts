@@ -15,6 +15,7 @@ import {MemoNode} from "@/types/memo-node.ts";
 import {ConfirmModal} from "@/stores/diagram-store/stores/pane-store/PaneStore.ts";
 import {objValuesToArray} from "@/utility/ObjectUtils.ts";
 import {EntityData, EntityNode, NodeType} from "@/providers/shared-diagram-store-provider/type.ts";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 
 interface FlowStoreState {
   nodes: Record<string, NodeType>
@@ -269,12 +270,27 @@ export const flowStore: StateCreator<SharedDiagramStore, [], [], FlowStore> = ((
   },
 
   addNode: (node) => {
-    set(state => ({
-      nodes: {
-        ...state.nodes,
-        [node.id]: node
+    set(state => {
+      if (node.type === NODE_TYPES.ENTITY) {
+        const defaultData = state.entityConfigs[useAuthStore.getState().user.id]
+
+        if (defaultData) {
+          node.data = {
+            ...defaultData,
+            columns: Object.fromEntries(defaultData.columns.map(column => [column.id, {
+              ...column,
+              entityId: node.id
+            }]))
+          }
+        }
       }
-    }))
+      return {
+        nodes: {
+          ...state.nodes,
+          [node.id]: node
+        }
+      }
+    })
   },
 
   deleteNode: (ids) => {
