@@ -1,4 +1,4 @@
-import {OnMove, ReactFlowProps} from "@xyflow/react";
+import {OnMove, ReactFlowProps, useReactFlow} from "@xyflow/react";
 import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
 import {useDiagramStore} from "@/contexts/DiagramContext.ts";
 import {useAwareness} from "@/contexts/AwarenessContext.ts";
@@ -18,7 +18,8 @@ type ReturnType = Pick<ReactFlowProps<NodeType>,
   'onMouseEnter' |
   'onMouseMove' |
   'onMove' |
-  'onDragOver'
+  'onDragOver' |
+  'onNodeDoubleClick'
 >
 
 export const useDiagramEventHandlers = (): ReturnType => {
@@ -37,6 +38,8 @@ export const useDiagramEventHandlers = (): ReturnType => {
     handleNodeDragStop,
     handleCursorChange,
   } = useAwareness()
+
+  const reactFlow = useReactFlow()
 
   const onNodeDragStop = handleNodeDragStop
   const onNodeDrag = handleNodeDrag
@@ -66,6 +69,13 @@ export const useDiagramEventHandlers = (): ReturnType => {
       e.dataTransfer.dropEffect = 'move';
     }
   }, [])
+  const onNodeDoubleClick = useCallback((_: any, node: NodeType) => {
+    reactFlow.fitView({
+      nodes: [node],
+      padding: 0.1,
+      duration: 500
+    })
+  }, [])
 
   return {
     onEdgesChange,
@@ -81,5 +91,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
     onMouseMove,
     onMove,
     onDragOver,
+    onNodeDoubleClick
   }
 }
