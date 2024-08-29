@@ -1,10 +1,8 @@
 import {create} from "zustand";
-import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
-import {IErd} from "@/types/data/db-model-interfaces.ts";
+import {IErd, ITeam} from "@/types/data/db-model-interfaces.ts";
 
 export interface ILibraryState {
-  team: IFormTeam | null
-  teams: IFormTeam[]
+  team: ITeam | null
   checkedErds: IErd[]
 }
 
@@ -12,7 +10,7 @@ export interface ILibraryViews {
 }
 
 export interface ILibraryActions {
-  setTeam: (team: IFormTeam | null) => void
+  setTeam: (team: ITeam | null) => void
   onErdCheckBoxClick: (erd: IErd) => void
   clearCheckedErds: () => void
   deleteCheckedErds: () => Promise<void>
@@ -22,7 +20,6 @@ export type ILibraryStore = ILibraryState & ILibraryViews & ILibraryActions
 
 const libraryStoreInitialValue: ILibraryState = {
   team: null,
-  teams: [],
   checkedErds: []
 }
 
@@ -34,7 +31,6 @@ export const useLibraryStore = create<ILibraryStore>()((set) => ({
   onErdCheckBoxClick: erd => set(({checkedErds}) => ({checkedErds: checkedErds.includes(erd) ? checkedErds.filter(e => e !== erd) : [...checkedErds, erd]})),
   clearCheckedErds: () => set({checkedErds: []}),
   deleteCheckedErds: async () => {
-    await Promise
     set({checkedErds: []})
   }
 }))

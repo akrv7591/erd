@@ -14,14 +14,15 @@ import {
 import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
-import {IErd} from "@/types/data/db-model-interfaces.ts";
+import {IErd, ITeam} from "@/types/data/db-model-interfaces.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IconInfoCircle} from "@tabler/icons-react";
-import {hasRoleAccess} from "@/utility/role-util.ts";
+import {IApiList} from "@/types/data/util.ts";
+import {teamListApi} from "@/api/team.ts";
 
 interface Props extends ModalBaseProps {
   data: IErd | null
@@ -56,8 +57,10 @@ const generateDefaultFormValue = (): IErd => {
 }
 export default function ErdModal({onSubmit, data, type, ...props}: Props) {
   const team = useLibraryStore(state => state.team)
-  const teams = useLibraryStore(state => state.teams)
-
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: ({data, type}: IErdMutationData) => erdMutationFn(data, type)
+  })
   const form = useForm({
     initialValues: {
       ...data ? data : generateDefaultFormValue(),
@@ -69,9 +72,11 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
       teamId: (value: string | null) => (value === null || value === "") ? "Team is required" : null
     }
   })
+  const {data: teams} = useQuery<IApiList<ITeam>, {}, IApiList<ITeam>, [string]>({
+    queryKey: ['teamList'],
+    queryFn: teamListApi
+  })
 
-  const queryClient = useQueryClient()
-  const mutation = useMutation({mutationFn: ({data, type}: IErdMutationData) => erdMutationFn(data, type)})
 
   const handleSubmit = async (data: any) => {
     switch (type) {
@@ -155,16 +160,18 @@ export default function ErdModal({onSubmit, data, type, ...props}: Props) {
                   data-autofocus
                   style={{flex: 1}}
                 />
-                <Tooltip hidden={type !== "update"} label={"You can't edit erd team"}>
-                  <Select
-                    {...form.getInputProps("teamId", {withFocus: true})}
-                    disabled={type === "update"}
-                    label={"Team"}
-                    placeholder={"Select a team"}
-                    data={teams.map(t => ({value: t.id, label: t.name, disabled: !hasRoleAccess(t.userTeam.role)}))}
-                    checkIconPosition={"right"}
-                  />
-                </Tooltip>
+                {teams && (
+                  <Tooltip hidden={type !== "update"} label={"You can't edit erd team"}>
+                    <Select
+                      {...form.getInputProps("teamId", {withFocus: true})}
+                      disabled={type === "update"}
+                      label={"Team"}
+                      placeholder={"Select a team"}
+                      data={teams.rows.map(team => ({value: team.id, label: team.name}))}
+                      checkIconPosition={"right"}
+                    />
+                  </Tooltip>
+                )}
               </Group>
               <Textarea
                 {...form.getInputProps("description")}

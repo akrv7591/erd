@@ -1,50 +1,46 @@
 import {Button, Card, Group, InputLabel, Select, Stack, TextInput} from "@mantine/core";
-import {IUserWithUserTeam, useTeamFormContext} from "@/contexts/forms/TeamFormContext.ts";
 import {ROLE} from "@/enums/role.ts";
 import {isEmail, useForm} from "@mantine/form";
 import {getRoleDescription, roleData} from "@/utility/role-util.ts";
-import UserWithRole from "@/screens/Library/Navbar/TeamModal/UserWithRole.tsx";
+import {UserWithRole} from "@/screens/Library/Navbar/TeamModal/UserWithRole.tsx";
 import erdApi from "@/api/erdApi.tsx";
 import {ApiUtils} from "@/utility/ApiUtils.ts";
 import {notifications} from "@mantine/notifications";
+import {memo} from "react";
+import {IUser} from "@/types/data/db-model-interfaces.ts";
+import {useQuery} from "@tanstack/react-query";
+import {IApiList} from "@/types/data/util.ts";
+import {teamUserListApi} from "@/api/team.ts";
 
 const defaultNewUserInfo = {
   email: "",
   role: ROLE.READ
 }
 
-export default function UserList() {
-  const form = useTeamFormContext()
+interface Props {
+  teamId: string
+}
+
+export const UserList = memo((props: Props) => {
   const addUserForm = useForm({
     initialValues: defaultNewUserInfo,
     validate: {
       email: isEmail("User email is required")
     }
   })
+  const {data} = useQuery<IApiList<IUser>, {}, IApiList<IUser>, [string]>({
+    queryKey: [props.teamId],
+    queryFn: teamUserListApi
+  })
 
-  if (!form.values.users) return null
-
-  const onSubmit = addUserForm.onSubmit(async (data) => {
-
+  const handleSubmit = addUserForm.onSubmit(async (data) => {
     try {
-      const res = await erdApi.post<IUserWithUserTeam>("/v1/team/invite-user", data)
+      const res = await erdApi.post<IUser>(`/v1/team/${props.teamId}/user-invite`, data)
 
       if (ApiUtils.isRequestSuccess(res)) {
         notifications.show({
           title: "Success",
           message: `${data.email} invited successfully`
-        })
-        form.setValues(prevState => {
-          if (!prevState.users) {
-            return {}
-          }
-
-          return {
-            users: [
-              ...prevState.users,
-              res.data
-            ]
-          }
         })
       }
     } catch (e) {
@@ -59,12 +55,13 @@ export default function UserList() {
 
   const description = getRoleDescription(addUserForm.values.role)
 
-
   return (
     <Stack>
       <InputLabel>Users</InputLabel>
       <Stack mah={"300px"} style={{overflow: "scroll"}}>
-        {form.values.users.map((user, i) => <UserWithRole key={user.email} i={i}/>)}
+        {data && data.rows.map((user) => (
+          <UserWithRole key={user.id} user={user}/>
+        ))}
       </Stack>
       <Card title={"Add new user"}>
         <Stack>
@@ -84,11 +81,11 @@ export default function UserList() {
               description={description}
             />
           </Group>
-          <Button fullWidth onClick={() => onSubmit()}>
+          <Button fullWidth onClick={() => handleSubmit}>
             Add
           </Button>
         </Stack>
       </Card>
     </Stack>
   )
-}
+})

@@ -85,11 +85,6 @@ export interface ITeam {
   createdAt: string
   updatedAt: string
   name: string
-
-  //Relations
-  users?: IUser[]
-  erds?: IErd[]
-  UserTeam?: IUserTeam
 }
 
 

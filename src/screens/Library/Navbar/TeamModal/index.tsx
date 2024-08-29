@@ -6,20 +6,21 @@ import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {IFormTeam, TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
-import UserList from "@/screens/Library/Navbar/TeamModal/UserList.tsx";
+import {TeamFormProvider, useTeamForm} from "@/contexts/forms/TeamFormContext.ts";
+import {UserList} from "@/screens/Library/Navbar/TeamModal/UserList";
 import {memo, useCallback, useEffect} from "react";
 import {createId} from "@paralleldrive/cuid2";
+import {ITeam} from "@/types/data/db-model-interfaces.ts";
 
 interface Props extends ModalBaseProps {
-  data: IFormTeam | null
+  data: ITeam | null
 }
 
 
 type ITeamMutationMethods = "delete" | "put"
 
 interface IErdMutationData {
-  data: IFormTeam,
+  data: ITeam,
   type: ITeamMutationMethods
 }
 
@@ -27,7 +28,7 @@ interface IErdMutationData {
 const teamMutationFn = ({data, type}: IErdMutationData) => {
   switch (type) {
     case "put":
-      return erdApi.put<IFormTeam>("/v1/team", data)
+      return erdApi.put<ITeam>("/v1/team", data)
     case "delete":
       return erdApi.delete(`/v1/team/${data.id}`)
 
@@ -37,9 +38,8 @@ const teamMutationFn = ({data, type}: IErdMutationData) => {
 const getFormInitialValues = (data: Props['data']) => {
   return data ? data : {
     id: createId(),
-    users: [] as IFormTeam['users'],
     name: "",
-  } as IFormTeam
+  } as ITeam
 }
 
 const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
@@ -150,7 +150,7 @@ const TeamModal = memo(({onSubmit, data, type, ...props}: Props) => {
               required
               data-autofocus
             />
-            <UserList/>
+            <UserList teamId={form.values.id}/>
             <Group w={"100%"} justify={"flex-end"}>
               <ButtonWithConfirm
                 tooltip={"Delete team"}

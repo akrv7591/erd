@@ -19,19 +19,15 @@ export default function TeamModal({onSubmit, data, type, ...props}: Props) {
   const form = useForm({
     initialValues: {
       name: "",
-      users: [],
-      ...data && {
-        ...data,
-        users: data.users? data.users.map(user => user.email): []
-      }
+      ...data
     }
   })
   const mutation = useMutation({
     mutationFn,
   })
 
-  const handleSubmit = async (data: any) => {
-    await mutation.mutate(data, {
+  const handleSubmit = (data: any) => {
+    mutation.mutate(data, {
       onSuccess: async (res) => {
         const created = res.status === httpStatus.CREATED
         notifications.show({

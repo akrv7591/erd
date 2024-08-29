@@ -3,19 +3,21 @@ import {Group, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";
 import Team from "./Team.tsx";
 import SearchInput from "@/components/common/SearchInput.tsx";
-import {useListQuery} from "@/hooks/useListQuery.ts";
+import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
 import {teamListApi} from "@/api/team.ts";
 import {PaginationUtil} from "@/utility/PaginationUtil.ts";
 import {useElementSize} from "@mantine/hooks";
 import TeamSkeleton from "@/screens/Library/Navbar/TeamList/TeamSkeleton.tsx";
+import {IApiList} from "@/types/data/util.ts";
+import {ITeam} from "@/types/data/db-model-interfaces.ts";
 
 
 export default function TeamList() {
   const {ref, height} = useElementSize()
   const {params, setParams} = useListQuery({elementHeight: 45, containerHeight: height})
-  const {data = {rows: [], count: 0}, status} = useQuery({
+  const {data = {rows: [], count: 0}, status} = useQuery<IApiList<ITeam>, {}, IApiList<ITeam>, [string, IListQuery]>({
     queryKey: ['teamList', params],
-    queryFn: () => teamListApi(params),
+    queryFn: teamListApi,
     placeholderData: keepPreviousData,
   })
 

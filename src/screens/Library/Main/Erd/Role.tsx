@@ -4,15 +4,17 @@ import {memo} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {userTeamApi} from "@/api/team.ts";
 import {IconError404} from "@tabler/icons-react";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 
 interface Props {
   teamId: string
 }
 
 const Role = memo((props: Props) => {
+  const user = useAuthStore(state => state.user)
   const {status, data} = useQuery({
-    queryKey: [`userTeam:${props.teamId}`],
-    queryFn: () => userTeamApi(props.teamId)
+    queryKey: [props.teamId, user.id],
+    queryFn: userTeamApi
   })
 
   switch (status) {

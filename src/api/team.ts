@@ -1,29 +1,21 @@
 import {IListQuery} from "@/hooks/useListQuery.ts";
 import erdApi from "@/api/erdApi.tsx";
-import {IUserTeam} from "@/types/data/db-model-interfaces.ts";
+import {ITeam, IUser, IUserTeam} from "@/types/data/db-model-interfaces.ts";
 import {IApiList} from "@/types/data/util.ts";
-import {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {QueryFunction} from "@tanstack/react-query";
 
-
-export const userTeamApi = (teamId: string) => erdApi.get<IUserTeam>(`/v1/team/${teamId}/user-permission`)
+const userTeamApi: QueryFunction<IUserTeam, [string, string]> = async ({queryKey}) => erdApi.get<IUserTeam>(`/v1/team/${queryKey[0]}/user/${queryKey[1]}`)
   .then(res => res.data)
-export const teamListApi = (params: IListQuery) => erdApi.get<IApiList<IFormTeam>>("/v1/team", {
-  params
-})
-  .then(res => res.data)
-  .then(async (data) => {
-    const roles = await Promise.all(data.rows.map(team => userTeamApi(team.id)))
 
-    return {
-      ...data,
-      rows: data.rows.map((team, index) => ({
-        ...team,
-        userTeam: roles[index]
-      }))
-    }
-  })
-  .then((data) => {
-    useLibraryStore.setState({teams: data.rows})
-    return data
-  })
+const teamUserListApi: QueryFunction<IApiList<IUser>, [string]> = async ({queryKey}) => erdApi.get<IApiList<IUser>>(`/v1/team/${queryKey[0]}/user`)
+  .then(res => res.data)
+
+const teamListApi: QueryFunction<IApiList<ITeam>, [string, IListQuery?]> = ({queryKey}) => erdApi.get<IApiList<ITeam>>("/v1/team", {params: queryKey[1] || {}})
+  .then(res => res.data)
+
+export {
+  userTeamApi,
+  teamUserListApi,
+  teamListApi,
+}
+

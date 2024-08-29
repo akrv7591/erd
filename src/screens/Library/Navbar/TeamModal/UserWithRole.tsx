@@ -3,23 +3,27 @@ import {useTeamFormContext} from "@/contexts/forms/TeamFormContext.ts";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {roleData} from "@/utility/role-util.ts";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import erdApi from "@/api/erdApi.tsx";
 import {notifications} from "@mantine/notifications";
 import {AxiosError} from "axios";
 import httpStatus from "http-status";
+import {IUser, IUserTeam} from "@/types/data/db-model-interfaces.ts";
+import {memo} from "react";
+import {userTeamApi} from "@/api/team.ts";
 
 interface Props {
-  i: number
+  user: IUser
 }
 
 
-export default function UserWithRole(props: Props) {
+export const UserWithRole = memo(({user}: Props) => {
   const form = useTeamFormContext()
 
-  if (!form.values.users) return null
-
-  const user = form.values.users[props.i]
+  const {data} = useQuery<IUserTeam, {}, IUserTeam, [string, string]>({
+    queryKey: [form.values.id, user.id],
+    queryFn: userTeamApi
+  })
 
   const userDeleteMutation = useMutation({
     mutationKey: [`delete-user-from-team-${user.email}`],
@@ -29,7 +33,6 @@ export default function UserWithRole(props: Props) {
         title: "Success",
         message: `${user.email} is successfully deleted from team`
       })
-      form.setValues(cur => ({...cur, users: cur.users?.filter(u => u.id !== user.id)}))
     },
     onError: (error: AxiosError) => {
       switch (error.status) {
@@ -39,8 +42,6 @@ export default function UserWithRole(props: Props) {
             message: `Couldn't found ${user.email} in current team`,
             color: "red"
           })
-          form.setValues(cur => ({...cur, users: cur.users?.filter(u => u.id !== user.id)}))
-
           break
         case httpStatus.INTERNAL_SERVER_ERROR:
           notifications.show({
@@ -53,19 +54,20 @@ export default function UserWithRole(props: Props) {
     }
   })
 
-  const onDelete = () => {
-    if (user.id) {
-      userDeleteMutation.mutate(`/v1/team/${user.userTeam.teamId}/delete-user/${user.id}`)
-    } else {
-      form.setValues(cur => ({...cur, users: cur.users?.filter(u => u.id !== user.id)}))
-    }
+  if (!data) {
+    return null
   }
 
-  const isInvited = user.userTeam.pending
+  const onDelete = () => {
+    userDeleteMutation.mutate(`/v1/team/${data.teamId}/delete-user/${data.userId}`)
+  }
+
+  const isInvited = data.pending
+
   return (
     <Group align={"flex-end"} gap={"xs"}>
       <TextInput
-        {...form.getInputProps(`users.${props.i}.email`)}
+        value={user.email}
         placeholder={"user@erdiagramly.com"}
         style={{flex: 1}}
         disabled
@@ -73,7 +75,7 @@ export default function UserWithRole(props: Props) {
         rightSectionWidth={isInvited ? 100 : 0}
       />
       <Select
-        {...form.getInputProps(`users.${props.i}.userTeam.role`)}
+        value={data.role}
         data={roleData}
         checkIconPosition={"right"}
       />
@@ -90,4 +92,4 @@ export default function UserWithRole(props: Props) {
       />
     </Group>
   )
-}
+})

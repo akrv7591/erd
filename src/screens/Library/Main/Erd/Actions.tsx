@@ -7,6 +7,7 @@ import {userTeamApi} from "@/api/team.ts";
 import type {UseModalType} from "@/hooks/useModal.ts";
 import type {IErd} from "@/types/data/db-model-interfaces.ts";
 import type {MouseEventHandler} from "react";
+import {useAuthStore} from "@/stores/useAuthStore.ts";
 
 
 interface Props {
@@ -16,9 +17,10 @@ interface Props {
 
 
 export default function Actions(props: Props) {
+  const user = useAuthStore(state => state.user)
   const {data: permission} = useQuery({
-    queryKey: [`userTeam:${props.erd.teamId}`],
-    queryFn: () => userTeamApi(props.erd.teamId)
+    queryKey: [props.erd.teamId, user.id],
+    queryFn: userTeamApi
   })
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()

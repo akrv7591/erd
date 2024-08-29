@@ -4,11 +4,11 @@ import classes from './style.module.css';
 import TeamModal from "./TeamModal";
 import {useModal} from "@/hooks/useModal.ts";
 import TeamList from "./TeamList";
-import type {IFormTeam} from "@/contexts/forms/TeamFormContext.ts";
+import {ITeam} from "@/types/data/db-model-interfaces.ts";
 
 
 export default function Navbar() {
-  const modal = useModal<IFormTeam>({
+  const modal = useModal<ITeam>({
     initialOpen: false,
     baseTitle: "Team",
     initialType: 'create'

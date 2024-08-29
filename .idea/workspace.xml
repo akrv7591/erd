@@ -4,12 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="updated types and Entity count">
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="removed Set difference function and added lodash difference">
+      <change afterPath="$PROJECT_DIR$/src/screens/Library/Main/CreateTeamButton.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/TableCount.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/erd.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/erd.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/team.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/team.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/forms/TeamFormContext.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/forms/TeamFormContext.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Aside/TeamModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Aside/TeamModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Actions.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Actions.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Role.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Role.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Erd/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamList/Team.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamList/Team.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserWithRole.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserWithRole.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/useLibrary.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/useLibrary.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/data/db-model-interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/data/db-model-interfaces.ts" afterDir="false" />
     </list>
     <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
       <change beforePath="$PROJECT_DIR$/src/constants/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/project.ts" afterDir="false" />
@@ -63,31 +78,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Docker.Dockerfile.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/akrv/Dev/React/personal/erdiagramly/src/providers/zustand-yjs/diagram-store/stores",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/src/providers/zustand-yjs/diagram-store/stores&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "TypeScript"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TypeScript&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-store/stores" />
@@ -268,14 +283,7 @@
       <workItem from="1723530911568" duration="8354000" />
       <workItem from="1723593577850" duration="2131000" />
       <workItem from="1724655301779" duration="40716000" />
-    </task>
-    <task id="LOCAL-00136" summary="fixed memo button tooltip content">
-      <option name="closed" value="true" />
-      <created>1710482374298</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1710482374298</updated>
+      <workItem from="1724893308609" duration="6849000" />
     </task>
     <task id="LOCAL-00137" summary="updated getNodes function">
       <option name="closed" value="true" />
@@ -661,7 +669,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724820636061</updated>
     </task>
-    <option name="localTasksCounter" value="185" />
+    <task id="LOCAL-00185" summary="removed Set difference function and added lodash difference">
+      <option name="closed" value="true" />
+      <created>1724824582633</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1724824582633</updated>
+    </task>
+    <option name="localTasksCounter" value="186" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -680,7 +696,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added profile setting update page" />
     <MESSAGE value="added Security.tsx page" />
     <MESSAGE value="@mantine -&gt; 7.7.0" />
     <MESSAGE value="added Security Pane" />
@@ -705,14 +720,14 @@
     <MESSAGE value="updated package" />
     <MESSAGE value="fixed PROJECT constant" />
     <MESSAGE value="updated types and Entity count" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated types and Entity count" />
+    <MESSAGE value="removed Set difference function and added lodash difference" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed Set difference function and added lodash difference" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/EntityNode.tsx</url>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

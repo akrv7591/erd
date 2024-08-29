@@ -7,7 +7,6 @@ import Actions from "@/screens/Library/Main/Erd/Actions.tsx";
 import ErdModal from "@/screens/Library/Main/ErdModal";
 import {useModal} from "@/hooks/useModal.ts";
 import {memo} from "react";
-import {IErdWithSelected} from "@/api/erd.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import Role from "@/screens/Library/Main/Erd/Role.tsx";
 import {IErd} from "@/types/data/db-model-interfaces.ts";
@@ -15,7 +14,7 @@ import {IErd} from "@/types/data/db-model-interfaces.ts";
 dayjs.extend(relativeTime)
 
 interface Props {
-  erd: IErdWithSelected
+  erd: IErd
 }
 
 const Erd = memo(({erd}: Props) => {
