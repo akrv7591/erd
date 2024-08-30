@@ -5,7 +5,15 @@ import {createSharedDiagramStore, SharedDiagramStore} from "@/stores/shared-diag
 import {HocuspocusProvider, onSyncedParameters} from "@hocuspocus/provider";
 import StorageUtils from "@/utility/StorageUtils.ts";
 import {PROJECT} from "@/constants/project.ts";
+import {NodeType} from "@/providers/shared-diagram-store-provider/type.ts";
+import {Edge} from "@xyflow/react";
+import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
 
+interface SharedDiagram {
+  nodes: Record<string, NodeType>
+  edges: Record<string, Edge>
+  entityConfigs: Record<string, DefaultEntityConfig>
+}
 
 export class SharedDiagramStoreProvider {
   url = PROJECT.BASE_API_URL.replace("http", "ws") + "/hocuspocus"
@@ -37,18 +45,16 @@ export class SharedDiagramStoreProvider {
 
   handleSynced = (data: onSyncedParameters) => {
     if (data.state) {
-      this.localStore.setState({
-        synced: true
-      })
-
       this.initUndoManager()
     }
 
   }
 
   initUndoManager = () => {
-    const diagram = this.yDoc.getMap(this.docName)
-    const undoManager = new Y.UndoManager(diagram, {
+    const diagram = this.yDoc.getMap<SharedDiagram>(this.docName)
+    const nodes = diagram.get("nodes") as unknown as Y.Map<SharedDiagram['nodes']>
+    const edges = diagram.get("edges") as unknown as Y.Map<SharedDiagram['edges']>
+    const undoManager = new Y.UndoManager([nodes, edges], {
       ignoreRemoteMapChanges: false,
       captureTimeout: 0,
     })

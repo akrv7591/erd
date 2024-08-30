@@ -51,18 +51,22 @@ export const createSharedDiagramStore = ({yDoc, id, store, yProvider}: Params) =
     }),
   ))
 
+  let initialLoad = true
+
   sharedDiagramStore.subscribe((state, prevState) => {
+    if (initialLoad) {
+      initialLoad = false
+
+      store.setState({
+        synced: true
+      })
+    }
     if (state.nodes !== prevState.nodes) {
       state.getStore().setState(localState => {
         const sharedNodeKeys = Array.from(Object.keys(state.nodes))
         const localNodeKeys = localState.nodes.map(node => node.id)
         const addedNodes = difference(sharedNodeKeys, localNodeKeys)
         const removedNodes = difference(difference(localNodeKeys, sharedNodeKeys))
-        //
-        // if (!addedNodes.length && !removedNodes.length) {
-        //   return {}
-        // }
-
         const nodes = [
           ...localState.nodes.filter(node => !removedNodes.includes(node.id)), // removing nodes from local state
         ]
