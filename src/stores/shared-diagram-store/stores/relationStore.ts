@@ -124,7 +124,7 @@ export const relationStore: StateCreator<SharedDiagramStore, [], [], RelationSto
         name: voca.snakeCase(tableName + voca.titleCase(column.name)),
         order,
         foreignKey: true,
-        primary: false,
+        primary: true,
         unique: false
       }
 

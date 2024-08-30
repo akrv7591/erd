@@ -16,6 +16,7 @@ import {ConfirmModal} from "@/stores/diagram-store/stores/pane-store/PaneStore.t
 import {objValuesToArray} from "@/utility/ObjectUtils.ts";
 import {EntityData, EntityNode, NodeType} from "@/providers/shared-diagram-store-provider/type.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {createId} from "@paralleldrive/cuid2";
 
 interface FlowStoreState {
   nodes: Record<string, NodeType>
@@ -285,7 +286,8 @@ export const flowStore: StateCreator<SharedDiagramStore, [], [], FlowStore> = ((
             ...defaultData,
             columns: Object.fromEntries(defaultData.columns.map(column => [column.id, {
               ...column,
-              entityId: node.id
+              id: createId(),
+              entityId: node.id,
             }]))
           }
         }
