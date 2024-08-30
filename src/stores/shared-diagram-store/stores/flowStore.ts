@@ -178,6 +178,12 @@ export const flowStore: StateCreator<SharedDiagramStore, [], [], FlowStore> = ((
     const targetNode = state.nodes[connection.target] as EntityNode
     const sourceNode = state.nodes[connection.source] as EntityNode
 
+    if (targetNode.type !== NODE_TYPES.ENTITY || sourceNode.type !== NODE_TYPES.ENTITY) {
+      return {}
+    }
+
+    console.log(sourceNode.data, targetNode.data)
+
     const diagramStore = state.getStore()
 
     const setHandleToHandGrab = () => {

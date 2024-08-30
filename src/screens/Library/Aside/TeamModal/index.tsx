@@ -3,7 +3,7 @@ import {useForm} from "@mantine/form";
 import {Modal, Stack, TagsInput, Text, TextInput} from "@mantine/core";
 import ModalForm from "@/components/common/ModalForm";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {notifications} from "@mantine/notifications";
 import httpStatus from "http-status";
 import {ITeam} from "@/types/data/db-model-interfaces.ts";

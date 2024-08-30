@@ -4,8 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="added DefaultEntityConfig">
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="applied DefaultTable">
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityContextForm.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/style.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/EntityUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/erd.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/erd.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/erdApi.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/erdApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/team.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/team.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/CustomTheme/CustomTheme.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/CustomTheme/CustomTheme.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/erd/column.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/erd/column.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/multiplayer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/socket.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/Diagram/useClient.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/providers/shared-diagram-store-provider/SharedDiagramStoreProvider.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/providers/shared-diagram-store-provider/SharedDiagramStoreProvider.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/Signin/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/Signin/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/Signup/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/Signup/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/JoinTeam/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/JoinTeam/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Aside/TeamModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Aside/TeamModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Aside/UserList/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Aside/UserList/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Role.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/Erd/Role.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserWithRole.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserWithRole.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfig.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfig.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/VerifyEmail/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/VerifyEmail/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/SharedDiagramStore.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/useAuthStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/useAuthStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/auth-utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/AuthUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/password-util.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/PasswordUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/role-util.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/RoleUtils.ts" afterDir="false" />
     </list>
     <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
       <change beforePath="$PROJECT_DIR$/src/constants/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/project.ts" afterDir="false" />
@@ -264,15 +299,7 @@
       <workItem from="1723530911568" duration="8354000" />
       <workItem from="1723593577850" duration="2131000" />
       <workItem from="1724655301779" duration="40716000" />
-      <workItem from="1724893308609" duration="22266000" />
-    </task>
-    <task id="LOCAL-00141" summary="added onBeforeEntityDelete function">
-      <option name="closed" value="true" />
-      <created>1710812108273</created>
-      <option name="number" value="00141" />
-      <option name="presentableId" value="LOCAL-00141" />
-      <option name="project" value="LOCAL" />
-      <updated>1710812108273</updated>
+      <workItem from="1724893308609" duration="31723000" />
     </task>
     <task id="LOCAL-00142" summary="added onBeforeMemoDelete function">
       <option name="closed" value="true" />
@@ -658,7 +685,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724924163603</updated>
     </task>
-    <option name="localTasksCounter" value="190" />
+    <task id="LOCAL-00190" summary="applied DefaultTable">
+      <option name="closed" value="true" />
+      <created>1724924534584</created>
+      <option name="number" value="00190" />
+      <option name="presentableId" value="LOCAL-00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1724924534584</updated>
+    </task>
+    <option name="localTasksCounter" value="191" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -677,7 +712,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="applied render optimization" />
     <MESSAGE value="fixed memo resizer" />
     <MESSAGE value="removed library table background color" />
     <MESSAGE value="fixed some bugs" />
@@ -702,7 +736,8 @@
     <MESSAGE value="added undo redo functionality" />
     <MESSAGE value="applied onNodeDouble click event" />
     <MESSAGE value="added DefaultEntityConfig" />
-    <option name="LAST_COMMIT_MESSAGE" value="added DefaultEntityConfig" />
+    <MESSAGE value="applied DefaultTable" />
+    <option name="LAST_COMMIT_MESSAGE" value="applied DefaultTable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

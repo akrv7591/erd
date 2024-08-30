@@ -3,7 +3,7 @@ import classes from "./style.module.css"
 import Logo from "@/components/common/Logo.tsx";
 import {Link, NavigateFunction, useNavigate, useParams} from "react-router-dom";
 import {useMutation} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import {notifications} from "@mantine/notifications";
 import Timer from "@/utility/Timer.ts";

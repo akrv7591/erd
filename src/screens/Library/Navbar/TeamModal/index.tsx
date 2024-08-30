@@ -2,7 +2,7 @@ import {ModalBaseProps} from "@/components/common/ModalBase";
 import {Button, Group, Modal, Stack, TextInput} from "@mantine/core";
 import ModalForm from "@/components/common/ModalForm";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {notifications} from "@mantine/notifications";
 import {IconTrash} from "@tabler/icons-react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";

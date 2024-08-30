@@ -1,6 +1,6 @@
 import {Button, Card, Group, Input, PasswordInput, Stack, Title} from "@mantine/core";
 import {useForm} from "@mantine/form";
-import {PasswordUtil} from "@/utility/password-util.ts";
+import {PasswordUtils} from "@/utility/PasswordUtils.ts";
 import {useMutation} from "@tanstack/react-query";
 import {userPasswordSet} from "@/api/user.ts";
 import {AxiosResponse} from "axios";
@@ -28,8 +28,8 @@ const SecurityPanel = () => {
     validateInputOnChange: true,
     validateInputOnBlur: true,
     validate: {
-      newPassword: PasswordUtil.validatePassword,
-      confirmPassword: PasswordUtil.validateConfirmPassword,
+      newPassword: PasswordUtils.validatePassword,
+      confirmPassword: PasswordUtils.validateConfirmPassword,
     },
   })
 

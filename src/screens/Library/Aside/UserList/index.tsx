@@ -1,4 +1,4 @@
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {useQuery} from "@tanstack/react-query";
 import {Loader, Pagination, Stack, Text} from "@mantine/core";
 import {IconError404} from "@tabler/icons-react";

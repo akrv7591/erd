@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query"
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {IUser} from "@/types/data/db-model-interfaces.ts";
 
 export const useClient = (userId: string) => {

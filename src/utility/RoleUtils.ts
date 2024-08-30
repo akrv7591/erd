@@ -1,6 +1,6 @@
 import {ROLE} from "@/enums/role.ts";
 
-export const roleData = [{
+const roleData = [{
   value: ROLE.READ,
   label: "Spectator"
 }, {
@@ -11,7 +11,7 @@ export const roleData = [{
   label: "Admin"
 }]
 
-export const getRoleDescription = (role: ROLE) => {
+const getRoleDescription = (role: ROLE) => {
   switch (role) {
     case ROLE.READ:
       return "User can only view erd"
@@ -22,7 +22,7 @@ export const getRoleDescription = (role: ROLE) => {
   }
 }
 
-export const hasRoleAccess = (role: ROLE) => {
+const hasRoleAccess = (role: ROLE) => {
   switch (role) {
     case ROLE.READ:
       return false
@@ -33,4 +33,11 @@ export const hasRoleAccess = (role: ROLE) => {
     default:
       return false
   }
+}
+
+
+export {
+  roleData,
+  getRoleDescription,
+  hasRoleAccess,
 }

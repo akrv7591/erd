@@ -2,7 +2,7 @@ import {create} from "zustand";
 import {decodeJwt} from "jose";
 import {router} from "@/routers/RootRouter.tsx";
 import {SocialLogin} from "@/constants/auth.ts";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import StorageUtils from "@/utility/StorageUtils.ts";
 import {ITokenPayload} from "@/types/auth.ts";
 import {signingError, signingSuccess} from "@/screens/Auth/Signin/constants.ts";

@@ -1,4 +1,4 @@
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {IUser} from "@/types/data/db-model-interfaces.ts";
 import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
 import {useAuthStore} from "@/stores/useAuthStore.ts";

@@ -1,7 +1,7 @@
 import {AppShell, Button, Center, Group, Loader, Stack, Text, Title} from "@mantine/core";
 import {Link, useParams} from "react-router-dom";
 import {QueryFunctionContext, useQuery} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {ITeam} from "@/types/data/db-model-interfaces.ts";
 import {DotLottiePlayer} from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';

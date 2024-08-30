@@ -9,7 +9,9 @@ export class AuthUtils {
   }
 
   static isAuthExpired(payload: ITokenPayload) {
-    if (!payload.exp) return false
+    if (!payload.exp) {
+      return true
+    }
 
     return dayjs().unix() > payload.exp * 1000
   }

@@ -7,15 +7,17 @@ import {EntityConfigModal} from "@/screens/Playground/Header/EntityConfig/Entity
 import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
 import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
 import {useAuthStore} from "@/stores/useAuthStore.ts";
+import {SharedDiagramStore} from "@/stores/shared-diagram-store";
 
 export const EntityConfig = memo(() => {
   const modal = useModal({
-    baseTitle: "Entity Config",
+    baseTitle: "Default Entity Config",
     initialType: "view",
     initialOpen: false,
   })
   const user = useAuthStore(state => state.user)
-  const entityConfig = useSharedDiagramStore(state => state.entityConfigs[user.id])
+  const configSelector = useCallback((state: SharedDiagramStore) => state.entityConfigs[user.id], [])
+  const entityConfig = useSharedDiagramStore(configSelector)
   const setEntityConfig = useSharedDiagramStore(state => state.setEntityConfig)
   const handleModalOpen = useCallback(() => {
     if (!entityConfig) {
@@ -35,7 +37,7 @@ export const EntityConfig = memo(() => {
   return (
     <>
       {entityConfig && (
-        <EntityConfigModal {...modal.modalProps} configData={entityConfig} styles={{content: {minWidth: "1000px"}}}/>
+        <EntityConfigModal {...modal.modalProps} configData={entityConfig}/>
       )}
       <Tooltip label={"Config your default entity"}>
         <PlaygroundActionIcon onClick={handleModalOpen}>

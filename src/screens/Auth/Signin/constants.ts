@@ -1,4 +1,4 @@
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {notifications} from "@mantine/notifications";
 
 interface DataProps {

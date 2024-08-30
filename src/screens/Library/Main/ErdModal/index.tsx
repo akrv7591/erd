@@ -15,7 +15,7 @@ import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {notifications} from "@mantine/notifications";
 import {IErd, ITeam} from "@/types/data/db-model-interfaces.ts";
 import {createId} from "@paralleldrive/cuid2";

@@ -1,4 +1,4 @@
-import {getRoleDescription, roleData} from "@/utility/role-util.ts";
+import {getRoleDescription, roleData} from "@/utility/RoleUtils.ts";
 import {Badge, Skeleton, Tooltip} from "@mantine/core";
 import {memo} from "react";
 import {useQuery} from "@tanstack/react-query";

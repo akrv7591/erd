@@ -1,5 +1,5 @@
 import {IListQuery} from "@/hooks/useListQuery.ts";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {ITeam, IUser, IUserTeam} from "@/types/data/db-model-interfaces.ts";
 import {IApiList} from "@/types/data/util.ts";
 import {QueryFunction} from "@tanstack/react-query";

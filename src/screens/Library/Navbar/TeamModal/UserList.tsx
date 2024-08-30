@@ -1,9 +1,9 @@
 import {Button, Card, Group, InputLabel, Select, Stack, TextInput} from "@mantine/core";
 import {ROLE} from "@/enums/role.ts";
 import {isEmail, useForm} from "@mantine/form";
-import {getRoleDescription, roleData} from "@/utility/role-util.ts";
+import {getRoleDescription, roleData} from "@/utility/RoleUtils.ts";
 import {UserWithRole} from "@/screens/Library/Navbar/TeamModal/UserWithRole.tsx";
-import erdApi from "@/api/erdApi.tsx";
+import erdApi from "@/api/erdApi.ts";
 import {ApiUtils} from "@/utility/ApiUtils.ts";
 import {notifications} from "@mantine/notifications";
 import {memo} from "react";
