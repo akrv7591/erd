@@ -1,29 +1,23 @@
-import {ActionIcon, Avatar, Image, Menu, rem} from "@mantine/core";
-import {IconLogout, IconUser, IconUserCog} from "@tabler/icons-react";
-import {useAuthStore} from "@/stores/useAuthStore";
+import {ActionIcon, Menu, rem} from "@mantine/core";
+import {IconLogout, IconUserCog} from "@tabler/icons-react";
 import {useNavigate} from "react-router-dom";
-import {notifications} from "@mantine/notifications";
+import {useUser} from "@/hooks/useUser.ts";
+import {useLogto} from "@logto/react";
+import {useCallback} from "react";
+import {config} from "@/config/config.ts";
+import {ProfilePicture} from "@/components/common/ProfilePicture";
 
 export default function Account() {
-  const logout = useAuthStore(state => state.logout)
-  const user = useAuthStore(state => state.user)
+  const {signOut} = useLogto()
+  const user = useUser()
   const navigate = useNavigate()
-  const onLogout = () => logout(() => {
-    navigate("/")
-    notifications.show({
-      title: "Logout",
-      message: "Logout successful"
-    })
-  })
+  const handleLogout = useCallback(() => signOut(config.client.url), [])
 
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
         <ActionIcon size={40} variant={"transparent"}>
-          <Avatar>
-            <Image w={40} h={40} src={user.profile?.image?.url} alt={"user-avatar"}/>
-          </Avatar>
-          <IconUser size={20}/>
+          <ProfilePicture src={user.picture} avatarProps={{size: "md"}}/>
         </ActionIcon>
       </Menu.Target>
 
@@ -40,7 +34,7 @@ export default function Account() {
         <Menu.Item
           color="red"
           leftSection={<IconLogout style={{width: rem(16), height: rem(16)}}/>}
-          onClick={onLogout}
+          onClick={handleLogout}
         >
           Log out
         </Menu.Item>

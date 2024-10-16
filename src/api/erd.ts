@@ -1,10 +1,34 @@
-import {IListQuery} from "@/hooks/useListQuery.ts";
 import erdApi from "@/api/erdApi.ts";
-import {IApiList} from "@/types/data/util.ts";
 import {IErd} from "@/types/data/db-model-interfaces.ts";
-import {QueryFunction} from "@tanstack/react-query";
+import {MutationFunction, QueryFunction} from "@tanstack/react-query";
 
-export const erdListApi: QueryFunction<IApiList<IErd>, [string, IListQuery]> = ({queryKey}) => erdApi.get<IApiList<IErd>>("/v1/erd", {params: queryKey[1]})
-  .then(res => res.data)
+export class ErdApi {
+  static listQuery: QueryFunction<IErd[], [string, string]> = async ({queryKey}) => {
+    const [_, teamId] = queryKey
 
-export const deleteErdApi = (id: string) => erdApi.delete(`/v1/erd/${id}`)
+    return erdApi.get<IErd[]>("/v1/erds", {
+      params: {
+        teamId
+      }
+    })
+      .then(res => res.data)
+  }
+
+  static mutation: MutationFunction<IErd, {
+    type: "create" | "update" | "delete",
+    erd: FormData
+  }>
+    = async ({type, erd}) => {
+    switch (type) {
+      case "create":
+        return erdApi.put<IErd>("/v1/erds", erd)
+          .then(res => res.data)
+      case "update":
+        return erdApi.put<IErd>("/v1/erds", erd)
+          .then(res => res.data)
+      case "delete":
+        return erdApi.delete<IErd>(`/v1/erds/${erd.get("id")}`)
+          .then(res => res.data)
+    }
+  }
+}

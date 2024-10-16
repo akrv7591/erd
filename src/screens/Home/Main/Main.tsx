@@ -5,7 +5,6 @@ import ScrollSpy from "react-ui-scrollspy";
 import HeroNode from "@/screens/Home/Main/HeroNode";
 
 export default function Main() {
-  console.log("RENDERING")
   return (
     <ScrollSpy activeClass={"activeScroll"} scrollThrottle={60} useBoxMethod={false}>
       <Box className={classes.box} id="first_look">

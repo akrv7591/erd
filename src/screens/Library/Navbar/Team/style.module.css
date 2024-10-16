@@ -1,0 +1,21 @@
+
+.team, .teamActive {
+    display: flex;
+    padding: 0 var(--mantine-spacing-xs);
+    margin: 0 var(--mantine-spacing-xs);
+    justify-content: space-between;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+        background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+    }
+}
+
+.teamActive {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+}
+
+.team:hover .teamSettingIcon, .teamActive:hover .teamSettingIcon  {
+    width: auto;
+    margin-left: 10px;
+}

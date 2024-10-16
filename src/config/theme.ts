@@ -22,12 +22,7 @@ export const theme = createTheme({
   components: {
     Tooltip: Tooltip.extend({
       defaultProps: {
-        withinPortal: false,
         withArrow: true,
-        transitionProps: {
-          transition: "fade",
-          duration: 100
-        }
       }
     }),
     Button: Button.extend({

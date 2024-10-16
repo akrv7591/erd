@@ -19,8 +19,8 @@ export const Header = memo(() => {
       <Title/>
       <Config data={erd}/>
       <EntityConfig />
-      <Group ml={"auto"}/>
       <UndoRedo />
+      <Group ml={"auto"}/>
       <Avatar.Group>
         {clients.map(client => (
           <PlayerAvatar client={client} key={client.id}/>

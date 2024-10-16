@@ -1,34 +1,27 @@
-import {RouterProvider} from "react-router-dom";
-import {router} from "./routers/RootRouter";
 import {MantineProvider} from "@mantine/core";
 import {theme} from "./config/theme";
 import {Notifications} from "@mantine/notifications";
 import '@mantine/notifications/styles.css';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {HelmetProvider} from 'react-helmet-async';
-import {GoogleOAuthProvider} from "@react-oauth/google";
+import {LogtoProvider} from "@logto/react";
+import {config} from "@/config/config.ts";
+import {Router} from "@/routers/Router.tsx";
+import {memo} from "react";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    }
-  }
-})
+const queryClient = new QueryClient()
 
-function App() {
+export const App = memo(() => {
   return (
-    <GoogleOAuthProvider clientId="316029761884-vs47r1pnkor2ev4lvev7mt54te06154t.apps.googleusercontent.com">
-      <QueryClientProvider client={queryClient}>
-        <MantineProvider theme={theme} defaultColorScheme={"dark"}>
-          <Notifications position={"bottom-right"}/>
-          <HelmetProvider>
-            <RouterProvider router={router}/>
-          </HelmetProvider>
-        </MantineProvider>
-      </QueryClientProvider>
-    </GoogleOAuthProvider>
+    <LogtoProvider config={config.logTo} unstable_enableCache={true}>
+        <QueryClientProvider client={queryClient} >
+          <MantineProvider theme={theme} defaultColorScheme={"dark"}>
+            <Notifications position={"bottom-right"}/>
+            <HelmetProvider>
+              <Router />
+            </HelmetProvider>
+          </MantineProvider>
+        </QueryClientProvider>
+    </LogtoProvider>
   );
-}
-
-export default App;
+})

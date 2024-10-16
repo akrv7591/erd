@@ -1,15 +1,16 @@
 import {paneStore, PaneStore} from "./stores";
 import {ReactFlowInstance} from "@xyflow/react";
 import {createStore} from "zustand";
-import {useAuthStore, User} from "@/stores/useAuthStore.ts";
 import {nodeStore, NodeStore} from "@/stores/diagram-store/stores/node-store";
 import {Awareness} from "y-protocols/awareness";
 import * as Y from "yjs";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+import {LOG_TO} from "@/types/log-to.ts";
 
 type DiagramStoreState = {
   reactflow: ReactFlowInstance
   awareness: Awareness
-  user: User
+  user: LOG_TO.UserInfo
   undoManager: Y.UndoManager,
   canUndo: boolean,
   canRedo: boolean,
@@ -25,7 +26,7 @@ export const createDiagramStore = (reactflow: ReactFlowInstance) => {
   const diagramStore = createStore<DiagramStore>()((...a) => ({
     ...paneStore(...a),
     ...nodeStore(...a),
-    user: useAuthStore.getState().user,
+    user: useLogToAuthStore.getState().user!,
     reactflow,
     awareness: {} as Awareness,
     undoManager: {} as Y.UndoManager,

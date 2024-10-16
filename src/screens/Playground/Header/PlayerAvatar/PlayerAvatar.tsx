@@ -21,7 +21,7 @@ export const PlayerAvatar = memo((props: Props) => {
     <Tooltip label={data.name}>
       <Avatar
         size={30}
-        src={data?.profile?.image?.url || null}
+        src={data.avatar || null}
         alt={"user-avatar"}
         color={outlineColor}
         classNames={{

@@ -35,7 +35,9 @@ const getTitle = (title: string, type: ModalType) => {
     case "create":
       return `Create ${title.toLowerCase()}`
     case "update":
-      return `Update ${title.toLowerCase()}`
+      return `Edit ${title.toLowerCase()}`
+    case "delete":
+      return `Delete ${title.toLowerCase()}`
     default:
       return title
   }
@@ -45,7 +47,7 @@ export const useModal = <T>(props: Props<T>): UseModalType<T> => {
   const [modalPropsDataOnly, setModalProps] = useState<ModalState<T>>({
     opened: props.initialOpen,
     type: props.initialType,
-    data: null
+    data: props.initialData || null
   })
 
 

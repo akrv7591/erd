@@ -1,34 +1,20 @@
-import {Container, Group, Stack, Table, Text} from "@mantine/core";
+import {Container, Group, SimpleGrid, Stack, Text} from "@mantine/core";
 import {Helmet} from "react-helmet-async";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {IListQuery, useListQuery} from "@/hooks/useListQuery.ts";
-import SearchInput from "@/components/common/SearchInput.tsx";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {erdListApi} from "@/api/erd.ts";
-import {IApiList} from "@/types/data/util.ts";
-import Header from "@/screens/Library/Main/ErdTable/Header.tsx";
-import Content from "@/screens/Library/Main/ErdTable/Content.tsx";
-import Footer from "@/screens/Library/Main/Footer.tsx";
-import {useElementSize} from "@mantine/hooks";
-import {useEffect} from "react";
-import {IErd} from "@/types/data/db-model-interfaces.ts";
-import {CreateTeamButton} from "@/screens/Library/Main/CreateTeamButton.tsx";
+import {ErdApi} from "@/api/erd.ts";
+import {memo} from "react";
+import {CreateErdButton} from "./CreateErdButton";
+import {ErdItem} from "@/screens/Library/Main/ErdItem";
 
-export default function Main() {
+export const Main = memo(() => {
   const team = useLibraryStore(state => state.team)
-  const {ref, height} = useElementSize()
-  const {params, setSearch, setParams} = useListQuery({containerHeight: height - 120, elementHeight: 50})
-  const {data = {rows: [], count: 0}, status} = useQuery<IApiList<IErd>, {}, IApiList<IErd>, [string, IListQuery]>({
-    queryKey: ['erdList', params],
-    queryFn: erdListApi,
+  const isPersonal = useLibraryStore(state => state.isPersonal)
+  const {data = []} = useQuery({
+    queryKey: ['erdList', team.id],
+    queryFn: ErdApi.listQuery,
     placeholderData: keepPreviousData,
   })
-
-  useEffect(() => {
-    setParams({
-      teamId: team ? team.id : null
-    })
-  }, [team])
 
   return (
     <Container fluid>
@@ -38,23 +24,18 @@ export default function Main() {
       <Stack py={"xs"}>
         <Group justify={"space-between"} h={"28px"}>
           <Text size={"sm"} c={"dimmed"}>
-            {team ? team.name + "'s" : "All"} er diagrams
+            {isPersonal ? "Your personal diagrams" : team?.name + "'s diagrams"}
           </Text>
-          <CreateTeamButton team={team}/>
+          <CreateErdButton team={team}/>
         </Group>
-        <Group justify={"space-between"}>
-          <SearchInput onChange={q => setSearch(q)} size={"xs"} placeholder={"Search erd"}/>
-        </Group>
-        <Stack ref={ref} h={"calc(100vh - 180px)"}>
-          <Table highlightOnHover={data.rows.length > 0}>
-            <Header erds={data.rows}/>
-            <Table.Tbody>
-              <Content status={status} erds={data.rows}/>
-            </Table.Tbody>
-          </Table>
-          <Footer total={data.count} params={params} setParams={setParams}/>
+        <Stack h={"calc(100vh - 180px)"}>
+          <SimpleGrid cols={{xs: 1, sm: 2, md: 3, lg: 4, xl: 5}} spacing={"xs"}>
+            {data.map(erd => (
+              <ErdItem data={erd} key={erd.id}/>
+            ))}
+          </SimpleGrid>
         </Stack>
       </Stack>
     </Container>
   )
-}
+})

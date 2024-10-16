@@ -14,7 +14,6 @@ import {
   Tooltip
 } from "@mantine/core";
 import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
-import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
 import {IconExclamationCircle, IconPalette, IconRowInsertTop, IconTable, IconTrash} from "@tabler/icons-react";
 import {EntityConfigTable} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable.tsx";
@@ -27,13 +26,14 @@ import {
 } from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityContextForm.ts";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {CustomTheme} from "@/components/common/CustomTheme";
+import {useUser} from "@/hooks/useUser.ts";
 
 interface Props extends ModalProps {
   configData: DefaultEntityConfig
 }
 
 export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
-  const user = useAuthStore(state => state.user)
+  const user = useUser()
   const setDefaultConfig = useSharedDiagramStore(state => state.setEntityConfig)
   const form = useEntityConfigForm({
     initialValues: configData,
@@ -71,7 +71,7 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
   }, [form.values.columns])
 
   const handleClose = () => {
-    setDefaultConfig(user.id, form.values)
+    setDefaultConfig(user.sub, form.values)
     modalProps.onClose()
   }
 
@@ -90,7 +90,7 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
   return (
     <Modal {...modalProps} onClose={handleClose} size={"auto"}>
       <EntityConfigFormProvider form={form}>
-        <CustomTheme color={configData.color} id={user.id + "-entity-config"}>
+        <CustomTheme color={configData.color} id={user.sub + "-entity-config"}>
           <Modal.Body>
             <Stack>
               <Group>
@@ -148,7 +148,7 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
                       <HoverCard.Dropdown>
                         <ColorPicker
                           value={form.values.color}
-                          onChange={color => setDefaultConfig(user.id, {color})}
+                          onChange={color => setDefaultConfig(user.sub, {color})}
                           swatchesPerRow={8}
                           format="hex"
                           swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']}/>

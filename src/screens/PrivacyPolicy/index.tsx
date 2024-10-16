@@ -1,6 +1,6 @@
 import {Helmet} from "react-helmet-async";
 import {AppShell, Container} from "@mantine/core";
-import Header from "@/components/common/Header/Header.tsx";
+import {Header} from "@/components/common/Header";
 
 export default function PrivacyPolicy() {
   return (

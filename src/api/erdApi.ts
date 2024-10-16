@@ -1,11 +1,8 @@
 import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
-import {AUTH} from "@/enums/auth.ts";
-import {useAuthStore} from "@/stores/useAuthStore.ts";
 import StorageUtils from "@/utility/StorageUtils.ts";
-import {PROJECT} from "@/constants/project.ts";
+import {config} from "@/config/config.ts";
 
-// const baseURL = import.meta.env.VITE_BASE_URL
-const baseURL = PROJECT.BASE_API_URL
+const baseURL = config.server.baseUrl
 const REFRESH_URL = "/v1/auth/refresh"
 
 if (!baseURL) {
@@ -26,7 +23,6 @@ const onRefreshSettled = (success: boolean) => {
 
 const erdApi = axios.create({
   baseURL: baseURL + "/api",
-  withCredentials: true,
 })
 
 
@@ -39,7 +35,6 @@ export const refreshToken = async () => {
   try {
     const res = await erdApi.post<{ accessToken: string }>(REFRESH_URL)
     StorageUtils.setAuthorization(res.data.accessToken)
-    useAuthStore.getState().init()
     onRefreshSettled(true)
   } catch (e) {
     onRefreshSettled(false)
@@ -62,46 +57,5 @@ erdApi.interceptors.request.use(async function (config) {
 
   return config
 })
-
-const logout = (err: Error) => {
-  useAuthStore.getState().logout()
-  return Promise.reject(err)
-}
-
-
-erdApi.interceptors.response.use(
-  (response) => {
-    // console.log(response.config.url, response.data)
-    return response
-  },
-  async (err) => {
-    const {response} = err
-
-    switch (response.data.code) {
-      case AUTH.ACCESS_TOKEN_EXPIRED:
-        if (isRefreshing) {
-          return new Promise(handleRefresh(erdApi.request(response.config)))
-        }
-        await refreshToken()
-        return erdApi.request(response.config)
-
-      case AUTH.INVALID_ACCESS_TOKEN:
-        return logout(err)
-
-      case AUTH.INVALID_AUTHORIZATION:
-        return logout(err)
-
-      case AUTH.NO_REFRESH_TOKEN_IN_COOKIES:
-        return logout(err)
-
-      case AUTH.REFRESH_TOKEN_INVALID:
-        return logout(err)
-
-      default:
-        return Promise.reject(err)
-
-    }
-  }
-)
 
 export default erdApi

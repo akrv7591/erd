@@ -1,13 +1,13 @@
 .arrow {
     //border-color: red !important;
-    border-left-color: red !important;
-    border-top-color: red !important;
+    /*border-left-color: red !important;*/
+    /*border-top-color: red !important;*/
 }
 
 .dropdown {
-    border: 1px solid var(--mantine-color-dark-4);
+    /*border: 1px solid var(--mantine-color-dark-4);*/
 }
 
 .dropdownDanger {
-    border: 1px solid var(--mantine-color-red-9) !important;
+    /*border: 1px solid var(--mantine-color-red-9) !important;*/
 }

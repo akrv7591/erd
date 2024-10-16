@@ -6,8 +6,8 @@ import {useModal} from "@/hooks/useModal.ts";
 import {EntityConfigModal} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal";
 import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
 import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
-import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {SharedDiagramStore} from "@/stores/shared-diagram-store";
+import {useUser} from "@/hooks/useUser.ts";
 
 export const EntityConfig = memo(() => {
   const modal = useModal({
@@ -15,8 +15,8 @@ export const EntityConfig = memo(() => {
     initialType: "view",
     initialOpen: false,
   })
-  const user = useAuthStore(state => state.user)
-  const configSelector = useCallback((state: SharedDiagramStore) => state.entityConfigs[user.id], [])
+  const user = useUser()
+  const configSelector = useCallback((state: SharedDiagramStore) => state.entityConfigs[user.sub], [])
   const entityConfig = useSharedDiagramStore(configSelector)
   const setEntityConfig = useSharedDiagramStore(state => state.setEntityConfig)
   const handleModalOpen = useCallback(() => {
@@ -27,7 +27,7 @@ export const EntityConfig = memo(() => {
         columns: []
       }
 
-      setEntityConfig(user.id, initialConfig)
+      setEntityConfig(user.sub, initialConfig)
     }
 
     modal.open()

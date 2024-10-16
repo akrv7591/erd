@@ -1,12 +1,12 @@
 import * as Y from 'yjs'
 import {ProviderOptions, WebrtcProvider as YWebRTC} from 'y-webrtc'
-import {useAuthStore} from "@/stores/useAuthStore.ts";
 import * as awarenessProtocol from 'y-protocols/awareness.js'
 import {DiagramContext} from "@/contexts/DiagramContext";
 import randomColor from "randomcolor";
 import {MESSAGE_KEYS} from "@/providers/webrtc/constants.ts";
 import {XYPosition} from "@xyflow/react";
-import {PROJECT} from "@/constants/project.ts";
+import {config} from "@/config/config.ts";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
 
 type AwarenessChange = {
   added: number[],
@@ -24,7 +24,7 @@ export class WebrtcProvider {
     const awareness = new awarenessProtocol.Awareness(yDoc)
     const providerOptions: ProviderOptions = {
       awareness,
-      signaling: PROJECT.WEBRTC_SIGNALLING_SERVERS,
+      signaling: [config.webrtcSignallingServer],
       maxConns: Number.POSITIVE_INFINITY,
       filterBcConns: false
     }
@@ -38,7 +38,7 @@ export class WebrtcProvider {
 
     store.setState({awareness})
     awareness.setLocalState({
-      userId: useAuthStore.getState().user.id,
+      userId: useLogToAuthStore.getState().user?.sub,
       cursor: null,
       color: randomColor()
     })
@@ -77,6 +77,8 @@ export class WebrtcProvider {
         color: client.color,
       }
     })
+
+    console.log(clients)
 
     this.store.setState(state => {
       return {

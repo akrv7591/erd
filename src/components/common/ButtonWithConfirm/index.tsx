@@ -71,8 +71,7 @@ export default function ButtonWithConfirm({target, message, onConfirm, isDanger,
               onClick={close}
               style={{flex: 1}}
               size={"xs"}
-              variant={"filled"}
-              color={"dark.5"}
+              variant={"default"}
             >
               Cancel
             </Button>
@@ -80,7 +79,7 @@ export default function ButtonWithConfirm({target, message, onConfirm, isDanger,
               style={{flex: 1}}
               size={"xs"}
               leftSection={<IconCheck/>}
-              variant={"filled"}
+              variant={"outline"}
               color={isDanger ? "red" : "blue"}
               onClick={handleConfirm}
             >

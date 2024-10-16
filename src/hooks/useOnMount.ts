@@ -1,6 +1,5 @@
-import React from "react";
+import {useEffect, type EffectCallback} from "react";
 
-export const useOnMount = (callback: React.EffectCallback) => {
-
-  React.useEffect(callback, [])
+export const useOnMount = (callback: EffectCallback) => {
+  useEffect(callback, [])
 }

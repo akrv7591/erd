@@ -1,32 +1,22 @@
-import {Button, Group} from "@mantine/core";
-import {Link} from "react-router-dom";
+import {Group} from "@mantine/core";
 import "./styles.css"
-import {useAuthStore} from "@/stores/useAuthStore.ts";
 import Logo from "@/components/common/Logo.tsx";
-import {IconBooks} from "@tabler/icons-react";
 import Account from "@/components/common/Account";
+import {FC, memo, PropsWithChildren} from "react";
+import {userAuthorized} from "@/hooks/userAuthorized.ts";
 
-export default function Header() {
-  const authorization = useAuthStore(state => state.getAuthorization())
 
+export const Header: FC<PropsWithChildren> = memo(({children}) => {
+  const isAuthorized = userAuthorized()
   return (
     <Group h="100%" px={20} justify={"space-between"} align={"center"}>
-      <Group>
-        <Logo/>
-      </Group>
-      <Group gap={5}>
-        <Link to={"/library"} state={{destination: "/library"}}>
-          <Button
-            size={"sm"}
-            leftSection={<IconBooks size={"20"}/>}
-            variant={"subtle"}
-            color={"var(--mantine-color-text)"}
-          >
-            Library
-          </Button>
-        </Link>
-        {authorization && <Account/>}
+      <Logo/>
+      {children}
+      <Group gap={5} ml={"auto"}>
+        {isAuthorized && (
+          <Account/>
+        )}
       </Group>
     </Group>
   )
-}
+})

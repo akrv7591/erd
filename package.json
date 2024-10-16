@@ -10,6 +10,7 @@
     "@logto/react": "^3.0.15",
     "@mantine/colors-generator": "^7.12.1",
     "@mantine/core": "^7.12.1",
+    "@mantine/dropzone": "^7.13.2",
     "@mantine/form": "^7.12.1",
     "@mantine/hooks": "^7.12.1",
     "@mantine/notifications": "^7.12.1",
@@ -73,7 +74,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "vite",
+    "dev": "vite ",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

@@ -4,10 +4,10 @@ import {StoreApi} from "zustand";
 import {createSharedDiagramStore, SharedDiagramStore} from "@/stores/shared-diagram-store";
 import {HocuspocusProvider, onSyncedParameters} from "@hocuspocus/provider";
 import StorageUtils from "@/utility/StorageUtils.ts";
-import {PROJECT} from "@/constants/project.ts";
 import {NodeType} from "@/providers/shared-diagram-store-provider/type.ts";
 import {Edge} from "@xyflow/react";
 import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
+import {config} from "@/config/config.ts";
 
 interface SharedDiagram {
   nodes: Record<string, NodeType>
@@ -16,7 +16,7 @@ interface SharedDiagram {
 }
 
 export class SharedDiagramStoreProvider {
-  url = PROJECT.BASE_API_URL.replace("http", "ws") + "/hocuspocus"
+  url = config.server.baseUrl.replace("http", "ws") + "/hocuspocus"
   yDoc: Y.Doc
   store: StoreApi<SharedDiagramStore>
   localStore: DiagramContext

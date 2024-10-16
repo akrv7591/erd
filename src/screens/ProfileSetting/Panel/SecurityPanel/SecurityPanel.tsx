@@ -4,12 +4,12 @@ import {PasswordUtils} from "@/utility/PasswordUtils.ts";
 import {useMutation} from "@tanstack/react-query";
 import {userPasswordSet} from "@/api/user.ts";
 import {AxiosResponse} from "axios";
-import {useAuthStore} from "@/stores/useAuthStore.ts";
 import {
   handleErrorNotification,
   handleSuccessNotification
 } from "@/screens/ProfileSetting/Panel/SecurityPanel/notifications.ts";
 import {AxiosApiError} from "@/types/api.ts";
+// import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
 
 export interface PasswordSetForm {
   password: string
@@ -18,7 +18,7 @@ export interface PasswordSetForm {
 }
 
 const SecurityPanel = () => {
-  const user = useAuthStore(state => state.user)
+  // const user = useLogToAuthStore(state => state.user)
   const form = useForm<PasswordSetForm>({
     initialValues: {
       password: '',
@@ -50,10 +50,6 @@ const SecurityPanel = () => {
   const handleSubmit = form.onSubmit((data) => {
     const body: Partial<PasswordSetForm> = {}
 
-    if (user.isPasswordSet) {
-      body.password = data.password
-    }
-
     body['newPassword'] = data.newPassword
     mutation.mutate(body)
   })
@@ -68,13 +64,11 @@ const SecurityPanel = () => {
 
       <form onSubmit={handleSubmit}>
         <Stack mt={"xl"}>
-          {user.isPasswordSet && (
-            <PasswordInput
-              placeholder={"***************"}
-              label={"Current password"}
-              {...form.getInputProps('password')}
-            />
-          )}
+          <PasswordInput
+            placeholder={"***************"}
+            label={"Current password"}
+            {...form.getInputProps('password')}
+          />
           <Group align={"flex-start"}>
             <PasswordInput
               placeholder={"***************"}

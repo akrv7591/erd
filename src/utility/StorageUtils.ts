@@ -15,4 +15,16 @@ export default class StorageUtils {
     localStorage.removeItem("Authorization")
     sessionStorage.removeItem("Authorization")
   }
+
+  static setDestination(destination: string) {
+    localStorage.setItem("destination", destination)
+  }
+
+  static getDestination() {
+    return localStorage.getItem("destination")
+  }
+
+  static removeDestination() {
+    localStorage.removeItem("destination")
+  }
 }

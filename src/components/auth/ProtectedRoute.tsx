@@ -1,27 +1,29 @@
-import {useAuthStore} from "@/stores/useAuthStore";
-import {Navigate, Outlet, useLocation, useParams} from "react-router-dom";
+import {Outlet} from "react-router-dom";
+import {useLogto} from "@logto/react";
+import LoadingBackdrop from "@/components/common/LoadingBackdrop.tsx";
+import {memo, useEffect} from "react";
+import {config} from "@/config/config.ts";
+import StorageUtils from "@/utility/StorageUtils.ts";
 
-export default function ProtectedRoute() {
-  const authorization = useAuthStore(state => state.getAuthorization())
-  const location = useLocation()
-  const params = useParams()
+export const ProtectedRoute = memo(() => {
+  const {isAuthenticated, isLoading, signIn} = useLogto()
 
-  if (!authorization) {
-    const state: any = {
-      ...location.state,
-      alert: {
-        title: "Authorization",
-        message: "Oops. Login is required",
-        color: "orange",
-      },
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      StorageUtils.setDestination(location.pathname)
+
+      console.log("Signing in ...")
+
+      void signIn({
+        redirectUri: `${config.client.url}/callback`,
+      })
     }
+  }, [isAuthenticated, isLoading, signIn])
 
-    if (params.joinTeamId) {
-      state['destination'] = `/team/${params.joinTeamId}/join`
-    }
-
-    return <Navigate to={"/auth"} state={state}/>
+  if (!isAuthenticated) {
+    return <LoadingBackdrop/>
   }
 
   return <Outlet/>
-}
+})
+

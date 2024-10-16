@@ -13,15 +13,17 @@ import {
   Tooltip
 } from "@mantine/core";
 import {Form, useForm} from "@mantine/form";
-import {useAuthStore, User} from "@/stores/useAuthStore.ts";
 import {IconEdit} from "@tabler/icons-react";
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import {useMutation} from "@tanstack/react-query";
 import {userProfileUpdateApi} from "@/api/user.ts";
 import {notifications} from "@mantine/notifications";
 import {useMemo} from "react";
+import {LOG_TO} from "@/types/log-to.ts";
+import UserInfo = LOG_TO.UserInfo;
+import {useUser} from "@/hooks/useUser.ts";
 
-interface Form extends User {
+interface Form extends UserInfo {
   profilePicture: File | null
 }
 
@@ -29,7 +31,7 @@ const notificationId = "profile:setting"
 
 
 const GeneralPanel = () => {
-  const user = useAuthStore(state => state.user)
+  const user = useUser()
   const form = useForm<Form>({
     initialValues: {
       ...user,
@@ -63,8 +65,11 @@ const GeneralPanel = () => {
     notifications.hide(notificationId)
     const formData = new FormData()
 
-    formData.append("id", data.id)
-    formData.append("name", data.name)
+    formData.append("id", data.sub)
+
+    if (data.name) {
+      formData.append("name", data.name)
+    }
 
     if (data.profilePicture) {
       formData.append("profilePicture", data.profilePicture)
@@ -127,7 +132,7 @@ const GeneralPanel = () => {
                       h={150}
                       src={form.values.profilePicture
                         ? URL.createObjectURL(form.values.profilePicture)
-                        : user.profile?.image?.url
+                        : user.picture
                       }
                       alt={"profile-picture"}
                     />

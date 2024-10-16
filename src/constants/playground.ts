@@ -9,7 +9,7 @@ export const EntityNameCases: SegmentedControlItem[] = [
     label: "Camel",
     value: "camel",
   },
-]
+] as const
 
 export const ColumnNameCases: SegmentedControlItem[] = [
   {
@@ -24,4 +24,4 @@ export const ColumnNameCases: SegmentedControlItem[] = [
     label: "Camel",
     value: "camel",
   },
-]
+] as const

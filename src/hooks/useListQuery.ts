@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export interface IListQuery {
   q: string;
@@ -20,8 +20,8 @@ const defaultData: IListQuery = {
 
 export const useListQuery = (initData: Partial<IListQuery> = defaultData) => {
   const [params, set] = useState({...defaultData, ...initData})
-  const setParams = (params: Partial<IListQuery>) => set(cur => ({...cur, ...params}))
-  const setSearch = (q: string) => setParams({q, offset: 0})
+  const setParams = useCallback((params: Partial<IListQuery>) => set(cur => ({...cur, ...params})), [])
+  const setSearch = useCallback((q: string) => setParams({q, offset: 0}), [])
 
   useEffect(() => {
     if (initData.containerHeight && initData.elementHeight && initData.containerHeight > 0) {
