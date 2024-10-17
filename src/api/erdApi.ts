@@ -1,4 +1,4 @@
-import axios, {AxiosResponse, InternalAxiosRequestConfig} from "axios";
+import axios, {type AxiosResponse, type InternalAxiosRequestConfig} from "axios";
 import StorageUtils from "@/utility/StorageUtils.ts";
 import {config} from "@/config/config.ts";
 
@@ -10,7 +10,11 @@ if (!baseURL) {
 }
 
 let isRefreshing = false
-const waitList: { resolve: Function, reject: Function, config: InternalAxiosRequestConfig | Promise<AxiosResponse> }[] = []
+const waitList: {
+  resolve: Function,
+  reject: Function,
+  config: InternalAxiosRequestConfig | Promise<AxiosResponse>
+}[] = []
 
 const onRefreshSettled = (success: boolean) => {
   waitList.forEach((request) => {

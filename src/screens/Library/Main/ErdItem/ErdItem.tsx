@@ -1,5 +1,5 @@
 import {memo, MouseEventHandler} from "react";
-import {IErd} from "@/types/data/db-model-interfaces.ts";
+import type {Erd} from "@/types/data/db-model-interfaces.ts";
 import {ActionIcon, Badge, Card, Center, Group, Image, Overlay, Text, Tooltip} from "@mantine/core";
 import LogoSquare from "@/assets/svgs/logo-square-custom.svg"
 import {useHover} from "@mantine/hooks";
@@ -12,12 +12,12 @@ import {ResourceProvider} from "@/components/common/ResourceProvider/ResourcePro
 
 
 interface Props {
-  data: IErd
+  data: Erd
 }
 
 export const ErdItem = memo(({data}: Props) => {
   const {hovered, ref} = useHover()
-  const modal = useModal<IErd>({
+  const modal = useModal<Erd>({
     initialType: "update",
     initialOpen: false,
     baseTitle: data.name,
@@ -41,7 +41,7 @@ export const ErdItem = memo(({data}: Props) => {
         <div className={classes.imgContainer} ref={ref}>
           {data.thumbnailId ? (
             <ResourceProvider
-              name={"staticFile"}
+              name={"StaticFile"}
               resourceId={data.thumbnailId}
               renderer={(thumbnail) => (
                 <Image className={classes.img} src={thumbnail.url} fallbackSrc={LogoSquare}/>

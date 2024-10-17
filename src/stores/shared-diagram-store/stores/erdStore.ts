@@ -1,10 +1,8 @@
-import type {IErd} from "@/types/data/db-model-interfaces.ts";
+import type {Erd} from "@/types/data/db-model-interfaces.ts";
 import {SharedDiagramStore} from "../SharedDiagramStore.ts";
 import {StateCreator} from "zustand";
 import {SetStateObject} from "@/types/util.ts";
 import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
-
-type Erd = Pick<IErd, 'id' | 'name' | 'columnNameCase' | 'tableNameCase' | 'description' | 'isPublic' | 'teamId'>
 
 export interface DefaultEntityConfig {
   name: string
@@ -13,7 +11,7 @@ export interface DefaultEntityConfig {
 }
 
 export interface ErdStoreState {
-  erd: Erd,
+  erd: Pick<Erd, 'id' | 'name' | 'columnNameCase' | 'tableNameCase' | 'description' | 'isPublic' | 'teamId'>,
   entityConfigs: Record<string, DefaultEntityConfig>
 }
 

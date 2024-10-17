@@ -1,4 +1,4 @@
-export interface IErd {
+export interface Erd {
   id: string
   createdAt: Date
   updatedAt: Date
@@ -17,10 +17,10 @@ export interface IErd {
   thumbnailId: string
 
   // Relations
-  thumbnail?: IStaticFile
+  thumbnail?: StaticFile
 }
 
-export interface IStaticFile {
+export interface StaticFile {
   id: string;
   key: string;
   mime: string;
@@ -31,10 +31,10 @@ export interface IStaticFile {
   deletedAt: Date | null;
 
   // Relations
-  erd?: IErd[]
+  erd?: Erd[]
 }
 
-export interface Resources {
-  erd: IErd
-  staticFile: IStaticFile
+export type Resources = {
+  Erd: Erd
+  StaticFile: StaticFile
 }

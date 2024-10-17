@@ -2,7 +2,7 @@ import {Container, Group, SimpleGrid, Stack, Text} from "@mantine/core";
 import {Helmet} from "react-helmet-async";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {ErdApi} from "@/api/erd.ts";
+import {erdApis} from "@/api/erd.ts";
 import {memo} from "react";
 import {CreateErdButton} from "./CreateErdButton";
 import {ErdItem} from "@/screens/Library/Main/ErdItem";
@@ -12,7 +12,7 @@ export const Main = memo(() => {
   const isPersonal = useLibraryStore(state => state.isPersonal)
   const {data = []} = useQuery({
     queryKey: ['erdList', team.id],
-    queryFn: ErdApi.listQuery,
+    queryFn: erdApis.listQuery,
     placeholderData: keepPreviousData,
   })
 

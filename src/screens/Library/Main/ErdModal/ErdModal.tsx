@@ -20,12 +20,12 @@ import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {IErd} from "@/types/data/db-model-interfaces.ts";
+import {Erd} from "@/types/data/db-model-interfaces.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IconInfoCircle, IconPhoto, IconPhotoX, IconUpload, IconX} from "@tabler/icons-react";
 import {memo, useCallback} from "react";
 import {useUser} from "@/hooks/useUser.ts";
-import {ErdApi} from "@/api/erd.ts";
+import {erdApis} from "@/api/erd.ts";
 import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification.ts";
 import {createId} from "@paralleldrive/cuid2";
 import {ColumnNameCases, EntityNameCases} from "@/constants/playground.ts";
@@ -33,10 +33,10 @@ import {Dropzone, FileWithPath, IMAGE_MIME_TYPE} from "@mantine/dropzone";
 import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider.tsx";
 
 interface Props extends ModalBaseProps {
-  data: IErd | null
+  data: Erd | null
 }
 
-type FormData = Omit<IErd, 'createdAt' | 'updatedAt' | 'deletedAt' | 'data'> & {
+type FormData = Omit<Erd, 'createdAt' | 'updatedAt' | 'deletedAt' | 'data'> & {
   file?: File
 }
 
@@ -68,7 +68,6 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
     if (!data) {
       setInitialValues(generateDefaultFormValue(team.id, user.sub))
       reset()
-      console.log("CLOSED")
     }
   }, [])
 
@@ -83,7 +82,7 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
   }
 
   const mutation = useMutation({
-    mutationFn: ErdApi.mutation,
+    mutationFn: erdApis.mutation,
     onSuccess: handleMutationSuccess
   })
 
@@ -251,7 +250,7 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
                       />
                     ) : values.thumbnailId ? (
                       <ResourceProvider
-                        name={"staticFile"}
+                        name={"StaticFile"}
                         resourceId={values.thumbnailId}
                         renderer={(thumbnail) => (
                           <Image src={thumbnail.url} h={200}/>

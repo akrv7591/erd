@@ -1,40 +1,41 @@
-import {useQuery} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.ts";
-import type {Resources} from "@/types/data/db-model-interfaces.ts";
-import type {ReactNode} from "react";
+import {QueryFunction, useQuery} from "@tanstack/react-query";
+import type {Resources} from "@/types/data/db-model-interfaces";
+import type { ReactNode } from "react";
+import {staticFileApis} from "@/api/staticFile.ts";
+import {erdApis} from "@/api/erd.ts";
 
+type ResourceKeys = keyof Resources;
+type ResourceType<T extends ResourceKeys> = Resources[T];
 
-type ResourceKeys = keyof Resources
-type ResourceType<T extends ResourceKeys> = Resources[T]
-
-const getQueryFn = <T extends ResourceKeys, V extends ResourceType<T>>(type: T, resourceId: V['id'])=> {
+const getQueryFn = <T extends ResourceKeys>(type: T): QueryFunction<ResourceType<T>, [string, string]> => {
   switch (type) {
-    case "staticFile":
-      return async () => erdApi.get<V>(`/v1/static-files/${resourceId}`).then(res => res.data)
-    case "erd":
-      return async () => erdApi.get<V>(`/v1/erds/${resourceId}`).then(res => res.data)
+    case "Erd":
+      return erdApis.detail;
+    case "StaticFile":
+      return staticFileApis.detail;
+    default:
+      throw new Error(`Invalid resource type: ${type}`);
   }
 }
 
 interface Props<T extends ResourceKeys> {
-  name: T
-  resourceId: string
-  fallback?: ReactNode
-  renderer: (data: ResourceType<T>) => ReactNode
+  name: T;
+  resourceId: string;
+  fallback?: ReactNode;
+  renderer: (data: ResourceType<T>) => ReactNode;
 }
 
 export const ResourceProvider = <T extends ResourceKeys,>(props: Props<T>) => {
-
   const query = useQuery({
     queryKey: [props.name, props.resourceId],
-    queryFn: getQueryFn(props.name, props.resourceId),
-  })
+    queryFn: getQueryFn(props.name),
+  });
 
-  const {data, isSuccess} = query
+  const { data, isSuccess } = query;
 
   if (!isSuccess || !data) {
-    return props.fallback || null
+    return props.fallback || null;
   }
 
-  return props.renderer(data)
-}
+  return props.renderer(data);
+};

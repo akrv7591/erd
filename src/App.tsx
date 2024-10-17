@@ -13,15 +13,15 @@ const queryClient = new QueryClient()
 
 export const App = memo(() => {
   return (
-    <LogtoProvider config={config.logTo} unstable_enableCache={true}>
-        <QueryClientProvider client={queryClient} >
-          <MantineProvider theme={theme} defaultColorScheme={"dark"}>
-            <Notifications position={"bottom-right"}/>
-            <HelmetProvider>
-              <Router />
-            </HelmetProvider>
-          </MantineProvider>
-        </QueryClientProvider>
+    <LogtoProvider config={config.logTo}>
+      <QueryClientProvider client={queryClient}>
+        <MantineProvider theme={theme} defaultColorScheme={"dark"}>
+          <Notifications position={"bottom-right"}/>
+          <HelmetProvider>
+            <Router/>
+          </HelmetProvider>
+        </MantineProvider>
+      </QueryClientProvider>
     </LogtoProvider>
   );
 })

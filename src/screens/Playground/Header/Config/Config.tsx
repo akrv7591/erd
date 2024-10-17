@@ -12,7 +12,7 @@ import {
 import { IconInfoCircle, IconSettings } from "@tabler/icons-react";
 import { useModal } from "@/hooks/useModal.ts";
 import {useForm} from "@mantine/form";
-import type { IErd } from "@/types/data/db-model-interfaces.ts";
+import type { Erd } from "@/types/data/db-model-interfaces.ts";
 import ModalForm from "@/components/common/ModalForm";
 import { useEffect } from "react";
 import { EntityNameCases, ColumnNameCases } from "@/constants/playground";
@@ -33,8 +33,8 @@ export const Config = (props: Props) => {
   });
   const setErd = useSharedDiagramStore(state => state.setErd)
   const handleOpen = () => modal.open()
-  const handleEntityNameCaseChange = (v: string) => form.setFieldValue("tableNameCase", v as IErd['tableNameCase'])
-  const handleColumnNameCaseChange = (v: string) => form.setFieldValue("columnNameCase", v as IErd['columnNameCase'])
+  const handleEntityNameCaseChange = (v: string) => form.setFieldValue("tableNameCase", v as Erd['tableNameCase'])
+  const handleColumnNameCaseChange = (v: string) => form.setFieldValue("columnNameCase", v as Erd['columnNameCase'])
   const handleSubmit = form.onSubmit(data => {
     setErd(data)
     modal.modalProps.onClose()

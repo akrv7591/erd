@@ -1,10 +1,10 @@
-import {IErd} from "@/types/data/db-model-interfaces.ts";
+import {Erd} from "@/types/data/db-model-interfaces.ts";
 import {notifications} from "@mantine/notifications";
 
 
 
 export class ErdNotification {
-  static handleAdd = (erd: IErd) => {
+  static handleAdd = (erd: Erd) => {
     notifications.show({
       title: `${erd.name} erd is created`,
       message: "Success"
@@ -19,7 +19,7 @@ export class ErdNotification {
     })
   }
 
-  static handleUpdate = (erd: IErd) => {
+  static handleUpdate = (erd: Erd) => {
     notifications.show({
       title: `${erd.name} erd is updated`,
       message: "Success"
@@ -34,7 +34,7 @@ export class ErdNotification {
     })
   }
 
-  static handleDelete = (erd: IErd) => {
+  static handleDelete = (erd: Erd) => {
     notifications.show({
       title: `${erd.name} erd is deleted`,
       message: "Success"
