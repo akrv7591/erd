@@ -2,7 +2,7 @@ import {Button, Card, Group, Input, PasswordInput, Stack, Title} from "@mantine/
 import {useForm} from "@mantine/form";
 import {PasswordUtils} from "@/utility/PasswordUtils.ts";
 import {useMutation} from "@tanstack/react-query";
-import {userPasswordSet} from "@/api/user.ts";
+import {userApis} from "@/api/user.ts";
 import {AxiosResponse} from "axios";
 import {
   handleErrorNotification,
@@ -35,7 +35,7 @@ const SecurityPanel = () => {
 
   const mutation = useMutation<AxiosResponse, AxiosApiError, Partial<PasswordSetForm>>({
     mutationKey: ['profilePasswordSet'],
-    mutationFn: userPasswordSet,
+    mutationFn: userApis.passwordSet,
     onSuccess: handleSuccessNotification,
     onError: handleErrorNotification,
     onSettled: (_, error) => {

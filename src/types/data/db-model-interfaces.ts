@@ -14,7 +14,7 @@ export interface Erd {
   userId: string
 
   // Foreign Keys
-  thumbnailId: string
+  thumbnailId: string | null
 
   // Relations
   thumbnail?: StaticFile

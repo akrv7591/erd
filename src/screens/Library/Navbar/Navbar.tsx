@@ -14,7 +14,7 @@ import {TeamUser} from "@/types/log-to/team-user.ts";
 export const Navbar = memo(() => {
   const modal = useModal<TeamUser>({
     initialOpen: false,
-    baseTitle: "Organization",
+    baseTitle: "Team",
     initialType: 'create'
   })
 

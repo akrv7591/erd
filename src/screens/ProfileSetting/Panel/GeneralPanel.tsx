@@ -16,7 +16,7 @@ import {Form, useForm} from "@mantine/form";
 import {IconEdit} from "@tabler/icons-react";
 import {useOnMount} from "@/hooks/useOnMount.ts";
 import {useMutation} from "@tanstack/react-query";
-import {userProfileUpdateApi} from "@/api/user.ts";
+import {userApis} from "@/api/user.ts";
 import {notifications} from "@mantine/notifications";
 import {useMemo} from "react";
 import {LOG_TO} from "@/types/log-to.ts";
@@ -41,7 +41,7 @@ const GeneralPanel = () => {
 
   const profileSettingMutation = useMutation({
     mutationKey: ['profileSetting'],
-    mutationFn: userProfileUpdateApi,
+    mutationFn: userApis.profileUpdate,
 
     onSuccess: () => {
       notifications.show({

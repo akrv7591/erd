@@ -39,13 +39,18 @@ export const Team = memo(() => {
         <Text mr={"auto"} size={"sm"} truncate={"end"} ml={"sm"}>
           {team.name}
         </Text>
-        {canEditTeam && (
-          <Tooltip label={"Team settings"}>
-            <ActionIcon onClick={handleSettingsClick} variant={"subtle"} color={"gray"} size={"md"}>
-              <IconSettings stroke={1} size={15}/>
-            </ActionIcon>
-          </Tooltip>
-        )}
+        <Tooltip label={canEditTeam? "Team settings": "You need at least admin role to edit settings"}>
+          <ActionIcon
+            disabled={!canEditTeam}
+            onClick={handleSettingsClick}
+            variant={"subtle"}
+            color={"gray"}
+            size={"md"}
+            bg={canEditTeam? "auto": "transparent"}
+          >
+            <IconSettings stroke={1} size={15}/>
+          </ActionIcon>
+        </Tooltip>
       </Group>
     </>
 

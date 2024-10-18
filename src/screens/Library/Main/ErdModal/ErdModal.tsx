@@ -23,7 +23,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Erd} from "@/types/data/db-model-interfaces.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IconInfoCircle, IconPhoto, IconPhotoX, IconUpload, IconX} from "@tabler/icons-react";
-import {memo, useCallback} from "react";
+import {memo, useCallback, useMemo} from "react";
 import {useUser} from "@/hooks/useUser.ts";
 import {erdApis} from "@/api/erd.ts";
 import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification.ts";
@@ -49,7 +49,7 @@ const generateDefaultFormValue = (teamId: string, userId: string): FormData => {
     tableNameCase: "camel",
     columnNameCase: "camel",
     entityCount: 0,
-    thumbnailId: "",
+    thumbnailId: null,
     teamId,
     userId,
   }
@@ -60,8 +60,9 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
   const teamList = useLibraryStore(state => state.teamList)
   const user = useUser()
   const queryClient = useQueryClient()
+  const teamId = teamList.find(team => team.customData.owner === user.sub)!.id
   const {values, setInitialValues, reset, onSubmit, getInputProps, setFieldValue} = useForm<FormData>({
-    initialValues: data || generateDefaultFormValue(team.id, user.sub),
+    initialValues: data || generateDefaultFormValue(teamId, user.sub),
   })
 
   const handleCleanup = useCallback(() => {
@@ -137,6 +138,14 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
     }
   }, [setFieldValue])
 
+  const teamListOptions = useMemo(() => {
+    return teamList.map(team => ({
+      value: team.id,
+      label: team.name,
+      disabled: !team.organizationRoles.some(role => ["admin", "owner"].includes(role.name))
+    }))
+  }, [team])
+
 
   return (
     <Modal {...props} size={"lg"} onClose={handleClose}>
@@ -156,15 +165,12 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
                 <Tooltip hidden={type !== "update"} label={"You can't edit erd team"}>
                   <Select
                     {...getInputProps("teamId", {withFocus: true})}
+
                     disabled={type === "update"}
                     label={"Team"}
                     required
                     placeholder={"Select a team"}
-                    data={teamList.map(team => ({
-                      value: team.id,
-                      label: team.name,
-                      disabled: !team.organizationRoles.some(role => ["admin", "owner"].includes(role.name))
-                    }))}
+                    data={teamListOptions}
                     checkIconPosition={"right"}
                   />
                 </Tooltip>

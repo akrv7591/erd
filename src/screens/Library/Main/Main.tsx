@@ -24,7 +24,7 @@ export const Main = memo(() => {
       <Stack py={"xs"}>
         <Group justify={"space-between"} h={"28px"}>
           <Text size={"sm"} c={"dimmed"}>
-            {isPersonal ? "Your personal diagrams" : team?.name + "'s diagrams"}
+            {isPersonal ? "Your personal diagrams" : team?.name + " team's diagrams"}
           </Text>
           <CreateErdButton team={team}/>
         </Group>
