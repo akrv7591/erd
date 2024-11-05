@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="applied filter for undo manager">
+      <change afterPath="$PROJECT_DIR$/src/hooks/useDiagramStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useEntityNode.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useMemoNode.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/flowStore.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/relationStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/shared-diagram-store/stores/relationStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useDiagramStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useEntityNode.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useMemoNode.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useClient.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useDiagramEventHandlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDiagramEventHandlers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useEntities.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useEntities.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useErd.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useErd.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useNodes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNodes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/usePeerBroadcast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/usePeerBroadcast.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useUpdateEntityColumn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useUpdateEntityColumn.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/index.ts" afterDir="false" />
     </list>
-    <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="">
-      <change beforePath="$PROJECT_DIR$/src/constants/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/project.ts" afterDir="false" />
-    </list>
+    <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,31 +72,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/src/providers/zustand-yjs/diagram-store/stores&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Docker.Dockerfile.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/akrv/Dev/React/personal/erdiagramly/src/providers/zustand-yjs/diagram-store/stores",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/akrv/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;TypeScript&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TypeScript"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-store/stores" />
@@ -95,11 +106,11 @@
       <recent name="$PROJECT_DIR$/src/providers/zustand-yjs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/hooks" />
       <recent name="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal" />
       <recent name="$PROJECT_DIR$/src/stores" />
       <recent name="$PROJECT_DIR$/src/contexts" />
       <recent name="$PROJECT_DIR$/src/providers" />
-      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-context" />
     </key>
   </component>
   <component name="RunManager">
