@@ -9,12 +9,12 @@ import {
 import {
   useDiagramStore,
   useDiagramStoreApi,
+  usePeerBroadcast
 } from "@/hooks";
 import {DragEventHandler, MouseEventHandler, useCallback, useMemo} from "react";
 import { EntityNode, NodeType } from "@/types/diagram";
 import { NODE_TYPES } from "@/screens/Playground/Main/NodeTypes";
 import { EntityUtils } from "@/utility/EntityUtils.ts";
-import { usePeerBroadcast } from "@/hooks";
 import { DiagramStore } from "@/stores/diagram-store";
 import { RelationUtils } from "@/utility/RelationUtils";
 import {BROADCAST, RELATION} from "@/namespaces";
