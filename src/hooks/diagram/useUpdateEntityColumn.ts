@@ -1,4 +1,4 @@
-import {useEntityNode} from "@/hooks";
+import {useEntityNode} from "./useEntityNode";
 import {useCallback} from "react";
 import {EntityColumn} from "@/types/diagram";
 

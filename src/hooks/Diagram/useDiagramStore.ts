@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {useStoreWithEqualityFn} from "zustand/traditional";
 import {DiagramContext} from "@/contexts/DiagramContext";
 
-export const useDiagramStoreApi = () => {
+const useDiagramStoreApi = () => {
   const store = useContext(DiagramContext)
 
   if (!store) {
@@ -14,7 +14,7 @@ export const useDiagramStoreApi = () => {
 }
 
 
-export const useDiagramStore = <T>(
+const useDiagramStore = <T>(
   selector: (state: DiagramStore) => T,
   equalityFn?: (a: T, b: T) => boolean
 ): T => {
@@ -22,3 +22,7 @@ export const useDiagramStore = <T>(
   return useStoreWithEqualityFn(store, selector, equalityFn)
 }
 
+export {
+  useDiagramStoreApi,
+  useDiagramStore
+}

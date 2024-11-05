@@ -1,4 +1,4 @@
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "./useDiagramStore";
 
 export const useNodes = () => {
   const nodes = useDiagramStore(state => state.nodes)

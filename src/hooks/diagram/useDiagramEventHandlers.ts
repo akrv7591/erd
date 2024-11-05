@@ -9,8 +9,10 @@ import {
 import {
   useDiagramStore,
   useDiagramStoreApi,
+} from "./useDiagramStore";
+import {
   usePeerBroadcast
-} from "@/hooks";
+} from "./usePeerBroadcast";
 import {DragEventHandler, MouseEventHandler, useCallback, useMemo} from "react";
 import { EntityNode, NodeType } from "@/types/diagram";
 import { NODE_TYPES } from "@/screens/Playground/Main/NodeTypes";
