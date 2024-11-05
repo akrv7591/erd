@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {useUser} from "./useUser";
+import {useUser} from "@/hooks";
 import {Roles} from "@/types/log-to/roles";
 
 export const useUserTeamRole = (teamId: string) => {

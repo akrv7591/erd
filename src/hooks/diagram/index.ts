@@ -9,4 +9,4 @@ export * from "./useDiagramStore"
 
 // Node hooks
 export * from "./useMemoNode"
-export * from "./useEntityNode.ts"
+export * from "./useEntityNode"

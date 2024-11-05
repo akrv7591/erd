@@ -1,4 +1,4 @@
-import { useDiagramStore } from "./useDiagramStore"
+import { useDiagramStore } from "@/hooks"
 import { useReactFlow, XYPosition } from "@xyflow/react"
 import { useCallback, MouseEvent} from "react"
 import {NodeType, DataBroadcast} from "@/types/diagram";
