@@ -1,7 +1,7 @@
 import {useCallback, useMemo} from "react";
 import {useNodeId, useNodesData, useReactFlow} from "@xyflow/react";
 import type {EntityData, EntityNode} from "@/types/diagram";
-import {useDiagramStore} from "@/hooks/diagram";
+import {useDiagramStore} from "@/hooks";
 
 export const useEntityNode = () => {
   const nodeId = useNodeId()
