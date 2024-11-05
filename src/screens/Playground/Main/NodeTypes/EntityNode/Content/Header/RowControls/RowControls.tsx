@@ -1,32 +1,61 @@
 import {ActionIcon, Indicator, Tooltip} from "@mantine/core"
 import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
-import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
-import {memo, useCallback} from "react";
-import {useShallow} from "zustand/react/shallow";
+import {memo, useCallback, useMemo} from "react";
+import {useEntityNode} from "@/hooks";
+import {createId} from "@paralleldrive/cuid2";
+import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column.ts";
 
 export const RowControls = memo(() => {
-  const actions = useSharedDiagramStore(useShallow(state => ({
-    addDefaultColumn: state.addDefaultColumn,
-    addPrimaryColumn: state.addPrimaryColumn,
-    deleteSelectedColumns: state.deleteSelectedColumns
-  })))
-  const nodeData = useEntityNodeData()
+  const {data: entityData, id: entityId, onChange} = useEntityNode()
 
   const handleAddPrimaryColumn = useCallback(() => {
-    actions.addPrimaryColumn(nodeData.id)
+    onChange(({columns}) => {
+      const id = createId()
+
+      return {
+        columns: [...columns, {
+          ...DEFAULT_COLUMN_DATA,
+          id,
+          entityId,
+          order: Object.keys(columns).length,
+          primary: true,
+          unique: true,
+          notNull: true,
+        }]
+      }
+    })
   }, [])
 
   const handleAddColumn = useCallback(() => {
-    actions.addDefaultColumn(nodeData.id)
+    onChange(({columns}) => {
+      const id = createId()
+
+      return {
+        columns: [
+          ...columns,
+          {
+            ...DEFAULT_COLUMN_DATA,
+            id,
+            entityId,
+            order: Object.keys(columns).length,
+          }
+        ]
+      }
+    })
   }, [])
 
   const handleDeleteSelectedColumns = useCallback(() => {
-    actions.deleteSelectedColumns(nodeData.id)
+    onChange(({columns}) => {
+      return {
+        columns: columns.filter((column) => !column.selected)
+      }
+    })
   }, [])
 
-  const selectedColumns = nodeData.columns.filter(column => column.selected)
+  const selectedColumns = useMemo(() => {
+    return entityData.columns.filter(column => column.selected)
+  }, [entityData.columns])
 
   if (selectedColumns.length) {
     return (

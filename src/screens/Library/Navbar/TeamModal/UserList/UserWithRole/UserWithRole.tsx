@@ -5,7 +5,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {notifications} from "@mantine/notifications";
 import {memo, useCallback, useMemo, useState} from "react";
 import {TeamUser} from "@/types/log-to/team-user.ts";
-import {useUserTeam} from "@/contexts/UserTeamContext.ts";
+import {useUserTeam} from "@/hooks";
 import {UserTeam} from "@/types/log-to/user-team.ts";
 import {deleteUserFromTeamApi, updateTeamUserRoleApi} from "@/api/logto/team";
 import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";

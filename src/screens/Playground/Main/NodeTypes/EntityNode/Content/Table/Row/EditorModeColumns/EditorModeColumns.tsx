@@ -1,29 +1,22 @@
-import {FC, memo, useCallback} from "react";
-import styles from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/style.module.css";
+import {FC, memo} from "react";
 import {DragButton} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton";
 import {Center, Checkbox, Input, Table} from "@mantine/core";
 import {TypeIcon} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
-import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
-import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityColumn} from "@/types/diagram";
+import {useUpdateEntityColumn} from "@/hooks";
 
 const {Td, Tr} = Table
 
 interface Props {
   data: EntityColumn
+  patchColumn: ReturnType<typeof useUpdateEntityColumn>
 }
 
-export const EditorModeColumns: FC<Props> = memo(({data}) => {
-  const setColumnData = useSharedDiagramStore(state => state.setColumnData)
-  const patchColumn = useCallback((key: keyof EntityColumn, value: string | number | boolean) => {
-    setColumnData(data.entityId, data.id, {
-      [key]: value
-    })
-  }, [])
-
+export const EditorModeColumns: FC<Props> = memo(({data, patchColumn}) => {
   return (
-    <Tr className={styles.tableRow}>
+    <Tr>
       <Td className={"nopan nodrag handle"}>
-        <DragButton />
+        <DragButton/>
       </Td>
       <Td>
         <Checkbox

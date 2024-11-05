@@ -7,10 +7,10 @@ import {erdApis} from "@/api/erd.ts";
 type ResourceKeys = keyof Resources;
 type ResourceType<T extends ResourceKeys> = Resources[T];
 
-const getQueryFn = <T extends ResourceKeys>(type: T): QueryFunction<ResourceType<T>, [string, string]> => {
+const getQueryFn = <T extends ResourceKeys>(type: T): QueryFunction<any, [string, string]> => {
   switch (type) {
     case "Erd":
-      return erdApis.detail;
+      return erdApis.detail as any;
     case "StaticFile":
       return staticFileApis.detail;
     default:

@@ -1,10 +1,5 @@
-import {AUTH} from "@/enums/auth.ts";
 import {AxiosError} from "axios";
 
-export type ApiCode = AUTH
-
-export interface ApiError {
-  code: ApiCode
-}
+export interface ApiError {}
 
 export interface AxiosApiError extends Required<AxiosError<ApiError>> {}

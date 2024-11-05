@@ -1,40 +1,38 @@
-import {Stack} from "@mantine/core";
 import React, {useCallback} from "react";
 import {Row} from "./Row";
 import {ReactSortable} from "react-sortablejs";
 import {Header} from "./Header";
-import {useEntityNodeData} from "@/hooks/useEntityNodeData";
 import styles from "./style.module.css"
-import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityColumn} from "@/types/diagram";
+import {useEntityNode} from "@/hooks";
+import {isEqual} from "lodash";
 
 export const Table = React.memo(() => {
-  const nodeData = useEntityNodeData()
-  const setSortedColumns = useCallback((columns: EntityColumn[]) => {
-    nodeData.setData({
-      columns: Object.fromEntries(columns.map((column, order) => [column.id, {...column, order}])),
-    })
-  }, [nodeData.columns])
+  const {onChange, data} = useEntityNode()
 
-  if (!nodeData) {
-    return null
-  }
+  const setSortedColumns = useCallback((updatedColumns: EntityColumn[]) => {
+    if (isEqual(data.columns, updatedColumns)) {
+      return {}
+    }
+    onChange({
+      columns: updatedColumns
+    })
+  }, [data.columns])
+
 
   return (
-    <Stack style={{position: "relative"}} gap={0}>
-      <ReactSortable
-        tag={Header}
-        list={nodeData.columns}
-        dragClass={styles.ghostRowClass}
-        ghostClass={styles.tableRowDrag}
-        chosenClass={styles.tableRowDrag}
-        setList={setSortedColumns}
-        multiDrag
-        handle={".handle"}
-      >
-        {nodeData.columns.map((row) => (
-          <Row key={row.id} data={row}/>
-        ))}
-      </ReactSortable>
-    </Stack>
+    <ReactSortable
+      tag={Header}
+      list={data.columns}
+      dragClass={styles.ghostRowClass}
+      ghostClass={styles.tableRowDrag}
+      chosenClass={styles.tableRowDrag}
+      setList={setSortedColumns}
+      handle={".handle"}
+    >
+      {data.columns.map((row) => (
+        <Row key={row.id} data={row}/>
+      ))}
+    </ReactSortable>
   )
 })

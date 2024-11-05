@@ -1,4 +1,4 @@
-import {IListQuery} from "@/hooks/useListQuery.ts";
+import {IListQuery} from "@/hooks";
 
 export class PaginationUtil {
   static getOffset(params: IListQuery, page: number) {

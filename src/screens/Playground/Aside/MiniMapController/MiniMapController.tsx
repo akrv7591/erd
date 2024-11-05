@@ -3,7 +3,7 @@ import Minimap from "@/assets/svgs/minimap.svg"
 import MinimapClosed from "@/assets/svgs/minimap-closed.svg"
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 import {DiagramStore} from "src/stores/diagram-store";
-import {useDiagramStore} from "@/contexts/DiagramContext";
+import {useDiagramStore} from "@/hooks";
 import {useShallow} from "zustand/react/shallow";
 
 const selector = ({minimap, setMinimap}: DiagramStore) => ({

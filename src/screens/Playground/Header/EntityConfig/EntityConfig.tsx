@@ -1,13 +1,13 @@
-import {memo, useCallback} from "react";
+import {memo, useCallback,} from "react";
+import {useDiagramStore} from "@/hooks";
+import {EntityData} from "@/types/diagram";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 import {IconTableOptions} from "@tabler/icons-react";
 import {Tooltip} from "@mantine/core";
-import {useModal} from "@/hooks/useModal.ts";
-import {EntityConfigModal} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal";
-import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
-import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
-import {SharedDiagramStore} from "@/stores/shared-diagram-store";
-import {useUser} from "@/hooks/useUser.ts";
+import {useModal} from "@/hooks";
+import {EntityConfigModal} from "./EntityConfigModal";
+import {useUser} from "@/hooks";
+import {CustomTheme} from "@/components/common/CustomTheme";
 
 export const EntityConfig = memo(() => {
   const modal = useModal({
@@ -16,34 +16,34 @@ export const EntityConfig = memo(() => {
     initialOpen: false,
   })
   const user = useUser()
-  const configSelector = useCallback((state: SharedDiagramStore) => state.entityConfigs[user.sub], [])
-  const entityConfig = useSharedDiagramStore(configSelector)
-  const setEntityConfig = useSharedDiagramStore(state => state.setEntityConfig)
+  const entityConfig = useDiagramStore(useCallback(state => state.configs.find(config => config.userId === user.sub), [user.sub]))
+  const setEntityConfig = useDiagramStore(state => state.setConfig)
   const handleModalOpen = useCallback(() => {
     if (!entityConfig) {
-      const initialConfig: DefaultEntityConfig = {
+      const initialConfig: EntityData & { userId: string } = {
         name: "Table",
         color: "#2190ff",
-        columns: []
+        columns: [],
+        userId: user.sub
       }
 
-      setEntityConfig(user.sub, initialConfig)
+      setEntityConfig(initialConfig)
     }
 
     modal.open()
 
-  }, [entityConfig])
+  }, [entityConfig, user.sub])
 
   return (
-    <>
+    <CustomTheme color={entityConfig? entityConfig.color : "#2190ff"} id={user.sub}>
       {entityConfig && (
         <EntityConfigModal {...modal.modalProps} configData={entityConfig}/>
       )}
-      <Tooltip label={"Config your default entity"}>
-        <PlaygroundActionIcon onClick={handleModalOpen}>
-          <IconTableOptions/>
-        </PlaygroundActionIcon>
-      </Tooltip>
-    </>
+        <Tooltip label={"Config your default entity"}>
+          <PlaygroundActionIcon onClick={handleModalOpen}>
+            <IconTableOptions/>
+          </PlaygroundActionIcon>
+        </Tooltip>
+    </CustomTheme>
   )
 })

@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {ActionIcon, Tooltip} from "@mantine/core";
 import {IconPlus} from "@tabler/icons-react";
-import {useModal} from "@/hooks/useModal.ts";
+import {useModal} from "@/hooks";
 import {ErdModal} from "@/screens/Library/Main/ErdModal";
 import type {UserTeam} from "@/types/log-to/user-team.ts";
 import type {Erd} from "@/types/data/db-model-interfaces.ts";

@@ -1,6 +1,4 @@
 import {notifications} from "@mantine/notifications";
-import {AxiosApiError} from "@/types/api.ts";
-import {AUTH} from "@/enums/auth.ts";
 
 export const handleSuccessNotification = () => {
   notifications.show({
@@ -10,11 +8,7 @@ export const handleSuccessNotification = () => {
 }
 
 
-export const handleErrorNotification = (err: AxiosApiError) => {
-  switch (err.response.data.code) {
-    case AUTH.EMAIL_AND_PASSWORD_REQUIRED:
-  }
-
+export const handleErrorNotification = () => {
   notifications.show({
     title: "Set password",
     message: "Failed! Try again",

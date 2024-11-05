@@ -1,9 +1,9 @@
 import {EdgeProps, useInternalNode} from '@xyflow/react';
-import {RELATION} from "@/constants/relations.ts";
+import {RELATION} from "@/namespaces";
 import {memo, useMemo} from "react";
 import Path from "./Path.tsx";
 import "./style.css"
-import {EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityNode} from "@/types/diagram";
 
 
 const getMarkerEnd = (markerEnd: string, selected: boolean | undefined, end: boolean) => {

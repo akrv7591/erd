@@ -4,7 +4,7 @@ import {useMutation} from "@tanstack/react-query";
 import {DotLottiePlayer} from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import Header from "@/screens/Library/Header";
-import {useOnMount} from "@/hooks/useOnMount.ts";
+import {useOnMount} from "@/hooks";
 import {teamInvitationJoinApi} from "@/api/logto/team.ts";
 import {memo} from "react";
 

@@ -7,7 +7,7 @@ import {
   IconTablePlus
 } from "@tabler/icons-react";
 import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
-import {RELATION} from "@/constants/relations.ts";
+import {RELATION} from "@/namespaces";
 import {EntityControl} from "./types";
 
 export const EntityActions: EntityControl[] = [

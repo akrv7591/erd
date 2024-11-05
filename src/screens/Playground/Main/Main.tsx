@@ -1,17 +1,16 @@
 import {FC, memo} from 'react';
-import {ConnectionLineType, ReactFlow, SelectionMode,} from '@xyflow/react';
+import {ConnectionLineType, ReactFlow, SelectionMode} from '@xyflow/react';
 import {defaultEdgeOptions, edgeTypes} from "./EdgeTypes";
 import {nodeTypes} from "./NodeTypes";
 import '@xyflow/react/dist/style.css';
 import {FlowUtils} from "@/screens/Playground/Main/FlowUtils";
-import {useEdges} from "@/hooks/Diagram/useEdges.ts";
-import {useNodes} from "@/hooks/Diagram/useNodes.ts";
-import {useDiagramEventHandlers} from "@/hooks/Diagram/useDiagramEventHandlers.ts";
+import {useDiagramEventHandlers} from "@/hooks";
 import "./style.css"
+import { useDiagramStore } from '@/hooks';
 
 export const Main: FC = memo(() => {
-  const nodes = useNodes()
-  const edges = useEdges()
+  const nodes = useDiagramStore(state => state.nodes)
+  const edges = useDiagramStore(state => state.edges)
   const diagramEventHandlers = useDiagramEventHandlers()
 
   return (
@@ -19,7 +18,6 @@ export const Main: FC = memo(() => {
       <ReactFlow
         nodes={nodes}
         edges={edges}
-        // Default constants
         colorMode={"dark"}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}

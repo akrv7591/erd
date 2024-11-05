@@ -3,7 +3,7 @@ import {UserWithRole} from "./UserWithRole";
 import {memo} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {teamInvitationListApi, teamUserListApi} from "@/api/logto/team.ts";
-import {useUserTeam} from "@/contexts/UserTeamContext.ts";
+import {useUserTeam} from "@/hooks";
 import {InvitedUser} from "./InvitedUser";
 import {InviteUser} from "./InviteUser";
 

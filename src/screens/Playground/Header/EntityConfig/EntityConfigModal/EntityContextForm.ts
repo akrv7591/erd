@@ -1,7 +1,11 @@
 import {createFormContext} from "@mantine/form";
-import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
+import {EntityData} from "@/types/diagram";
 
-const [EntityConfigFormProvider, useEntityConfigContextForm, useEntityConfigForm] = createFormContext<DefaultEntityConfig>()
+const [
+  EntityConfigFormProvider,
+  useEntityConfigContextForm,
+  useEntityConfigForm
+] = createFormContext<EntityData & {userId: string}>()
 
 export {
   EntityConfigFormProvider,

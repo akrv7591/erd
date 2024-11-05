@@ -2,7 +2,7 @@ import {memo} from "react";
 import {getSmoothStepPath} from "@xyflow/react";
 import {getEdgeParams} from "@/screens/Playground/Main/utils.ts";
 import "./style.css"
-import {EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityNode} from "@/types/diagram";
 
 
 interface Props {

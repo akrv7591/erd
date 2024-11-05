@@ -9,8 +9,9 @@ import TermsOfService from "@/screens/TermsOfService";
 import JoinTeam from "@/screens/JoinTeam";
 import {Playground} from "@/screens/Playground";
 import ProfileSetting from "@/screens/ProfileSetting"
-import {PlaygroundLayout} from "@/components/layouts/PlaygroundLayout";
 import {LogToCallback} from "@/screens/LogToCallback/LogToCallback.tsx";
+import {ReactFlowProvider} from "@xyflow/react";
+import {DiagramProvider} from "@/providers/DiagramProvider.tsx";
 
 
 export const routes = createBrowserRouter(
@@ -20,16 +21,20 @@ export const routes = createBrowserRouter(
       <Route index element={<Home/>}/>
 
       <Route path={"profile"} element={<ProtectedRoute/>}>
-        <Route index element={<ProfileSetting />} />
-        <Route path={"setting"} element={<ProfileSetting />} />
+        <Route index element={<ProfileSetting/>}/>
+        <Route path={"setting"} element={<ProfileSetting/>}/>
       </Route>
 
       {/*Library*/}
       <Route path={"library"} element={<ProtectedRoute/>}>
         <Route index element={<Library/>}/>
-        <Route path={":erdId/*"} element={<PlaygroundLayout/>}>
-          <Route index element={<Playground />}/>
-        </Route>
+        <Route path={":erdId/*"} element={(
+          <ReactFlowProvider defaultNodes={[]} defaultEdges={[]}>
+            <DiagramProvider>
+              <Playground/>
+            </DiagramProvider>
+          </ReactFlowProvider>
+        )}/>
       </Route>
 
       {/*Verify Email*/}
@@ -46,7 +51,7 @@ export const routes = createBrowserRouter(
       </Route>
 
       {/*LogTo callback */}
-      <Route path={"callback"} element={<LogToCallback />} />
+      <Route path={"callback"} element={<LogToCallback/>}/>
 
       {/*Not found*/}
       <Route path={"*"} element={<NotFound/>}/>

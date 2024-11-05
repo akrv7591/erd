@@ -3,7 +3,7 @@ import "./styles.css"
 import Logo from "@/components/common/Logo.tsx";
 import Account from "@/components/common/Account";
 import {FC, memo, PropsWithChildren} from "react";
-import {userAuthorized} from "@/hooks/userAuthorized.ts";
+import {userAuthorized} from "@/hooks";
 
 
 export const Header: FC<PropsWithChildren> = memo(({children}) => {

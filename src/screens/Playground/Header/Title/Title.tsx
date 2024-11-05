@@ -1,14 +1,18 @@
 import {Title as MantineTitle} from "@mantine/core";
 import classes from "./style.module.css";
-import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
-
+import { useErd } from "@/hooks";
 
 export const Title = () => {
-  const name = useSharedDiagramStore(state => state.erd.name)
+  const {data, isLoading} = useErd()
+
+  if (isLoading || !data) {
+    return null
+  }
+
   return (
     <div className={classes.titleWrapper}>
       <MantineTitle order={4} className={classes.title} fw={"normal"}>
-        {name}
+        {data.name}
       </MantineTitle>
     </div>
   )

@@ -2,7 +2,7 @@ import {memo} from "react";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {Button, Group} from "@mantine/core";
 import {IconTrash} from "@tabler/icons-react";
-import {useUserTeam} from "@/contexts/UserTeamContext.ts";
+import {useUserTeam} from "@/hooks";
 
 interface Props {
   onDelete: () => void

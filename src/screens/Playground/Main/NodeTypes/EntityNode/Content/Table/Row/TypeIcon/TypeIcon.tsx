@@ -2,7 +2,7 @@ import React from "react";
 import {IconDiamondsFilled, IconKey} from "@tabler/icons-react";
 import classes from "./style.module.css"
 import {Tooltip} from "@mantine/core";
-import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityColumn} from "@/types/diagram";
 
 export const TypeIcon = React.memo(({data}: { data: Pick<EntityColumn, 'primary' | 'foreignKey'> }) => {
 

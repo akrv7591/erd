@@ -7,6 +7,7 @@ export interface ImportMetaEnv {
   readonly VITE_SERVER_URL: string
   readonly VITE_WEBRTC_SIGNALLING_SERVER: string
   readonly VITE_CLIENT_URL: string
+  readonly VITE_PEERJS_SERVER: string
 }
 
 interface ImportMeta {

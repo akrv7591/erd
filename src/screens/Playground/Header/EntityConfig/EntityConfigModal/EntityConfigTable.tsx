@@ -1,5 +1,5 @@
-import {forwardRef, memo, useCallback, useMemo} from "react";
-import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
+import {ChangeEventHandler, forwardRef, memo, useCallback, useMemo} from "react";
+import {EntityColumn} from "@/types/diagram";
 import {Center, Checkbox, Input, Table, Text, Tooltip} from "@mantine/core";
 import {DragButton} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton";
 import {TypeIcon} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
@@ -17,20 +17,21 @@ const {Thead, Tbody, Tr, Td} = Table
 
 export const Header = forwardRef<any, any>((props, ref) => {
   const form = useEntityConfigContextForm()
+  const {columns} = form.values
 
   const [isColumnsSelected, isAllSelected] = useMemo(() => {
-    const isColumnsSelected = form.values.columns?.every(column => column.selected)
-    const isAllSelected = isColumnsSelected && form.values.columns?.length > 0
+    const isColumnsSelected = columns.some(column => column.selected)
+    const isAllSelected = columns.length > 0 && columns.every(column => column.selected)
     return [isColumnsSelected, isAllSelected]
-  }, [form.values.columns])
+  }, [columns])
 
-  const handleToggleSelectAll = useCallback(() => {
+  const handleCheckboxValueChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
     form.setValues(state => {
       return {
         ...state,
         columns: state.columns?.map(column => ({
           ...column,
-          selected: !isAllSelected
+          selected: e.target.checked
         }))
       }
     })
@@ -45,8 +46,7 @@ export const Header = forwardRef<any, any>((props, ref) => {
             <Checkbox
               indeterminate={isColumnsSelected && !isAllSelected}
               checked={isAllSelected}
-              onChange={() => {}}
-              onClick={handleToggleSelectAll}
+              onChange={handleCheckboxValueChange}
             />
           </Td>
           <Td w={40}></Td>

@@ -1,7 +1,7 @@
 import {ActionIcon, Menu, rem} from "@mantine/core";
 import {IconLogout, IconUserCog} from "@tabler/icons-react";
 import {useNavigate} from "react-router-dom";
-import {useUser} from "@/hooks/useUser.ts";
+import {useUser} from "@/hooks";
 import {useLogto} from "@logto/react";
 import {useCallback} from "react";
 import {config} from "@/config/config.ts";

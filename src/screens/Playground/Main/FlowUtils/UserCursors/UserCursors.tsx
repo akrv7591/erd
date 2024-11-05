@@ -1,11 +1,13 @@
 import {memo} from "react";
 import {FloatingCursor} from "@/screens/Playground/Header/PlayerAvatar/FloatingCursor";
-import {useDiagramStore} from "@/contexts/DiagramContext";
-import {useClient} from "@/hooks/Diagram/useClient.ts";
-import {Client} from "@/types/playground";
+import {useDiagramStore} from "@/hooks";
+import {useClient} from "@/hooks";
+import {Client} from "@/types/diagram";
+import { useReactFlow } from "@xyflow/react";
 
 const Cursor = (props: Client) => {
   const {data} = useClient(props.userId)
+  const reactflow = useReactFlow()
 
   if (!props.cursor) {
     return null
@@ -15,10 +17,12 @@ const Cursor = (props: Client) => {
     return null
   }
 
+  const converted = reactflow.flowToScreenPosition(props.cursor)
+
   return (
     <FloatingCursor
-      x={props.cursor.x}
-      y={props.cursor.y}
+      x={converted.x}
+      y={converted.y}
       name={data.name}
       color={props.color}
     />
@@ -30,7 +34,7 @@ export const UserCursors = memo(() => {
 
   return (
     clients.map(client => (
-      <Cursor key={client.id} {...client}/>
+      <Cursor key={client.peerId} {...client}/>
     ))
   )
 })

@@ -1,5 +1,5 @@
 import {Tooltip} from "@mantine/core";
-import {useMemoNodeData} from "@/hooks/useMemoNodeData.ts";
+import {useMemoNode} from "@/hooks";
 import {memo, useCallback, useEffect} from "react";
 import {useEditor} from "@tiptap/react";
 import {RichTextEditor} from "@mantine/tiptap";
@@ -18,7 +18,7 @@ const extensions = [
 ]
 
 export const Editor = memo(() => {
-  const {id, data} = useMemoNodeData()
+  const {id, data} = useMemoNode()
   const reactFlow = useReactFlow()
 
   const editor = useEditor({

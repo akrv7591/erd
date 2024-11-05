@@ -2,10 +2,10 @@ import erdApi from "@/api/erdApi.ts";
 import type {Erd} from "@/types/data/db-model-interfaces.ts";
 import type {MutationFunction, QueryFunction} from "@tanstack/react-query";
 
-const detail: QueryFunction<any, [string, string]> = async ({queryKey}) => {
+const detail: QueryFunction<Erd, [string, string]> = async ({queryKey}) => {
   const [_, erdId] = queryKey
 
-  return erdApi.get(`/v1/erds/${erdId}`)
+  return erdApi.get<Erd>(`/v1/erds/${erdId}`)
     .then(res => res.data)
 }
 

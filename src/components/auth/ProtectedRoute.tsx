@@ -12,8 +12,6 @@ export const ProtectedRoute = memo(() => {
     if (!isAuthenticated && !isLoading) {
       StorageUtils.setDestination(location.pathname)
 
-      console.log("Signing in ...")
-
       void signIn({
         redirectUri: `${config.client.url}/callback`,
       })

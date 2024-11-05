@@ -1,24 +1,23 @@
-import { RELATION } from "@/constants/relations.ts";
-import { useEntityNodeData } from "@/hooks/useEntityNodeData.ts";
+import { RELATION } from "@/namespaces";
 import { Handle, Position, useConnection } from "@xyflow/react";
 import { memo, useMemo } from "react";
 import { Overlay, Text } from "@mantine/core";
 import classes from "../style.module.css"
-import {useDiagramStore} from "@/contexts/DiagramContext";
+import {useDiagramStore} from "@/hooks";
+import { useEntityNode } from "@/hooks";
 
 export const SourceHandle = memo(() => {
   const tool = useDiagramStore(state => state.tool)
-  const nodeData = useEntityNodeData();
+  const {data} = useEntityNode()
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
 
   const activeNodeHandle = useMemo(() => {
 
     if (!isToolRelation) return false
-    if (!nodeData) return false
 
-    return nodeData.columns.some(column => column.primary)
-  }, [nodeData, tool, isToolRelation]);
+    return data.columns.some(column => column.primary)
+  }, [data.columns, tool, isToolRelation]);
 
   const isConnecting = !!connection.fromHandle
 

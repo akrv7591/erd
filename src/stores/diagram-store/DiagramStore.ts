@@ -1,38 +1,51 @@
-import {paneStore, PaneStore} from "./stores";
-import {ReactFlowInstance} from "@xyflow/react";
+import type {ReactFlowInstance} from "@xyflow/react";
+import {
+  EdgeSlice,
+  edgeSlice,
+  EntitySlice,
+  entitySlice,
+  NodeSlice,
+  nodeSlice,
+  PaneSlice,
+  paneSlice,
+  socketIoSlice,
+  SocketIoSlice,
+  UndoRedoSlice,
+  undoRedoSlice,
+  webrtcSlice,
+  WebrtcSlice
+} from "./slices";
 import {createStore} from "zustand";
-import {nodeStore, NodeStore} from "@/stores/diagram-store/stores/node-store";
-import {Awareness} from "y-protocols/awareness";
-import * as Y from "yjs";
 import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
-import {LOG_TO} from "@/types/log-to.ts";
-
-type DiagramStoreState = {
-  reactflow: ReactFlowInstance
-  awareness: Awareness
-  user: LOG_TO.UserInfo
-  undoManager: Y.UndoManager,
-  canUndo: boolean,
-  canRedo: boolean,
-  synced: boolean
-}
-
-export type DiagramStore = DiagramStoreState
-  & PaneStore
-  & NodeStore
 
 
-export const createDiagramStore = (reactflow: ReactFlowInstance) => {
+export type DiagramStore = { reactflow: ReactFlowInstance }
+  & PaneSlice
+  & NodeSlice
+  & EdgeSlice
+  & UndoRedoSlice
+  & EntitySlice
+  & SocketIoSlice
+  & WebrtcSlice
+
+
+export const createDiagramStore = (reactflow: ReactFlowInstance, roomId: string) => {
+  const user = useLogToAuthStore.getState()?.user
+
+  if (!user) {
+    throw new Error("User is not available")
+  }
+
   const diagramStore = createStore<DiagramStore>()((...a) => ({
-    ...paneStore(...a),
-    ...nodeStore(...a),
-    user: useLogToAuthStore.getState().user!,
+    ...paneSlice(...a),
+    ...nodeSlice(...a),
+    ...edgeSlice(...a),
+    ...undoRedoSlice(...a),
+    ...entitySlice(...a),
+    ...socketIoSlice(roomId)(...a),
+    ...webrtcSlice(...a),
     reactflow,
-    awareness: {} as Awareness,
-    undoManager: {} as Y.UndoManager,
-    canUndo: false,
-    synced: false,
-    canRedo: false,
+    user,
   }))
 
   return diagramStore

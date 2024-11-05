@@ -1,4 +1,4 @@
-import {useUser} from "@/hooks/useUser.ts";
+import {useUser} from "@/hooks";
 import {useMemo} from "react";
 import {Roles} from "@/types/log-to/roles.ts";
 

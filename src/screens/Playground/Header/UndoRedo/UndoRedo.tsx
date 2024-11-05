@@ -2,24 +2,24 @@ import {memo, useCallback} from "react";
 import {ButtonGroup, Tooltip} from "@mantine/core";
 import {IconArrowLeft, IconArrowRight} from "@tabler/icons-react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import {useDiagramStore} from "@/contexts/DiagramContext.ts";
+import {useDiagramStore} from "@/hooks";
 
 export const UndoRedo = memo(() => {
   const canUndo = useDiagramStore(state => state.canUndo)
   const canRedo = useDiagramStore(state => state.canRedo)
-  const undoManager = useDiagramStore(state => state.undoManager)
+  // const undoManager = useDiagramStore(state => state.undoManager)
   const handleUndo = useCallback(() => {
     if (!canUndo) {
       return
     }
-    undoManager.undo()
+    // undoManager.undo()
   }, [canUndo])
 
   const handleRedo = useCallback(() => {
     if (!canRedo) {
       return
     }
-    undoManager.redo()
+    // undoManager.redo()
   }, [canRedo])
   return (
     <ButtonGroup>

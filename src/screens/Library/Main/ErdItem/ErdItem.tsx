@@ -5,7 +5,7 @@ import LogoSquare from "@/assets/svgs/logo-square-custom.svg"
 import {useHover} from "@mantine/hooks";
 import {IconGlobe, IconLock, IconSettings, IconTable, IconTrash} from "@tabler/icons-react";
 import classes from "./style.module.css";
-import {useModal} from "@/hooks/useModal.ts";
+import {useModal} from "@/hooks";
 import {ErdModal} from "@/screens/Library/Main/ErdModal";
 import {Link} from "react-router-dom";
 import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider.tsx";

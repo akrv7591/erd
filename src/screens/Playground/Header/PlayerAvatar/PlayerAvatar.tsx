@@ -2,8 +2,8 @@ import {Avatar, Tooltip} from "@mantine/core";
 import classes from "./style.module.css"
 import {memo} from "react";
 import {IconUser} from "@tabler/icons-react";
-import {Client} from "@/types/playground";
-import {useClient} from "@/hooks/Diagram/useClient.ts";
+import {Client} from "@/types/diagram";
+import {useClient} from "@/hooks";
 
 interface Props {
   client: Client

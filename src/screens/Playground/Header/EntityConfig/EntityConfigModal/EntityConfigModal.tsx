@@ -2,42 +2,38 @@ import {memo, useCallback, useMemo} from "react";
 import {
   ActionIcon,
   Box,
-  ColorPicker,
+  ColorSwatch,
   Group,
   HoverCard,
   Modal,
   ModalProps,
   Paper,
+  SimpleGrid,
   Stack,
   Text,
   TextInput,
   Tooltip
 } from "@mantine/core";
-import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
-import {DefaultEntityConfig} from "@/stores/shared-diagram-store/stores/erdStore.ts";
 import {IconExclamationCircle, IconPalette, IconRowInsertTop, IconTable, IconTrash} from "@tabler/icons-react";
 import {EntityConfigTable} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable.tsx";
-import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
-import {COLUMN_TYPE} from "@/constants/erd/column.ts";
+import {EntityColumn, EntityData} from "@/types/diagram";
 import {EntityUtils} from "@/utility/EntityUtils.ts";
-import {
-  EntityConfigFormProvider,
-  useEntityConfigForm
-} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityContextForm.ts";
+import {EntityConfigFormProvider, useEntityConfigForm} from "./EntityContextForm.ts";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
-import {CustomTheme} from "@/components/common/CustomTheme";
-import {useUser} from "@/hooks/useUser.ts";
+import {useDiagramStore} from "@/hooks";
+import {DIAGRAM} from "@/namespaces";
+import classes from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/style.module.css";
 
 interface Props extends ModalProps {
-  configData: DefaultEntityConfig
+  configData: EntityData & { userId: string }
 }
 
 export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
-  const user = useUser()
-  const setDefaultConfig = useSharedDiagramStore(state => state.setEntityConfig)
   const form = useEntityConfigForm({
     initialValues: configData,
   })
+  const setEntityConfig = useDiagramStore(state => state.setConfig)
+
   const handleColumnChange = useCallback(<K extends keyof EntityColumn>(id: EntityColumn['id'], key: K, value: EntityColumn[K]) => {
     form.setValues(state => {
       return {
@@ -56,10 +52,9 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
     })
   }, [])
 
-  const handleAddColumn = useCallback((type: COLUMN_TYPE) => () => {
+  const handleAddColumn = useCallback((type: DIAGRAM.ENTITY.COLUMN_TYPE) => () => {
     form.setValues(state => {
-      const order = Object.keys(form.values.columns).length
-      const column = EntityUtils.generateDefaultColumn(type, "", order)
+      const column = EntityUtils.generateDefaultColumn(type, "")
       return {
         ...state,
         columns: [
@@ -71,7 +66,7 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
   }, [form.values.columns])
 
   const handleClose = () => {
-    setDefaultConfig(user.sub, form.values)
+    setEntityConfig(form.values)
     modalProps.onClose()
   }
 
@@ -86,85 +81,92 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
     }))
   }, [])
 
-
   return (
-    <Modal {...modalProps} onClose={handleClose} size={"auto"}>
-      <EntityConfigFormProvider form={form}>
-        <CustomTheme color={configData.color} id={user.sub + "-entity-config"}>
-          <Modal.Body>
-            <Stack>
-              <Group>
-                <IconExclamationCircle/>
-                <Text>It is default entity configuration. When you create new entity you get same entity</Text>
-              </Group>
-              <Paper
-                withBorder
-                bg={"var(--mantine-color-dark-6)"}
-                p={"sm"}
-                style={{borderColor: "var(--mantine-primary-color-filled)"}}>
-                <Stack>
-                  <Group gap={5}>
-                    <TextInput
-                      {...form.getInputProps("name")}
-                      leftSection={(
-                        <IconTable/>
-                      )}
-                    />
-                    {isColumnsSelected ? (
-                      <ButtonWithConfirm
-                        isDanger
-                        target={(
-                          <Tooltip label={"Delete selected"}>
-                            <ActionIcon size={"lg"}>
-                              <IconTrash/>
-                            </ActionIcon>
-                          </Tooltip>
-                        )}
-                        message={"Are you sure you want to delete selected columns?"}
-                        onConfirm={handleDeleteSelected}
-                      />
-
-                    ) : (
-                      <>
-                        <Tooltip label={"Add primary column"}>
-                          <ActionIcon size={"lg"} onClick={handleAddColumn(COLUMN_TYPE.PRIMARY)}>
-                            <IconRowInsertTop color={"var(--mantine-color-yellow-5)"}/>
-                          </ActionIcon>
-                        </Tooltip>
-                        <Tooltip label={"Add default column"}>
-                          <ActionIcon size={"lg"} onClick={handleAddColumn(COLUMN_TYPE.DEFAULT)}>
-                            <IconRowInsertTop/>
-                          </ActionIcon>
-                        </Tooltip>
-                      </>
+    <EntityConfigFormProvider form={form}>
+      <Modal {...modalProps} onClose={handleClose} size={"auto"} withinPortal={false}>
+        <Modal.Body>
+          <Stack>
+            <Group>
+              <IconExclamationCircle/>
+              <Text>It is default entity configuration. When you create new entity you get same entity</Text>
+            </Group>
+            <Paper
+              withBorder
+              bg={"var(--mantine-color-dark-6)"}
+              p={"sm"}
+              style={{borderColor: "var(--mantine-primary-color-filled)"}}>
+              <Stack>
+                <Group gap={5}>
+                  <TextInput
+                    {...form.getInputProps("name")}
+                    leftSection={(
+                      <IconTable/>
                     )}
-                    <Box ml={"auto"}/>
-                    <HoverCard closeDelay={50} withinPortal={false}>
-                      <HoverCard.Target>
-                        <ActionIcon variant={"subtle"} size={"lg"} ml={"auto"} color={configData.color}>
-                          <IconPalette/>
-                        </ActionIcon>
-                      </HoverCard.Target>
-                      <HoverCard.Dropdown>
-                        <ColorPicker
-                          value={form.values.color}
-                          onChange={color => setDefaultConfig(user.sub, {color})}
-                          swatchesPerRow={8}
-                          format="hex"
-                          swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']}/>
-                      </HoverCard.Dropdown>
-                    </HoverCard>
-                  </Group>
-                  <EntityConfigTable
-                    columns={form.values.columns}
-                    patchColumn={handleColumnChange}
                   />
-                </Stack>
-              </Paper>
-            </Stack>
-          </Modal.Body>
-        </CustomTheme>
-      </EntityConfigFormProvider>
-    </Modal>
+                  {isColumnsSelected ? (
+                    <ButtonWithConfirm
+                      isDanger
+                      target={(
+                        <Tooltip label={"Delete selected"}>
+                          <ActionIcon size={"lg"}>
+                            <IconTrash/>
+                          </ActionIcon>
+                        </Tooltip>
+                      )}
+                      message={"Are you sure you want to delete selected columns?"}
+                      onConfirm={handleDeleteSelected}
+                    />
+
+                  ) : (
+                    <>
+                      <Tooltip label={"Add primary column"}>
+                        <ActionIcon size={"lg"} onClick={handleAddColumn(DIAGRAM.ENTITY.COLUMN_TYPE.PRIMARY)}>
+                          <IconRowInsertTop color={"var(--mantine-color-yellow-5)"}/>
+                        </ActionIcon>
+                      </Tooltip>
+                      <Tooltip label={"Add default column"}>
+                        <ActionIcon size={"lg"} onClick={handleAddColumn(DIAGRAM.ENTITY.COLUMN_TYPE.DEFAULT)}>
+                          <IconRowInsertTop/>
+                        </ActionIcon>
+                      </Tooltip>
+                    </>
+                  )}
+                  <Box ml={"auto"}/>
+                  <HoverCard closeDelay={50} withinPortal position={"bottom"}>
+                    <HoverCard.Target>
+                      <ActionIcon variant={"subtle"} size={"lg"} ml={"auto"} color={form.values.color}>
+                        <IconPalette/>
+                      </ActionIcon>
+                    </HoverCard.Target>
+                    <HoverCard.Dropdown>
+                      <SimpleGrid spacing={"5px"} cols={5} className={classes.root}>
+                        {DIAGRAM.ENTITY.COLORS.map(color => (
+                          <ActionIcon key={color} variant={"default"}>
+                            <ColorSwatch
+                              size={20}
+                              radius={"xs"}
+                              className={classes.color}
+                              onClick={() => {
+                                form.setFieldValue("color", color)
+                                setEntityConfig({...form.values, color})
+                              }}
+                              color={color}
+                            />
+                          </ActionIcon>
+                        ))}
+                      </SimpleGrid>
+                    </HoverCard.Dropdown>
+                  </HoverCard>
+                </Group>
+                <EntityConfigTable
+                  columns={form.values.columns}
+                  patchColumn={handleColumnChange}
+                />
+              </Stack>
+            </Paper>
+          </Stack>
+        </Modal.Body>
+      </Modal>
+    </EntityConfigFormProvider>
   )
 })

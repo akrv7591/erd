@@ -6,8 +6,8 @@ import React from "react";
 import SearchInput from "@/components/common/SearchInput.tsx";
 import {useReactFlow} from "@xyflow/react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import {useEntities} from "@/hooks/Diagram/useEntities.ts";
-import {EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
+import {useEntities} from "@/hooks";
+import {EntityNode} from "@/types/diagram";
 
 
 export const EntityList = () => {
@@ -18,7 +18,7 @@ export const EntityList = () => {
 
 
   const filteredEntities = React.useMemo(() => {
-    return entities.filter(entity => entity.data.name
+    return entities.filter(entity => entity.data?.name
       .toLowerCase()
       .includes(search.toLowerCase()))
   }, [search, entities])

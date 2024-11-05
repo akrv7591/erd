@@ -1,27 +1,20 @@
-import {FC, memo, useCallback} from "react";
-import styles from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/style.module.css";
+import {FC, memo} from "react";
 import {Center, Input, Table} from "@mantine/core";
 import {TypeIcon} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
-import {useSharedDiagramStore} from "@/contexts/SharedDiagramContext.ts";
-import {EntityColumn} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityColumn} from "@/types/diagram";
+import {useUpdateEntityColumn} from "@/hooks";
 
 interface Props {
   data: EntityColumn
+  patchColumn: ReturnType<typeof useUpdateEntityColumn>
 }
 
 const {Tr, Td} = Table
 
-export const SimplifiedModeColumns: FC<Props> = memo(({data}) => {
-  const setColumnData = useSharedDiagramStore(state => state.setColumnData)
-
-  const patchColumn = useCallback((key: keyof EntityColumn, value: string) => {
-    setColumnData(data.entityId, data.id, {
-      [key]: value
-    })
-  }, [])
+export const SimplifiedModeColumns: FC<Props> = memo(({data, patchColumn}) => {
 
   return (
-    <Tr className={styles.tableRow}>
+    <Tr>
       <Td>
         <Center>
           <TypeIcon data={data}/>

@@ -1,9 +1,5 @@
 .tableRow {
     cursor: grab;
-    border-radius: 5px;
-    &:hover {
-        outline: 1px solid var(--mantine-primary-color-filled) !important
-    }
 }
 
 .tableRowDrag {

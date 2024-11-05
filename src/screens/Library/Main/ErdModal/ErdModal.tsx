@@ -24,7 +24,7 @@ import {Erd} from "@/types/data/db-model-interfaces.ts";
 import {useLibraryStore} from "@/stores/useLibrary.ts";
 import {IconInfoCircle, IconPhoto, IconPhotoX, IconUpload, IconX} from "@tabler/icons-react";
 import {memo, useCallback, useMemo} from "react";
-import {useUser} from "@/hooks/useUser.ts";
+import {useUser} from "@/hooks";
 import {erdApis} from "@/api/erd.ts";
 import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification.ts";
 import {createId} from "@paralleldrive/cuid2";

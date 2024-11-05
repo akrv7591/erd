@@ -14,14 +14,14 @@ import {
 } from "@mantine/core";
 import {Form, useForm} from "@mantine/form";
 import {IconEdit} from "@tabler/icons-react";
-import {useOnMount} from "@/hooks/useOnMount.ts";
+import {useOnMount} from "@/hooks";
 import {useMutation} from "@tanstack/react-query";
 import {userApis} from "@/api/user.ts";
 import {notifications} from "@mantine/notifications";
 import {useMemo} from "react";
 import {LOG_TO} from "@/types/log-to.ts";
 import UserInfo = LOG_TO.UserInfo;
-import {useUser} from "@/hooks/useUser.ts";
+import {useUser} from "@/hooks";
 
 interface Form extends UserInfo {
   profilePicture: File | null

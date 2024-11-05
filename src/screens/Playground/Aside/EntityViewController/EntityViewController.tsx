@@ -1,10 +1,10 @@
 import {Tooltip} from "@mantine/core";
 import {IconLetterE, IconLetterL} from "@tabler/icons-react";
-import {EntityViewMode} from "@/enums/playground.ts";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 import {DiagramStore} from "src/stores/diagram-store";
 import {useShallow} from "zustand/react/shallow";
-import {useDiagramStore} from "@/contexts/DiagramContext";
+import {useDiagramStore} from "@/hooks";
+import {DIAGRAM} from "@/namespaces";
 
 const selector = ({entityViewMode, setEntityViewMode}: DiagramStore) => ({
   entityViewMode,
@@ -13,8 +13,8 @@ const selector = ({entityViewMode, setEntityViewMode}: DiagramStore) => ({
 
 export const EntityViewController = () => {
   const store = useDiagramStore(useShallow(selector))
-  const isEditor = store.entityViewMode === EntityViewMode.EDITOR
-  const toggle = () => store.setEntityViewMode(isEditor? EntityViewMode.LOGICAL: EntityViewMode.EDITOR)
+  const isEditor = store.entityViewMode === DIAGRAM.ENTITY.VIEW_MODE.EDITOR
+  const toggle = () => store.setEntityViewMode(isEditor? DIAGRAM.ENTITY.VIEW_MODE.LOGICAL: DIAGRAM.ENTITY.VIEW_MODE.EDITOR)
   return (
     <Tooltip label={isEditor? "Logical view": "Editor view"} position={"left"}>
       <PlaygroundActionIcon mt={"auto"} onClick={toggle}>

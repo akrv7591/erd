@@ -1,6 +1,6 @@
 import {erdEntityTheme} from "@/config/theme";
 import {MantineProvider} from "@mantine/core";
-import {FC, memo, PropsWithChildren, useMemo} from "react";
+import {FC, memo, PropsWithChildren} from "react";
 
 interface Props extends PropsWithChildren {
   color: string
@@ -8,16 +8,17 @@ interface Props extends PropsWithChildren {
 }
 
 export const CustomTheme: FC<Props> = memo(({id, color, children}) => {
-  const theme = useMemo(() => erdEntityTheme(color), [color])
+  const theme = erdEntityTheme(color)
 
   return (
     <MantineProvider
       defaultColorScheme="dark"
       theme={theme}
-      cssVariablesSelector={`#${id}`}
-      getRootElement={() => document.getElementById(id) || undefined}
+      cssVariablesSelector={`#custom-theme-${id}`}
+      withCssVariables={true}
+      getRootElement={() => document.getElementById("custom-theme-" + id) || undefined}
     >
-      <div id={id}>
+      <div id={"custom-theme-" + id}>
         {children}
       </div>
     </MantineProvider>

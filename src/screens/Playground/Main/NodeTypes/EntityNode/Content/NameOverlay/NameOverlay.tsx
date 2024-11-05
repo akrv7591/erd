@@ -1,9 +1,9 @@
 import {Center, Overlay, Text} from "@mantine/core";
-import {useEntityNodeData} from "@/hooks/useEntityNodeData.ts";
-import {RELATION} from "@/constants/relations.ts";
+import {RELATION} from "@/namespaces";
 import {memo} from "react";
 import {useViewport} from "@xyflow/react";
-import {useDiagramStore} from "@/contexts/DiagramContext";
+import {useDiagramStore} from "@/hooks";
+import {useEntityNode} from "@/hooks";
 
 
 const getTextSize = (zoom: number) => {
@@ -12,13 +12,13 @@ const getTextSize = (zoom: number) => {
   }
 }
 
- export const NameOverlay = memo(() => {
+export const NameOverlay = memo(() => {
   const {zoom} = useViewport()
-  const nodeData = useEntityNodeData()
+  const {data} = useEntityNode()
   const isRelationshipMode = useDiagramStore(state => RELATION.NAME_LIST.includes(state.tool as any))
 
   if (isRelationshipMode) return null
-  if (zoom > 0.3 || !nodeData) return null
+  if (zoom > 0.3) return null
 
   const textStyle = getTextSize(zoom)
 
@@ -26,7 +26,7 @@ const getTextSize = (zoom: number) => {
     <Overlay bg={"var(--mantine-primary-color-light)"}>
       <Center h={"100%"}>
         <Text style={textStyle}>
-          {nodeData.data.name}
+          {data.name}
         </Text>
       </Center>
     </Overlay>

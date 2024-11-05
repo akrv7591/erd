@@ -1,0 +1,7 @@
+.root {
+    overflow: hidden;
+    position: fixed;
+    top: 50px;
+    right: 60px;
+    z-index: 9999;
+}

@@ -4,7 +4,7 @@ import {useForm} from "@mantine/form";
 import {useMutation} from "@tanstack/react-query";
 import {teamInviteUserApi} from "@/api/logto/team.ts";
 import {notifications} from "@mantine/notifications";
-import {useUserTeam} from "@/contexts/UserTeamContext.ts";
+import {useUserTeam} from "@/hooks";
 import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
 import {RoleSelect} from "../RoleSelect";
 

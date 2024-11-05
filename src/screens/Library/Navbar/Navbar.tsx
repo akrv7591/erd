@@ -1,7 +1,7 @@
 import {ActionIcon, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
 import {IconError404, IconPlus} from '@tabler/icons-react';
 import {TeamModal} from "./TeamModal";
-import {useModal} from "@/hooks/useModal.ts";
+import {useModal} from "@/hooks";
 import {memo, useCallback, useMemo} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {userTeamListApi} from "@/api/logto/user.ts";

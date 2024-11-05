@@ -1,6 +1,9 @@
-import {EntityColumn, EntityNode} from "@/providers/shared-diagram-store-provider/type.ts";
+import {EntityColumn, EntityNode} from "@/types/diagram";
 import {createId} from "@paralleldrive/cuid2";
-import {COLUMN_TYPE, DEFAULT_COLUMN_DATA} from "@/constants/erd/column.ts";
+import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
+import {XYPosition} from "@xyflow/react";
+import {DIAGRAM} from "@/namespaces";
+import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column.ts";
 
 export class EntityUtils {
   static generateEntity(defaultData: EntityNode): EntityNode {
@@ -9,6 +12,23 @@ export class EntityUtils {
     }
 
     return  defaultData
+  }
+
+  static genNewEntityNode(position: XYPosition) {
+    const id = createId();
+    const name = "Table"
+    const node: EntityNode = {
+      id,
+      type: NODE_TYPES.ENTITY,
+      position,
+      data: {
+        name,
+        color: "#006ab9",
+        columns: []
+      },
+    };
+
+    return node
   }
 
   static primaryColumn(defaultData: EntityColumn): EntityColumn {
@@ -27,18 +47,27 @@ export class EntityUtils {
     }
   }
 
-  static generateDefaultColumn(type: COLUMN_TYPE, entityId: string, order: number): EntityColumn {
+  static generateDefaultColumn(type: DIAGRAM.ENTITY.COLUMN_TYPE, entityId: string): EntityColumn {
     let column: EntityColumn = {
       ...DEFAULT_COLUMN_DATA,
       id: createId(),
       entityId,
-      order,
     }
 
-    if (type === COLUMN_TYPE.PRIMARY) {
+    if (type === DIAGRAM.ENTITY.COLUMN_TYPE.PRIMARY) {
       column = EntityUtils.primaryColumn(column)
     }
 
     return column
+  }
+
+  static getUpdatedEntityData(entity: EntityNode, dataUpdate: Partial<EntityNode['data']> | ((data: EntityNode['data']) => EntityNode)) {
+    return {
+      ...entity,
+      data: {
+        ...entity.data,
+        ...typeof dataUpdate === "function" ? dataUpdate(entity.data) : dataUpdate
+      }
+    }
   }
 }

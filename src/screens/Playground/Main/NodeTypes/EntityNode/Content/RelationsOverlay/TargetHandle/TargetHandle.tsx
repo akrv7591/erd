@@ -1,27 +1,26 @@
-import { RELATION } from "@/constants/relations.ts";
-import { useEntityNodeData } from "@/hooks/useEntityNodeData.ts";
-import { Handle, Position, useConnection } from "@xyflow/react";
+import { RELATION } from "@/namespaces";
+import {Handle, Position, useConnection} from "@xyflow/react";
 import { memo, useMemo } from "react";
 import { Overlay, Text } from "@mantine/core";
 import classes from "../style.module.css"
-import {useDiagramStore} from "@/contexts/DiagramContext";
+import {useDiagramStore} from "@/hooks";
+import {useEntityNode} from "@/hooks";
 
 export const TargetHandle = memo(() => {
   const tool = useDiagramStore(state => state.tool)
-  const nodeData = useEntityNodeData();
+  const {data, id} = useEntityNode()
   const connection = useConnection();
   const isToolRelation = RELATION.NAME_LIST.includes(tool as any);
   const activeNodeHandle = useMemo(() => {
     if (!isToolRelation) return false
-    if (!nodeData) return false
     if (tool !== RELATION.NAME.MANY_TO_MANY) return true
 
-    return nodeData.columns.some(column => column.primary)
+    return data.columns.some(column => column.primary)
 
-  }, [nodeData, tool, isToolRelation]);
+  }, [data.columns, tool, isToolRelation]);
 
   const isConnecting = !!connection.fromHandle
-  const isSource = connection.fromHandle?.nodeId === nodeData?.id
+  const isSource = connection.fromHandle?.nodeId === id
 
   let className = classes.erdNodeHandle
   let label = "Drop here to connect"
@@ -33,14 +32,14 @@ export const TargetHandle = memo(() => {
     const startNodeId = connection.toHandle?.nodeId
 
     if (isSource) {
-      label = nodeData?.data.name || "Source"
+      label = data.name || "Source"
     }
 
     if (tool === RELATION.NAME.MANY_TO_MANY && !activeNodeHandle) {
       label = "Need at least 1 primary key to connect"
     } else {
-      if (startNodeId !== endNodeId && endNodeId === nodeData?.id) {
-        label = nodeData?.data.name || "Source"
+      if (startNodeId !== endNodeId && endNodeId === id) {
+        label = data.name || "Source"
       }
     }
 
