@@ -2,8 +2,6 @@ import {AppShell, Button, Group} from "@mantine/core";
 import {Header} from "@/components/common/Header";
 import {IconBooks} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
-// import Main from "@/screens/Home/Main/Main";
-// import {ReactFlowProvider} from "@xyflow/react";
 
 export default function Home() {
   return (

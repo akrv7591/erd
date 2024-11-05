@@ -2,11 +2,9 @@ import {AppShell} from "@mantine/core";
 import {Header} from "@/components/common/Header";
 import {Navbar} from "@/screens/Library/Navbar";
 import {Main} from "@/screens/Library/Main/Main";
-import {memo} from "react";
 import {useLibraryStore} from "@/stores/useLibrary";
 
-
-export const Library = memo(() => {
+export default function Library() {
   const team = useLibraryStore(state => state.team)
 
   return (
@@ -31,4 +29,4 @@ export const Library = memo(() => {
       </AppShell.Main>
     </AppShell>
   )
-})
+}

@@ -1,17 +1,19 @@
 import {createBrowserRouter, createRoutesFromElements, Route} from "react-router-dom";
 import {ProtectedRoute} from "@/components/auth/ProtectedRoute";
-import Home from "@/screens/Home";
-import NotFound from "@/screens/NotFound";
-import {Library} from "@/screens/Library";
-import VerifyEmail from "@/screens/VerifyEmail";
-import PrivacyPolicy from "@/screens/PrivacyPolicy";
-import TermsOfService from "@/screens/TermsOfService";
-import JoinTeam from "@/screens/JoinTeam";
-import {Playground} from "@/screens/Playground";
-import ProfileSetting from "@/screens/ProfileSetting"
-import {LogToCallback} from "@/screens/LogToCallback/LogToCallback";
 import {ReactFlowProvider} from "@xyflow/react";
 import {DiagramProvider} from "@/providers/DiagramProvider";
+import {lazy} from "react";
+
+const Home = lazy(() => import("@/screens/Home"))
+const NotFound = lazy(() => import("@/screens/NotFound"))
+const Library = lazy(() => import( "@/screens/Library"))
+const PrivacyPolicy = lazy(() => import( "@/screens/PrivacyPolicy"))
+const TermsOfService = lazy(() => import( "@/screens/TermsOfService"))
+const JoinTeam = lazy(() => import( "@/screens/JoinTeam"))
+const Playground = lazy(() => import( "@/screens/Playground"))
+const ProfileSetting = lazy(() => import( "@/screens/ProfileSetting"))
+const LogToCallback = lazy(() => import( "@/screens/LogToCallback"))
+
 
 
 export const routes = createBrowserRouter(
@@ -19,11 +21,6 @@ export const routes = createBrowserRouter(
     <>
       {/*Home*/}
       <Route index element={<Home/>}/>
-
-      <Route path={"profile"} element={<ProtectedRoute/>}>
-        <Route index element={<ProfileSetting/>}/>
-        <Route path={"setting"} element={<ProfileSetting/>}/>
-      </Route>
 
       {/*Library*/}
       <Route path={"library"} element={<ProtectedRoute/>}>
@@ -37,8 +34,11 @@ export const routes = createBrowserRouter(
         )}/>
       </Route>
 
-      {/*Verify Email*/}
-      <Route path={"verify-email/:emailUuid"} element={<VerifyEmail/>}/>
+      {/*ProfileSetting*/}
+      <Route path={"profile"} element={<ProtectedRoute/>}>
+        <Route index element={<ProfileSetting/>}/>
+        <Route path={"setting"} element={<ProfileSetting/>}/>
+      </Route>
 
       {/*Privacy and Policy*/}
       <Route path={"privacy-policy"} element={<PrivacyPolicy/>}/>

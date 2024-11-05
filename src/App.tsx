@@ -7,11 +7,10 @@ import {HelmetProvider} from 'react-helmet-async';
 import {LogtoProvider} from "@logto/react";
 import {config} from "@/config/config";
 import {Router} from "@/routers/Router";
-import {memo} from "react";
 
 const queryClient = new QueryClient()
 
-export const App = memo(() => {
+export const App = () => {
   return (
     <LogtoProvider config={config.logTo}>
       <QueryClientProvider client={queryClient}>
@@ -24,4 +23,4 @@ export const App = memo(() => {
       </QueryClientProvider>
     </LogtoProvider>
   );
-})
+}

@@ -1,6 +1,6 @@
 import {ActionIcon, Avatar, Badge, Group, Image, TextInput, Tooltip} from "@mantine/core";
 import {IconTrash, IconUser} from "@tabler/icons-react";
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {notifications} from "@mantine/notifications";
 import {memo, useCallback, useMemo, useState} from "react";

@@ -1,6 +1,5 @@
-import {ModalBaseProps} from "@/components/common/ModalBase";
 import {Modal, Stack, TextInput} from "@mantine/core";
-import ModalForm from "@/components/common/ModalForm";
+import {ModalForm, ModalBaseProps} from "@/components/common/Modal";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {UserList} from "./UserList";
 import {memo, useCallback, useMemo, useState} from "react";

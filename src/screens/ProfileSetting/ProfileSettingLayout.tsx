@@ -1,6 +1,6 @@
 import {AppShell} from "@mantine/core";
 import {Header} from "@/components/common/Header";
-import ProfileSettingMain from "@/screens/ProfileSetting/ProfileSettingMain";
+import Index from "@/screens/ProfileSetting/index";
 import {ProfileContextProvider} from "@/screens/ProfileSetting/ProfileContext";
 
 const ProfileSettingLayout = () => {
@@ -15,7 +15,7 @@ const ProfileSettingLayout = () => {
           <Header/>
         </AppShell.Header>
         <AppShell.Main>
-          <ProfileSettingMain/>
+          <Index/>
         </AppShell.Main>
       </AppShell>
     </ProfileContextProvider>

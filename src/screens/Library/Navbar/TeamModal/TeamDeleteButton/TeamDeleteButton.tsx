@@ -1,5 +1,5 @@
 import {memo} from "react";
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {Button, Group} from "@mantine/core";
 import {IconTrash} from "@tabler/icons-react";
 import {useUserTeam} from "@/hooks";

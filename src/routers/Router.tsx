@@ -1,9 +1,9 @@
 import {RouterProvider} from "react-router-dom";
 import {useLogto} from "@logto/react";
 import {routes} from "@/routers/routes";
-import {memo, useEffect} from "react";
+import {memo, Suspense, useEffect} from "react";
 import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
-import LoadingBackdrop from "@/components/common/LoadingBackdrop";
+import {LoadingBackdrop} from "@/components/common/LoadingBackdrop";
 
 export const Router = memo(() => {
   const logTo = useLogto()
@@ -29,7 +29,9 @@ export const Router = memo(() => {
   }
 
   return (
-    <RouterProvider router={routes} />
+    <Suspense fallback={null}>
+      <RouterProvider router={routes} />
+    </Suspense>
   )
 })
 

@@ -19,7 +19,7 @@ import {EntityConfigTable} from "@/screens/Playground/Header/EntityConfig/Entity
 import {EntityColumn, EntityData} from "@/types/diagram";
 import {EntityUtils} from "@/utility/EntityUtils";
 import {EntityConfigFormProvider, useEntityConfigForm} from "./EntityContextForm";
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {useDiagramStore} from "@/hooks";
 import {DIAGRAM} from "@/namespaces";
 import classes from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/style.module.css";

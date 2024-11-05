@@ -1,6 +1,6 @@
 import {ActionIcon, Indicator, Tooltip} from "@mantine/core"
 import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
-import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
+import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {memo, useCallback, useMemo} from "react";
 import {useEntityNode} from "@/hooks";
 import {createId} from "@paralleldrive/cuid2";

@@ -5,7 +5,7 @@ import {ProfileSettingTab} from "@/screens/ProfileSetting/constants";
 import classes from "@/screens/ProfileSetting/style.module.css";
 import SecurityPanel from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel";
 
-const ProfileSettingMain = () => {
+export default function ProfileSetting () {
   const {selectedTab, onTabChange} = useProfile()
   return (
     <Box>
@@ -42,5 +42,3 @@ const ProfileSettingMain = () => {
     </Box>
   )
 }
-
-export default ProfileSettingMain

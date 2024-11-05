@@ -1,11 +1,11 @@
 import {Center, Loader, Overlay, OverlayProps, Stack, Text} from "@mantine/core";
-import {ReactNode} from "react";
+import {FC, memo, ReactNode} from "react";
 
 interface Props extends OverlayProps {
   title?: string | ReactNode
 }
 
-export default function LoadingBackdrop({title, ...overlayProps}: Props) {
+export const LoadingBackdrop: FC<Props> = memo(({title, ...overlayProps}) => {
   return (
     <Overlay {...overlayProps}>
       <Center h={"100%"} w={"100%"}>
@@ -18,4 +18,4 @@ export default function LoadingBackdrop({title, ...overlayProps}: Props) {
       </Center>
     </Overlay>
   )
-}
+})

@@ -16,8 +16,7 @@ import {
   TextInput,
   Tooltip
 } from "@mantine/core";
-import {ModalBaseProps} from "@/components/common/ModalBase";
-import ModalForm from "@/components/common/ModalForm";
+import {ModalForm, ModalBaseProps} from "@/components/common/Modal";
 import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Erd} from "@/types/data/db-model-interfaces";

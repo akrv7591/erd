@@ -4,23 +4,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="applied filter for undo manager">
-      <change afterPath="$PROJECT_DIR$/src/hooks/useDiagramStore.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useEntityNode.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useMemoNode.ts" afterDir="false" />
+    <list default="true" id="af0e6768-47e3-47b8-bedf-fbfc96021271" name="Changes" comment="- @hooks folder structure is updated">
+      <change afterPath="$PROJECT_DIR$/src/components/common/Account/Account.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/AppLogo/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/ButtonWithConfirm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/LoadingBackdrop/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/Modal/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/Modal/type.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/common/SearchInput/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useDiagramStore.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useEntityNode.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/Diagram/useMemoNode.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useClient.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useClient.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useDiagramEventHandlers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useDiagramEventHandlers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useEntities.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useEntities.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useErd.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useErd.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useNodes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useNodes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/usePeerBroadcast.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/usePeerBroadcast.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/diagram/useUpdateEntityColumn.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useUpdateEntityColumn.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Account/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Account/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ArrayOf.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/style.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/ButtonWithConfirm/style.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/CustomRoute.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Header/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/LoadingBackdrop.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/LoadingBackdrop/LoadingBackdrop.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/Logo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/AppLogo/AppLogo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ModalBase/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ModalFooter/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Modal/ModalFooter.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ModalForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Modal/ModalForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/SearchInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/SearchInput/SearchInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/ThemeToggle/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/Router.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/Router.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routers/routes.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/routes.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Home/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Home/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/JoinTeam/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/JoinTeam/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Header/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Header/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Library.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/ErdModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Main/ErdModal/ErdModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/TeamDeleteButton/TeamDeleteButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/TeamDeleteButton/TeamDeleteButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/TeamModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/TeamModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserList/UserWithRole/UserWithRole.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Library/Navbar/TeamModal/UserList/UserWithRole/UserWithRole.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Library/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/LogToCallback/LogToCallback.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/LogToCallback/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/EntityList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Aside/EntityList/EntityList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/RowControls.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/RowControls/RowControls.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/Playground.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Playground/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Playground/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/ProfileSettingLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ProfileSetting/ProfileSettingLayout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/ProfileSettingMain.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ProfileSetting/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/ProfileSetting/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/VerifyEmail/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/VerifyEmail/style.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <list id="95aebc0f-8308-4a97-9db2-a1126aeaf42c" name="DontChanges" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,14 +115,14 @@
     "WebServerToolWindowFactoryState": "false",
     "com.codeium.enabled": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/akrv/Dev/React/personal/erdiagramly/src/providers/zustand-yjs/diagram-store/stores",
+    "last_opened_file_path": "/Users/akrv/Dev/React/personal/erdiagramly/src/components/common/SearchInput",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/akrv/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "settings.editor.selected.configurable": "settings.typescriptcompiler",
+    "ts.external.directory.path": "/Users/akrv/Dev/React/personal/erdiagramly/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -99,11 +133,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/diagram-store/stores" />
-      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/shared-diagram-store/stores" />
-      <recent name="$PROJECT_DIR$/src/hooks/Diagram" />
-      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs/shared-diagram-store" />
-      <recent name="$PROJECT_DIR$/src/providers/zustand-yjs" />
+      <recent name="$PROJECT_DIR$/src/components/common/SearchInput" />
+      <recent name="$PROJECT_DIR$/src/components/common/Logo" />
+      <recent name="$PROJECT_DIR$/src/components/common/LoadingBackdrop" />
+      <recent name="$PROJECT_DIR$/src/components/common/Account" />
+      <recent name="$PROJECT_DIR$/src/components/common/ButtonWithConfirm" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/hooks" />
@@ -278,14 +312,6 @@
       <workItem from="1723593577850" duration="2131000" />
       <workItem from="1724655301779" duration="40716000" />
       <workItem from="1724893308609" duration="32751000" />
-    </task>
-    <task id="LOCAL-00144" summary="Added memo delete function">
-      <option name="closed" value="true" />
-      <created>1710812190182</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1710812190182</updated>
     </task>
     <task id="LOCAL-00145" summary="updated MemoNode styles">
       <option name="closed" value="true" />
@@ -671,7 +697,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724986442312</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="- @hooks folder structure is updated">
+      <option name="closed" value="true" />
+      <created>1730785063574</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1730785063574</updated>
+    </task>
+    <option name="localTasksCounter" value="194" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -690,7 +724,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fixed some bugs" />
     <MESSAGE value="fixed create team bug" />
     <MESSAGE value="default notification position changed to right-bottom" />
     <MESSAGE value="Temporary performance improvement" />
@@ -715,7 +748,8 @@
     <MESSAGE value="applied DefaultTable" />
     <MESSAGE value="updated default entity config" />
     <MESSAGE value="applied filter for undo manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="applied filter for undo manager" />
+    <MESSAGE value="- @hooks folder structure is updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="- @hooks folder structure is updated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

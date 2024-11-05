@@ -1,11 +1,12 @@
 import {TextInput, TextInputProps} from "@mantine/core";
 import {IconSearch} from "@tabler/icons-react";
+import {FC, memo} from "react";
 
-interface Props extends Omit<TextInputProps , 'onChange'>{
+interface Props extends Omit<TextInputProps, 'onChange'> {
   onChange: (v: string) => void
 }
 
-export default function SearchInput({onChange, ...props}: Props) {
+export const SearchInput: FC<Props> = memo(({onChange, ...props}: Props) => {
   return (
     <TextInput
       onChange={e => onChange(e.target.value)}
@@ -13,5 +14,4 @@ export default function SearchInput({onChange, ...props}: Props) {
       {...props}
     />
   )
-
-}
+})

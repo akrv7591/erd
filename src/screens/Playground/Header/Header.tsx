@@ -1,5 +1,5 @@
 import {Avatar, Group} from "@mantine/core";
-import Logo from "@/components/common/Logo";
+import {AppLogo} from "@/components/common/AppLogo";
 import {Title} from "./Title";
 import {ExitButton} from "./ExitButton";
 import {memo} from "react";
@@ -12,7 +12,7 @@ export const Header = memo(() => {
   const clients = useDiagramStore(state => state.clients)
   return (
     <Group align={"center"} gap={"5px"} px={"5px"} h={"100%"}>
-      <Logo/>
+      <AppLogo/>
       <Title/>
       <EntityConfig />
       <UndoRedo />

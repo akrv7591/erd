@@ -1,9 +1,9 @@
 import {useHandleSignInCallback,} from "@logto/react";
 import {useNavigate} from "react-router-dom";
-import LoadingBackdrop from "@/components/common/LoadingBackdrop";
+import {LoadingBackdrop} from "@/components/common/LoadingBackdrop";
 import StorageUtils from "@/utility/StorageUtils";
 
-export const LogToCallback = () => {
+export default function LogToCallback() {
   const navigate = useNavigate()
 
   const signInCallback = useHandleSignInCallback(() => {

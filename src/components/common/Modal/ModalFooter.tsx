@@ -1,11 +1,12 @@
 import {Button, Grid} from "@mantine/core";
+import {memo} from "react";
 
 interface Props {
   onClose: () => void
   loading?: boolean
 }
 
-export default function ModalFooter(props: Props) {
+export const ModalFooter = memo((props: Props) => {
   return (
     <Grid mt={20}>
       <Grid.Col span={6}>
@@ -16,4 +17,4 @@ export default function ModalFooter(props: Props) {
       </Grid.Col>
     </Grid>
   )
-}
+})

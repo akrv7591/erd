@@ -1,8 +1,7 @@
 import {AppShell, Button, Center, Group, Loader, Stack, Text, Title} from "@mantine/core";
 import {Link, Navigate, useParams} from "react-router-dom";
 import {useMutation} from "@tanstack/react-query";
-import {DotLottiePlayer} from '@dotlottie/react-player';
-import '@dotlottie/react-player/dist/index.css';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Header from "@/screens/Library/Header";
 import {useOnMount} from "@/hooks";
 import {teamInvitationJoinApi} from "@/api/logto/team";
@@ -17,7 +16,7 @@ const LottieAnimation = memo((props: {animationDataUrl: string}) => {
     )
   }
   return (
-    <DotLottiePlayer
+    <DotLottieReact
       autoplay={true}
       src={props.animationDataUrl}
       style={{width: "200px"}}
