@@ -28,7 +28,6 @@
   "include": [
     "src",
     "node_modules/cypress/types/cypress-global-vars.d.ts",
-    "src/types/zustand-middleware-yjs.d.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
