@@ -1,4 +1,4 @@
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 
 export const useUser = () => {
   const user = useLogToAuthStore(state => state.user)
