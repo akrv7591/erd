@@ -5,7 +5,7 @@ import {Stack} from "@mantine/core";
 import {IconButton} from "./IconButton";
 
 // Constants
-import {EntityActions} from "./constants.ts";
+import {EntityActions} from "./constants";
 import {useEntities} from "@/hooks";
 import {memo} from "react";
 

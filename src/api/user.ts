@@ -1,7 +1,7 @@
-import erdApi from "@/api/erdApi.ts";
-import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
+import erdApi from "@/api/erdApi";
+import {PasswordSetForm} from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel";
 import {QueryFunction} from "@tanstack/react-query";
-import {User} from "@/types/log-to/user.ts";
+import {User} from "@/types/log-to/user";
 
 const profileUpdate = (data: FormData) => erdApi.patch(`/v1/users/${data.get("id")}`, data)
   .then(async (res) => {

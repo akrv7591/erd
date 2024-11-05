@@ -1,6 +1,6 @@
 import {NavLink, Stack, Title} from "@mantine/core";
-import {ProfileSettingTab} from "@/screens/ProfileSetting/constants.ts";
-import {useProfile} from "@/screens/ProfileSetting/ProfileContext.tsx";
+import {ProfileSettingTab} from "@/screens/ProfileSetting/constants";
+import {useProfile} from "@/screens/ProfileSetting/ProfileContext";
 import classes from "./style.module.css"
 
 const ProfileSettingNavbar = () => {

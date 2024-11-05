@@ -1,1 +1,1 @@
-export {FullScreenView} from "./FullScreenView.tsx"
+export {FullScreenView} from "./FullScreenView"

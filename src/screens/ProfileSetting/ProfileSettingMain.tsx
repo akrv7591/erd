@@ -1,9 +1,9 @@
 import {Box, Container, Divider, Tabs, Title} from "@mantine/core";
-import GeneralPanel from "@/screens/ProfileSetting/Panel/GeneralPanel.tsx";
-import {useProfile} from "@/screens/ProfileSetting/ProfileContext.tsx";
-import {ProfileSettingTab} from "@/screens/ProfileSetting/constants.ts";
+import GeneralPanel from "@/screens/ProfileSetting/Panel/GeneralPanel";
+import {useProfile} from "@/screens/ProfileSetting/ProfileContext";
+import {ProfileSettingTab} from "@/screens/ProfileSetting/constants";
 import classes from "@/screens/ProfileSetting/style.module.css";
-import SecurityPanel from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel.tsx";
+import SecurityPanel from "@/screens/ProfileSetting/Panel/SecurityPanel/SecurityPanel";
 
 const ProfileSettingMain = () => {
   const {selectedTab, onTabChange} = useProfile()

@@ -16,7 +16,7 @@ import {
   WebrtcSlice
 } from "./slices";
 import {createStore} from "zustand";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 
 
 export type DiagramStore = { reactflow: ReactFlowInstance }

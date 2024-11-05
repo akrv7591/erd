@@ -1,4 +1,4 @@
-import {Roles} from "@/types/log-to/roles.ts";
+import {Roles} from "@/types/log-to/roles";
 
 export interface UserTeam {
   tenantId: string

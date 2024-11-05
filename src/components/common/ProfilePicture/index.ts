@@ -1,1 +1,1 @@
-export {ProfilePicture} from "./ProfilePicture.tsx"
+export {ProfilePicture} from "./ProfilePicture"

@@ -1,8 +1,8 @@
 import {QueryFunction} from "@tanstack/react-query";
-import {UserTeam} from "@/types/log-to/user-team.ts";
-import erdApi from "@/api/erdApi.ts";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+import {UserTeam} from "@/types/log-to/user-team";
+import erdApi from "@/api/erdApi";
+import {useLibraryStore} from "@/stores/useLibrary";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 
 const userTeamListApi: QueryFunction<UserTeam[], [string]> = async () => {
   return erdApi.get<UserTeam[]>(`/v1/users/teams`,)

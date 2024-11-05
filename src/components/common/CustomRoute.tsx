@@ -1,9 +1,9 @@
 import {Route, RouteProps} from "react-router-dom";
 import {FC, memo, PropsWithChildren, useEffect} from "react";
 import {useLogto} from "@logto/react";
-import StorageUtils from "@/utility/StorageUtils.ts";
-import {config} from "@/config/config.ts";
-import LoadingBackdrop from "@/components/common/LoadingBackdrop.tsx";
+import StorageUtils from "@/utility/StorageUtils";
+import {config} from "@/config/config";
+import LoadingBackdrop from "@/components/common/LoadingBackdrop";
 
 type Props = RouteProps & {
   protected?: boolean

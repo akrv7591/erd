@@ -1,6 +1,6 @@
 import { Socket as SocketIoType } from "socket.io-client";
 import { SOCKET } from "@/namespaces";
-import {Erd} from "@/types/data/db-model-interfaces.ts";
+import {Erd} from "@/types/data/db-model-interfaces";
 import {DataBroadcast} from "@/types/diagram";
 
 type WithAcknowledgement<T> = (

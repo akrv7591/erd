@@ -1,6 +1,6 @@
 import {QueryFunction} from "@tanstack/react-query";
-import erdApi from "@/api/erdApi.ts";
-import {StaticFile} from "@/types/data/db-model-interfaces.ts";
+import erdApi from "@/api/erdApi";
+import {StaticFile} from "@/types/data/db-model-interfaces";
 
 const detail: QueryFunction<StaticFile, [string, string]> = async ({queryKey}) => {
   const [_, staticFileId] = queryKey

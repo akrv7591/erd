@@ -6,7 +6,7 @@ import {StoreApi} from "zustand";
 import {NodeType, DataBroadcast} from "@/types/diagram"
 import randomColor from "randomcolor";
 import {BROADCAST, SOCKET} from "@/namespaces";
-import {config} from "@/config/config.ts";
+import {config} from "@/config/config";
 
 export class WebrtcService {
   id: string = createId();

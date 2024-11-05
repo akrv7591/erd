@@ -1,4 +1,4 @@
-import {ITools} from "@/types/entity-node.ts";
+import {ITools} from "@/types/entity-node";
 import React from "react";
 
 export interface EntityControl {

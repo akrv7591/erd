@@ -1,6 +1,6 @@
 import {memo} from "react";
 import {getSmoothStepPath} from "@xyflow/react";
-import {getEdgeParams} from "@/screens/Playground/Main/utils.ts";
+import {getEdgeParams} from "@/screens/Playground/Main/utils";
 import "./style.css"
 import {EntityNode} from "@/types/diagram";
 

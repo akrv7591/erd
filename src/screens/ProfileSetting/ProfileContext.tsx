@@ -1,5 +1,5 @@
 import {createContext, FC, PropsWithChildren, useCallback, useContext, useState} from "react";
-import {ProfileSettingTab} from "@/screens/ProfileSetting/constants.ts";
+import {ProfileSettingTab} from "@/screens/ProfileSetting/constants";
 
 
 interface ProfileContext {

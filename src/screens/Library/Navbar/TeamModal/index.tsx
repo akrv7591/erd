@@ -1,1 +1,1 @@
-export {TeamModal} from "./TeamModal.tsx"
+export {TeamModal} from "./TeamModal"

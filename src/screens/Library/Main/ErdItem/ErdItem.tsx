@@ -1,5 +1,5 @@
 import {memo, MouseEventHandler} from "react";
-import type {Erd} from "@/types/data/db-model-interfaces.ts";
+import type {Erd} from "@/types/data/db-model-interfaces";
 import {ActionIcon, Badge, Card, Center, Group, Image, Overlay, Text, Tooltip} from "@mantine/core";
 import LogoSquare from "@/assets/svgs/logo-square-custom.svg"
 import {useHover} from "@mantine/hooks";
@@ -8,7 +8,7 @@ import classes from "./style.module.css";
 import {useModal} from "@/hooks";
 import {ErdModal} from "@/screens/Library/Main/ErdModal";
 import {Link} from "react-router-dom";
-import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider.tsx";
+import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider";
 
 
 interface Props {

@@ -1,6 +1,6 @@
 import {Group} from "@mantine/core";
 import "./styles.css"
-import Logo from "@/components/common/Logo.tsx";
+import Logo from "@/components/common/Logo";
 import Account from "@/components/common/Account";
 import {FC, memo, PropsWithChildren} from "react";
 import {userAuthorized} from "@/hooks";

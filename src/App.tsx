@@ -5,8 +5,8 @@ import '@mantine/notifications/styles.css';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {HelmetProvider} from 'react-helmet-async';
 import {LogtoProvider} from "@logto/react";
-import {config} from "@/config/config.ts";
-import {Router} from "@/routers/Router.tsx";
+import {config} from "@/config/config";
+import {Router} from "@/routers/Router";
 import {memo} from "react";
 
 const queryClient = new QueryClient()

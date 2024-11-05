@@ -1,4 +1,4 @@
-import {Erd} from "@/types/data/db-model-interfaces.ts";
+import {Erd} from "@/types/data/db-model-interfaces";
 import {notifications} from "@mantine/notifications";
 
 

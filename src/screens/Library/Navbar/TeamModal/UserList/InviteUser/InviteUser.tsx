@@ -2,10 +2,10 @@ import {memo} from "react";
 import {Button, Card, Group, Stack, TextInput, Tooltip} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useMutation} from "@tanstack/react-query";
-import {teamInviteUserApi} from "@/api/logto/team.ts";
+import {teamInviteUserApi} from "@/api/logto/team";
 import {notifications} from "@mantine/notifications";
 import {useUserTeam} from "@/hooks";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 import {RoleSelect} from "../RoleSelect";
 
 type Props = {

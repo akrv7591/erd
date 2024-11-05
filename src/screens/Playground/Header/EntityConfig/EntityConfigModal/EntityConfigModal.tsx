@@ -15,10 +15,10 @@ import {
   Tooltip
 } from "@mantine/core";
 import {IconExclamationCircle, IconPalette, IconRowInsertTop, IconTable, IconTrash} from "@tabler/icons-react";
-import {EntityConfigTable} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable.tsx";
+import {EntityConfigTable} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityConfigTable";
 import {EntityColumn, EntityData} from "@/types/diagram";
-import {EntityUtils} from "@/utility/EntityUtils.ts";
-import {EntityConfigFormProvider, useEntityConfigForm} from "./EntityContextForm.ts";
+import {EntityUtils} from "@/utility/EntityUtils";
+import {EntityConfigFormProvider, useEntityConfigForm} from "./EntityContextForm";
 import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {useDiagramStore} from "@/hooks";
 import {DIAGRAM} from "@/namespaces";

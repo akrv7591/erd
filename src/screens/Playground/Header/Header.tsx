@@ -1,5 +1,5 @@
 import {Avatar, Group} from "@mantine/core";
-import Logo from "@/components/common/Logo.tsx";
+import Logo from "@/components/common/Logo";
 import {Title} from "./Title";
 import {ExitButton} from "./ExitButton";
 import {memo} from "react";

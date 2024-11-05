@@ -1,1 +1,1 @@
-export { NameOverlay } from "./NameOverlay.tsx"
+export { NameOverlay } from "./NameOverlay"

@@ -1,1 +1,1 @@
-export { SourceHandle } from "./SourceHandle.tsx"
+export { SourceHandle } from "./SourceHandle"

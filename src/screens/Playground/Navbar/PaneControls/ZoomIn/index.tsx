@@ -1,1 +1,1 @@
-export {ZoomIn} from "./ZoomIn.tsx"
+export {ZoomIn} from "./ZoomIn"

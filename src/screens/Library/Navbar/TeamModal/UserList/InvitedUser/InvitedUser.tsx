@@ -1,6 +1,6 @@
 import {Badge, Group, TextInput} from "@mantine/core";
 import {memo} from "react";
-import {TeamInvitationResponse} from "@/types/log-to/team-invitation.ts";
+import {TeamInvitationResponse} from "@/types/log-to/team-invitation";
 
 interface Props {
   user: TeamInvitationResponse

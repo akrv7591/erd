@@ -1,1 +1,1 @@
-export {ColorChangeInput} from "./ColorChangeInput.tsx"
+export {ColorChangeInput} from "./ColorChangeInput"

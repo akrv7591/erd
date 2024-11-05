@@ -4,12 +4,12 @@ import ModalForm from "@/components/common/ModalForm";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {UserList} from "./UserList";
 import {memo, useCallback, useMemo, useState} from "react";
-import {UserTeam} from "@/types/log-to/user-team.ts";
+import {UserTeam} from "@/types/log-to/user-team";
 import {useForm} from "@mantine/form";
-import {UserTeamProvider} from "@/providers/UserTeamProvider.tsx";
-import {TeamApi} from "@/api/logto/team.ts";
+import {UserTeamProvider} from "@/providers/UserTeamProvider";
+import {TeamApi} from "@/api/logto/team";
 import {TeamDeleteButton} from "./TeamDeleteButton";
-import {TeamNotification} from "./team-notification.ts";
+import {TeamNotification} from "./team-notification";
 
 interface Props extends ModalBaseProps {
   team: UserTeam | null

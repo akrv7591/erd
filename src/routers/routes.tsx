@@ -9,9 +9,9 @@ import TermsOfService from "@/screens/TermsOfService";
 import JoinTeam from "@/screens/JoinTeam";
 import {Playground} from "@/screens/Playground";
 import ProfileSetting from "@/screens/ProfileSetting"
-import {LogToCallback} from "@/screens/LogToCallback/LogToCallback.tsx";
+import {LogToCallback} from "@/screens/LogToCallback/LogToCallback";
 import {ReactFlowProvider} from "@xyflow/react";
-import {DiagramProvider} from "@/providers/DiagramProvider.tsx";
+import {DiagramProvider} from "@/providers/DiagramProvider";
 
 
 export const routes = createBrowserRouter(

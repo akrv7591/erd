@@ -4,7 +4,7 @@ import ButtonWithConfirm from "@/components/common/ButtonWithConfirm";
 import {memo, useCallback, useMemo} from "react";
 import {useEntityNode} from "@/hooks";
 import {createId} from "@paralleldrive/cuid2";
-import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column.ts";
+import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
 
 export const RowControls = memo(() => {
   const {data: entityData, id: entityId, onChange} = useEntityNode()

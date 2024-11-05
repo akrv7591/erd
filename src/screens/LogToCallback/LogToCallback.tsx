@@ -1,7 +1,7 @@
 import {useHandleSignInCallback,} from "@logto/react";
 import {useNavigate} from "react-router-dom";
-import LoadingBackdrop from "@/components/common/LoadingBackdrop.tsx";
-import StorageUtils from "@/utility/StorageUtils.ts";
+import LoadingBackdrop from "@/components/common/LoadingBackdrop";
+import StorageUtils from "@/utility/StorageUtils";
 
 export const LogToCallback = () => {
   const navigate = useNavigate()

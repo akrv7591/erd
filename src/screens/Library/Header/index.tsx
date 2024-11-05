@@ -1,6 +1,6 @@
 import {Group} from "@mantine/core";
 import Account from "@/components/common/Account";
-import Logo from "@/components/common/Logo.tsx";
+import Logo from "@/components/common/Logo";
 
 export default function Header() {
   return (

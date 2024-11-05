@@ -1,10 +1,10 @@
 import {create} from "zustand";
-import {LOG_TO} from "@/types/log-to.ts";
-import StorageUtils from "@/utility/StorageUtils.ts";
+import {LOG_TO} from "@/types/log-to";
+import StorageUtils from "@/utility/StorageUtils";
 import {useLogto} from "@logto/react"
-import {config} from "@/config/config.ts";
-import {roleApis} from "@/api/logto/role.ts";
-import {Roles} from "@/types/log-to/roles.ts";
+import {config} from "@/config/config";
+import {roleApis} from "@/api/logto/role";
+import {Roles} from "@/types/log-to/roles";
 
 interface LogToAuthStoreState {
   authorized: boolean

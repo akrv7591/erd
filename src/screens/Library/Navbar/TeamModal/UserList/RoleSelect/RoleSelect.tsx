@@ -2,7 +2,7 @@ import {memo, useCallback, useMemo, useState} from "react";
 import {ComboboxData, ComboboxItem, Group, Loader, Select, Text, Tooltip} from "@mantine/core";
 import {IconCheck} from "@tabler/icons-react";
 import {useUserTeam} from "@/hooks";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 import voca from "voca";
 import {useHover} from "@mantine/hooks";
 

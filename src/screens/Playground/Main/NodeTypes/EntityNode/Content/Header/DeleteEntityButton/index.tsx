@@ -1,1 +1,1 @@
-export {DeleteEntityButton} from "./DeleteEntityButton.tsx"
+export {DeleteEntityButton} from "./DeleteEntityButton"

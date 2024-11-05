@@ -1,7 +1,7 @@
 import {AppShell} from "@mantine/core";
 import {Header} from "@/components/common/Header";
-import ProfileSettingMain from "@/screens/ProfileSetting/ProfileSettingMain.tsx";
-import {ProfileContextProvider} from "@/screens/ProfileSetting/ProfileContext.tsx";
+import ProfileSettingMain from "@/screens/ProfileSetting/ProfileSettingMain";
+import {ProfileContextProvider} from "@/screens/ProfileSetting/ProfileContext";
 
 const ProfileSettingLayout = () => {
   return (

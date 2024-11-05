@@ -1,1 +1,1 @@
-export { default } from "./SecurityPanel.tsx"
+export { default } from "./SecurityPanel"

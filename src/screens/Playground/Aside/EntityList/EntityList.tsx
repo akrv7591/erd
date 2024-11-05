@@ -3,7 +3,7 @@ import {IconList, IconTrash} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
 import classes from "./style.module.css";
 import React from "react";
-import SearchInput from "@/components/common/SearchInput.tsx";
+import SearchInput from "@/components/common/SearchInput";
 import {useReactFlow} from "@xyflow/react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 import {useEntities} from "@/hooks";

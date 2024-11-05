@@ -1,6 +1,6 @@
 import axios, {type AxiosResponse, type InternalAxiosRequestConfig} from "axios";
-import StorageUtils from "@/utility/StorageUtils.ts";
-import {config} from "@/config/config.ts";
+import StorageUtils from "@/utility/StorageUtils";
+import {config} from "@/config/config";
 
 const baseURL = config.server.baseUrl
 const REFRESH_URL = "/v1/auth/refresh"

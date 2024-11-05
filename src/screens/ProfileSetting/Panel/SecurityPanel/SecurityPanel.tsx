@@ -1,15 +1,15 @@
 import {Button, Card, Group, Input, PasswordInput, Stack, Title} from "@mantine/core";
 import {useForm} from "@mantine/form";
-import {PasswordUtils} from "@/utility/PasswordUtils.ts";
+import {PasswordUtils} from "@/utility/PasswordUtils";
 import {useMutation} from "@tanstack/react-query";
-import {userApis} from "@/api/user.ts";
+import {userApis} from "@/api/user";
 import {AxiosResponse} from "axios";
 import {
   handleErrorNotification,
   handleSuccessNotification
-} from "@/screens/ProfileSetting/Panel/SecurityPanel/notifications.ts";
-import {AxiosApiError} from "@/types/api.ts";
-// import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
+} from "@/screens/ProfileSetting/Panel/SecurityPanel/notifications";
+import {AxiosApiError} from "@/types/api";
+// import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 
 export interface PasswordSetForm {
   password: string

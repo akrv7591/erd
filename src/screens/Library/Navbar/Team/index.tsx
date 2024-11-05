@@ -1,1 +1,1 @@
-export {Team} from "./Team.tsx"
+export {Team} from "./Team"

@@ -2,7 +2,7 @@ import {InputLabel, Stack} from "@mantine/core";
 import {UserWithRole} from "./UserWithRole";
 import {memo} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {teamInvitationListApi, teamUserListApi} from "@/api/logto/team.ts";
+import {teamInvitationListApi, teamUserListApi} from "@/api/logto/team";
 import {useUserTeam} from "@/hooks";
 import {InvitedUser} from "./InvitedUser";
 import {InviteUser} from "./InviteUser";

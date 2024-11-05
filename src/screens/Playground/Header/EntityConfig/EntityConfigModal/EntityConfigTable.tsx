@@ -3,7 +3,7 @@ import {EntityColumn} from "@/types/diagram";
 import {Center, Checkbox, Input, Table, Text, Tooltip} from "@mantine/core";
 import {DragButton} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton";
 import {TypeIcon} from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
-import {useEntityConfigContextForm,} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityContextForm.ts";
+import {useEntityConfigContextForm,} from "@/screens/Playground/Header/EntityConfig/EntityConfigModal/EntityContextForm";
 import {ReactSortable} from "react-sortablejs";
 import classes from "./style.module.css"
 

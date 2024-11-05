@@ -1,5 +1,5 @@
 import {Button, Group, List, rem, Text, ThemeIcon, Title} from "@mantine/core";
-import {PROJECT} from "@/constants/project.ts";
+import {PROJECT} from "@/constants/project";
 import {IconCheck} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
 import classes from "./style.module.css";

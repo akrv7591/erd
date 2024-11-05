@@ -1,1 +1,1 @@
-export {Content} from './Content.tsx'
+export {Content} from "./Content"

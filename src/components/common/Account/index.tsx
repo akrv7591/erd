@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {useUser} from "@/hooks";
 import {useLogto} from "@logto/react";
 import {useCallback} from "react";
-import {config} from "@/config/config.ts";
+import {config} from "@/config/config";
 import {ProfilePicture} from "@/components/common/ProfilePicture";
 
 export default function Account() {

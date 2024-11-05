@@ -1,7 +1,7 @@
 import {
   RELATIONSHIP_MARKER_DEFAULT_STYLES,
   RELATIONSHIP_MARKER_STROKE, RELATIONSHIP_MARKER_STROKE_SELECTED
-} from "@/screens/Playground/Main/FlowUtils/Icons/constants.ts";
+} from "@/screens/Playground/Main/FlowUtils/Icons/constants";
 
 export const Many = () => {
   return (

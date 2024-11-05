@@ -1,1 +1,1 @@
-export {InvitedUser} from "./InvitedUser.tsx"
+export {InvitedUser} from "./InvitedUser"

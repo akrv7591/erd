@@ -1,9 +1,9 @@
 import {MutationFunction, QueryFunction} from "@tanstack/react-query";
-import {TeamUser} from "@/types/log-to/team-user.ts";
-import {TeamInvitationRequestBody, TeamInvitationResponse} from "@/types/log-to/team-invitation.ts";
-import erdApi from "@/api/erdApi.ts";
-import {TeamResponse} from "@/types/log-to/team.ts";
-import {UserTeam} from "@/types/log-to/user-team.ts";
+import {TeamUser} from "@/types/log-to/team-user";
+import {TeamInvitationRequestBody, TeamInvitationResponse} from "@/types/log-to/team-invitation";
+import erdApi from "@/api/erdApi";
+import {TeamResponse} from "@/types/log-to/team";
+import {UserTeam} from "@/types/log-to/user-team";
 
 export class TeamApi {
   static teamMutation: MutationFunction<UserTeam, {type: "create" | "update" | "delete", team: UserTeam}> = ({type, team}) => {

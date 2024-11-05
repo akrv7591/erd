@@ -1,8 +1,8 @@
 import {Container, Group, SimpleGrid, Stack, Text} from "@mantine/core";
 import {Helmet} from "react-helmet-async";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
-import {erdApis} from "@/api/erd.ts";
+import {useLibraryStore} from "@/stores/useLibrary";
+import {erdApis} from "@/api/erd";
 import {memo} from "react";
 import {CreateErdButton} from "./CreateErdButton";
 import {ErdItem} from "@/screens/Library/Main/ErdItem";

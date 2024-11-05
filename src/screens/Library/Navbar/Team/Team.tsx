@@ -1,11 +1,11 @@
 import classes from "./style.module.css";
 import {ActionIcon, Avatar, Group, Text, Tooltip} from "@mantine/core";
 import {IconBrandAsana, IconSettings} from "@tabler/icons-react";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {useLibraryStore} from "@/stores/useLibrary";
 import {useModal, useUserTeam} from "@/hooks";
 import {TeamModal} from "../TeamModal";
 import {memo, MouseEventHandler, useCallback} from "react";
-import {UserTeam} from "@/types/log-to/user-team.ts";
+import {UserTeam} from "@/types/log-to/user-team";
 
 export const Team = memo(() => {
   const {team, canEditTeam} = useUserTeam()

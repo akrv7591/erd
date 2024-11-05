@@ -1,1 +1,1 @@
-export {NameInput} from "./NameInput.tsx"
+export {NameInput} from "./NameInput"

@@ -7,7 +7,7 @@ import {Navbar} from "@/screens/Playground/Navbar";
 import {Aside} from "@/screens/Playground/Aside";
 import {Footer} from "@/screens/Playground/Footer";
 import {useDiagramStore} from "@/hooks";
-import LoadingBackdrop from "@/components/common/LoadingBackdrop.tsx";
+import LoadingBackdrop from "@/components/common/LoadingBackdrop";
 import {memo} from "react";
 
 export const Playground = memo(() => {

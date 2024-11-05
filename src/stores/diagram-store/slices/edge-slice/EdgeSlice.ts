@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { DiagramStore } from "@/stores/diagram-store/DiagramStore.ts";
+import { DiagramStore } from "@/stores/diagram-store/DiagramStore";
 import { applyEdgeChanges, Edge, EdgeChange } from "@xyflow/react";
 import {BROADCAST} from "@/namespaces";
 

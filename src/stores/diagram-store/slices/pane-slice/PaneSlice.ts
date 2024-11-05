@@ -2,7 +2,7 @@ import {StateCreator} from "zustand";
 import {Viewport} from "@xyflow/react";
 import type {Client, Tools} from "@/types/diagram";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore";
-import {LOG_TO} from "@/types/log-to.ts";
+import {LOG_TO} from "@/types/log-to";
 import {DIAGRAM} from "@/namespaces";
 
 export interface ConfirmModal {

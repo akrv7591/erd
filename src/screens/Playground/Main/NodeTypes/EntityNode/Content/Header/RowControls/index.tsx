@@ -1,1 +1,1 @@
-export {RowControls} from "./RowControls.tsx"
+export {RowControls} from "./RowControls"

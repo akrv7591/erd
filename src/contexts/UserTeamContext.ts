@@ -1,5 +1,5 @@
 import {createContext} from "react";
-import {UserTeam} from "@/types/log-to/user-team.ts";
+import {UserTeam} from "@/types/log-to/user-team";
 
 type UserTeamContextType = {
   isOwner: boolean,

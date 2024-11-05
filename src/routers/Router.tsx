@@ -1,9 +1,9 @@
 import {RouterProvider} from "react-router-dom";
 import {useLogto} from "@logto/react";
-import {routes} from "@/routers/routes.tsx";
+import {routes} from "@/routers/routes";
 import {memo, useEffect} from "react";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore.ts";
-import LoadingBackdrop from "@/components/common/LoadingBackdrop.tsx";
+import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
+import LoadingBackdrop from "@/components/common/LoadingBackdrop";
 
 export const Router = memo(() => {
   const logTo = useLogto()

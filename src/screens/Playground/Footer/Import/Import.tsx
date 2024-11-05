@@ -2,7 +2,7 @@ import {Button, CloseButton, Group, Popover, Select, Stack, Textarea, Title, Too
 import {IconDatabaseImport} from "@tabler/icons-react";
 import React from "react";
 import {useDisclosure} from "@mantine/hooks";
-import {ImportSelectOptions} from "@/screens/Playground/Footer/Import/constants.ts";
+import {ImportSelectOptions} from "@/screens/Playground/Footer/Import/constants";
 
 
 

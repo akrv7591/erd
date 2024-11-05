@@ -1,6 +1,6 @@
 import {FC, memo, PropsWithChildren, useMemo} from "react";
-import {UserTeam} from "@/types/log-to/user-team.ts";
-import {UserTeamContext} from "@/contexts/UserTeamContext.ts";
+import {UserTeam} from "@/types/log-to/user-team";
+import {UserTeamContext} from "@/contexts/UserTeamContext";
 
 type Props = {
   userTeam: UserTeam

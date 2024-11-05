@@ -5,7 +5,7 @@ import {DotLottiePlayer} from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import Header from "@/screens/Library/Header";
 import {useOnMount} from "@/hooks";
-import {teamInvitationJoinApi} from "@/api/logto/team.ts";
+import {teamInvitationJoinApi} from "@/api/logto/team";
 import {memo} from "react";
 
 const LottieAnimation = memo((props: {animationDataUrl: string}) => {

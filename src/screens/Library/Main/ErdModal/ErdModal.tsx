@@ -20,17 +20,17 @@ import {ModalBaseProps} from "@/components/common/ModalBase";
 import ModalForm from "@/components/common/ModalForm";
 import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {Erd} from "@/types/data/db-model-interfaces.ts";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {Erd} from "@/types/data/db-model-interfaces";
+import {useLibraryStore} from "@/stores/useLibrary";
 import {IconInfoCircle, IconPhoto, IconPhotoX, IconUpload, IconX} from "@tabler/icons-react";
 import {memo, useCallback, useMemo} from "react";
 import {useUser} from "@/hooks";
-import {erdApis} from "@/api/erd.ts";
-import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification.ts";
+import {erdApis} from "@/api/erd";
+import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification";
 import {createId} from "@paralleldrive/cuid2";
-import {ColumnNameCases, EntityNameCases} from "@/constants/playground.ts";
+import {ColumnNameCases, EntityNameCases} from "@/constants/playground";
 import {Dropzone, FileWithPath, IMAGE_MIME_TYPE} from "@mantine/dropzone";
-import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider.tsx";
+import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider";
 
 interface Props extends ModalBaseProps {
   data: Erd | null

@@ -1,1 +1,1 @@
-export { RelationsOverlay } from "./RelationsOverlay.tsx"
+export { RelationsOverlay } from "./RelationsOverlay"

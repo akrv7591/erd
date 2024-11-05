@@ -16,10 +16,10 @@ import {Form, useForm} from "@mantine/form";
 import {IconEdit} from "@tabler/icons-react";
 import {useOnMount} from "@/hooks";
 import {useMutation} from "@tanstack/react-query";
-import {userApis} from "@/api/user.ts";
+import {userApis} from "@/api/user";
 import {notifications} from "@mantine/notifications";
 import {useMemo} from "react";
-import {LOG_TO} from "@/types/log-to.ts";
+import {LOG_TO} from "@/types/log-to";
 import UserInfo = LOG_TO.UserInfo;
 import {useUser} from "@/hooks";
 

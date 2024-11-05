@@ -1,7 +1,7 @@
 import {EdgeProps, useInternalNode} from '@xyflow/react';
 import {RELATION} from "@/namespaces";
 import {memo, useMemo} from "react";
-import Path from "./Path.tsx";
+import Path from "./Path";
 import "./style.css"
 import {EntityNode} from "@/types/diagram";
 

@@ -1,9 +1,9 @@
 import {AppShell} from "@mantine/core";
 import {Header} from "@/components/common/Header";
 import {Navbar} from "@/screens/Library/Navbar";
-import {Main} from "@/screens/Library/Main/Main.tsx";
+import {Main} from "@/screens/Library/Main/Main";
 import {memo} from "react";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {useLibraryStore} from "@/stores/useLibrary";
 
 
 export const Library = memo(() => {

@@ -4,12 +4,12 @@ import {TeamModal} from "./TeamModal";
 import {useModal} from "@/hooks";
 import {memo, useCallback, useMemo} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {userTeamListApi} from "@/api/logto/user.ts";
+import {userTeamListApi} from "@/api/logto/user";
 import {TeamSkeleton} from "./TeamSkeleton";
 import {Team} from "./Team";
-import {UserTeamProvider} from "@/providers/UserTeamProvider.tsx";
+import {UserTeamProvider} from "@/providers/UserTeamProvider";
 import {Personal} from "@/screens/Library/Navbar/Personal";
-import {TeamUser} from "@/types/log-to/team-user.ts";
+import {TeamUser} from "@/types/log-to/team-user";
 
 export const Navbar = memo(() => {
   const modal = useModal<TeamUser>({

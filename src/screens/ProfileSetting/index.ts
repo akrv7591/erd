@@ -1,1 +1,1 @@
-export { default } from '@/screens/ProfileSetting/ProfileSettingLayout.tsx';
+export { default } from "@/screens/ProfileSetting/ProfileSettingLayout";

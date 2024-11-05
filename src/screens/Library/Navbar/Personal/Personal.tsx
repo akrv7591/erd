@@ -1,6 +1,6 @@
 import {Button, Text} from "@mantine/core";
 import {useUser} from "@/hooks";
-import {useLibraryStore} from "@/stores/useLibrary.ts";
+import {useLibraryStore} from "@/stores/useLibrary";
 import {useCallback} from "react";
 import {ProfilePicture} from "@/components/common/ProfilePicture";
 

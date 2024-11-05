@@ -1,8 +1,8 @@
 import {QueryFunction, useQuery} from "@tanstack/react-query";
 import type {Resources} from "@/types/data/db-model-interfaces";
 import type { ReactNode } from "react";
-import {staticFileApis} from "@/api/staticFile.ts";
-import {erdApis} from "@/api/erd.ts";
+import {staticFileApis} from "@/api/staticFile";
+import {erdApis} from "@/api/erd";
 
 type ResourceKeys = keyof Resources;
 type ResourceType<T extends ResourceKeys> = Resources[T];

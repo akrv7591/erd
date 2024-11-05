@@ -1,4 +1,4 @@
-import {UserTeam} from "@/types/log-to/user-team.ts";
+import {UserTeam} from "@/types/log-to/user-team";
 import {notifications} from "@mantine/notifications";
 
 

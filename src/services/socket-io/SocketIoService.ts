@@ -1,7 +1,7 @@
-import { config } from '@/config/config.ts';
-import { useLogToAuthStore } from '@/stores/useLogToAuthStore.ts';
+import { config } from '@/config/config';
+import { useLogToAuthStore } from '@/stores/useLogToAuthStore';
 import {io} from 'socket.io-client';
-import { Socket } from '@/types/socket-io-client.ts';
+import { Socket } from '@/types/socket-io-client';
 import {createId} from "@paralleldrive/cuid2";
 
 export class SocketIoService {

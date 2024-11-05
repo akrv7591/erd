@@ -1,5 +1,5 @@
 import {EdgeChange, NodeChange, XYPosition} from "@xyflow/react";
-import {NodeType} from "@/types/diagram/index.ts";
+import {NodeType} from "@/types/diagram/index";
 import {BROADCAST} from "@/namespaces";
 
 type ReactflowNodeChange = {

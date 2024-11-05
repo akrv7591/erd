@@ -1,1 +1,1 @@
-export {MiniMap} from "./MiniMap.tsx"
+export {MiniMap} from "./MiniMap"

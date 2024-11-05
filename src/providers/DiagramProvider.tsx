@@ -2,7 +2,7 @@ import {FC, memo, PropsWithChildren, useEffect, useRef} from "react";
 import { useParams } from "react-router-dom";
 import { useReactFlow } from "@xyflow/react";
 import { createDiagramStore } from "@/stores/diagram-store";
-import { DiagramContext } from "@/contexts/DiagramContext.ts";
+import { DiagramContext } from "@/contexts/DiagramContext";
 
 export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
   const reactflow = useReactFlow();

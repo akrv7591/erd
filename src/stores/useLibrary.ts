@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {UserTeam} from "@/types/log-to/user-team.ts";
+import {UserTeam} from "@/types/log-to/user-team";
 
 export interface ILibraryState {
   initialized: boolean

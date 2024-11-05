@@ -1,1 +1,1 @@
-export {ErdItem} from "./ErdItem.tsx"
+export {ErdItem} from "./ErdItem"

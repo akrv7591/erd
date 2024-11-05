@@ -1,1 +1,1 @@
-export * from "./DiagramStore.ts"
+export * from "./DiagramStore"
