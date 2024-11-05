@@ -1,6 +1,6 @@
-import {useUser} from "@/hooks";
 import {useMemo} from "react";
-import {Roles} from "@/types/log-to/roles.ts";
+import {useUser} from "./useUser";
+import {Roles} from "@/types/log-to/roles";
 
 export const useUserTeamRole = (teamId: string) => {
   const user = useUser()

@@ -1,7 +1,7 @@
 import {useMemo} from "react";
 import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
 import {EntityNode, NodeType} from "@/types/diagram";
-import {useNodes} from "@/hooks";
+import {useNodes} from "./useNodes";
 
 function entityNodeFilter(node: NodeType): node is EntityNode {
   return node.type === NODE_TYPES.ENTITY
