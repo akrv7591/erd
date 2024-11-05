@@ -1,7 +1,7 @@
 import {DiagramStore} from "@/stores/diagram-store";
 import {useContext} from "react";
 import {useStoreWithEqualityFn} from "zustand/traditional";
-import {DiagramContext} from "@/contexts/DiagramContext.ts";
+import {DiagramContext} from "@/contexts/DiagramContext";
 
 export const useDiagramStoreApi = () => {
   const store = useContext(DiagramContext)
