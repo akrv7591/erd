@@ -2,31 +2,35 @@ import {AppShell} from "@mantine/core";
 import {Header} from "@/components/common/Header";
 import {Navbar} from "@/screens/Library/Navbar";
 import {Main} from "@/screens/Library/Main/Main";
-import {useLibraryStore} from "@/stores/useLibrary";
+import { SelectedTeamContext } from "@/contexts/SelectedTeamContext";
+import { useState } from "react";
+import { UserTeam } from "@/types/log-to/user-team";
 
 export default function Library() {
-  const team = useLibraryStore(state => state.team)
+  const [selectedTeam, setSelectedTeam] = useState<UserTeam | null>(null)
 
   return (
-    <AppShell
-      header={{height: 60}}
-      navbar={{
-        width: 250,
-        breakpoint: "xs",
-        collapsed: {
-          mobile: true
-        }
-      }}
-    >
-      <AppShell.Header>
-        <Header />
-      </AppShell.Header>
-      <AppShell.Navbar>
-        <Navbar/>
-      </AppShell.Navbar>
-      <AppShell.Main>
-        {team.id && <Main/>}
-      </AppShell.Main>
-    </AppShell>
+    <SelectedTeamContext.Provider value={{selectedTeam, setSelectedTeam}}>
+      <AppShell
+        header={{height: 60}}
+        navbar={{
+          width: 250,
+          breakpoint: "xs",
+          collapsed: {
+            mobile: true
+          }
+        }}
+      >
+        <AppShell.Header>
+          <Header />
+        </AppShell.Header>
+        <AppShell.Navbar>
+          <Navbar/>
+        </AppShell.Navbar>
+        <AppShell.Main>
+          <Main/>
+        </AppShell.Main>
+      </AppShell>
+    </SelectedTeamContext.Provider>
   )
 }

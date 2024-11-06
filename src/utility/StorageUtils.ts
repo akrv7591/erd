@@ -17,14 +17,14 @@ export default class StorageUtils {
   }
 
   static setDestination(destination: string) {
-    localStorage.setItem("destination", destination)
+    sessionStorage.setItem("destination", destination)
   }
 
   static getDestination() {
-    return localStorage.getItem("destination")
+    return sessionStorage.getItem("destination")
   }
 
   static removeDestination() {
-    localStorage.removeItem("destination")
+    sessionStorage.removeItem("destination")
   }
 }

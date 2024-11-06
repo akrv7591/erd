@@ -15,8 +15,8 @@ export const EntityConfig = memo(() => {
     initialType: "view",
     initialOpen: false,
   })
-  const user = useUser()
-  const entityConfig = useDiagramStore(useCallback(state => state.configs.find(config => config.userId === user.sub), [user.sub]))
+  const { data: user } = useUser()
+  const entityConfig = useDiagramStore(useCallback(state => state.configs.find(config => config.userId === user.id), [user.id]))
   const setEntityConfig = useDiagramStore(state => state.setConfig)
   const handleModalOpen = useCallback(() => {
     if (!entityConfig) {
@@ -24,7 +24,7 @@ export const EntityConfig = memo(() => {
         name: "Table",
         color: "#2190ff",
         columns: [],
-        userId: user.sub
+        userId: user.id
       }
 
       setEntityConfig(initialConfig)
@@ -32,10 +32,10 @@ export const EntityConfig = memo(() => {
 
     modal.open()
 
-  }, [entityConfig, user.sub])
+  }, [entityConfig, user.id])
 
   return (
-    <CustomTheme color={entityConfig? entityConfig.color : "#2190ff"} id={user.sub}>
+    <CustomTheme color={entityConfig? entityConfig.color : "#2190ff"} id={user.id}>
       {entityConfig && (
         <EntityConfigModal {...modal.modalProps} configData={entityConfig}/>
       )}

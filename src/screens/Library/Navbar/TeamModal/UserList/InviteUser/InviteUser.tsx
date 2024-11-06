@@ -4,8 +4,7 @@ import {useForm} from "@mantine/form";
 import {useMutation} from "@tanstack/react-query";
 import {teamInviteUserApi} from "@/api/logto/team";
 import {notifications} from "@mantine/notifications";
-import {useUserTeam} from "@/hooks";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
+import {useUserTeam, useRoles} from "@/hooks";
 import {RoleSelect} from "../RoleSelect";
 
 type Props = {
@@ -14,11 +13,11 @@ type Props = {
 
 export const InviteUser = memo((props: Props) => {
   const {team} = useUserTeam()
-  const roles = useLogToAuthStore(state => state.roles)
+  const roles = useRoles()
   const {values, reset, setValues, getInputProps, isTouched, isValid} = useForm({
     initialValues: {
       email: "",
-      role: roles.find(role => role.name === "spectator")!.id
+      role: roles.data.find(role => role.name === "spectator")!.id
     },
     validateInputOnBlur: true,
   })

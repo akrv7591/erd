@@ -19,11 +19,10 @@ import {useMutation} from "@tanstack/react-query";
 import {userApis} from "@/api/user";
 import {notifications} from "@mantine/notifications";
 import {useMemo} from "react";
-import {LOG_TO} from "@/types/log-to";
-import UserInfo = LOG_TO.UserInfo;
 import {useUser} from "@/hooks";
+import { User } from "@/types/log-to/user";
 
-interface Form extends UserInfo {
+interface Form extends User {
   profilePicture: File | null
 }
 
@@ -31,7 +30,7 @@ const notificationId = "profile:setting"
 
 
 const GeneralPanel = () => {
-  const user = useUser()
+  const { data: user } = useUser()
   const form = useForm<Form>({
     initialValues: {
       ...user,
@@ -65,7 +64,7 @@ const GeneralPanel = () => {
     notifications.hide(notificationId)
     const formData = new FormData()
 
-    formData.append("id", data.sub)
+    formData.append("id", data.id)
 
     if (data.name) {
       formData.append("name", data.name)
@@ -75,7 +74,7 @@ const GeneralPanel = () => {
       formData.append("profilePicture", data.profilePicture)
     }
 
-    await profileSettingMutation.mutate(formData)
+    profileSettingMutation.mutate(formData)
   })
 
   const isValidToUpdate = useMemo(() => {
@@ -132,7 +131,7 @@ const GeneralPanel = () => {
                       h={150}
                       src={form.values.profilePicture
                         ? URL.createObjectURL(form.values.profilePicture)
-                        : user.picture
+                        : user.avatar
                       }
                       alt={"profile-picture"}
                     />

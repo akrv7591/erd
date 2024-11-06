@@ -1,8 +1,7 @@
 import {memo, useCallback, useMemo, useState} from "react";
 import {ComboboxData, ComboboxItem, Group, Loader, Select, Text, Tooltip} from "@mantine/core";
 import {IconCheck} from "@tabler/icons-react";
-import {useUserTeam} from "@/hooks";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
+import {useRoles, useUserTeam} from "@/hooks";
 import voca from "voca";
 import {useHover} from "@mantine/hooks";
 
@@ -15,14 +14,14 @@ interface RenderOptionProps {
 
 const Option = memo(({option, checked, dropDownOpened}: RenderOptionProps) => {
   const {ref, hovered} = useHover()
-  const roles = useLogToAuthStore(state => state.roles)
+  const roles = useRoles()
 
   const opened = useMemo(() => {
     return hovered && dropDownOpened
   }, [hovered, dropDownOpened])
 
   const description = useMemo(() => {
-    return roles.find(role => role.id === option.value)?.description
+    return roles.data.find(role => role.id === option.value)?.description
   }, [roles, option.value])
 
   return (
@@ -44,10 +43,10 @@ interface Props {
 
 export const RoleSelect = memo(({role, onChange, label, loading}: Props) => {
   const {isOwner} = useUserTeam()
-  const roles = useLogToAuthStore(state => state.roles)
+  const roles = useRoles()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const rolesData: ComboboxData = (() => {
-    return roles.filter(role => {
+    return roles.data.filter(role => {
       if (isOwner) {
         return role.name !== "owner"
       } else {

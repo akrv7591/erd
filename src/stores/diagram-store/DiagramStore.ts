@@ -16,7 +16,7 @@ import {
   WebrtcSlice
 } from "./slices";
 import {createStore} from "zustand";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
+import { User } from "@/types/log-to/user";
 
 
 export type DiagramStore = { reactflow: ReactFlowInstance }
@@ -29,20 +29,14 @@ export type DiagramStore = { reactflow: ReactFlowInstance }
   & WebrtcSlice
 
 
-export const createDiagramStore = (reactflow: ReactFlowInstance, roomId: string) => {
-  const user = useLogToAuthStore.getState()?.user
-
-  if (!user) {
-    throw new Error("User is not available")
-  }
-
+export const createDiagramStore = (reactflow: ReactFlowInstance, roomId: string, user: User) => {
   const diagramStore = createStore<DiagramStore>()((...a) => ({
     ...paneSlice(...a),
     ...nodeSlice(...a),
     ...edgeSlice(...a),
     ...undoRedoSlice(...a),
     ...entitySlice(...a),
-    ...socketIoSlice(roomId)(...a),
+    ...socketIoSlice(roomId, user.id)(...a),
     ...webrtcSlice(...a),
     reactflow,
     user,

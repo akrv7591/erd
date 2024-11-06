@@ -20,10 +20,9 @@ import {ModalForm, ModalBaseProps} from "@/components/common/Modal";
 import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Erd} from "@/types/data/db-model-interfaces";
-import {useLibraryStore} from "@/stores/useLibrary";
 import {IconInfoCircle, IconPhoto, IconPhotoX, IconUpload, IconX} from "@tabler/icons-react";
 import {memo, useCallback, useMemo} from "react";
-import {useUser} from "@/hooks";
+import {useTeamList, useUser} from "@/hooks";
 import {erdApis} from "@/api/erd";
 import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification";
 import {createId} from "@paralleldrive/cuid2";
@@ -55,18 +54,16 @@ const generateDefaultFormValue = (teamId: string, userId: string): FormData => {
 }
 
 export const ErdModal = memo(({data, type, ...props}: Props) => {
-  const team = useLibraryStore(state => state.team)
-  const teamList = useLibraryStore(state => state.teamList)
-  const user = useUser()
+  const { data: user } = useUser()
+  const teamList = useTeamList()
   const queryClient = useQueryClient()
-  const teamId = teamList.find(team => team.customData.owner === user.sub)!.id
   const {values, setInitialValues, reset, onSubmit, getInputProps, setFieldValue} = useForm<FormData>({
-    initialValues: data || generateDefaultFormValue(teamId, user.sub),
+    initialValues: data || generateDefaultFormValue(user.id, user.id),
   })
 
   const handleCleanup = useCallback(() => {
     if (!data) {
-      setInitialValues(generateDefaultFormValue(team.id, user.sub))
+      setInitialValues(generateDefaultFormValue(user.id, user.id))
       reset()
     }
   }, [])
@@ -138,12 +135,13 @@ export const ErdModal = memo(({data, type, ...props}: Props) => {
   }, [setFieldValue])
 
   const teamListOptions = useMemo(() => {
-    return teamList.map(team => ({
+    const arr = [{id: user.id, name: "Personal", organizationRoles: [{name: "owner"}]}, ...teamList.data]
+    return arr.map(team => ({
       value: team.id,
       label: team.name,
       disabled: !team.organizationRoles.some(role => ["admin", "owner"].includes(role.name))
     }))
-  }, [team])
+  }, [teamList])
 
 
   return (

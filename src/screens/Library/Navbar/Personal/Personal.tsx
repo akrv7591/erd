@@ -1,16 +1,15 @@
 import {Button, Text} from "@mantine/core";
 import {useUser} from "@/hooks";
-import {useLibraryStore} from "@/stores/useLibrary";
 import {useCallback} from "react";
 import {ProfilePicture} from "@/components/common/ProfilePicture";
+import { useSelectedTeam } from "@/hooks";
 
 export const Personal = () => {
-  const user = useUser()
-  const setTeam = useLibraryStore(state => state.setTeam)
-  const personalTeam = useLibraryStore(state => state.personal)
+  const { data: user } = useUser()
+  const {setSelectedTeam} = useSelectedTeam()
   const handleClick = useCallback(() => {
-    setTeam(personalTeam)
-  }, [setTeam, personalTeam])
+    setSelectedTeam(null)
+  }, [])
   return (
     <Button
       style={{
@@ -23,7 +22,7 @@ export const Personal = () => {
       px={"xs"}
       h={"50px"}
     >
-      <ProfilePicture src={user.picture}/>
+      <ProfilePicture src={user.avatar}/>
       <Text truncate={"end"} ml={"sm"}>
         Personal
       </Text>

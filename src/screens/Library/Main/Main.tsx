@@ -1,17 +1,17 @@
 import {Container, Group, SimpleGrid, Stack, Text} from "@mantine/core";
 import {Helmet} from "react-helmet-async";
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {useLibraryStore} from "@/stores/useLibrary";
 import {erdApis} from "@/api/erd";
 import {memo} from "react";
 import {CreateErdButton} from "./CreateErdButton";
 import {ErdItem} from "@/screens/Library/Main/ErdItem";
+import { useSelectedTeam, useUser } from "@/hooks";
 
 export const Main = memo(() => {
-  const team = useLibraryStore(state => state.team)
-  const isPersonal = useLibraryStore(state => state.isPersonal)
+  const {selectedTeam} = useSelectedTeam()
+  const user = useUser()
   const {data = []} = useQuery({
-    queryKey: ['erdList', team.id],
+    queryKey: ['erdList', selectedTeam?.id || user.data.id],
     queryFn: erdApis.listQuery,
     placeholderData: keepPreviousData,
   })
@@ -24,9 +24,9 @@ export const Main = memo(() => {
       <Stack py={"xs"}>
         <Group justify={"space-between"} h={"28px"}>
           <Text size={"sm"} c={"dimmed"}>
-            {isPersonal ? "Your personal diagrams" : team?.name + " team's diagrams"}
+            {!selectedTeam ? "Your personal diagrams" : selectedTeam.name + " team's diagrams"}
           </Text>
-          <CreateErdButton team={team}/>
+          <CreateErdButton team={selectedTeam}/>
         </Group>
         <Stack h={"calc(100vh - 180px)"}>
           <SimpleGrid cols={{xs: 1, sm: 2, md: 3, lg: 4, xl: 5}} spacing={"xs"}>

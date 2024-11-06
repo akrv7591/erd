@@ -2,8 +2,8 @@ import {StateCreator} from "zustand";
 import {Viewport} from "@xyflow/react";
 import type {Client, Tools} from "@/types/diagram";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore";
-import {LOG_TO} from "@/types/log-to";
 import {DIAGRAM} from "@/namespaces";
+import { User } from "@/types/log-to/user";
 
 export interface ConfirmModal {
   opened: boolean
@@ -25,7 +25,7 @@ interface PaneSliceState {
   clients: Client[]
   memo: boolean
   synced: boolean
-  user: LOG_TO.UserInfo
+  user: User
 }
 
 interface PaneSliceAction {
@@ -49,7 +49,7 @@ const initialStore: Omit<PaneSliceState, 'confirmModal'> = {
   entityViewMode: DIAGRAM.ENTITY.VIEW_MODE.EDITOR,
   memo: true,
   synced: false,
-  user: {} as LOG_TO.UserInfo
+  user: {} as User
 }
 
 export const paneSlice: StateCreator<DiagramStore, [], [], PaneSlice> = ((set) => ({

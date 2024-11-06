@@ -2,17 +2,17 @@ import {Group} from "@mantine/core";
 import {AppLogo} from "@/components/common/AppLogo";
 import {Account} from "@/components/common/Account";
 import {FC, memo, PropsWithChildren} from "react";
-import {userAuthorized} from "@/hooks";
+import { useUser } from "@/hooks";
 
 
 export const Header: FC<PropsWithChildren> = memo(({children}) => {
-  const isAuthorized = userAuthorized()
+  const {data} = useUser()
   return (
     <Group h="100%" px={20} justify={"space-between"} align={"center"}>
       <AppLogo/>
       {children}
       <Group gap={5} ml={"auto"}>
-        {isAuthorized && (
+        {data && (
           <Account/>
         )}
       </Group>

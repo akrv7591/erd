@@ -12,11 +12,11 @@ export const ProtectedRoute = memo(() => {
     if (!isAuthenticated && !isLoading) {
       StorageUtils.setDestination(location.pathname)
 
-      void signIn({
+      signIn({
         redirectUri: `${config.client.url}/callback`,
       })
     }
-  }, [isAuthenticated, isLoading, signIn])
+  }, [isAuthenticated, isLoading])
 
   if (!isAuthenticated) {
     return <LoadingBackdrop/>
@@ -24,4 +24,3 @@ export const ProtectedRoute = memo(() => {
 
   return <Outlet/>
 })
-

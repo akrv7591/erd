@@ -5,10 +5,9 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {notifications} from "@mantine/notifications";
 import {memo, useCallback, useMemo, useState} from "react";
 import {TeamUser} from "@/types/log-to/team-user";
-import {useUserTeam} from "@/hooks";
+import {useRoles, useUser, useUserTeam} from "@/hooks";
 import {UserTeam} from "@/types/log-to/user-team";
 import {deleteUserFromTeamApi, updateTeamUserRoleApi} from "@/api/logto/team";
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
 import {RoleSelect} from "../RoleSelect";
 
 const UserAvatar = ({src}: { src: string }) => {
@@ -77,8 +76,8 @@ interface Props {
 
 export const UserWithRole = memo(({user}: Props) => {
   const {isOwner, team} = useUserTeam()
-  const authorizedUser = useLogToAuthStore(state => state.user)
-  const roles = useLogToAuthStore(state => state.roles)
+  const {data: authorizedUser} = useUser()
+  const roles = useRoles()
   const [role, setRole] = useState(user.organizationRoles.map(role => role.id)[0])
   const roleMutation = useMutation({
     mutationKey: ['role-mutation', team.id, user.id],
@@ -94,7 +93,7 @@ export const UserWithRole = memo(({user}: Props) => {
       canEdit = false
     }
 
-    const isOwnUser = user.id === authorizedUser?.sub
+    const isOwnUser = user.id === authorizedUser?.id
 
     if (isOwnUser) {
       canEdit = false
@@ -158,7 +157,7 @@ export const UserWithRole = memo(({user}: Props) => {
             <UserAvatar src={user.avatar}/>
           )}
           rightSection={(() => {
-            const description = roles.find(r => r.id === role)?.description
+            const description = roles.data.find(r => r.id === role)?.description
             return (
               <Tooltip label={description} position={"top"}>
                 <Badge variant={"default"}>{isUserOwner ? "Owner" : "Admin"}</Badge>

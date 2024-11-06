@@ -1,16 +1,15 @@
 import classes from "./style.module.css";
 import {ActionIcon, Avatar, Group, Text, Tooltip} from "@mantine/core";
 import {IconBrandAsana, IconSettings} from "@tabler/icons-react";
-import {useLibraryStore} from "@/stores/useLibrary";
 import {useModal, useUserTeam} from "@/hooks";
 import {TeamModal} from "../TeamModal";
 import {memo, MouseEventHandler, useCallback} from "react";
 import {UserTeam} from "@/types/log-to/user-team";
+import { useSelectedTeam } from "@/hooks";
 
 export const Team = memo(() => {
   const {team, canEditTeam} = useUserTeam()
-  const setTeam = useLibraryStore(state => state.setTeam)
-  const selectedTeam = useLibraryStore(state => state.team)
+  const {selectedTeam, setSelectedTeam} = useSelectedTeam()
   const modal = useModal<UserTeam>({
     baseTitle: "Team",
     initialType: "update",
@@ -22,12 +21,16 @@ export const Team = memo(() => {
     modal.open({type: "update", data: team})
   }, [])
 
+  const handleTeamClick = useCallback(() => {
+    setSelectedTeam(team)
+  }, [team])
+
   return (
     <>
       <TeamModal team={team} {...modal.modalProps}/>
       <Group
-        onClick={() => setTeam(team)}
-        className={selectedTeam.id === team.id ? classes.teamActive : classes.team}
+        onClick={handleTeamClick}
+        className={selectedTeam?.id === team.id ? classes.teamActive : classes.team}
         wrap={"nowrap"}
         gap={0}
         mih={"40px"}
@@ -52,6 +55,5 @@ export const Team = memo(() => {
         </Tooltip>
       </Group>
     </>
-
   )
 })

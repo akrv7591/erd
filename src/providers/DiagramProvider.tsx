@@ -4,11 +4,13 @@ import { useReactFlow } from "@xyflow/react";
 import { createDiagramStore } from "@/stores/diagram-store";
 import { DiagramContext } from "@/contexts/DiagramContext";
 import { LoadingBackdrop } from "@/components/common/LoadingBackdrop";
+import { useUser } from "@/hooks";
 
 export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
   const reactflow = useReactFlow();
   const {erdId: roomId} = useParams<{ erdId: string }>();
   const [storeInitialized, setStoreInitialized] = useState(false);
+  const {data} = useUser()
 
   if (!roomId) {
     throw new Error("Room ID is required");
@@ -20,7 +22,7 @@ export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
     console.log("DiagramProvider mounted")
 
     if (!storeRef.current) {
-      storeRef.current = createDiagramStore(reactflow, roomId)
+      storeRef.current = createDiagramStore(reactflow, roomId, data)
       setStoreInitialized(true)
     }
 

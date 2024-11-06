@@ -11,8 +11,8 @@ interface SocketIoAction {}
 
 export type SocketIoSlice = SocketIoState & SocketIoAction
 
-export const socketIoSlice: (roomId: string) => StateCreator<DiagramStore, [], [], SocketIoSlice> = (roomId: string)  => (set, get) => {
-  const socket = new SocketIoService(roomId)
+export const socketIoSlice: (roomId: string, userId: string) => StateCreator<DiagramStore, [], [], SocketIoSlice> = (roomId, userId)  => (set, get) => {
+  const socket = new SocketIoService(roomId, userId)
 
   socket.io.on("connect", () => {
     console.debug("Connected to socket.io")

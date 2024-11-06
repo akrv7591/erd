@@ -1,11 +1,10 @@
-import {useLogToAuthStore} from "@/stores/useLogToAuthStore";
+import { userApis } from "@/api/user";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const useUser = () => {
-  const user = useLogToAuthStore(state => state.user)
-
-  if (!user) {
-    throw new Error("useUser must be used within a authenticated component")
-  }
-
-  return user
+  return useSuspenseQuery({
+    queryKey: ["me"],
+    queryFn: userApis.meApi,
+    refetchOnMount: false,
+  })
 }

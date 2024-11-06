@@ -9,7 +9,7 @@ import { ProfilePicture } from "@/components/common/ProfilePicture";
 
 export const Account = memo(() => {
   const { signOut } = useLogto();
-  const user = useUser();
+  const { data } = useUser();
   const navigate = useNavigate();
   const handleLogout = useCallback(() => signOut(config.client.url), []);
 
@@ -17,7 +17,7 @@ export const Account = memo(() => {
     <Menu shadow="md" width={200}>
       <Menu.Target>
         <ActionIcon size={40} variant={"transparent"}>
-          <ProfilePicture src={user.picture} avatarProps={{ size: "md" }} />
+          <ProfilePicture src={data.avatar} avatarProps={{ size: "md" }} />
         </ActionIcon>
       </Menu.Target>
 
