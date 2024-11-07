@@ -1,16 +1,17 @@
 import {StateCreator} from "zustand";
 import {DiagramStore} from "@/stores/diagram-store";
 import {EntityNode} from "@/types/diagram";
+import { BROADCAST } from "@/namespaces";
 
-type Config =  EntityNode['data'] & {
+export type EntityConfig =  EntityNode['data'] & {
   userId: string
 }
 
 interface EntityState {
-  configs: Config[]
+  configs: EntityConfig[]
 }
 interface EntityAction {
-  setConfig: (config: Config) => void
+  setConfig: (config: EntityConfig) => void
 }
 
 export type EntitySlice = EntityState & EntityAction
@@ -24,6 +25,14 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
 
   setConfig: (config) => set((state) => {
     const userConfig = state.configs.find(c => c.userId === config.userId)
+
+    state.webrtc.broadcastData([
+      {
+        type: BROADCAST.DATA.TYPE.ENTITY_CONFIG_CHANGE,
+        server: true,
+        value: config
+      }
+    ])
 
     if (userConfig) {
       return {

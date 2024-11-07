@@ -6,21 +6,22 @@ import {
   ReactFlowProps,
   useReactFlow,
 } from "@xyflow/react";
+import { useDiagramStore, useDiagramStoreApi } from "./useDiagramStore";
+import { usePeerBroadcast } from "./usePeerBroadcast";
 import {
-  useDiagramStore,
-  useDiagramStoreApi,
-} from "./useDiagramStore";
-import {
-  usePeerBroadcast
-} from "./usePeerBroadcast";
-import {DragEventHandler, MouseEventHandler, useCallback, useMemo} from "react";
+  DragEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useMemo,
+} from "react";
 import { EntityNode, NodeType } from "@/types/diagram";
 import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes";
 import { EntityUtils } from "@/utility/EntityUtils";
 import { DiagramStore } from "@/stores/diagram-store";
 import { RelationUtils } from "@/utility/RelationUtils";
-import {BROADCAST, RELATION} from "@/namespaces";
-import {DataBroadcast} from "@/types/diagram";
+import { BROADCAST, RELATION } from "@/namespaces";
+import { DataBroadcast } from "@/types/diagram";
+import { useUser } from "./useUser";
 
 type ReturnType = Pick<
   ReactFlowProps<NodeType>,
@@ -38,17 +39,25 @@ type ReturnType = Pick<
   | "onMove"
   | "onDragOver"
   | "onNodeDoubleClick"
+  | "onBlur"
 >;
 
 export const useDiagramEventHandlers = (): ReturnType => {
   const addNode = useDiagramStore((state) => state.addNode);
-  const handleNodesChange = useDiagramStore(state => state.handleNodeChanges);
-  const handleEdgesChange = useDiagramStore(state => state.handleEdgesChange)
-  const {
-    handleNodeDrag,
-    handleNodeDragStop,
-    handleCursorChange
-  } = usePeerBroadcast();
+  const handleNodesChange = useDiagramStore((state) => state.handleNodeChanges);
+  const handleEdgesChange = useDiagramStore((state) => state.handleEdgesChange);
+  const { data: user } = useUser();
+  const userEntityConfig = useDiagramStore(
+    useCallback(
+      (state) => {
+        return state.configs.find((config) => config.userId === user.id);
+      },
+      [user],
+    ),
+  );
+
+  const { handleNodeDrag, handleNodeDragStop, handleCursorChange } =
+    usePeerBroadcast();
 
   const reactFlow = useReactFlow();
   const diagramStoreApi = useDiagramStoreApi();
@@ -95,41 +104,46 @@ export const useDiagramEventHandlers = (): ReturnType => {
     }
   }, []);
 
-  const handleDrop: DragEventHandler<HTMLDivElement> = useCallback((e) => {
-    e.preventDefault();
+  const handleDrop: DragEventHandler<HTMLDivElement> = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const type = e.dataTransfer.getData("application/reactflow") as NODE_TYPES;
+      const type = e.dataTransfer.getData(
+        "application/reactflow",
+      ) as NODE_TYPES;
 
-    // @ts-ignore
-    const targetIsPane = e.target.classList.contains("react-flow__pane");
+      // @ts-ignore
+      const targetIsPane = e.target.classList.contains("react-flow__pane");
 
-    // check if the dropped element is valid
-    if (!targetIsPane) {
-      return;
-    }
+      // check if the dropped element is valid
+      if (!targetIsPane) {
+        return;
+      }
 
-    if (typeof type === "undefined" || !type) {
-      console.warn("Dropped element is not a valid reactflow node");
-      return;
-    }
+      if (typeof type === "undefined" || !type) {
+        console.warn("Dropped element is not a valid reactflow node");
+        return;
+      }
 
-    const position = reactFlow.screenToFlowPosition({
-      x: e.clientX,
-      y: e.clientY,
-    });
+      const position = reactFlow.screenToFlowPosition({
+        x: e.clientX,
+        y: e.clientY,
+      });
 
-    let node: NodeType;
+      let node: NodeType;
 
-    switch (type) {
-      case NODE_TYPES.ENTITY:
-        node = EntityUtils.genNewEntityNode(position);
-        break;
-      case NODE_TYPES.MEMO:
-        node = EntityUtils.genNewEntityNode(position);
-        break;
-    }
-    addNode(node);
-  }, []);
+      switch (type) {
+        case NODE_TYPES.ENTITY:
+          node = EntityUtils.genNewEntityNode(position, userEntityConfig);
+          break;
+        case NODE_TYPES.MEMO:
+          node = EntityUtils.genNewEntityNode(position);
+          break;
+      }
+      addNode(node);
+    },
+    [userEntityConfig],
+  );
 
   const handleBeforeDelete: OnBeforeDelete<NodeType, Edge> = useCallback(
     ({ nodes, edges }) =>
@@ -153,7 +167,10 @@ export const useDiagramEventHandlers = (): ReturnType => {
               },
             };
           } else if (nodes.length) {
-            const message = nodes.length > 1 ? "Are you sure to delete all selected nodes" : "Are you sure to delete selected node"
+            const message =
+              nodes.length > 1
+                ? "Are you sure to delete all selected nodes"
+                : "Are you sure to delete selected node";
             return {
               confirmModal: {
                 ...state.confirmModal,
@@ -170,7 +187,9 @@ export const useDiagramEventHandlers = (): ReturnType => {
               },
             };
           } else if (edges.length) {
-            const message = edges.length? "Are you sure to delete all selected relations": "Are you sure to delete selected relation"
+            const message = edges.length
+              ? "Are you sure to delete all selected relations"
+              : "Are you sure to delete selected relation";
             return {
               confirmModal: {
                 ...state.confirmModal,
@@ -187,121 +206,146 @@ export const useDiagramEventHandlers = (): ReturnType => {
               },
             };
           } else {
-            resolve(false)
-            return {}
+            resolve(false);
+            return {};
           }
         });
       }),
     [],
   );
 
-  const handleConnect: OnConnect = useCallback( ({target, source}) => {
-    const targetNode = reactFlow.getNode(target) as EntityNode
-    const sourceNode = reactFlow.getNode(source) as EntityNode
+  const handleConnect: OnConnect = useCallback(({ target, source }) => {
+    const targetNode = reactFlow.getNode(target) as EntityNode;
+    const sourceNode = reactFlow.getNode(source) as EntityNode;
 
     if (target === source) {
-      return
+      return;
     }
 
     if (!targetNode || !sourceNode) {
-      return console.warn("On connect target or source node is not found")
+      return console.warn("On connect target or source node is not found");
     }
 
-    if (targetNode.type !== NODE_TYPES.ENTITY || sourceNode.type !== NODE_TYPES.ENTITY) {
-      return console.debug("You are trying to conect other than entity nodes")
+    if (
+      targetNode.type !== NODE_TYPES.ENTITY ||
+      sourceNode.type !== NODE_TYPES.ENTITY
+    ) {
+      return console.debug("You are trying to conect other than entity nodes");
     }
 
-    diagramStoreApi.setState(state => {
+    diagramStoreApi.setState((state) => {
       const updatedState: Partial<DiagramStore> = {
-        tool: "hand-grab"
-      }
+        tool: "hand-grab",
+      };
 
-      const {newEntities, newRelations, newTargetNodeColumns} = RelationUtils.generateEntityConnectData({
-        sourceNode,
-        targetNode,
-        relationType: state.tool as RELATION.NAME
-      })
+      const { newEntities, newRelations, newTargetNodeColumns } =
+        RelationUtils.generateEntityConnectData({
+          sourceNode,
+          targetNode,
+          relationType: state.tool as RELATION.NAME,
+        });
 
-      const broadcastData: DataBroadcast[] = []
+      const broadcastData: DataBroadcast[] = [];
 
       if (newEntities.length) {
         broadcastData.push({
           type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
-          value: newEntities.map(item => ({
+          value: newEntities.map((item) => ({
             type: "add",
-            item
-          }))
-        })
+            item,
+          })),
+        });
 
-        updatedState.nodes = [...state.nodes, ...newEntities]
+        updatedState.nodes = [...state.nodes, ...newEntities];
       }
 
       if (newTargetNodeColumns.length) {
-
         if (!updatedState.nodes) {
-          updatedState.nodes = state.nodes
+          updatedState.nodes = state.nodes;
         }
 
-        updatedState.nodes = updatedState.nodes.map(node => {
+        updatedState.nodes = updatedState.nodes.map((node) => {
           if (node.id !== targetNode.id) {
-            return node
+            return node;
           }
 
           if (node.type !== NODE_TYPES.ENTITY) {
-            throw new Error("")
+            throw new Error("");
           }
 
           const updatedEntity = {
             ...node,
             data: {
               ...node.data,
-              columns: [...node.data.columns, ...newTargetNodeColumns]
-            }
-          }
+              columns: [...node.data.columns, ...newTargetNodeColumns],
+            },
+          };
 
           broadcastData.push({
             type: BROADCAST.DATA.TYPE.NODE_DATA_UPDATE,
             value: {
               id: updatedEntity.id,
-              data: updatedEntity.data
-            }
-          })
+              data: updatedEntity.data,
+            },
+          });
 
-          return updatedEntity
-        })
+          return updatedEntity;
+        });
       }
 
       if (newRelations.length) {
         broadcastData.push({
           type: BROADCAST.DATA.TYPE.REACTFLOW_EDGE_CHANGE,
           server: true,
-          value: newRelations.map(relation => ({
+          value: newRelations.map((relation) => ({
             type: "add",
             item: relation,
-          }))
-        })
+          })),
+        });
 
-        updatedState.edges = [...state.edges, ...newRelations]
+        updatedState.edges = [...state.edges, ...newRelations];
       }
 
-      state.webrtc.broadcastData(broadcastData)
+      state.webrtc.broadcastData(broadcastData);
 
-      return updatedState
-    })
-  }, [])
+      return updatedState;
+    });
+  }, []);
 
-  return useMemo(() => ({
-    onEdgesChange: handleEdgesChange,
-    onConnect: handleConnect,
-    onDrop: handleDrop,
-    onBeforeDelete: handleBeforeDelete,
-    onNodesChange: handleNodesChange,
-    onNodeDragStop: handleNodeDragStop,
-    onNodeDrag: handleNodeDrag,
-    onMouseLeave: handleMouseLeave,
-    onMouseMove: handleMouseMove,
-    onMove: handleMove,
-    onDragOver: handleDragOver,
-    onNodeDoubleClick: handleNodeDoubleClick,
-  }), [])
+  const handleBlur = useCallback(() => {
+     handleCursorChange(null);
+  }, [handleCursorChange])
+
+  return useMemo(
+    () => ({
+      onEdgesChange: handleEdgesChange,
+      onConnect: handleConnect,
+      onDrop: handleDrop,
+      onBeforeDelete: handleBeforeDelete,
+      onNodesChange: handleNodesChange,
+      onNodeDragStop: handleNodeDragStop,
+      onNodeDrag: handleNodeDrag,
+      onMouseLeave: handleMouseLeave,
+      onMouseMove: handleMouseMove,
+      onMove: handleMove,
+      onDragOver: handleDragOver,
+      onNodeDoubleClick: handleNodeDoubleClick,
+      onBlur: handleBlur
+    }),
+    [
+      handleEdgesChange,
+      handleConnect,
+      handleDrop,
+      handleBeforeDelete,
+      handleNodesChange,
+      handleNodeDragStop,
+      handleNodeDrag,
+      handleMouseLeave,
+      handleMouseMove,
+      handleMove,
+      handleDragOver,
+      handleNodeDoubleClick,
+      handleBlur
+    ],
+  );
 };

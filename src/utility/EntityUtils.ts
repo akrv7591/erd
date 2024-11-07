@@ -14,17 +14,23 @@ export class EntityUtils {
     return  defaultData
   }
 
-  static genNewEntityNode(position: XYPosition) {
+  static genNewEntityNode(position: XYPosition, customData?: EntityNode['data']) {
     const id = createId();
     const name = "Table"
+    const defaultData = {
+      name,
+      color: "#006ab9",
+      columns: []
+    }
+    const data = customData? customData: defaultData
+
     const node: EntityNode = {
       id,
       type: NODE_TYPES.ENTITY,
       position,
       data: {
-        name,
-        color: "#006ab9",
-        columns: []
+        ...data,
+        columns: data.columns.map(EntityUtils.columnWithNewId)
       },
     };
 

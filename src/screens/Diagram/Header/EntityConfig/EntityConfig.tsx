@@ -37,7 +37,7 @@ export const EntityConfig = memo(() => {
   return (
     <CustomTheme color={entityConfig? entityConfig.color : "#2190ff"} id={user.id}>
       {entityConfig && (
-        <EntityConfigModal {...modal.modalProps} configData={entityConfig}/>
+        <EntityConfigModal {...modal.modalProps} configData={entityConfig} key={JSON.stringify(entityConfig)}/>
       )}
         <Tooltip label={"Config your default entity"}>
           <PlaygroundActionIcon onClick={handleModalOpen}>

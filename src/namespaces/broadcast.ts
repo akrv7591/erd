@@ -5,6 +5,7 @@ export namespace BROADCAST {
       REACTFLOW_NODE_CHANGE = "reactflow:node-changes",
       REACTFLOW_EDGE_CHANGE = "reactflow:edge-changes",
       CLIENT_CURSOR_CHANGE = "client:cursor-change",
+      ENTITY_CONFIG_CHANGE = "entity:config-change",
     }
   }
 }

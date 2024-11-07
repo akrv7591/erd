@@ -35,25 +35,31 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
   // Actions
   handleNodeChanges: (nodeChanges) => {
     set((state) => {
-      const changesToBroadcast: NodeChange<NodeType>[] = [];
+      const changesToWebrtcBroadcast: NodeChange<NodeType>[] = [];
+      const changesToBroadcast: NodeChange<NodeType>[] = []
 
       nodeChanges.forEach((nodeChange) => {
         switch (nodeChange.type) {
           case "position":
-            changesToBroadcast.push(nodeChange);
+            changesToWebrtcBroadcast.push(nodeChange);
             break;
           case "remove":
             changesToBroadcast.push(nodeChange);
+            changesToWebrtcBroadcast.push(nodeChange);
             break;
         }
       });
 
-      if (nodeChanges.length > 0) {
+      if (changesToBroadcast.length > 0 || changesToWebrtcBroadcast.length > 0) {
         state.webrtc.broadcastData([
           {
             type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
             value: changesToBroadcast,
-          },
+            server: true
+          },{
+            type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
+            value: changesToWebrtcBroadcast,
+          }
         ]);
       }
 

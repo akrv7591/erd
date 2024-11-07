@@ -88,6 +88,22 @@ export class WebrtcService {
           case BROADCAST.DATA.TYPE.REACTFLOW_EDGE_CHANGE:
             updatedState.edges = applyEdgeChanges(value, state.edges);
             break;
+          case BROADCAST.DATA.TYPE.ENTITY_CONFIG_CHANGE:
+            const userConfig = state.configs.find(config => config.userId === value.userId)
+
+            if (!userConfig) {
+              updatedState.configs = [...state.configs, value]
+            } else {
+              updatedState.configs = state.configs.map(config => {
+                if (config.userId !== userConfig.userId) {
+                  return config
+                }
+
+                return value
+              })
+            }
+
+            break
           default: {
             console.log(data)
           }

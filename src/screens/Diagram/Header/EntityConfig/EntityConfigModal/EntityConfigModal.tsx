@@ -66,7 +66,7 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
   }, [form.values.columns])
 
   const handleClose = () => {
-    setEntityConfig(form.values)
+    setEntityConfig({...form.values})
     modalProps.onClose()
   }
 
