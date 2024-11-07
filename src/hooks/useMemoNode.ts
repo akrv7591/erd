@@ -1,6 +1,6 @@
 import {useNodeId, useNodesData} from "@xyflow/react";
 import {MemoNode} from "@/types/diagram";
-import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
+import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
 import {useMemo} from "react";
 
 export const useMemoNode = () => {

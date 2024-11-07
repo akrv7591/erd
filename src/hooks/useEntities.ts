@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
+import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
 import {EntityNode, NodeType} from "@/types/diagram";
 import {useNodes} from "./useNodes";
 

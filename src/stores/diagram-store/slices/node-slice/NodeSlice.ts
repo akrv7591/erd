@@ -2,7 +2,7 @@ import { StateCreator } from "zustand";
 import { DiagramStore } from "@/stores/diagram-store/DiagramStore";
 import { applyNodeChanges, NodeAddChange, NodeChange } from "@xyflow/react";
 import { NodeType } from "@/types/diagram";
-import { NODE_TYPES } from "@/screens/Playground/Main/NodeTypes";
+import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes";
 import { EntityUtils } from "@/utility/EntityUtils";
 import {BROADCAST} from "@/namespaces";
 

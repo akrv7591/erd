@@ -1,5 +1,5 @@
 import {Node} from "@xyflow/react";
-import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
+import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
 
 export interface EntityColumn {
   entityId: string;

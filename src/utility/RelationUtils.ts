@@ -1,6 +1,6 @@
 import { RELATION } from "@/namespaces"
 import { EntityColumn, EntityNode } from "@/types/diagram"
-import { NODE_TYPES } from "@/screens/Playground/Main/NodeTypes"
+import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes"
 import { createId } from "@paralleldrive/cuid2"
 import { Edge } from "@xyflow/react"
 import voca from "voca"

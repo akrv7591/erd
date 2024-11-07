@@ -10,7 +10,7 @@ const Library = lazy(() => import( "@/screens/Library"))
 const PrivacyPolicy = lazy(() => import( "@/screens/PrivacyPolicy"))
 const TermsOfService = lazy(() => import( "@/screens/TermsOfService"))
 const JoinTeam = lazy(() => import( "@/screens/JoinTeam"))
-const Playground = lazy(() => import( "@/screens/Playground"))
+const Diagram = lazy(() => import( "@/screens/Diagram"))
 const ProfileSetting = lazy(() => import( "@/screens/ProfileSetting"))
 const LogToCallback = lazy(() => import( "@/screens/LogToCallback"))
 
@@ -28,7 +28,7 @@ export const routes = createBrowserRouter(
         <Route path={":erdId/*"} element={(
           <ReactFlowProvider defaultNodes={[]} defaultEdges={[]}>
             <DiagramProvider>
-              <Playground/>
+              <Diagram/>
             </DiagramProvider>
           </ReactFlowProvider>
         )}/>

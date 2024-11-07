@@ -15,7 +15,7 @@ import {
 } from "./usePeerBroadcast";
 import {DragEventHandler, MouseEventHandler, useCallback, useMemo} from "react";
 import { EntityNode, NodeType } from "@/types/diagram";
-import { NODE_TYPES } from "@/screens/Playground/Main/NodeTypes";
+import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes";
 import { EntityUtils } from "@/utility/EntityUtils";
 import { DiagramStore } from "@/stores/diagram-store";
 import { RelationUtils } from "@/utility/RelationUtils";

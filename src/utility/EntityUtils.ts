@@ -1,6 +1,6 @@
 import {EntityColumn, EntityNode} from "@/types/diagram";
 import {createId} from "@paralleldrive/cuid2";
-import {NODE_TYPES} from "@/screens/Playground/Main/NodeTypes";
+import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
 import {XYPosition} from "@xyflow/react";
 import {DIAGRAM} from "@/namespaces";
 import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
