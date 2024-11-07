@@ -22,7 +22,7 @@ import {EntityConfigFormProvider, useEntityConfigForm} from "./EntityContextForm
 import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {useDiagramStore} from "@/hooks";
 import {DIAGRAM} from "@/namespaces";
-import classes from "@/screens/Playground/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/style.module.css";
+import classes from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Header/ColorChangeInput/style.module.css";
 
 interface Props extends ModalProps {
   configData: EntityData & { userId: string }

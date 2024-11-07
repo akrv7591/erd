@@ -6,16 +6,8 @@ import {Header} from "@/screens/Diagram/Header";
 import {Navbar} from "@/screens/Diagram/Navbar";
 import {Aside} from "@/screens/Diagram/Aside";
 import {Footer} from "@/screens/Diagram/Footer";
-import {useDiagramStore} from "@/hooks";
-import {LoadingBackdrop} from "@/components/common/LoadingBackdrop";
 
 export default function Diagram() {
-  const synced = useDiagramStore(state => state.synced)
-
-  if (!synced) return (
-    <LoadingBackdrop title={"Loading entity diagram"}/>
-  )
-
   return (
     <AppShell
       header={{height: 50}}

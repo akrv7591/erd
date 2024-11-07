@@ -1,25 +1,26 @@
 import type {ReactFlowInstance} from "@xyflow/react";
 import {
-  EdgeSlice,
   edgeSlice,
-  EntitySlice,
   entitySlice,
-  NodeSlice,
   nodeSlice,
-  PaneSlice,
   paneSlice,
   socketIoSlice,
-  SocketIoSlice,
-  UndoRedoSlice,
   undoRedoSlice,
   webrtcSlice,
-  WebrtcSlice
+  type EdgeSlice,
+  type EntitySlice,
+  type NodeSlice,
+  type PaneSlice,
+  type SocketIoSlice,
+  type UndoRedoSlice,
+  type WebrtcSlice
 } from "./slices";
 import {createStore} from "zustand";
-import { User } from "@/types/log-to/user";
+import type { User } from "@/types/log-to/user";
 
-
-export type DiagramStore = { reactflow: ReactFlowInstance }
+export type DiagramStore = {
+  reactflow: ReactFlowInstance
+}
   & PaneSlice
   & NodeSlice
   & EdgeSlice
@@ -28,18 +29,22 @@ export type DiagramStore = { reactflow: ReactFlowInstance }
   & SocketIoSlice
   & WebrtcSlice
 
+type CreateDiagramArgs = {
+  reactflow: ReactFlowInstance,
+  roomId: string,
+  user: User,
+  peerId: string
+}
 
-export const createDiagramStore = (reactflow: ReactFlowInstance, roomId: string, user: User) => {
+export const createDiagramStore = ({ reactflow, roomId, user, peerId }: CreateDiagramArgs) => {
   const diagramStore = createStore<DiagramStore>()((...a) => ({
-    ...paneSlice(...a),
+    ...paneSlice(user, reactflow)(...a),
     ...nodeSlice(...a),
     ...edgeSlice(...a),
     ...undoRedoSlice(...a),
     ...entitySlice(...a),
-    ...socketIoSlice(roomId, user.id)(...a),
-    ...webrtcSlice(...a),
-    reactflow,
-    user,
+    ...socketIoSlice(roomId, user.id, peerId)(...a),
+    ...webrtcSlice(peerId)(...a),
   }))
 
   return diagramStore

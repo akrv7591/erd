@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import {Viewport} from "@xyflow/react";
+import {ReactFlowInstance, Viewport} from "@xyflow/react";
 import type {Client, Tools} from "@/types/diagram";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore";
 import {DIAGRAM} from "@/namespaces";
@@ -26,6 +26,7 @@ interface PaneSliceState {
   memo: boolean
   synced: boolean
   user: User
+  reactflow: ReactFlowInstance
 }
 
 interface PaneSliceAction {
@@ -39,7 +40,7 @@ interface PaneSliceAction {
 
 export type PaneSlice = PaneSliceState & PaneSliceAction
 
-const initialStore: Omit<PaneSliceState, 'confirmModal'> = {
+const initialStore: Omit<PaneSliceState, 'confirmModal'| 'user' | 'reactflow'> = {
   tool: "hand-grab",
   minimap: JSON.parse(localStorage.getItem("minimap") || "true"),
   viewport: null,
@@ -49,11 +50,12 @@ const initialStore: Omit<PaneSliceState, 'confirmModal'> = {
   entityViewMode: DIAGRAM.ENTITY.VIEW_MODE.EDITOR,
   memo: true,
   synced: false,
-  user: {} as User
 }
 
-export const paneSlice: StateCreator<DiagramStore, [], [], PaneSlice> = ((set) => ({
+export const paneSlice: (user: User, reactflow: ReactFlowInstance) => StateCreator<DiagramStore, [], [], PaneSlice> = (user, reactflow) => ((set) => ({
   ...initialStore,
+  user,
+  reactflow,
 
   confirmModal: {
     opened: false,

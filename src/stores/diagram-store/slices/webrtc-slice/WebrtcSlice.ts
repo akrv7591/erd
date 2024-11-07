@@ -7,21 +7,13 @@ interface WebrtcSliceState {
 }
 
 interface WebrtcSliceAction {
-  initWebrtc: (peerId: string) => void
 }
 
 export type WebrtcSlice = WebrtcSliceState & WebrtcSliceAction
 
-export const webrtcSlice: StateCreator<DiagramStore, [], [], WebrtcSlice> = (set, __, api) => {
+export const webrtcSlice: (peerId: string) => StateCreator<DiagramStore, [], [], WebrtcSlice> = (peerId) => (set, get, api) => {
+  const webrtc = new WebrtcService(peerId, api)
   return {
-    webrtc: {} as WebrtcService,
-    initWebrtc: (peerId: string) =>{
-      console.log("Init webrtc")
-      set({
-        webrtc: new WebrtcService(peerId, api),
-        synced: true
-      })
-    }
+    webrtc,
   }
 }
-
