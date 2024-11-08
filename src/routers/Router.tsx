@@ -12,7 +12,7 @@ export const Router = memo(() => {
   }, []);
 
   return (
-    <Suspense fallback={null}>
+    <Suspense>
       <RouterProvider router={routes} />
     </Suspense>
   );
