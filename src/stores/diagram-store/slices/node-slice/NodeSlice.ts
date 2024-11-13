@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 import { DiagramStore } from "@/stores/diagram-store/DiagramStore";
 import { applyNodeChanges, NodeAddChange, NodeChange } from "@xyflow/react";
-import { NodeType } from "@/types/diagram";
+import {DataBroadcast, NodeType} from "@/types/diagram";
 import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes";
 import { EntityUtils } from "@/utility/EntityUtils";
 import {BROADCAST} from "@/namespaces";
@@ -50,17 +50,25 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
         }
       });
 
-      if (changesToBroadcast.length > 0 || changesToWebrtcBroadcast.length > 0) {
-        state.webrtc.broadcastData([
-          {
-            type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
-            value: changesToBroadcast,
-            server: true
-          },{
-            type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
-            value: changesToWebrtcBroadcast,
-          }
-        ]);
+      const broadcastData: DataBroadcast[] = []
+
+      if (changesToBroadcast.length) {
+        broadcastData.push({
+          type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
+          value: changesToBroadcast,
+          server: true
+        })
+      }
+
+      if (changesToWebrtcBroadcast.length) {
+        broadcastData.push({
+          type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
+          value: changesToWebrtcBroadcast,
+        })
+      }
+
+      if (broadcastData.length) {
+        state.webrtc.broadcastData(broadcastData)
       }
 
       return {
