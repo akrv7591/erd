@@ -3,10 +3,11 @@ import {ConnectionLineType, ReactFlow, SelectionMode} from '@xyflow/react';
 import {defaultEdgeOptions, edgeTypes} from "./EdgeTypes";
 import {nodeTypes} from "./NodeTypes";
 import '@xyflow/react/dist/style.css';
-import {FlowUtils} from "@/screens/Diagram/Main/FlowUtils";
+import {FlowUtils} from "./FlowUtils";
 import {useDiagramEventHandlers} from "@/hooks";
 import "./style.css"
 import { useDiagramStore } from '@/hooks';
+import {EntityConnectionLine} from "./ConnectionLines";
 
 export const Main: FC = memo(() => {
   const nodes = useDiagramStore(state => state.nodes)
@@ -22,6 +23,7 @@ export const Main: FC = memo(() => {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         connectionLineType={ConnectionLineType.Straight}
+        connectionLineComponent={EntityConnectionLine}
         minZoom={0}
         maxZoom={100}
         defaultEdgeOptions={defaultEdgeOptions}
