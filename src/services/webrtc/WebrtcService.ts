@@ -3,7 +3,7 @@ import {createId} from "@paralleldrive/cuid2";
 import {applyEdgeChanges, applyNodeChanges,} from "@xyflow/react";
 import {DataConnection, Peer} from "peerjs";
 import {StoreApi} from "zustand";
-import {NodeType, DataBroadcast} from "@/types/diagram"
+import {DataBroadcast, NodeType} from "@/types/diagram"
 import randomColor from "randomcolor";
 import {BROADCAST, SOCKET} from "@/namespaces";
 import {config} from "@/config/config";
@@ -22,7 +22,13 @@ export class WebrtcService {
       secure: true,
       debug: 1,
       config: {
-        iceServers: config.peerjs.iceServers
+        iceServers: [{
+          "urls": "stun:freestun.net:3478"
+        }, {
+          "urls": "turn:freestun.net:3478",
+          "username": "free",
+          "credential": "free"
+        }]
       }
     });
     this.initListeners();
