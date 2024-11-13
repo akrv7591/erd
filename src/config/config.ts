@@ -10,6 +10,7 @@ const envSchema = Joi.object<ImportMetaEnv>().keys({
   VITE_WEBRTC_SIGNALLING_SERVER: Joi.string().required(),
   VITE_CLIENT_URL: Joi.string().required(),
   VITE_PEERJS_SERVER: Joi.string().required(),
+  VITE_WEBRTC_ICE_SERVERS: Joi.string().required(),
 })
 
 const validatedEnv = envSchema
@@ -39,6 +40,10 @@ export const config = {
   },
   webrtcSignallingServer: validatedEnvValue.VITE_WEBRTC_SIGNALLING_SERVER,
   peerjsServer: validatedEnvValue.VITE_PEERJS_SERVER,
+  peerjs: {
+    server: validatedEnvValue.VITE_PEERJS_SERVER,
+    iceServers: JSON.parse(validatedEnvValue.VITE_WEBRTC_ICE_SERVERS)
+  },
   logTo: {
     endpoint: validatedEnvValue.VITE_LOG_TO_ENDPOINT,
     appId: validatedEnvValue.VITE_LOG_TO_APP_ID,

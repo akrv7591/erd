@@ -18,9 +18,12 @@ export class WebrtcService {
     this.store = store;
     this.id = id
     this.peer = new Peer(this.id, {
-      host: config.peerjsServer,
+      host: config.peerjs.server,
       secure: true,
-      debug: 1
+      debug: 1,
+      config: {
+        iceServers: config.peerjs.iceServers
+      }
     });
     this.initListeners();
   }
