@@ -21,19 +21,13 @@ export const EntityActions: EntityControl[] = [
     value: 'add-table',
     icon: IconTablePlus,
     allowOnDisabled: true,
-    onDragStart: (event) => {
-      event.dataTransfer.setData('application/reactflow', NODE_TYPES.ENTITY);
-      event.dataTransfer.effectAllowed = 'move';
-    }
+    type: NODE_TYPES.ENTITY
   }, {
     label: 'Drag and drop to add memo',
     value: 'add-memo',
     icon: IconNote,
     allowOnDisabled: true,
-    onDragStart: (event) => {
-      event.dataTransfer.setData('application/reactflow', NODE_TYPES.MEMO);
-      event.dataTransfer.effectAllowed = 'move';
-    }
+    type: NODE_TYPES.MEMO
   }, {
     label: 'One to one',
     value: RELATION.NAME.ONE_TO_ONE,

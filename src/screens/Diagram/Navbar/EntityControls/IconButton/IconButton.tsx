@@ -1,6 +1,6 @@
 //Library imports
 import {Tooltip} from "@mantine/core";
-import {FC} from "react";
+import {FC, HTMLAttributes, useCallback} from "react";
 
 // Type imports
 import {EntityControl} from "../types";
@@ -9,11 +9,12 @@ import {EntityControl} from "../types";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 import {useDiagramStore} from "@/hooks";
 
-
 interface Props {
   data: EntityControl;
   disabled?: boolean
 }
+
+type AdditionalProps = HTMLAttributes<HTMLButtonElement>
 
 const DISABLED_LABEL = "Please add at least 2 table with primary keys"
 
@@ -25,18 +26,22 @@ export const IconButton: FC<Props> = ({data, disabled}) => {
   const tooltipLabel = isDisabled ? DISABLED_LABEL : data.label
   const isSelected = tool === data.value
 
-  const buttonProps = () => {
-    if (data.onDragStart) {
+  const getAdditionalProps = useCallback((): Partial<AdditionalProps> => {
+    if (!data.type) {
       return {
-        onDragStart: data.onDragStart,
-        draggable: true
+        onClick: () => setTool(data.value)
+      }
+    } else {
+      return {
+        draggable: true,
+        onDragStart: (event) => {
+          event.dataTransfer.setData('application/reactflow', data.type!);
+          event.dataTransfer.effectAllowed = 'move';
+        },
       }
     }
 
-    return {
-      onClick: () => setTool(data.value),
-    }
-  }
+  }, [data])
 
 
   return (
@@ -44,11 +49,10 @@ export const IconButton: FC<Props> = ({data, disabled}) => {
       <PlaygroundActionIcon
         disabled={isDisabled}
         variant={isSelected ? "light" : "default"}
-        {...buttonProps()}
+        {...getAdditionalProps()}
       >
         <data.icon/>
       </PlaygroundActionIcon>
     </Tooltip>
-
   )
 }
