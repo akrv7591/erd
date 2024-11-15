@@ -1,0 +1,76 @@
+import { EntityConfig } from "@/stores/diagram-store/slices/entity-slice/EntitySlice";
+import { EntityColumn } from "@/types/diagram";
+
+export namespace NODE {
+  export namespace ENTITY {
+    export enum TYPE {
+      CONFIG_UPDATE = "entity:config-update",
+      NAME_UPDATE = "entity:name-update",
+      COLOR_UPDATE = "entity:color",
+      COLUMN_ADD = "entity:column-add",
+      COLUMN_UPDATE = "entity:column-update",
+      COLUMN_DELETE = "entity:column-delete",
+    }
+
+    export type CONFIG_UPDATE = {
+      type: TYPE.CONFIG_UPDATE;
+      value: EntityConfig;
+      server: boolean;
+    };
+
+    export type NAME_UPDATE = {
+      type: TYPE.NAME_UPDATE;
+      value: {
+        id: string;
+        name: string;
+      };
+      server: boolean;
+    };
+
+    export type COLOR_UPDATE = {
+      type: TYPE.COLOR_UPDATE;
+      value: {
+        id: string;
+        color: string;
+      };
+      server: boolean;
+    };
+
+    export type COLUMN_ADD = {
+      type: TYPE.COLUMN_ADD;
+      value: EntityColumn;
+      server: boolean;
+    };
+
+    export type COLUMN_UPDATE = {
+      type: TYPE.COLUMN_UPDATE;
+      value: {
+        entityId: string;
+        columnId: string;
+        key: keyof EntityColumn;
+        value: string | number | boolean;
+      };
+      server: boolean;
+    };
+
+    export type COLUMN_DELETE = {
+      type: TYPE.COLUMN_DELETE;
+      value: {
+        entityId: string;
+        columnId: string;
+      };
+      server: boolean;
+    };
+
+    export type DATA =
+      | CONFIG_UPDATE
+      | NAME_UPDATE
+      | COLOR_UPDATE
+      | COLUMN_ADD
+      | COLOR_UPDATE
+      | COLUMN_DELETE;
+  }
+
+  export type TYPE = ENTITY.TYPE;
+  export type DATA = ENTITY.DATA;
+}
