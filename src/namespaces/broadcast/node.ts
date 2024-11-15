@@ -58,7 +58,7 @@ export namespace NODE {
       value: {
         entityId: string;
         columnId: string;
-      };
+      }[];
       server: boolean;
     };
 
@@ -67,7 +67,7 @@ export namespace NODE {
       | NAME_UPDATE
       | COLOR_UPDATE
       | COLUMN_ADD
-      | COLOR_UPDATE
+      | COLUMN_UPDATE
       | COLUMN_DELETE;
   }
 

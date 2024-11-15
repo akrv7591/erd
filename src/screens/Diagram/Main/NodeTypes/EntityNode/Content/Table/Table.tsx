@@ -4,17 +4,18 @@ import {ReactSortable} from "react-sortablejs";
 import {Header} from "./Header";
 import styles from "./style.module.css"
 import {EntityColumn} from "@/types/diagram";
-import {useEntityNode} from "@/hooks";
+import {useDiagramStore, useEntityNode} from "@/hooks";
 import {isEqual} from "lodash";
 
 export const Table = React.memo(() => {
-  const {onChange, data} = useEntityNode()
+  const {data, id} = useEntityNode()
+  const onChange = useDiagramStore(state => state.updateEntityData)
 
   const setSortedColumns = useCallback((updatedColumns: EntityColumn[]) => {
     if (isEqual(data.columns, updatedColumns)) {
       return {}
     }
-    onChange({
+    onChange(id, {
       columns: updatedColumns
     })
   }, [data.columns])

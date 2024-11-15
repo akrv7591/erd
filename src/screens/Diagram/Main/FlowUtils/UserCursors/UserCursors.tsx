@@ -34,7 +34,7 @@ export const UserCursors = memo(() => {
 
   return (
     clients.map(client => (
-      <Cursor key={client.peerId} {...client}/>
+      <Cursor key={client.id} {...client}/>
     ))
   )
 })

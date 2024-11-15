@@ -1,7 +1,8 @@
 import {StateCreator} from "zustand";
 import {DiagramStore} from "@/stores/diagram-store";
-import {EntityNode} from "@/types/diagram";
-import { BROADCAST } from "@/namespaces";
+import {EntityData, EntityNode} from "@/types/diagram";
+import {NODE} from "@/namespaces/broadcast/node";
+import {EntityUtils} from "@/utility/EntityUtils";
 
 export type EntityConfig =  EntityNode['data'] & {
   userId: string
@@ -11,7 +12,13 @@ interface EntityState {
   configs: EntityConfig[]
 }
 interface EntityAction {
-  setConfig: (config: EntityConfig) => void
+  updateEntityData: (entityId: string, dataOrFunction: Partial<EntityData> | ((data: EntityData) => Partial<EntityData>)) => void
+  updateEntityConfig: (data: NODE.ENTITY.CONFIG_UPDATE['value']) => void
+  updateEntityName: (data: NODE.ENTITY.NAME_UPDATE['value']) => void
+  updateEntityColor: (data: NODE.ENTITY.COLOR_UPDATE['value']) => void
+  addEntityColumn: (data: NODE.ENTITY.COLUMN_ADD['value']) => void
+  updateEntityColumn: (data: NODE.ENTITY.COLUMN_UPDATE['value']) => void
+  deleteEntityColumn: (data: NODE.ENTITY.COLUMN_DELETE['value']) => void
 }
 
 export type EntitySlice = EntityState & EntityAction
@@ -23,12 +30,18 @@ const initState: EntityState = {
 export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set) => ({
   ...initState,
 
-  setConfig: (config) => set((state) => {
+  updateEntityData: (entityId, dataOrFunction) => set((state) => {
+    const updatedState = {}
+    EntityUtils.updateData(updatedState, state, entityId, dataOrFunction)
+    return updatedState
+  }),
+
+  updateEntityConfig: (config) => set((state) => {
     const userConfig = state.configs.find(c => c.userId === config.userId)
 
-    state.webrtc.broadcastData([
+    state.socket.broadcastData([
       {
-        type: BROADCAST.DATA.TYPE.ENTITY_CONFIG_CHANGE,
+        type: NODE.ENTITY.TYPE.CONFIG_UPDATE,
         server: true,
         value: config
       }
@@ -48,5 +61,77 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     return {
       configs: [...state.configs, config]
     }
-  })
+  }),
+
+  updateEntityName: (data) => set((state) => {
+    const updatedState = {}
+    state.socket.broadcastData([
+      {
+        type: NODE.ENTITY.TYPE.NAME_UPDATE,
+        server: true,
+        value: data
+      }
+    ])
+
+    EntityUtils.updateName(updatedState, state, data)
+    return updatedState
+  }),
+
+  updateEntityColor: (data) => set((state) => {
+    const updatedState = {}
+    state.socket.broadcastData([
+      {
+        type: NODE.ENTITY.TYPE.COLOR_UPDATE,
+        server: true,
+        value: data
+      }
+    ])
+
+    EntityUtils.updateColor(updatedState, state, data)
+    return updatedState
+  }),
+
+  addEntityColumn: (data) => set((state) => {
+    const updatedState = {}
+    state.socket.broadcastData([
+      {
+        type: NODE.ENTITY.TYPE.COLUMN_ADD,
+        server: true,
+        value: data
+      }
+    ])
+
+    EntityUtils.addColumn(updatedState, state, data)
+    return updatedState
+  }),
+
+
+  updateEntityColumn: (data) => set((state) => {
+    const updatedState = {}
+    state.socket.broadcastData([
+      {
+        type: NODE.ENTITY.TYPE.COLUMN_UPDATE,
+        server: true,
+        value: data
+      }
+    ])
+
+    EntityUtils.updateColumn(updatedState, state, data)
+    return updatedState
+  }),
+
+  deleteEntityColumn: (data) => set((state) => {
+    const updatedState = {}
+
+    state.socket.broadcastData([
+      {
+        type: NODE.ENTITY.TYPE.COLUMN_DELETE,
+        server: true,
+        value: data
+      }
+    ])
+
+    EntityUtils.deleteColumn(updatedState, state, data)
+    return updatedState
+  }),
 })

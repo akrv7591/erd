@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 import { DiagramStore } from "@/stores/diagram-store/DiagramStore";
 import { applyEdgeChanges, Edge, EdgeChange } from "@xyflow/react";
-import {BROADCAST} from "@/namespaces";
+import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 
 interface EdgeSliceState {
   edges: Edge[];
@@ -37,9 +37,9 @@ export const edgeSlice: StateCreator<DiagramStore, [], [], EdgeSlice> = (
       });
 
       if (changesToBroadcast.length > 0) {
-        state.webrtc.broadcastData([
+        state.socket.broadcastData([
           {
-            type: BROADCAST.DATA.TYPE.REACTFLOW_EDGE_CHANGE,
+            type: REACTFLOW.TYPE.EDGE_CHANGE,
             value: changesToBroadcast,
             server: true,
           },

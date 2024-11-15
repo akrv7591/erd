@@ -5,9 +5,9 @@ import {useEntityNode} from "@/hooks";
 import {DIAGRAM} from "@/namespaces";
 
 export const Header = React.forwardRef<any, any>((props, ref) => {
-  const {data: nodeData, onChange} = useEntityNode()
+  const {data: nodeData, id} = useEntityNode()
   const viewMode = useDiagramStore(state => state.entityViewMode)
-
+  const onChange = useDiagramStore(state => state.updateEntityData)
   const checkbox = React.useMemo(() => {
     if (!nodeData) {
       return {
@@ -30,11 +30,11 @@ export const Header = React.forwardRef<any, any>((props, ref) => {
 
   const onCheckboxClick = React.useCallback(() => {
     const selected = !checkbox.isIntermediate && !checkbox.isAllChecked
-    onChange(({columns}) => {
+    onChange(id, ({columns}) => {
       return {
         columns: columns.map(column => ({...column, selected}))
       }
-    }, false)
+    })
 
   }, [checkbox])
 

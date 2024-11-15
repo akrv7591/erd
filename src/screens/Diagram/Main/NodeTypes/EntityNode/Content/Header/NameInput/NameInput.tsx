@@ -1,13 +1,17 @@
 import {TextInput} from "@mantine/core"
 import {IconTable} from "@tabler/icons-react"
 import {ChangeEventHandler, useCallback} from "react"
-import {useEntityNode} from "@/hooks";
+import {useDiagramStore, useEntityNode} from "@/hooks";
 
 export const NameInput = () => {
-  const {onChange, data} = useEntityNode()
+  const {data, id} = useEntityNode()
+  const changeName = useDiagramStore(state => state.updateEntityName)
 
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    onChange({name: e.target.value})
+    changeName({
+      id,
+      name: e.target.value
+    })
   }, [])
   return (
     <TextInput

@@ -5,6 +5,6 @@ import type {EntityNode as EntityNodeType} from "@/types/diagram";
 
 export const EntityNode: FC<NodeProps<EntityNodeType>> = memo(() => {
   return (
-    <Content />
+    <Content/>
   )
 })

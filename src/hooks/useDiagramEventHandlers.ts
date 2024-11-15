@@ -19,9 +19,10 @@ import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes";
 import { EntityUtils } from "@/utility/EntityUtils";
 import { DiagramStore } from "@/stores/diagram-store";
 import { RelationUtils } from "@/utility/RelationUtils";
-import { BROADCAST, RELATION } from "@/namespaces";
-import { DataBroadcast } from "@/types/diagram";
+import { RELATION, BROADCAST } from "@/namespaces";
 import { useUser } from "./useUser";
+import { REACTFLOW } from "@/namespaces/broadcast/reactflow";
+import { NODE } from "@/namespaces/broadcast/node";
 
 type ReturnType = Pick<
   ReactFlowProps<NodeType>,
@@ -31,7 +32,6 @@ type ReturnType = Pick<
   | "onBeforeDelete"
   | "onNodesDelete"
   | "onNodesChange"
-  | "onNodeDragStop"
   | "onNodeDrag"
   | "onMouseLeave"
   | "onMouseEnter"
@@ -40,6 +40,7 @@ type ReturnType = Pick<
   | "onDragOver"
   | "onNodeDoubleClick"
   | "onBlur"
+  | "onDrag"
 >;
 
 export const useDiagramEventHandlers = (): ReturnType => {
@@ -56,8 +57,10 @@ export const useDiagramEventHandlers = (): ReturnType => {
     ),
   );
 
-  const { handleNodeDrag, handleNodeDragStop, handleCursorChange } =
-    usePeerBroadcast();
+  const {
+    handleNodeDrag,
+    handleCursorChange
+  } = usePeerBroadcast();
 
   const reactFlow = useReactFlow();
   const diagramStoreApi = useDiagramStoreApi();
@@ -86,10 +89,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
 
   const handleDragOver: DragEventHandler<HTMLDivElement> = useCallback((e) => {
     e.preventDefault();
-
-    if (e.dataTransfer) {
-      e.dataTransfer.dropEffect = "move";
-    }
   }, []);
 
   const handleNodeDoubleClick = useCallback((_: any, node: NodeType) => {
@@ -106,7 +105,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
 
   const handleDrop: DragEventHandler<HTMLDivElement> = useCallback(
     (e) => {
-      e.preventDefault();
+      // e.preventDefault();
 
       const type = e.dataTransfer.getData(
         "application/reactflow",
@@ -245,15 +244,16 @@ export const useDiagramEventHandlers = (): ReturnType => {
           relationType: state.tool as RELATION.NAME,
         });
 
-      const broadcastData: DataBroadcast[] = [];
+      const broadcastData: BROADCAST.DATA[] = [];
 
       if (newEntities.length) {
         broadcastData.push({
-          type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
+          type: REACTFLOW.TYPE.NODE_CHANGE,
           value: newEntities.map((item) => ({
             type: "add",
             item,
           })),
+          server: true
         });
 
         updatedState.nodes = [...state.nodes, ...newEntities];
@@ -281,13 +281,14 @@ export const useDiagramEventHandlers = (): ReturnType => {
             },
           };
 
-          broadcastData.push({
-            type: BROADCAST.DATA.TYPE.NODE_DATA_UPDATE,
-            value: {
-              id: updatedEntity.id,
-              data: updatedEntity.data,
-            },
-          });
+          newTargetNodeColumns.forEach(value => {
+            broadcastData.push({
+              type: NODE.ENTITY.TYPE.COLUMN_ADD,
+              value,
+              server: true
+            });
+          })
+
 
           return updatedEntity;
         });
@@ -295,7 +296,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
 
       if (newRelations.length) {
         broadcastData.push({
-          type: BROADCAST.DATA.TYPE.REACTFLOW_EDGE_CHANGE,
+          type: REACTFLOW.TYPE.EDGE_CHANGE,
           server: true,
           value: newRelations.map((relation) => ({
             type: "add",
@@ -306,7 +307,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
         updatedState.edges = [...state.edges, ...newRelations];
       }
 
-      state.webrtc.broadcastData(broadcastData);
+      state.socket.broadcastData(broadcastData);
 
       return updatedState;
     });
@@ -323,14 +324,13 @@ export const useDiagramEventHandlers = (): ReturnType => {
       onDrop: handleDrop,
       onBeforeDelete: handleBeforeDelete,
       onNodesChange: handleNodesChange,
-      onNodeDragStop: handleNodeDragStop,
       onNodeDrag: handleNodeDrag,
       onMouseLeave: handleMouseLeave,
       onMouseMove: handleMouseMove,
       onMove: handleMove,
       onDragOver: handleDragOver,
       onNodeDoubleClick: handleNodeDoubleClick,
-      onBlur: handleBlur
+      onBlur: handleBlur,
     }),
     [
       handleEdgesChange,
@@ -338,7 +338,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
       handleDrop,
       handleBeforeDelete,
       handleNodesChange,
-      handleNodeDragStop,
       handleNodeDrag,
       handleMouseLeave,
       handleMouseMove,

@@ -1,7 +1,7 @@
 import {RELATION} from "@/namespaces";
 
 export type Client = {
-  peerId: string
+  id: string
   userId: string,
   cursor: { x: number, y: number } | null
   color: string

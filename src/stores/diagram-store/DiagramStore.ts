@@ -6,14 +6,14 @@ import {
   paneSlice,
   socketIoSlice,
   undoRedoSlice,
-  webrtcSlice,
+  // webrtcSlice,
   type EdgeSlice,
   type EntitySlice,
   type NodeSlice,
   type PaneSlice,
   type SocketIoSlice,
   type UndoRedoSlice,
-  type WebrtcSlice
+  // type WebrtcSlice
 } from "./slices";
 import {createStore} from "zustand";
 import type { User } from "@/types/log-to/user";
@@ -27,7 +27,7 @@ export type DiagramStore = {
   & UndoRedoSlice
   & EntitySlice
   & SocketIoSlice
-  & WebrtcSlice
+  // & WebrtcSlice
 
 type CreateDiagramArgs = {
   reactflow: ReactFlowInstance,
@@ -44,7 +44,7 @@ export const createDiagramStore = ({ reactflow, roomId, user, peerId }: CreateDi
     ...undoRedoSlice(...a),
     ...entitySlice(...a),
     ...socketIoSlice(roomId, user.id, peerId)(...a),
-    ...webrtcSlice(peerId)(...a),
+    // ...webrtcSlice(peerId)(...a),
   }))
 
   return diagramStore

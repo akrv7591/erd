@@ -17,7 +17,7 @@ export const EntityConfig = memo(() => {
   })
   const { data: user } = useUser()
   const entityConfig = useDiagramStore(useCallback(state => state.configs.find(config => config.userId === user.id), [user.id]))
-  const setEntityConfig = useDiagramStore(state => state.setConfig)
+  const setEntityConfig = useDiagramStore(state => state.updateEntityConfig)
   const handleModalOpen = useCallback(() => {
     if (!entityConfig) {
       const initialConfig: EntityData & { userId: string } = {

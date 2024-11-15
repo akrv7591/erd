@@ -32,7 +32,7 @@ export const EntityConfigModal = memo(({configData, ...modalProps}: Props) => {
   const form = useEntityConfigForm({
     initialValues: configData,
   })
-  const setEntityConfig = useDiagramStore(state => state.setConfig)
+  const setEntityConfig = useDiagramStore(state => state.updateEntityConfig)
 
   const handleColumnChange = useCallback(<K extends keyof EntityColumn>(id: EntityColumn['id'], key: K, value: EntityColumn[K]) => {
     form.setValues(state => {

@@ -2,60 +2,44 @@ import {ActionIcon, Indicator, Tooltip} from "@mantine/core"
 import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
 import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {memo, useCallback, useMemo} from "react";
-import {useEntityNode} from "@/hooks";
+import {useDiagramStore, useEntityNode} from "@/hooks";
 import {createId} from "@paralleldrive/cuid2";
 import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
 
 export const RowControls = memo(() => {
-  const {data: entityData, id: entityId, onChange} = useEntityNode()
+  const {data: entityData, id: entityId} = useEntityNode()
+  const addColumn = useDiagramStore(state => state.addEntityColumn)
+  const deleteColumns = useDiagramStore(state => state.deleteEntityColumn)
 
   const handleAddPrimaryColumn = useCallback(() => {
-    onChange(({columns}) => {
-      const id = createId()
-
-      return {
-        columns: [...columns, {
-          ...DEFAULT_COLUMN_DATA,
-          id,
-          entityId,
-          order: Object.keys(columns).length,
-          primary: true,
-          unique: true,
-          notNull: true,
-        }]
-      }
+    addColumn({
+      ...DEFAULT_COLUMN_DATA,
+      id: createId(),
+      entityId,
+      primary: true,
+      unique: true,
+      notNull: true,
     })
   }, [])
 
   const handleAddColumn = useCallback(() => {
-    onChange(({columns}) => {
-      const id = createId()
-
-      return {
-        columns: [
-          ...columns,
-          {
-            ...DEFAULT_COLUMN_DATA,
-            id,
-            entityId,
-            order: Object.keys(columns).length,
-          }
-        ]
-      }
-    })
-  }, [])
-
-  const handleDeleteSelectedColumns = useCallback(() => {
-    onChange(({columns}) => {
-      return {
-        columns: columns.filter((column) => !column.selected)
-      }
+    addColumn({
+      ...DEFAULT_COLUMN_DATA,
+      id: createId(),
+      entityId,
     })
   }, [])
 
   const selectedColumns = useMemo(() => {
     return entityData.columns.filter(column => column.selected)
   }, [entityData.columns])
+
+  const handleDeleteSelectedColumns = useCallback(() => {
+    deleteColumns(selectedColumns.map(({id: columnId}) => ({
+      entityId,
+      columnId
+    })))
+  }, [selectedColumns])
 
   if (selectedColumns.length) {
     return (

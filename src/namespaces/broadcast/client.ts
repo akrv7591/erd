@@ -9,7 +9,7 @@ export namespace CLIENT {
     export type CHANGE = {
       type: TYPE.CHANGE
       value: {
-        peerId: string;
+        id: string;
         cursor: XYPosition | null;
       },
       server: boolean
@@ -19,5 +19,5 @@ export namespace CLIENT {
   }
 
   export type TYPE = CURSOR.TYPE
-  export type DATA = CURSOR.TYPE
+  export type DATA = CURSOR.DATA
 }

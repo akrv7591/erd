@@ -1,7 +1,6 @@
 import { Socket as SocketIoType } from "socket.io-client";
 import { SOCKET } from "@/namespaces";
 import {Erd} from "@/types/data/db-model-interfaces";
-import {DataBroadcast} from "@/types/diagram";
 
 type WithAcknowledgement<T> = (
   data: T,
@@ -10,7 +9,7 @@ type WithAcknowledgement<T> = (
 
 interface SocketData {
   roomId: string;
-  peerId: string;
+  id: string;
   userId: string;
   socketId: string;
 }
@@ -20,9 +19,10 @@ interface ListenerEventMaps {
   [SOCKET.USER.LEFT]: WithAcknowledgement<SocketData>;
   [SOCKET.DATA.INITIAL_DATA]: WithAcknowledgement<Erd['data']>;
   [SOCKET.DATA.INITIAL_DATA_NOT_FOUND]: WithAcknowledgement<null>;
+  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<string>;
 }
 interface EmitEventMaps {
-  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<DataBroadcast[]>;
+  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<string>;
 }
 
 export type Socket = SocketIoType<ListenerEventMaps, EmitEventMaps>;

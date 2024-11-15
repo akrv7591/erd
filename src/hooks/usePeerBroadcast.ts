@@ -1,59 +1,63 @@
 import { useDiagramStore } from "./useDiagramStore"
 import { useReactFlow, XYPosition } from "@xyflow/react"
 import { useCallback, MouseEvent} from "react"
-import {NodeType, DataBroadcast} from "@/types/diagram";
+import {NodeType} from "@/types/diagram";
 import {BROADCAST} from "@/namespaces";
+import {CLIENT} from "@/namespaces/broadcast/client";
+import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 
 export const usePeerBroadcast = () => {
-  const {broadcastData, id: peerId} = useDiagramStore(state => state.webrtc)
+  const {broadcastData, id} = useDiagramStore(state => state.socket)
 
   const reactFlow = useReactFlow()
 
-
   const handleCursorChange = useCallback((cursor: XYPosition | null) => {
     broadcastData([{
-      type: BROADCAST.DATA.TYPE.CLIENT_CURSOR_CHANGE,
+      type: CLIENT.CURSOR.TYPE.CHANGE,
+      server: false,
       value: {
-        peerId,
+        id,
         cursor: cursor? reactFlow.screenToFlowPosition(cursor, {snapToGrid: false}): null
       }
     }])
   }, [])
 
-  // const handleViewportChange = useCallback((viewport: Viewport) => {
-    // awareness.setLocalStateField("viewport", viewport)
-  // }, [])
-
-  const handleNodeDrag = useCallback((event: MouseEvent) => {
+  const handleNodeDrag = useCallback((event: MouseEvent, node: NodeType, nodes: NodeType[]) => {
+    const positionChanges: BROADCAST.DATA = {
+      type: REACTFLOW.TYPE.NODE_CHANGE,
+      server: true,
+      value: nodes.map(node => ({
+        type: "position",
+        id: node.id,
+        position: node.position,
+      }))
+    }
 
     const cursor: XYPosition = {
       x: event.clientX,
       y: event.clientY
     }
 
+    const cursorChange: BROADCAST.DATA = {
+      type: CLIENT.CURSOR.TYPE.CHANGE,
+      server: false,
+      value: {
+        id,
+        cursor: cursor? reactFlow.screenToFlowPosition(cursor, {snapToGrid: false}): null
+      }
+    }
+
+    broadcastData([
+      positionChanges,
+      cursorChange
+    ])
+
     handleCursorChange(cursor)
 
   }, [handleCursorChange])
 
-  const handleNodeDragStop = useCallback((_: MouseEvent, __: NodeType, nodes: NodeType[]) => {
-    const dataToBroadcast: DataBroadcast = {
-      type: BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE,
-      value: nodes.map(node => ({
-        type: "position",
-        position: node.position,
-        id: node.id
-      })),
-      server: true
-    }
-
-    broadcastData([dataToBroadcast])
-  }, [])
-
   return {
-    // awareness,
     handleCursorChange,
-    // handleViewportChange,
     handleNodeDrag,
-    handleNodeDragStop
   }
 }

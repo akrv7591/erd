@@ -15,7 +15,7 @@ export namespace REACTFLOW {
 
   export type EDGE_CHANGE = {
     type: TYPE.EDGE_CHANGE
-    value: EdgeChange
+    value: EdgeChange[]
     server: boolean
   }
 

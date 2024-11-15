@@ -1,11 +1,10 @@
+import { CLIENT } from "./broadcast/client"
+import { NODE } from "./broadcast/node"
+import { REACTFLOW } from "./broadcast/reactflow"
+
+export class BROADCAST{}
+
 export namespace BROADCAST {
-  export namespace DATA {
-    export enum TYPE {
-      NODE_DATA_UPDATE = "node:data-update",
-      REACTFLOW_NODE_CHANGE = "reactflow:node-changes",
-      REACTFLOW_EDGE_CHANGE = "reactflow:edge-changes",
-      CLIENT_CURSOR_CHANGE = "client:cursor-change",
-      ENTITY_CONFIG_CHANGE = "entity:config-change",
-    }
-  }
+  export type TYPE = NODE.TYPE | CLIENT.TYPE | REACTFLOW.TYPE
+  export type DATA = NODE.DATA | CLIENT.DATA | REACTFLOW.DATA
 }

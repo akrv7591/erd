@@ -19,7 +19,7 @@ export const Header = memo(() => {
       <Group ml={"auto"}/>
       <Avatar.Group>
         {clients.map(client => (
-          <PlayerAvatar client={client} key={client.peerId}/>
+          <PlayerAvatar client={client} key={client.id}/>
         ))}
       </Avatar.Group>
       <ExitButton/>

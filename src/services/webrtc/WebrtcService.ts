@@ -1,12 +1,16 @@
 import {DiagramStore} from "@/stores/diagram-store";
 import {createId} from "@paralleldrive/cuid2";
-import {applyEdgeChanges, applyNodeChanges,} from "@xyflow/react";
 import {DataConnection, Peer} from "peerjs";
 import {StoreApi} from "zustand";
-import {DataBroadcast, NodeType} from "@/types/diagram"
 import randomColor from "randomcolor";
-import {BROADCAST, SOCKET} from "@/namespaces";
+import {BROADCAST} from "@/namespaces";
 import {config} from "@/config/config";
+import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
+import {NODE} from "@/namespaces/broadcast/node";
+import {CLIENT} from "@/namespaces/broadcast/client";
+import {EntityUtils} from "@/utility/EntityUtils";
+import {ClientUtils} from "@/utility/ClientUtils";
+import {ReactflowUtils} from "@/utility/ReactflowUtils";
 
 export class WebrtcService {
   id: string = createId();
@@ -40,83 +44,62 @@ export class WebrtcService {
     this.peer.destroy();
   };
 
-  broadcastData = (data: DataBroadcast[]) => {
-    const serverBroadcastData = data.filter(obj => obj.server);
+  broadcastData = (data: BROADCAST.DATA[]) => {
+    // const serverBroadcastData = data.filter(obj => obj.server);
 
-    if (serverBroadcastData.length > 0) {
-      this.store.getState().socket.io.emit(SOCKET.DATA.UPDATE_DATA, data)
-    }
+    // if (serverBroadcastData.length > 0) {
+      // this.store.getState().socket.io.emit(SOCKET.DATA.UPDATE_DATA, JSON.stringify(data))
+    // }
 
-    Object.values(this.connections).forEach((connection) => {
-      if (connection.open) {
-        connection.send(data);
-      } else {
-        console.warn(connection.peer + " is closed");
-      }
-    });
+    // Object.values(this.connections).forEach((connection) => {
+    //   if (connection.open) {
+    //     connection.send(data);
+    //   } else {
+    //     console.warn(connection.peer + " is closed");
+    //   }
+    // });
   };
 
-  handleDataFromPeers = (data: DataBroadcast[]) => {
+  handleDataFromPeers = (data: BROADCAST.DATA[]) => {
     this.store.setState((state) => {
       const updatedState: Partial<DiagramStore> = {};
 
       data.forEach(({type, value}) => {
         switch (type) {
-          case BROADCAST.DATA.TYPE.REACTFLOW_NODE_CHANGE:
-            updatedState.nodes = applyNodeChanges(value, state.nodes);
+          // Reactflow
+          case REACTFLOW.TYPE.NODE_CHANGE:
+            ReactflowUtils.updateNodes(updatedState, state, value);
+            break;
+          case REACTFLOW.TYPE.EDGE_CHANGE:
+            ReactflowUtils.updateEdges(updatedState, state, value);
             break;
 
-          case BROADCAST.DATA.TYPE.NODE_DATA_UPDATE:
-            if (!updatedState.nodes) {
-              updatedState.nodes = state.nodes;
-            }
-
-            updatedState.nodes = updatedState.nodes.map((node) => {
-              if (node.id !== value.id) {
-                return node;
-              }
-
-              return {
-                ...node,
-                data: value.data,
-              } as NodeType;
-            });
+          // Entity
+          case NODE.ENTITY.TYPE.CONFIG_UPDATE:
+            EntityUtils.updateConfig(updatedState, state, value)
+            break;
+          case NODE.ENTITY.TYPE.NAME_UPDATE:
+            EntityUtils.updateName(updatedState, state, value)
+            break;
+          case NODE.ENTITY.TYPE.COLOR_UPDATE:
+            EntityUtils.updateColor(updatedState, state, value)
+            break;
+          case NODE.ENTITY.TYPE.COLUMN_ADD:
+            EntityUtils.addColumn(updatedState, state, value)
+            break;
+          case NODE.ENTITY.TYPE.COLUMN_UPDATE:
+            EntityUtils.updateColumn(updatedState, state, value)
+            break;
+          case NODE.ENTITY.TYPE.COLUMN_DELETE:
+            EntityUtils.deleteColumn(updatedState, state, value)
             break;
 
-          case BROADCAST.DATA.TYPE.CLIENT_CURSOR_CHANGE:
-            updatedState.clients = state.clients.map((client) => {
-              if (client.peerId !== value.peerId) {
-                return client;
-              }
-
-              return {
-                ...client,
-                cursor: value.cursor,
-              };
-            });
+          // Client
+          case CLIENT.CURSOR.TYPE.CHANGE:
+            ClientUtils.updateCursor(updatedState, state, value)
             break;
-
-          case BROADCAST.DATA.TYPE.REACTFLOW_EDGE_CHANGE:
-            updatedState.edges = applyEdgeChanges(value, state.edges);
-            break;
-          case BROADCAST.DATA.TYPE.ENTITY_CONFIG_CHANGE:
-            const userConfig = state.configs.find(config => config.userId === value.userId)
-
-            if (!userConfig) {
-              updatedState.configs = [...state.configs, value]
-            } else {
-              updatedState.configs = state.configs.map(config => {
-                if (config.userId !== userConfig.userId) {
-                  return config
-                }
-
-                return value
-              })
-            }
-
-            break
           default: {
-            console.log(data)
+            console.log(type, data)
           }
         }
       });
@@ -138,7 +121,7 @@ export class WebrtcService {
 
     this.store.setState(state => ({
       clients: [...state.clients, {
-        peerId: connection.peer,
+        id: connection.peer,
         userId: connection.metadata.userId,
         cursor: null,
         color: randomColor()
@@ -152,7 +135,7 @@ export class WebrtcService {
       // this.connections[id].close();
       delete this.connections[id];
       this.store.setState(state => ({
-        clients: state.clients.filter(client => client.peerId !== id)
+        clients: state.clients.filter(client => client.id !== id)
       }))
     }
   };

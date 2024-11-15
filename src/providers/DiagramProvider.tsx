@@ -40,9 +40,8 @@ export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
         return
       }
 
-      const {webrtc, socket} = storeRef.current.getState()
+      const {socket} = storeRef.current.getState()
       socket.cleanUp();
-      webrtc.cleanUp();
     };
   }, []);
 
