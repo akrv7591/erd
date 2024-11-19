@@ -12,6 +12,8 @@ export class SocketIoService {
   constructor(roomId: string, userId: string) {
     this.roomId = roomId
     this.io = io(config.server.baseUrl, {
+      transports: ["websocket"],
+      secure: true,
       query: {
         userId,
         roomId,
