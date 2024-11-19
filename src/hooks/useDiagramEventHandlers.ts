@@ -253,7 +253,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
             type: "add",
             item,
           })),
-          server: true
         });
 
         updatedState.nodes = [...state.nodes, ...newEntities];
@@ -285,7 +284,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
             broadcastData.push({
               type: NODE.ENTITY.TYPE.COLUMN_ADD,
               value,
-              server: true
             });
           })
 
@@ -297,7 +295,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
       if (newRelations.length) {
         broadcastData.push({
           type: REACTFLOW.TYPE.EDGE_CHANGE,
-          server: true,
           value: newRelations.map((relation) => ({
             type: "add",
             item: relation,

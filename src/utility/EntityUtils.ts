@@ -1,23 +1,23 @@
 import {EntityColumn, EntityData, EntityNode} from "@/types/diagram";
-import {createId} from "@paralleldrive/cuid2";
 import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
 import {XYPosition} from "@xyflow/react";
 import {DIAGRAM} from "@/namespaces";
 import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
 import {DiagramStore} from "@/stores/diagram-store";
 import {NODE} from "@/namespaces/broadcast/node";
+import {ShortId} from "@/utility/ShortId";
 
 export class EntityUtils {
   static generateEntity(defaultData: EntityNode): EntityNode {
     if (!defaultData.id) {
-      defaultData.id = createId()
+      defaultData.id = ShortId.create()
     }
 
     return  defaultData
   }
 
   static genNewEntityNode(position: XYPosition, customData?: EntityNode['data']) {
-    const id = createId();
+    const id = ShortId.create();
     const name = "Table"
     const defaultData = {
       name,
@@ -51,14 +51,14 @@ export class EntityUtils {
   static columnWithNewId(defaultData: EntityColumn): EntityColumn {
     return {
       ...defaultData,
-      id: createId(),
+      id: ShortId.create(),
     }
   }
 
   static generateDefaultColumn(type: DIAGRAM.ENTITY.COLUMN_TYPE, entityId: string): EntityColumn {
     let column: EntityColumn = {
       ...DEFAULT_COLUMN_DATA,
-      id: createId(),
+      id: ShortId.create(),
       entityId,
     }
 

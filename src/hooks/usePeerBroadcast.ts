@@ -14,10 +14,9 @@ export const usePeerBroadcast = () => {
   const handleCursorChange = useCallback((cursor: XYPosition | null) => {
     broadcastData([{
       type: CLIENT.CURSOR.TYPE.CHANGE,
-      server: false,
       value: {
         id,
-        cursor: cursor? reactFlow.screenToFlowPosition(cursor, {snapToGrid: false}): null
+        cursor: cursor? reactFlow.screenToFlowPosition(cursor): null
       }
     }])
   }, [])
@@ -25,7 +24,6 @@ export const usePeerBroadcast = () => {
   const handleNodeDrag = useCallback((event: MouseEvent, node: NodeType, nodes: NodeType[]) => {
     const positionChanges: BROADCAST.DATA = {
       type: REACTFLOW.TYPE.NODE_CHANGE,
-      server: true,
       value: nodes.map(node => ({
         type: "position",
         id: node.id,
@@ -40,10 +38,9 @@ export const usePeerBroadcast = () => {
 
     const cursorChange: BROADCAST.DATA = {
       type: CLIENT.CURSOR.TYPE.CHANGE,
-      server: false,
       value: {
         id,
-        cursor: cursor? reactFlow.screenToFlowPosition(cursor, {snapToGrid: false}): null
+        cursor: cursor? reactFlow.screenToFlowPosition(cursor): null
       }
     }
 

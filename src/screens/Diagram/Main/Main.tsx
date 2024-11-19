@@ -28,6 +28,8 @@ export const Main: FC = memo(() => {
         proOptions={{hideAttribution: true}}
         panOnScroll
         fitView
+        snapToGrid
+        snapGrid={[1,1]}
         selectionMode={SelectionMode.Partial}
         {...diagramEventHandlers}
       >

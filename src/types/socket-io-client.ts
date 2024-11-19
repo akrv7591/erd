@@ -1,5 +1,5 @@
 import { Socket as SocketIoType } from "socket.io-client";
-import { SOCKET } from "@/namespaces";
+import {BROADCAST, SOCKET} from "@/namespaces";
 import {Erd} from "@/types/data/db-model-interfaces";
 
 type WithAcknowledgement<T> = (
@@ -19,10 +19,10 @@ interface ListenerEventMaps {
   [SOCKET.USER.LEFT]: WithAcknowledgement<SocketData>;
   [SOCKET.DATA.INITIAL_DATA]: WithAcknowledgement<Erd['data']>;
   [SOCKET.DATA.INITIAL_DATA_NOT_FOUND]: WithAcknowledgement<null>;
-  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<string>;
+  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<BROADCAST.DATA[]>;
 }
 interface EmitEventMaps {
-  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<string>;
+  [SOCKET.DATA.UPDATE_DATA]: WithAcknowledgement<BROADCAST.DATA[]>;
 }
 
 export type Socket = SocketIoType<ListenerEventMaps, EmitEventMaps>;

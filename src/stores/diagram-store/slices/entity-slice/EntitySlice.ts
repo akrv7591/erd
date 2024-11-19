@@ -42,7 +42,6 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     state.socket.broadcastData([
       {
         type: NODE.ENTITY.TYPE.CONFIG_UPDATE,
-        server: true,
         value: config
       }
     ])
@@ -68,7 +67,6 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     state.socket.broadcastData([
       {
         type: NODE.ENTITY.TYPE.NAME_UPDATE,
-        server: true,
         value: data
       }
     ])
@@ -82,7 +80,6 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     state.socket.broadcastData([
       {
         type: NODE.ENTITY.TYPE.COLOR_UPDATE,
-        server: true,
         value: data
       }
     ])
@@ -96,7 +93,6 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     state.socket.broadcastData([
       {
         type: NODE.ENTITY.TYPE.COLUMN_ADD,
-        server: true,
         value: data
       }
     ])
@@ -111,7 +107,6 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     state.socket.broadcastData([
       {
         type: NODE.ENTITY.TYPE.COLUMN_UPDATE,
-        server: true,
         value: data
       }
     ])
@@ -126,7 +121,6 @@ export const entitySlice: StateCreator<DiagramStore, [], [], EntitySlice> = (set
     state.socket.broadcastData([
       {
         type: NODE.ENTITY.TYPE.COLUMN_DELETE,
-        server: true,
         value: data
       }
     ])

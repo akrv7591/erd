@@ -25,10 +25,10 @@ import {memo, useCallback, useMemo} from "react";
 import {useTeamList, useUser} from "@/hooks";
 import {erdApis} from "@/api/erd";
 import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification";
-import {createId} from "@paralleldrive/cuid2";
 import {ColumnNameCases, EntityNameCases} from "@/constants/playground";
 import {Dropzone, FileWithPath, IMAGE_MIME_TYPE} from "@mantine/dropzone";
 import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider";
+import {ShortId} from "@/utility/ShortId";
 
 interface Props extends ModalBaseProps {
   data: Erd | null
@@ -40,7 +40,7 @@ type FormData = Omit<Erd, 'createdAt' | 'updatedAt' | 'deletedAt' | 'data'> & {
 
 const generateDefaultFormValue = (teamId: string, userId: string): FormData => {
   return {
-    id: createId(),
+    id: ShortId.create(),
     name: "",
     description: "",
     isPublic: false,

@@ -57,7 +57,6 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
         broadcastData.push({
           type: REACTFLOW.TYPE.NODE_CHANGE,
           value: changesToBroadcast,
-          server: true
         })
       }
 
@@ -65,7 +64,6 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
         broadcastData.push({
           type: REACTFLOW.TYPE.NODE_CHANGE,
           value: changesToWebrtcBroadcast,
-          server: false
         })
       }
 
@@ -108,7 +106,6 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
         {
           type: REACTFLOW.TYPE.NODE_CHANGE,
           value: nodeAddBroadcast,
-          server: true,
         },
       ]);
 

@@ -15,7 +15,6 @@ export namespace NODE {
     export type CONFIG_UPDATE = {
       type: TYPE.CONFIG_UPDATE;
       value: EntityConfig;
-      server: boolean;
     };
 
     export type NAME_UPDATE = {
@@ -24,7 +23,6 @@ export namespace NODE {
         id: string;
         name: string;
       };
-      server: boolean;
     };
 
     export type COLOR_UPDATE = {
@@ -33,13 +31,11 @@ export namespace NODE {
         id: string;
         color: string;
       };
-      server: boolean;
     };
 
     export type COLUMN_ADD = {
       type: TYPE.COLUMN_ADD;
       value: EntityColumn;
-      server: boolean;
     };
 
     export type COLUMN_UPDATE = {
@@ -50,7 +46,6 @@ export namespace NODE {
         key: keyof EntityColumn;
         value: string | number | boolean;
       };
-      server: boolean;
     };
 
     export type COLUMN_DELETE = {
@@ -59,7 +54,6 @@ export namespace NODE {
         entityId: string;
         columnId: string;
       }[];
-      server: boolean;
     };
 
     export type DATA =

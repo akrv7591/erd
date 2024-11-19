@@ -4,7 +4,7 @@ import { useReactFlow } from "@xyflow/react";
 import { createDiagramStore } from "@/stores/diagram-store";
 import { DiagramContext } from "@/contexts/DiagramContext";
 import { useUser } from "@/hooks";
-import { createId } from "@paralleldrive/cuid2";
+import {ShortId} from "@/utility/ShortId";
 
 export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
   const reactflow = useReactFlow();
@@ -27,7 +27,7 @@ export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
         reactflow,
         roomId,
         user,
-        peerId: createId()
+        peerId: ShortId.create()
       })
       setStoreInitialized(true)
     }

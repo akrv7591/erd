@@ -3,8 +3,8 @@ import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
 import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {memo, useCallback, useMemo} from "react";
 import {useDiagramStore, useEntityNode} from "@/hooks";
-import {createId} from "@paralleldrive/cuid2";
 import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
+import {ShortId} from "@/utility/ShortId";
 
 export const RowControls = memo(() => {
   const {data: entityData, id: entityId} = useEntityNode()
@@ -14,7 +14,7 @@ export const RowControls = memo(() => {
   const handleAddPrimaryColumn = useCallback(() => {
     addColumn({
       ...DEFAULT_COLUMN_DATA,
-      id: createId(),
+      id: ShortId.create(),
       entityId,
       primary: true,
       unique: true,
@@ -25,7 +25,7 @@ export const RowControls = memo(() => {
   const handleAddColumn = useCallback(() => {
     addColumn({
       ...DEFAULT_COLUMN_DATA,
-      id: createId(),
+      id: ShortId.create(),
       entityId,
     })
   }, [])

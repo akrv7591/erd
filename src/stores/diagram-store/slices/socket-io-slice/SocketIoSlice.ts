@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {DiagramStore} from "@/stores/diagram-store";
 import {SocketIoService} from "@/services";
-import {BROADCAST, SOCKET} from "@/namespaces";
+import {SOCKET} from "@/namespaces";
 import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 import {ReactflowUtils} from "@/utility/ReactflowUtils";
 import {NODE} from "@/namespaces/broadcast/node";
@@ -49,11 +49,10 @@ export const socketIoSlice: (roomId: string, userId: string, peerId: string) => 
     })
   })
 
-  socket.io.on(SOCKET.DATA.UPDATE_DATA, (jsonString) => {
+
+  socket.io.on(SOCKET.DATA.UPDATE_DATA, (data) => {
     api.setState((state) => {
       const updatedState: Partial<DiagramStore> = {};
-      const data: BROADCAST.DATA[] = JSON.parse(jsonString)
-
       data.forEach(({type, value}) => {
         switch (type) {
           // Reactflow

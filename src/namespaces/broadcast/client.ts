@@ -12,7 +12,6 @@ export namespace CLIENT {
         id: string;
         cursor: XYPosition | null;
       },
-      server: boolean
     }
 
     export type DATA = CHANGE

@@ -2,12 +2,12 @@ import { config } from '@/config/config';
 import {io} from 'socket.io-client';
 import { Socket } from '@/types/socket-io-client';
 import { BROADCAST, SOCKET } from '@/namespaces';
-import { createId } from '@paralleldrive/cuid2';
+import {ShortId} from "@/utility/ShortId";
 
 export class SocketIoService {
   io: Socket
   roomId: string
-  id = createId()
+  id = ShortId.create()
 
   constructor(roomId: string, userId: string) {
     this.roomId = roomId
@@ -28,6 +28,6 @@ export class SocketIoService {
   }
 
   broadcastData = (data: BROADCAST.DATA[]) => {
-    this.io.emit(SOCKET.DATA.UPDATE_DATA, JSON.stringify(data))
+    this.io.emit(SOCKET.DATA.UPDATE_DATA, data)
   }
 }

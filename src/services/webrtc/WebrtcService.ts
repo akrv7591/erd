@@ -1,5 +1,4 @@
 import {DiagramStore} from "@/stores/diagram-store";
-import {createId} from "@paralleldrive/cuid2";
 import {DataConnection, Peer} from "peerjs";
 import {StoreApi} from "zustand";
 import randomColor from "randomcolor";
@@ -11,9 +10,10 @@ import {CLIENT} from "@/namespaces/broadcast/client";
 import {EntityUtils} from "@/utility/EntityUtils";
 import {ClientUtils} from "@/utility/ClientUtils";
 import {ReactflowUtils} from "@/utility/ReactflowUtils";
+import {ShortId} from "@/utility/ShortId";
 
 export class WebrtcService {
-  id: string = createId();
+  id: string = ShortId.create();
   peer: Peer;
   store: StoreApi<DiagramStore>;
   connections: Record<string, DataConnection> = {};

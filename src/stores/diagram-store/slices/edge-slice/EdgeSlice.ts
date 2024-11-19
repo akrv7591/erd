@@ -41,7 +41,6 @@ export const edgeSlice: StateCreator<DiagramStore, [], [], EdgeSlice> = (
           {
             type: REACTFLOW.TYPE.EDGE_CHANGE,
             value: changesToBroadcast,
-            server: true,
           },
         ]);
       }

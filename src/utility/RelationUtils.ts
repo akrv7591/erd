@@ -1,9 +1,9 @@
 import { RELATION } from "@/namespaces"
 import { EntityColumn, EntityNode } from "@/types/diagram"
 import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes"
-import { createId } from "@paralleldrive/cuid2"
 import { Edge } from "@xyflow/react"
 import voca from "voca"
+import {ShortId} from "@/utility/ShortId";
 
 type GenerateEntityConnectDataArgs = {
   sourceNode: EntityNode,
@@ -51,7 +51,7 @@ export class RelationUtils {
     const sourceTableName = sourceNode.data.name
 
     sourcePrimaryKeys.forEach((column) => {
-      const id = createId()
+      const id = ShortId.create()
       const foreignKeyRelation: Edge = {
         id,
         source: sourceNode.id,
@@ -80,7 +80,7 @@ export class RelationUtils {
     const sourceTableName = sourceNode.data.name
 
     sourceTablePrimaryKeys.map((column) => {
-      const id = createId()
+      const id = ShortId.create()
       const foreignKeyRelation: Edge = {
         id,
         source: sourceNode.id,
@@ -108,7 +108,7 @@ export class RelationUtils {
     const targetColumns = targetNode.data.columns
 
     const mnTable: EntityNode = {
-      id: createId(),
+      id: ShortId.create(),
       type: NODE_TYPES.ENTITY,
       position: {
         x: (sourceNode.position.x + targetNode.position.x) / 2,
@@ -122,7 +122,7 @@ export class RelationUtils {
     }
 
     function populateColumnsAndEdges(column: EntityColumn, tableName: string, nodeId: string) {
-      const id = createId()
+      const id = ShortId.create()
 
       data.newRelations.push({
         id,
