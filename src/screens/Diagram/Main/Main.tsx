@@ -7,11 +7,19 @@ import {FlowUtils} from "@/screens/Diagram/Main/FlowUtils";
 import {useDiagramEventHandlers} from "@/hooks";
 import "./style.css"
 import { useDiagramStore } from '@/hooks';
+import { LoadingBackdrop } from '@/components/common/LoadingBackdrop';
 
 export const Main: FC = memo(() => {
   const nodes = useDiagramStore(state => state.nodes)
   const edges = useDiagramStore(state => state.edges)
   const diagramEventHandlers = useDiagramEventHandlers()
+  const isConnected = useDiagramStore(state => state.isConnected)
+
+  if (!isConnected) {
+    return (
+      <LoadingBackdrop title="Socket is disconnected" />
+    )
+  }
 
   return (
     <div className={`erd-container`}>

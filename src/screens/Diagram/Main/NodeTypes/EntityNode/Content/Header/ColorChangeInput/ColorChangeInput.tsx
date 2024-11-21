@@ -5,7 +5,7 @@ import {ColorList} from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Hea
 
 export const ColorChangeInput = memo(() => {
   return (
-    <HoverCard closeDelay={50} withinPortal={false}>
+    <HoverCard closeDelay={50} position={"top"}>
       <HoverCard.Target>
         <ActionIcon variant={"default"} size={"lg"} ml={"auto"}>
           <IconPalette/>

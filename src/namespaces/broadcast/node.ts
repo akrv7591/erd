@@ -10,6 +10,7 @@ export namespace NODE {
       COLUMN_ADD = "entity:column-add",
       COLUMN_UPDATE = "entity:column-update",
       COLUMN_DELETE = "entity:column-delete",
+      COLUMN_ORDER_UPDATE = "entity:column-order-update",
     }
 
     export type CONFIG_UPDATE = {
@@ -35,16 +36,18 @@ export namespace NODE {
 
     export type COLUMN_ADD = {
       type: TYPE.COLUMN_ADD;
-      value: EntityColumn;
+      value: EntityColumn[];
     };
 
     export type COLUMN_UPDATE = {
       type: TYPE.COLUMN_UPDATE;
       value: {
         entityId: string;
-        columnId: string;
-        key: keyof EntityColumn;
-        value: string | number | boolean;
+        changes: {
+          id: string;
+          key: keyof EntityColumn;
+          value: string | number | boolean;
+        }[];
       };
     };
 
@@ -52,8 +55,16 @@ export namespace NODE {
       type: TYPE.COLUMN_DELETE;
       value: {
         entityId: string;
-        columnId: string;
-      }[];
+        ids: string[];
+      };
+    };
+
+    export type COLUMN_ORDER_UPDATE = {
+      type: TYPE.COLUMN_ORDER_UPDATE;
+      value: {
+        ids: string[];
+        entityId: string;
+      };
     };
 
     export type DATA =
@@ -62,7 +73,8 @@ export namespace NODE {
       | COLOR_UPDATE
       | COLUMN_ADD
       | COLUMN_UPDATE
-      | COLUMN_DELETE;
+      | COLUMN_DELETE
+      | COLUMN_ORDER_UPDATE;
   }
 
   export type TYPE = ENTITY.TYPE;

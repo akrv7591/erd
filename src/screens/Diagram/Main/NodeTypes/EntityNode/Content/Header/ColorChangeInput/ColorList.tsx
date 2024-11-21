@@ -1,19 +1,15 @@
 import {memo, useCallback} from "react";
 import {ActionIcon, ColorSwatch, SimpleGrid} from "@mantine/core";
 import classes from "./style.module.css"
-import {useDiagramStore, useEntityNode} from "@/hooks";
+import {useEntity} from "@/hooks";
 import {DIAGRAM} from "@/namespaces";
 
 export const ColorList = memo(() => {
-  const {id} = useEntityNode()
-  const changeColor = useDiagramStore(state => state.updateEntityColor)
+  const {changeColor} = useEntity()
 
   const handleColorClick = useCallback((color: string) => () => {
-    changeColor({
-      id,
-      color
-    })
-  }, [])
+    changeColor(color)
+  }, [changeColor])
 
   return (
     <SimpleGrid spacing={"5px"} cols={5} className={classes.root}>

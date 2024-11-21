@@ -1,30 +1,27 @@
-import {EntityColumn, EntityData, EntityNode} from "@/types/diagram";
-import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
-import {XYPosition} from "@xyflow/react";
-import {DIAGRAM} from "@/namespaces";
-import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
-import {DiagramStore} from "@/stores/diagram-store";
-import {NODE} from "@/namespaces/broadcast/node";
-import {ShortId} from "@/utility/ShortId";
+import { EntityColumn, EntityData, EntityNode, NodeType } from "@/types/diagram";
+import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes";
+import { XYPosition } from "@xyflow/react";
+import { BROADCAST, DIAGRAM } from "@/namespaces";
+import { DEFAULT_COLUMN_DATA } from "@/constants/diagram/column";
+import { DiagramStore } from "@/stores/diagram-store";
+import { NODE } from "@/namespaces/broadcast/node";
+import { ShortId } from "@/utility/ShortId";
+
+type StateUpdate<T extends BROADCAST.DATA> = (updatedState: Partial<DiagramStore>, state: DiagramStore, changes: T) => Partial<DiagramStore>
 
 export class EntityUtils {
-  static generateEntity(defaultData: EntityNode): EntityNode {
-    if (!defaultData.id) {
-      defaultData.id = ShortId.create()
-    }
-
-    return  defaultData
+  static isEntityNode(nodeType: NodeType['type']) {
+    return nodeType === NODE_TYPES.ENTITY
   }
-
-  static genNewEntityNode(position: XYPosition, customData?: EntityNode['data']) {
+  static genNewEntityNode(position: XYPosition, customData?: EntityNode["data"]) {
     const id = ShortId.create();
-    const name = "Table"
+    const name = "Table";
     const defaultData = {
       name,
       color: "#006ab9",
-      columns: []
-    }
-    const data = customData? customData: defaultData
+      columns: [],
+    };
+    const data = customData ? customData : defaultData;
 
     const node: EntityNode = {
       id,
@@ -32,11 +29,15 @@ export class EntityUtils {
       position,
       data: {
         ...data,
-        columns: data.columns.map(EntityUtils.columnWithNewId)
+        columns: data.columns.map(column => ({
+          ...column,
+          id: ShortId.create(),
+          entityId: id
+        })),
       },
     };
 
-    return node
+    return node;
   }
 
   static primaryColumn(defaultData: EntityColumn): EntityColumn {
@@ -45,51 +46,142 @@ export class EntityUtils {
       primary: true,
       unique: true,
       notNull: true,
-    }
+    };
   }
 
-  static columnWithNewId(defaultData: EntityColumn): EntityColumn {
-    return {
-      ...defaultData,
-      id: ShortId.create(),
-    }
-  }
-
-  static generateDefaultColumn(type: DIAGRAM.ENTITY.COLUMN_TYPE, entityId: string): EntityColumn {
+  static generateDefaultColumn(
+    type: DIAGRAM.ENTITY.COLUMN_TYPE,
+    entityId: string,
+  ): EntityColumn {
     let column: EntityColumn = {
       ...DEFAULT_COLUMN_DATA,
       id: ShortId.create(),
       entityId,
-    }
+    };
 
     if (type === DIAGRAM.ENTITY.COLUMN_TYPE.PRIMARY) {
-      column = EntityUtils.primaryColumn(column)
+      column = EntityUtils.primaryColumn(column);
     }
 
-    return column
-  }
-
-  static getUpdatedEntityData(entity: EntityNode, dataUpdate: Partial<EntityNode['data']> | ((data: EntityNode['data']) => EntityNode)) {
-    return {
-      ...entity,
-      data: {
-        ...entity.data,
-        ...typeof dataUpdate === "function" ? dataUpdate(entity.data) : dataUpdate
-      }
-    }
+    return column;
   }
 
   // New util functions for entity
-  static updateData(updatedState: Partial<DiagramStore>, state: DiagramStore, entityId: string, data: Partial<EntityData> | ((data: EntityData) => Partial<EntityData>)) {
+  static updateData(
+    updatedState: Partial<DiagramStore>,
+    state: DiagramStore,
+    entityId: string,
+    data: Partial<EntityData> | ((data: EntityData) => Partial<EntityData>),
+  ) {
     if (!updatedState.nodes) {
-      updatedState.nodes = state.nodes
+      updatedState.nodes = state.nodes;
     }
 
-    updatedState.nodes = updatedState.nodes.map(node => {
+    updatedState.nodes = updatedState.nodes.map((node) => {
       if (node.type !== NODE_TYPES.ENTITY) {
-        return node
+        return node;
       }
       if (node.id !== entityId) {
+        return node;
+      }
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          ...(typeof data === "function" ? data(node.data) : data),
+        },
+      };
+    });
+  }
+
+  static updateConfig(
+    updatedState: Partial<DiagramStore>,
+    state: DiagramStore,
+    data: NODE.ENTITY.CONFIG_UPDATE["value"],
+  ) {
+    if (!updatedState.configs) {
+      updatedState.configs = state.configs;
+    }
+
+    if (updatedState.configs.find((c) => c.userId === data.userId)) {
+      updatedState.configs = updatedState.configs.map((c) => {
+        if (c.userId !== data.userId) {
+          return c;
+        }
+        return data;
+      });
+    }
+
+    updatedState.configs = [...updatedState.configs, data];
+  }
+
+  static updateName: StateUpdate<NODE.ENTITY.NAME_UPDATE> = (updatedState, state, {value}) => {
+    if (!updatedState.nodes) {
+      updatedState.nodes = state.nodes;
+    }
+
+    updatedState.nodes = updatedState.nodes.map((node) => {
+      if (node.type !== NODE_TYPES.ENTITY) {
+        return node;
+      }
+
+      if (node.id !== value.id) {
+        return node;
+      }
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          name: value.name,
+        },
+      };
+
+    });
+
+    return updatedState
+  }
+
+  static updateColor: StateUpdate<NODE.ENTITY.COLOR_UPDATE> = (updatedState, state, {value}) =>{
+    if (!updatedState.nodes) {
+      updatedState.nodes = state.nodes;
+    }
+
+    updatedState.nodes = updatedState.nodes.map((node) => {
+      if (node.type !== NODE_TYPES.ENTITY) {
+        return node;
+      }
+
+      if (node.id !== value.id) {
+        return node;
+      }
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          color: value.color,
+        },
+      };
+    });
+
+    return updatedState
+  }
+
+  static addColumn: StateUpdate<NODE.ENTITY.COLUMN_ADD> = (updatedState, state, {value: columns}) => {
+    if (!updatedState.nodes) {
+      updatedState.nodes = state.nodes;
+    }
+
+    updatedState.nodes = updatedState.nodes.map((node) => {
+      if (node.type !== NODE_TYPES.ENTITY) {
+        return node;
+      }
+
+      const entityColumns = columns.filter(column => column.entityId === node.id)
+
+      if (!entityColumns.length) {
         return node
       }
 
@@ -97,126 +189,80 @@ export class EntityUtils {
         ...node,
         data: {
           ...node.data,
-          ...typeof data === "function" ? data(node.data) : data
-        }
-      }
-    })
-  }
-  static updateConfig(updatedState: Partial<DiagramStore>, state: DiagramStore, data: NODE.ENTITY.CONFIG_UPDATE['value']) {
-    if (!updatedState.configs) {
-      updatedState.configs = state.configs
-    }
+          columns: [...node.data.columns, ...entityColumns],
+        },
+      };
+    });
 
-    if (updatedState.configs.find(c => c.userId === data.userId)) {
-      updatedState.configs = updatedState.configs.map(c => {
-        if (c.userId !== data.userId) {
-          return c
-        }
-        return data
-      })
-    }
-
-    updatedState.configs = [...updatedState.configs, data]
+    return updatedState
   }
-  static updateName(updatedState: Partial<DiagramStore>, state: DiagramStore, data: NODE.ENTITY.NAME_UPDATE['value']) {
+
+  static updateColumn: StateUpdate<NODE.ENTITY.COLUMN_UPDATE> = (updatedState, state, {value}) => {
     if (!updatedState.nodes) {
-      updatedState.nodes = state.nodes
+      updatedState.nodes = state.nodes;
     }
 
-    updatedState.nodes = updatedState.nodes.map(node => {
+    updatedState.nodes = updatedState.nodes.map((node) => {
       if (node.type !== NODE_TYPES.ENTITY) {
+        return node;
+      }
+      if (node.id !== value.entityId) {
         return node
       }
-      if (node.id === data.id) {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            name: data.name
-          }
-        }
-      }
-      return node
-    })
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          columns: node.data.columns.map((column) => {
+            const change = value.changes.find(change => change.id === column.id)
+
+            if (!change) {
+              return column
+            }
+
+            return {
+              ...column,
+              [change.key]: change.value,
+            };
+          }),
+        },
+      };
+    });
+
+    return updatedState
   }
 
-  static updateColor(updatedState: Partial<DiagramStore>, state: DiagramStore, data: NODE.ENTITY.COLOR_UPDATE['value']) {
+  static deleteColumn: StateUpdate<NODE.ENTITY.COLUMN_DELETE> = (updatedState, state, {value}) => {
     if (!updatedState.nodes) {
-      updatedState.nodes = state.nodes
+      updatedState.nodes = state.nodes;
     }
 
-    updatedState.nodes = updatedState.nodes.map(node => {
+
+    updatedState.nodes = updatedState.nodes.map((node) => {
       if (node.type !== NODE_TYPES.ENTITY) {
+        return node;
+      }
+
+      if (node.id !== value.entityId) {
         return node
       }
-      if (node.id === data.id) {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            color: data.color
-          }
-        }
-      }
-      return node
-    })
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          columns: node.data.columns.filter(column => !value.ids.includes(column.id))
+        },
+      };
+    });
+
+    return updatedState
   }
 
-  static addColumn(updatedState: Partial<DiagramStore>, state: DiagramStore, column: EntityColumn) {
+  static updateColumnOrder: StateUpdate<NODE.ENTITY.COLUMN_ORDER_UPDATE> = (updatedState, state, { value }) => {
     if (!updatedState.nodes) {
-      updatedState.nodes = state.nodes
-    }
-
-    updatedState.nodes = updatedState.nodes.map(node => {
-      if (node.type !== NODE_TYPES.ENTITY) {
-        return node
-      }
-      if (node.id === column.entityId) {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            columns: [...node.data.columns, column]
-          }
-        }
-      }
-      return node
-    })
-  }
-
-  static updateColumn(updatedState: Partial<DiagramStore>, state: DiagramStore, data: NODE.ENTITY.COLUMN_UPDATE['value']) {
-    if (!updatedState.nodes) {
-      updatedState.nodes = state.nodes
-    }
-
-    updatedState.nodes = updatedState.nodes.map(node => {
-      if (node.type !== NODE_TYPES.ENTITY) {
-        return node
-      }
-      if (node.id === data.entityId) {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            columns: node.data.columns.map(column => {
-              if (column.id !== data.columnId) {
-                return column
-              }
-              return {
-                ...column,
-                [data.key]: data.value
-              }
-            })
-          }
-        }
-      }
-      return node
-    })
-  }
-
-  static deleteColumn(updatedState: Partial<DiagramStore>, state: DiagramStore, data: NODE.ENTITY.COLUMN_DELETE['value']) {
-    if (!updatedState.nodes) {
-      updatedState.nodes = state.nodes
+      updatedState.nodes = state.nodes;
     }
 
     updatedState.nodes = updatedState.nodes.map(node => {
@@ -224,21 +270,21 @@ export class EntityUtils {
         return node
       }
 
-      for (const deleteColumn of data) {
-        if (deleteColumn.entityId !== node.id) {
-          continue
-        }
-
-        node = {
-          ...node,
-          data: {
-            ...node.data,
-            columns: node.data.columns.filter(column => column.id !== deleteColumn.columnId)
-          }
-        }
+      if (node.id !== value.entityId) {
+        return node
       }
 
-      return node
+      const tempObj = Object.fromEntries(node.data.columns.map(column => ([column.id, column])))
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          columns: value.ids.map(id => tempObj[id])
+        }
+      }
     })
+
+    return updatedState
   }
 }

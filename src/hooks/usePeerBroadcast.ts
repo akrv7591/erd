@@ -7,7 +7,7 @@ import {CLIENT} from "@/namespaces/broadcast/client";
 import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 
 export const usePeerBroadcast = () => {
-  const {broadcastData, id} = useDiagramStore(state => state.socket)
+  const {broadcastData, io} = useDiagramStore(state => state.socket)
 
   const reactFlow = useReactFlow()
 
@@ -15,7 +15,7 @@ export const usePeerBroadcast = () => {
     broadcastData([{
       type: CLIENT.CURSOR.TYPE.CHANGE,
       value: {
-        id,
+        id: io.id!,
         cursor: cursor? reactFlow.screenToFlowPosition(cursor): null
       }
     }])
@@ -39,7 +39,7 @@ export const usePeerBroadcast = () => {
     const cursorChange: BROADCAST.DATA = {
       type: CLIENT.CURSOR.TYPE.CHANGE,
       value: {
-        id,
+        id: io.id!,
         cursor: cursor? reactFlow.screenToFlowPosition(cursor): null
       }
     }

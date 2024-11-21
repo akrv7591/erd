@@ -1,18 +1,22 @@
-import {useEntityNode} from "./useEntityNode";
 import {useCallback} from "react";
 import {EntityColumn} from "@/types/diagram";
-import {useDiagramStore} from "@/hooks/useDiagramStore";
+import { useEntityColumns } from "./useEntityColumns";
 
-export const useUpdateEntityColumn = (columnId: string) => {
-  const updateColumn = useDiagramStore(state => state.updateEntityColumn)
-  const {id: entityId} = useEntityNode()
-  return useCallback((key: keyof EntityColumn, value: EntityColumn[keyof EntityColumn]) => {
-    updateColumn({
-      entityId,
-      columnId,
+export const useUpdateEntityColumn = (id: string) => {
+  const { updateColumn } = useEntityColumns()
+
+  return useCallback((key: keyof EntityColumn, value: EntityColumn[keyof EntityColumn], oldValue: EntityColumn[keyof EntityColumn]) => {
+    const old = [{
+      id,
+      key,
+      value: oldValue
+    }]
+    const updated = [{
+      id,
       key,
       value
-    })
+    }]
+    updateColumn(old, updated)
   }, [])
 
 }

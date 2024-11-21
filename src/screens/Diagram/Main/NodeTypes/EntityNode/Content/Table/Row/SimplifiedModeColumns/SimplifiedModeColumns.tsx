@@ -2,16 +2,17 @@ import {FC, memo} from "react";
 import {Center, Input, Table} from "@mantine/core";
 import {TypeIcon} from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
 import {EntityColumn} from "@/types/diagram";
-import {useUpdateEntityColumn} from "@/hooks";
 
 interface Props {
   data: EntityColumn
-  patchColumn: ReturnType<typeof useUpdateEntityColumn>
+  handleChange: (
+    key: keyof EntityColumn,
+  ) => React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const {Tr, Td} = Table
 
-export const SimplifiedModeColumns: FC<Props> = memo(({data, patchColumn}) => {
+export const SimplifiedModeColumns: FC<Props> = memo(({data, handleChange}) => {
 
   return (
     <Tr>
@@ -26,7 +27,7 @@ export const SimplifiedModeColumns: FC<Props> = memo(({data, patchColumn}) => {
           size={"sm"}
           variant={"filled"}
           placeholder={"Column name"}
-          onChange={e => patchColumn('name', e.target.value)}
+          onChange={handleChange('name')}
         />
       </Td>
       <Td>
@@ -36,7 +37,7 @@ export const SimplifiedModeColumns: FC<Props> = memo(({data, patchColumn}) => {
           variant={"filled"}
           size={"sm"}
           miw={"200px"}
-          onChange={e => patchColumn('type', e.target.value)}
+          onChange={handleChange('type')}
         />
       </Td>
     </Tr>

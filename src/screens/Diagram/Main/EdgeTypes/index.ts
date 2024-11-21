@@ -1,11 +1,14 @@
 import {DefaultEdgeOptions, EdgeTypes} from "@xyflow/react";
 import {FloatingEdge} from "./FloatingEdge"
 
+export enum EDGE_TYPES {
+  ENTITY = "entity",
+}
 
 export const edgeTypes: EdgeTypes = {
-  floating: FloatingEdge
+  [EDGE_TYPES.ENTITY]: FloatingEdge
 }
 
 export const defaultEdgeOptions: DefaultEdgeOptions = {
-  type: 'floating',
+  type: EDGE_TYPES.ENTITY,
 }

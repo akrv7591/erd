@@ -1,32 +1,30 @@
-import {FC, memo} from "react";
-import {DragButton} from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton";
-import {Center, Checkbox, Input, Table} from "@mantine/core";
-import {TypeIcon} from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
-import {EntityColumn} from "@/types/diagram";
-import {useUpdateEntityColumn} from "@/hooks";
+import { FC, memo } from "react";
+import { DragButton } from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton";
+import { Center, Checkbox, Input, Table } from "@mantine/core";
+import { TypeIcon } from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
+import { EntityColumn } from "@/types/diagram";
 
-const {Td, Tr} = Table
+const { Td, Tr } = Table;
 
 interface Props {
-  data: EntityColumn
-  patchColumn: ReturnType<typeof useUpdateEntityColumn>
+  data: EntityColumn;
+  handleChange: (
+    key: keyof EntityColumn,
+  ) => React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export const EditorModeColumns: FC<Props> = memo(({data, patchColumn}) => {
+export const EditorModeColumns: FC<Props> = memo(({ data, handleChange }) => {
   return (
     <Tr>
       <Td className={"nopan nodrag handle"}>
-        <DragButton/>
+        <DragButton />
       </Td>
       <Td>
-        <Checkbox
-          checked={data.selected}
-          onChange={(e) => patchColumn('selected', e.target.checked)}
-        />
+        <Checkbox checked={data.selected} onChange={handleChange("selected")} />
       </Td>
       <Td>
         <Center>
-          <TypeIcon data={data}/>
+          <TypeIcon data={data} />
         </Center>
       </Td>
       <Td>
@@ -35,7 +33,8 @@ export const EditorModeColumns: FC<Props> = memo(({data, patchColumn}) => {
           variant={"filled"}
           placeholder={"Column name"}
           size={"sm"}
-          onChange={e => patchColumn('name', e.target.value)}
+          miw={150}
+          onChange={handleChange("name")}
         />
       </Td>
       <Td>
@@ -44,37 +43,26 @@ export const EditorModeColumns: FC<Props> = memo(({data, patchColumn}) => {
           value={data.type}
           placeholder={"Data type"}
           size={"sm"}
-          onChange={e => patchColumn('type', e.target.value)}
+          miw={150}
+          onChange={handleChange("type")}
         />
       </Td>
       <Td>
-        <Checkbox
-          checked={data.primary}
-          onChange={(e) => patchColumn('primary', e.target.checked)}
-        />
+        <Checkbox checked={data.primary} onChange={handleChange("primary")} />
       </Td>
       <Td>
-        <Checkbox
-          checked={data.notNull}
-          onChange={(e) => patchColumn('notNull', e.target.checked)}
-        />
+        <Checkbox checked={data.notNull} onChange={handleChange("notNull")} />
       </Td>
       <Td>
-        <Checkbox
-          checked={data.unique}
-          onChange={(e) => patchColumn('unique', e.target.checked)}
-        />
+        <Checkbox checked={data.unique} onChange={handleChange("unique")} />
       </Td>
       <Td>
-        <Checkbox
-          checked={data.unsigned}
-          onChange={(e) => patchColumn('unsigned', e.target.checked)}
-        />
+        <Checkbox checked={data.unsigned} onChange={handleChange("unsigned")} />
       </Td>
       <Td>
         <Checkbox
           checked={data.autoIncrement}
-          onChange={(e) => patchColumn('autoIncrement', e.target.checked)}
+          onChange={handleChange("autoIncrement")}
         />
       </Td>
       <Td>
@@ -83,9 +71,9 @@ export const EditorModeColumns: FC<Props> = memo(({data, patchColumn}) => {
           placeholder={"Comment"}
           size={"sm"}
           variant={"filled"}
-          onChange={e => patchColumn('comment', e.target.value)}
+          onChange={handleChange("comment")}
         />
       </Td>
     </Tr>
-  )
-})
+  );
+});

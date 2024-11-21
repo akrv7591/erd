@@ -1,18 +1,18 @@
-.react-flow .react-flow__edge.react-flow__edge-floating .react-flow__edge-path
+.react-flow .react-flow__edge.react-flow__edge-entity .react-flow__edge-path
 {
     stroke: #858585;
     stroke-width: 2;
     transition: stroke-width 0.2s;
 }
 
-.react-flow .react-flow__edge.react-flow__edge-floating.selected .react-flow__edge-path
+.react-flow .react-flow__edge.react-flow__edge-entity.selected .react-flow__edge-path
 {
     stroke: #ffffff;
     stroke-width: 2.5;
 }
 
 
-.react-flow .react-flow__edge.react-flow__edge-floating .react-flow__edge-interaction
+.react-flow .react-flow__edge.react-flow__edge-entity .react-flow__edge-interaction
 {
     opacity: 0;
     stroke: #858585;

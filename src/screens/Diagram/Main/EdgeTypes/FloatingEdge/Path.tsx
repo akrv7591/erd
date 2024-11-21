@@ -35,7 +35,7 @@ const Path = memo((props: Props) => {
   return (
     <>
       <path id={props.id} d={edgePath} markerEnd={props.markerEnd} markerStart={props.markerStart} className={"react-flow__edge-path"}/>
-      {/*<path id={props.id} d={edgePath} markerEnd={props.markerEnd} markerStart={props.markerStart} className={"react-flow__edge-interaction"}/>*/}
+      <path id={props.id} d={edgePath} markerEnd={props.markerEnd} markerStart={props.markerStart} className={"react-flow__edge-interaction"}/>
     </>
   )
 })

@@ -1,28 +1,29 @@
 import { RELATION } from "@/namespaces"
 import { EntityColumn, EntityNode } from "@/types/diagram"
 import { NODE_TYPES } from "@/screens/Diagram/Main/NodeTypes"
-import { Edge } from "@xyflow/react"
 import voca from "voca"
 import {ShortId} from "@/utility/ShortId";
+import { EntityEdge, EntityEdgeData } from "@/types/diagram/edge";
+import { EDGE_TYPES } from "@/screens/Diagram/Main/EdgeTypes";
 
 type GenerateEntityConnectDataArgs = {
-  sourceNode: EntityNode,
-  targetNode: EntityNode,
+  sourceEntity: EntityNode,
+  targetEntity: EntityNode,
   relationType: RELATION.NAME
 }
 
 type EntityConnectData = {
-  newRelations: Edge[],
+  newRelations: EntityEdge[],
   newTargetNodeColumns: EntityColumn[],
   newEntities: EntityNode[]
 }
 
-type RelationArgs = Pick<GenerateEntityConnectDataArgs, 'sourceNode' | 'targetNode'> & {
+type RelationArgs = Pick<GenerateEntityConnectDataArgs, 'sourceEntity' | 'targetEntity'> & {
   data: EntityConnectData
 }
 
 export class RelationUtils {
-  static generateEntityConnectData = ({sourceNode, targetNode, relationType}: GenerateEntityConnectDataArgs) => {
+  static generateEntityConnectData = ({sourceEntity, targetEntity, relationType}: GenerateEntityConnectDataArgs) => {
 
     const data: EntityConnectData = {
       newRelations: [],
@@ -32,87 +33,107 @@ export class RelationUtils {
 
     switch (relationType) {
       case RELATION.NAME.ONE_TO_ONE:
-        this.handleOneToOneRelation({ sourceNode, targetNode, data })
+        this.handleOneToOneRelation({ sourceEntity, targetEntity, data })
         break
       case RELATION.NAME.ONE_TO_MANY:
-        this.handleOneToManyRelation({sourceNode, targetNode, data})
+        this.handleOneToManyRelation({sourceEntity, targetEntity, data})
         break
       case RELATION.NAME.MANY_TO_MANY:
-        this.handleManyToManyRelation({ sourceNode, targetNode, data })
+        this.handleManyToManyRelation({ sourceEntity, targetEntity, data })
         break
     }
 
     return data
   }
 
-  private static handleOneToOneRelation = ({sourceNode, targetNode, data}: RelationArgs) => {
-    const sourceColumns = sourceNode.data.columns
+  private static handleOneToOneRelation = ({sourceEntity, targetEntity, data}: RelationArgs) => {
+    const sourceColumns = sourceEntity.data.columns
     const sourcePrimaryKeys = sourceColumns.filter(column => column.primary)
-    const sourceTableName = sourceNode.data.name
+    const sourceTableName = sourceEntity.data.name
+    const relationData: EntityEdgeData = {
+      foreignKeyColumns: [],
+      relationName: RELATION.NAME.ONE_TO_ONE
+    }
 
     sourcePrimaryKeys.forEach((column) => {
       const id = ShortId.create()
-      const foreignKeyRelation: Edge = {
-        id,
-        source: sourceNode.id,
-        target: targetNode.id,
-        markerEnd: RELATION.NAME.ONE_TO_ONE,
-      }
       const foreignKeyColumn: EntityColumn = {
         ...column,
         id,
-        entityId: targetNode.id,
+        entityId: targetEntity.id,
         name: voca.snakeCase(sourceTableName + voca.titleCase(column.name)),
         foreignKey: true,
         primary: false,
         autoIncrement: false,
         unique: true,
       }
-
-      data.newRelations.push(foreignKeyRelation)
+      relationData.foreignKeyColumns.push({
+        sourceColumnId: id,
+        targetColumnId: column.id
+      })
       data.newTargetNodeColumns.push(foreignKeyColumn)
     })
+
+    const foreignKeyRelation: EntityEdge = {
+      id: ShortId.create(),
+      type: EDGE_TYPES.ENTITY,
+      source: sourceEntity.id,
+      target: targetEntity.id,
+      markerEnd: RELATION.NAME.ONE_TO_ONE,
+      data: relationData
+    }
+    data.newRelations.push(foreignKeyRelation)
   }
 
-  private static handleOneToManyRelation = ({sourceNode, targetNode, data}: RelationArgs) => {
-    const sourceColumns = sourceNode.data.columns
+  private static handleOneToManyRelation = ({sourceEntity, targetEntity, data}: RelationArgs) => {
+    const sourceColumns = sourceEntity.data.columns
     const sourceTablePrimaryKeys = sourceColumns.filter(column => column.primary)
-    const sourceTableName = sourceNode.data.name
+    const sourceTableName = sourceEntity.data.name
+    const relationData: EntityEdgeData = {
+      foreignKeyColumns: [],
+      relationName: RELATION.NAME.ONE_TO_MANY
+    }
 
     sourceTablePrimaryKeys.map((column) => {
       const id = ShortId.create()
-      const foreignKeyRelation: Edge = {
-        id,
-        source: sourceNode.id,
-        target: targetNode.id,
-        markerEnd: RELATION.NAME.ONE_TO_MANY,
-      }
       const targetNodeForeignColumn: EntityColumn = {
           ...column,
           id,
-          entityId: targetNode.id,
+          entityId: targetEntity.id,
           name: voca.snakeCase(sourceTableName + voca.titleCase(column.name)),
           foreignKey: true,
           primary: false,
           autoIncrement: false,
           unique: false
       }
-      data.newRelations.push(foreignKeyRelation)
+      relationData.foreignKeyColumns.push({
+        sourceColumnId: id,
+        targetColumnId: column.id
+      })
       data.newTargetNodeColumns.push(targetNodeForeignColumn)
     })
+    const foreignKeyRelation: EntityEdge = {
+      id: ShortId.create(),
+      type: EDGE_TYPES.ENTITY,
+      source: sourceEntity.id,
+      target: targetEntity.id,
+      markerEnd: RELATION.NAME.ONE_TO_MANY,
+      data: relationData
+    }
+    data.newRelations.push(foreignKeyRelation)
   }
 
-  private static handleManyToManyRelation = ({sourceNode, targetNode, data}: RelationArgs) => {
-    const entityName = sourceNode.data.name + targetNode.data.name
-    const sourceColumns = sourceNode.data.columns
-    const targetColumns = targetNode.data.columns
+  private static handleManyToManyRelation = ({sourceEntity, targetEntity, data}: RelationArgs) => {
+    const entityName = sourceEntity.data.name + targetEntity.data.name
+    const sourceColumns = sourceEntity.data.columns
+    const targetColumns = targetEntity.data.columns
 
     const mnTable: EntityNode = {
       id: ShortId.create(),
       type: NODE_TYPES.ENTITY,
       position: {
-        x: (sourceNode.position.x + targetNode.position.x) / 2,
-        y: (sourceNode.position.y + targetNode.position.y) / 2
+        x: (sourceEntity.position.x + targetEntity.position.x) / 2,
+        y: (sourceEntity.position.y + targetEntity.position.y) / 2
       },
       data: {
         name: entityName,
@@ -121,14 +142,12 @@ export class RelationUtils {
       }
     }
 
-    function populateColumnsAndEdges(column: EntityColumn, tableName: string, nodeId: string) {
+    function populateColumnsAndEdges(column: EntityColumn, tableName: string, relationData: EntityEdgeData) {
       const id = ShortId.create()
 
-      data.newRelations.push({
-        id,
-        source: nodeId,
-        target: mnTable.id,
-        markerEnd: RELATION.NAME.ONE_TO_MANY,
+      relationData.foreignKeyColumns.push({
+        sourceColumnId: column.id,
+        targetColumnId: id
       })
 
       mnTable.data.columns.push({
@@ -140,15 +159,46 @@ export class RelationUtils {
         primary: true,
         unique: false
       })
+
+
+    }
+
+    const sourceRelationDate: EntityEdgeData = {
+      foreignKeyColumns: [],
+      relationName: RELATION.NAME.ONE_TO_MANY
+    }
+
+    const targetRelationDate: EntityEdgeData = {
+      foreignKeyColumns: [],
+      relationName: RELATION.NAME.ONE_TO_MANY
     }
 
     sourceColumns
       .filter(column => column.primary)
-      .forEach(column => populateColumnsAndEdges(column, sourceNode.data.name, sourceNode.id))
+      .forEach(column => populateColumnsAndEdges(column, sourceEntity.data.name, sourceRelationDate))
     targetColumns
       .filter(column => column.primary)
-      .forEach(column => populateColumnsAndEdges(column, targetNode.data.name, targetNode.id))
+      .forEach(column => populateColumnsAndEdges(column, targetEntity.data.name, targetRelationDate))
 
+    const sourceRelation: EntityEdge = {
+      id: ShortId.create(),
+      type: EDGE_TYPES.ENTITY,
+      source: sourceEntity.id,
+      target: mnTable.id,
+      markerEnd: RELATION.NAME.ONE_TO_MANY,
+      data: sourceRelationDate
+    }
+
+    const targetRelation: EntityEdge = {
+      id: ShortId.create(),
+      type: EDGE_TYPES.ENTITY,
+      source: targetEntity.id,
+      target: mnTable.id,
+      markerEnd: RELATION.NAME.ONE_TO_MANY,
+      data: targetRelationDate
+    }
+
+    data.newRelations.push(sourceRelation, targetRelation)
     data.newEntities.push(mnTable)
   }
 }

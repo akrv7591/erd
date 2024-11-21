@@ -2,32 +2,31 @@ import {ActionIcon, Indicator, Tooltip} from "@mantine/core"
 import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
 import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {memo, useCallback, useMemo} from "react";
-import {useDiagramStore, useEntityNode} from "@/hooks";
+import {useEntityColumns, useEntityNode} from "@/hooks";
 import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
 import {ShortId} from "@/utility/ShortId";
 
 export const RowControls = memo(() => {
   const {data: entityData, id: entityId} = useEntityNode()
-  const addColumn = useDiagramStore(state => state.addEntityColumn)
-  const deleteColumns = useDiagramStore(state => state.deleteEntityColumn)
+  const {addColumns, deleteColumns} = useEntityColumns()
 
   const handleAddPrimaryColumn = useCallback(() => {
-    addColumn({
+    addColumns([{
       ...DEFAULT_COLUMN_DATA,
       id: ShortId.create(),
       entityId,
       primary: true,
       unique: true,
       notNull: true,
-    })
+    }])
   }, [])
 
   const handleAddColumn = useCallback(() => {
-    addColumn({
+    addColumns([{
       ...DEFAULT_COLUMN_DATA,
       id: ShortId.create(),
       entityId,
-    })
+    }])
   }, [])
 
   const selectedColumns = useMemo(() => {
@@ -35,10 +34,7 @@ export const RowControls = memo(() => {
   }, [entityData.columns])
 
   const handleDeleteSelectedColumns = useCallback(() => {
-    deleteColumns(selectedColumns.map(({id: columnId}) => ({
-      entityId,
-      columnId
-    })))
+    deleteColumns(selectedColumns)
   }, [selectedColumns])
 
   if (selectedColumns.length) {

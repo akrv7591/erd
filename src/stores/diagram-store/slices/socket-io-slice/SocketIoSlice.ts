@@ -1,7 +1,7 @@
 import {StateCreator} from "zustand";
 import {DiagramStore} from "@/stores/diagram-store";
 import {SocketIoService} from "@/services";
-import {SOCKET} from "@/namespaces";
+import {BROADCAST, SOCKET} from "@/namespaces";
 import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 import {ReactflowUtils} from "@/utility/ReactflowUtils";
 import {NODE} from "@/namespaces/broadcast/node";
@@ -12,17 +12,55 @@ import randomColor from "randomcolor";
 
 interface SocketIoState {
   socket: SocketIoService
+  isConnected: boolean
 }
 
-interface SocketIoAction {}
+interface SocketIoAction {
+  applyDataChanges: (data: BROADCAST.DATA[]) => void
+}
 
 export type SocketIoSlice = SocketIoState & SocketIoAction
 
-export const socketIoSlice: (roomId: string, userId: string, peerId: string) => StateCreator<DiagramStore, [], [], SocketIoSlice> = (roomId, userId, peerId)  => (set, get, api) => {
+export const socketIoSlice: (roomId: string, userId: string) => StateCreator<DiagramStore, [], [], SocketIoSlice> = (roomId, userId)  => (set, get, api) => {
   const socket = new SocketIoService(roomId, userId)
 
   socket.io.on("connect", () => {
     console.debug("Connected to socket.io")
+    set({
+      isConnected: true
+    })
+  })
+
+  socket.io.on("disconnect", (reason) => {
+    set(state => {
+      const updatedState: Partial<DiagramStore> = {
+        isConnected: false
+      }
+      switch(reason) {
+        case "io client disconnect":
+          console.log("io client disconnect")
+          break
+        case "io server disconnect":
+          console.log("io server disconnect")
+          break
+        case "parse error":
+          console.log("parse error")
+          break
+        case "ping timeout":
+          console.log("ping timeout")
+          break
+        case "transport close":
+          console.log("transport close")
+          updatedState.clients = []
+          break
+        case "transport error":
+          console.log("transport error")
+          break
+
+      }
+
+      return updatedState
+    })
   })
 
   socket.io.on(SOCKET.USER.JOIN, ({userId, id}) => {
@@ -49,11 +87,11 @@ export const socketIoSlice: (roomId: string, userId: string, peerId: string) => 
     })
   })
 
-
-  socket.io.on(SOCKET.DATA.UPDATE_DATA, (data) => {
-    api.setState((state) => {
+  const applyDataChanges = (data: BROADCAST.DATA[]) => {
+    set((state) => {
       const updatedState: Partial<DiagramStore> = {};
-      data.forEach(({type, value}) => {
+      data.forEach((change) => {
+        const {type, value} = change
         switch (type) {
           // Reactflow
           case REACTFLOW.TYPE.NODE_CHANGE:
@@ -68,20 +106,23 @@ export const socketIoSlice: (roomId: string, userId: string, peerId: string) => 
             EntityUtils.updateConfig(updatedState, state, value)
             break;
           case NODE.ENTITY.TYPE.NAME_UPDATE:
-            EntityUtils.updateName(updatedState, state, value)
+            EntityUtils.updateName(updatedState, state, change)
             break;
           case NODE.ENTITY.TYPE.COLOR_UPDATE:
-            EntityUtils.updateColor(updatedState, state, value)
+            EntityUtils.updateColor(updatedState, state, change)
             break;
           case NODE.ENTITY.TYPE.COLUMN_ADD:
-            EntityUtils.addColumn(updatedState, state, value)
+            EntityUtils.addColumn(updatedState, state, change)
             break;
           case NODE.ENTITY.TYPE.COLUMN_UPDATE:
-            EntityUtils.updateColumn(updatedState, state, value)
+            EntityUtils.updateColumn(updatedState, state, change)
             break;
           case NODE.ENTITY.TYPE.COLUMN_DELETE:
-            EntityUtils.deleteColumn(updatedState, state, value)
+            EntityUtils.deleteColumn(updatedState, state, change)
             break;
+          case NODE.ENTITY.TYPE.COLUMN_ORDER_UPDATE:
+            EntityUtils.updateColumnOrder(updatedState, state, change)
+            break
 
           // Client
           case CLIENT.CURSOR.TYPE.CHANGE:
@@ -94,10 +135,14 @@ export const socketIoSlice: (roomId: string, userId: string, peerId: string) => 
       });
 
       return updatedState;
-    });
-  })
+    })
+  }
+
+  socket.io.on(SOCKET.DATA.UPDATE_DATA, applyDataChanges)
 
   return {
-    socket
+    socket,
+    isConnected: false,
+    applyDataChanges
   }
 }

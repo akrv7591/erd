@@ -1,5 +1,5 @@
 import {StateCreator} from "zustand";
-import {ReactFlowInstance, Viewport} from "@xyflow/react";
+import {Viewport} from "@xyflow/react";
 import type {Client, Tools} from "@/types/diagram";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore";
 import {DIAGRAM} from "@/namespaces";
@@ -26,7 +26,6 @@ interface PaneSliceState {
   memo: boolean
   synced: boolean
   user: User
-  reactflow: ReactFlowInstance
 }
 
 interface PaneSliceAction {
@@ -52,18 +51,15 @@ const initialStore: Omit<PaneSliceState, 'confirmModal'| 'user' | 'reactflow'> =
   synced: false,
 }
 
-export const paneSlice: (user: User, reactflow: ReactFlowInstance) => StateCreator<DiagramStore, [], [], PaneSlice> = (user, reactflow) => ((set) => ({
+export const paneSlice: (user: User) => StateCreator<DiagramStore, [], [], PaneSlice> = (user) => ((set) => ({
   ...initialStore,
   user,
-  reactflow,
-
   confirmModal: {
     opened: false,
     message: "",
     open: () => set(state => ({confirmModal: {...state.confirmModal, opened: true}})),
     close: () => set(state => ({confirmModal: {...state.confirmModal, opened: false}})),
-    onConfirm: () => {
-    },
+    onConfirm: () => {},
   },
 
   //Actions

@@ -1,14 +1,16 @@
 import { StateCreator } from "zustand";
 import { DiagramStore } from "@/stores/diagram-store/DiagramStore";
-import { applyEdgeChanges, Edge, EdgeChange } from "@xyflow/react";
+import { applyEdgeChanges, EdgeChange } from "@xyflow/react";
 import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
+import { EdgeType } from "@/types/diagram/edge";
 
 interface EdgeSliceState {
-  edges: Edge[];
+  edges: EdgeType[];
 }
 
 interface EdgeSliceAction {
-  handleEdgesChange: (changes: EdgeChange[]) => void
+  handleEdgesChange: (changes: EdgeChange<EdgeType>[]) => void
+  requestEdgesDelete: (edges: EdgeType[]) => Promise<boolean>
 }
 
 export type EdgeSlice = EdgeSliceState & EdgeSliceAction;
@@ -26,15 +28,7 @@ export const edgeSlice: StateCreator<DiagramStore, [], [], EdgeSlice> = (
   // Actions
   handleEdgesChange: (edgeChanges) => {
     set((state) => {
-      const changesToBroadcast: EdgeChange[] = [];
-
-      edgeChanges.forEach((edgeChange) => {
-        switch (edgeChange.type) {
-          case "remove":
-            changesToBroadcast.push(edgeChange);
-            break;
-        }
-      });
+      const changesToBroadcast: EdgeChange<EdgeType>[] = edgeChanges.filter(edge => ["remove", "select"].includes(edge.type))
 
       if (changesToBroadcast.length > 0) {
         state.socket.broadcastData([
@@ -50,4 +44,27 @@ export const edgeSlice: StateCreator<DiagramStore, [], [], EdgeSlice> = (
       };
     });
   },
+
+  requestEdgesDelete: (edges) => new Promise((resolve) => {
+    set(state => {
+      const message = edges.length
+        ? "Are you sure to delete all selected relations"
+        : "Are you sure to delete selected relation";
+      return {
+        confirmModal: {
+          ...state.confirmModal,
+          opened: true,
+          message,
+          onConfirm: (callback) => {
+            resolve(true);
+            callback?.();
+          },
+          onCancel: (callback) => {
+            resolve(false);
+            callback?.();
+          },
+        },
+      };
+    })
+  })
 });

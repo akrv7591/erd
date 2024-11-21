@@ -44,7 +44,7 @@ export const ButtonWithConfirm: FC<Props> = memo(({target, message, onConfirm, i
       classNames={isDanger ? dangerClasses : defaultClasses}
       withArrow
       shadow={"md"}
-      withinPortal={false}
+      withinPortal
       closeOnClickOutside
       closeOnEscape
       opened={opened}
