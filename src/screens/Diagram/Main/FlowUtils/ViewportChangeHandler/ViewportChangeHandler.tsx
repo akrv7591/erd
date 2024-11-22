@@ -1,16 +1,20 @@
 import {memo, useCallback} from "react";
-import {useOnViewportChange} from "@xyflow/react";
-import {useDiagramStoreApi} from "@/hooks";
-// import {useOnViewportChange} from "@xyflow/react";
-// import {useAwareness} from "@/contexts/AwarenessContext";
+import {useOnViewportChange, Viewport} from "@xyflow/react";
+import {useDiagramStore} from "@/hooks";
+import { SOCKET } from "@/namespaces";
 
 export const ViewportChangeHandler = memo(() => {
-  const storeApi = useDiagramStoreApi()
-  const handleViewportChange = useCallback(() => {
-    storeApi.setState(state => ({
-      clients: [...state.clients]
-    }))
-  }, [])
+  const subscribers = useDiagramStore(state => state.subscribers)
+  const socket = useDiagramStore(state => state.socket)
+
+
+  const handleViewportChange = useCallback((viewport: Viewport) => {
+    if (!subscribers.length) {
+      return
+    }
+
+    socket.io.emit(SOCKET.USER.VIEWPORT_CHANGE, viewport)
+  }, [subscribers, socket])
   useOnViewportChange({onChange: handleViewportChange})
 
   return null

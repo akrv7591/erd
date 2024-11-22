@@ -5,7 +5,12 @@ export namespace SOCKET {
   }
   export enum USER {
     JOIN = "user:join",
-    LEFT = "user:left"
+    LEFT = "user:left",
+    SUBSCRIBE = "user:subscribe",
+    UNSUBSCRIBE = "user:unsubscribe",
+    SUBSCRIBED = "user:subscribe",
+    UNSUBSCRIBED = "user:ubsubscribe",
+    VIEWPORT_CHANGE = "user:viewport-change"
   }
 
   export enum DATA {

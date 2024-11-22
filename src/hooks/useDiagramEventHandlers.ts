@@ -42,6 +42,7 @@ type ReturnType = Pick<
   | "onNodeDragStart"
   | "onNodeDragStop"
   | "onDelete"
+  | "onClick"
 >;
 
 export const useDiagramEventHandlers = (): ReturnType => {
@@ -59,6 +60,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
   const handleNodesChange = useDiagramStore((state) => state.handleNodeChanges);
   const handleEdgesChange = useDiagramStore((state) => state.handleEdgesChange);
   const pushUndo = useDiagramStore(state => state.pushUndo)
+  const unsubscribe = useDiagramStore(state => state.unsubscribe)
   const handleNodeDragStart = useDiagramStore(
     (state) => state.handleNodeDragStart,
   );
@@ -77,6 +79,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
   const handleEntityToEntityConnection = useDiagramStore(
     (state) => state.handleEntityToEntityConnection,
   );
+  const socket = useDiagramStore(state => state.socket)
   const { handleNodeDrag, handleCursorChange } = usePeerBroadcast();
   const reactFlow = useReactFlow();
 
@@ -217,7 +220,9 @@ export const useDiagramEventHandlers = (): ReturnType => {
         })
       }
 
+
       if (updates.length) {
+        socket.broadcastData(updates)
         pushUndo({
           undo: current,
           redo: updates
@@ -247,6 +252,10 @@ export const useDiagramEventHandlers = (): ReturnType => {
     handleCursorChange(null);
   }, [handleCursorChange]);
 
+  const handleClick: ReactFlowProps['onClick'] = useCallback(() => {
+    unsubscribe()
+  }, [unsubscribe])
+
   return useMemo(
     () => ({
       onEdgesChange: handleEdgesChange,
@@ -264,6 +273,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
       onNodeDragStart: handleNodeDragStart,
       onNodeDragStop: handleNodeDragStop,
       onDelete: handleDelete,
+      onClick: handleClick
     }),
     [
       handleEdgesChange,
@@ -281,6 +291,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
       handleNodeDragStop,
       handleDragOver,
       handleDelete,
+      handleClick,
     ],
   );
 };

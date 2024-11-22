@@ -1,7 +1,6 @@
 import { StateCreator } from "zustand";
 import { DiagramStore } from "@/stores/diagram-store/DiagramStore";
 import { applyEdgeChanges, EdgeChange } from "@xyflow/react";
-import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 import { EdgeType } from "@/types/diagram/edge";
 
 interface EdgeSliceState {
@@ -28,17 +27,6 @@ export const edgeSlice: StateCreator<DiagramStore, [], [], EdgeSlice> = (
   // Actions
   handleEdgesChange: (edgeChanges) => {
     set((state) => {
-      const changesToBroadcast: EdgeChange<EdgeType>[] = edgeChanges.filter(edge => ["remove", "select"].includes(edge.type))
-
-      if (changesToBroadcast.length > 0) {
-        state.socket.broadcastData([
-          {
-            type: REACTFLOW.TYPE.EDGE_CHANGE,
-            value: changesToBroadcast,
-          },
-        ]);
-      }
-
       return {
         edges: applyEdgeChanges(edgeChanges, state.edges),
       };

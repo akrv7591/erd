@@ -1,4 +1,4 @@
-import {FC, memo} from 'react';
+import {FC, memo, useMemo} from 'react';
 import {ConnectionLineType, ReactFlow, SelectionMode} from '@xyflow/react';
 import {defaultEdgeOptions, edgeTypes} from "./EdgeTypes";
 import {nodeTypes} from "./NodeTypes";
@@ -14,6 +14,23 @@ export const Main: FC = memo(() => {
   const edges = useDiagramStore(state => state.edges)
   const diagramEventHandlers = useDiagramEventHandlers()
   const isConnected = useDiagramStore(state => state.isConnected)
+  const subscribedTo = useDiagramStore(state => state.subscribedTo)
+  const clients = useDiagramStore(state => state.clients)
+  const subscribedClient = useMemo(() => {
+    return clients.find(client => client.id === subscribedTo)
+  }, [subscribedTo, clients])
+
+  const style = useMemo(() => {
+    if (!subscribedClient) {
+      return {
+        border: "1px solid transparent"
+      }
+    }
+
+    return {
+      border: `1px solid ${subscribedClient.color}`
+    }
+  }, [subscribedClient])
 
   if (!isConnected) {
     return (
@@ -38,6 +55,7 @@ export const Main: FC = memo(() => {
         fitView
         snapToGrid
         snapGrid={[1,1]}
+        style={style}
         selectionMode={SelectionMode.Partial}
         {...diagramEventHandlers}
       >

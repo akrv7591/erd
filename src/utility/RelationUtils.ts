@@ -163,22 +163,22 @@ export class RelationUtils {
 
     }
 
-    const sourceRelationDate: EntityEdgeData = {
+    const sourceRelationData: EntityEdgeData = {
       foreignKeyColumns: [],
       relationName: RELATION.NAME.ONE_TO_MANY
     }
 
-    const targetRelationDate: EntityEdgeData = {
+    const targetRelationData: EntityEdgeData = {
       foreignKeyColumns: [],
       relationName: RELATION.NAME.ONE_TO_MANY
     }
 
     sourceColumns
       .filter(column => column.primary)
-      .forEach(column => populateColumnsAndEdges(column, sourceEntity.data.name, sourceRelationDate))
+      .forEach(column => populateColumnsAndEdges(column, sourceEntity.data.name, sourceRelationData))
     targetColumns
       .filter(column => column.primary)
-      .forEach(column => populateColumnsAndEdges(column, targetEntity.data.name, targetRelationDate))
+      .forEach(column => populateColumnsAndEdges(column, targetEntity.data.name, targetRelationData))
 
     const sourceRelation: EntityEdge = {
       id: ShortId.create(),
@@ -186,7 +186,7 @@ export class RelationUtils {
       source: sourceEntity.id,
       target: mnTable.id,
       markerEnd: RELATION.NAME.ONE_TO_MANY,
-      data: sourceRelationDate
+      data: sourceRelationData
     }
 
     const targetRelation: EntityEdge = {
@@ -195,7 +195,7 @@ export class RelationUtils {
       source: targetEntity.id,
       target: mnTable.id,
       markerEnd: RELATION.NAME.ONE_TO_MANY,
-      data: targetRelationDate
+      data: targetRelationData
     }
 
     data.newRelations.push(sourceRelation, targetRelation)

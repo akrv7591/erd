@@ -2,7 +2,6 @@ import {StateCreator} from "zustand";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore";
 import {applyNodeChanges, NodeChange, NodePositionChange, ReactFlowProps} from "@xyflow/react";
 import {NodeType} from "@/types/diagram";
-import {BROADCAST} from "@/namespaces";
 import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 
 interface NodeSliceState {
@@ -33,20 +32,6 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
   // Actions
   handleNodeChanges: (nodeChanges) => {
     set((state) => {
-      const changesToBroadcast = nodeChanges.filter(node => ["remove", "select"].includes(node.type))
-      const broadcastData: BROADCAST.DATA[] = []
-
-      if (changesToBroadcast.length) {
-        broadcastData.push({
-          type: REACTFLOW.TYPE.NODE_CHANGE,
-          value: changesToBroadcast,
-        })
-      }
-
-      if (broadcastData.length) {
-        state.socket.broadcastData(broadcastData)
-      }
-
       return {
         nodes: applyNodeChanges<NodeType>(nodeChanges, state.nodes),
       };
