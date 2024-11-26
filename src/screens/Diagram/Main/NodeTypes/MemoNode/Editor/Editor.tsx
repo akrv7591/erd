@@ -43,10 +43,6 @@ export const Editor = memo(() => {
   }, [])
 
   const onPatch = useCallback((key: string, value: string) => {
-    console.log({
-      key,
-      value
-    })
     // TODO fix memo change
   }, [])
 

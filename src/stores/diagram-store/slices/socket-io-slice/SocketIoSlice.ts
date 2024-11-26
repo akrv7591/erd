@@ -6,9 +6,8 @@ import { REACTFLOW } from "@/namespaces/broadcast/reactflow";
 import { ReactflowUtils } from "@/utility/ReactflowUtils";
 import { NODE } from "@/namespaces/broadcast/node";
 import { EntityUtils } from "@/utility/EntityUtils";
-import { CLIENT } from "@/namespaces/broadcast/client";
-import { ClientUtils } from "@/utility/ClientUtils";
 import { notifications } from "@mantine/notifications";
+import { applyNodeChanges } from "@xyflow/react";
 
 interface SocketIoState {
   socket: SocketIoService;
@@ -119,6 +118,27 @@ export const socketIoSlice: (
       api.getState().reactflow.setViewport(viewport);
     });
 
+    socket.io.on(SOCKET.USER.CURSOR_CHANGE, (data) => {
+      set(state => ({
+        clients: state.clients.map(client => {
+          if (client.id !== data.id) {
+            return client
+          }
+
+          return {
+            ...client,
+            cursor: data.cursor
+          }
+        })
+      }))
+    })
+
+    socket.io.on(SOCKET.USER.NODE_DRAG, (changes) => {
+      set(state => ({
+        nodes: applyNodeChanges(changes, state.nodes)
+      }))
+    })
+
     const applyDataChanges = (data: BROADCAST.DATA[]) => {
       set((state) => {
         const updatedState: Partial<DiagramStore> = {};
@@ -154,11 +174,6 @@ export const socketIoSlice: (
               break;
             case NODE.ENTITY.TYPE.COLUMN_ORDER_UPDATE:
               EntityUtils.updateColumnOrder(updatedState, state, change);
-              break;
-
-            // Client
-            case CLIENT.CURSOR.TYPE.CHANGE:
-              ClientUtils.updateCursor(updatedState, state, value);
               break;
             default: {
               console.log(type, data);

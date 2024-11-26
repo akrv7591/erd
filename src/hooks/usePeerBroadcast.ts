@@ -1,60 +1,42 @@
 import { useDiagramStore } from "./useDiagramStore"
-import { useReactFlow, XYPosition } from "@xyflow/react"
+import { NodePositionChange, useReactFlow, XYPosition } from "@xyflow/react"
 import { useCallback, MouseEvent} from "react"
 import {NodeType} from "@/types/diagram";
-import {BROADCAST} from "@/namespaces";
-import {CLIENT} from "@/namespaces/broadcast/client";
-import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
+import {SOCKET} from "@/namespaces";
 
 export const usePeerBroadcast = () => {
-  const {broadcastData, io} = useDiagramStore(state => state.socket)
+  const {io} = useDiagramStore(state => state.socket)
 
   const reactFlow = useReactFlow()
 
   const handleCursorChange = useCallback((cursor: XYPosition | null) => {
-    broadcastData([{
-      type: CLIENT.CURSOR.TYPE.CHANGE,
-      value: {
-        id: io.id!,
-        cursor: cursor? reactFlow.screenToFlowPosition(cursor): null
-      }
-    }])
+    io.emit(SOCKET.USER.CURSOR_CHANGE, {id: io.id!, cursor: cursor? reactFlow.screenToFlowPosition(cursor): null})
   }, [])
 
   const handleNodeDrag = useCallback((event: MouseEvent, node: NodeType, nodes: NodeType[]) => {
-    const positionChanges: BROADCAST.DATA = {
-      type: REACTFLOW.TYPE.NODE_CHANGE,
-      value: nodes.map(node => ({
-        type: "position",
-        id: node.id,
-        position: node.position,
-      }))
-    }
+    const positionChanges: NodePositionChange[] = nodes.map(node => ({
+      type: "position",
+      id: node.id,
+      position: node.position,
+    }))
 
     const cursor: XYPosition = {
       x: event.clientX,
       y: event.clientY
     }
 
-    const cursorChange: BROADCAST.DATA = {
-      type: CLIENT.CURSOR.TYPE.CHANGE,
-      value: {
-        id: io.id!,
-        cursor: cursor? reactFlow.screenToFlowPosition(cursor): null
-      }
-    }
-
-    broadcastData([
-      positionChanges,
-      cursorChange
-    ])
-
+    io.emit(SOCKET.USER.NODE_DRAG, positionChanges)
     handleCursorChange(cursor)
 
+  }, [handleCursorChange])
+
+  const setCursorNull = useCallback(() => {
+    handleCursorChange(null)
   }, [handleCursorChange])
 
   return {
     handleCursorChange,
     handleNodeDrag,
+    setCursorNull
   }
 }

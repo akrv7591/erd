@@ -37,7 +37,6 @@ type ReturnType = Pick<
   | "onMove"
   | "onDragOver"
   | "onNodeDoubleClick"
-  | "onBlur"
   | "onDrag"
   | "onNodeDragStart"
   | "onNodeDragStop"
@@ -248,11 +247,8 @@ export const useDiagramEventHandlers = (): ReturnType => {
     }
   }, []);
 
-  const handleBlur = useCallback(() => {
-    handleCursorChange(null);
-  }, [handleCursorChange]);
-
-  const handleClick: ReactFlowProps['onClick'] = useCallback(() => {
+  const handleClick: MouseEventHandler = useCallback((e) => {
+    e.stopPropagation()
     unsubscribe()
   }, [unsubscribe])
 
@@ -269,7 +265,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
       onMouseMove: handleMouseMove,
       onMove: handleMove,
       onNodeDoubleClick: handleNodeDoubleClick,
-      onBlur: handleBlur,
       onNodeDragStart: handleNodeDragStart,
       onNodeDragStop: handleNodeDragStop,
       onDelete: handleDelete,
@@ -286,7 +281,6 @@ export const useDiagramEventHandlers = (): ReturnType => {
       handleMouseMove,
       handleMove,
       handleNodeDoubleClick,
-      handleBlur,
       handleNodeDragStart,
       handleNodeDragStop,
       handleDragOver,

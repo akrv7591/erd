@@ -60,17 +60,21 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
       position: node.position
     }))
 
+    const publishData: REACTFLOW.NODE_CHANGE[] = [{
+      type: REACTFLOW.TYPE.NODE_CHANGE,
+      value: afterChange
+    }]
+
     set(state => {
       if (!state.nodesPositionsBeforeDragStart) {
         throw new Error("nodesPositionsBeforeDragStart should be set on nodesDragStart")
       }
       state.pushUndo({
         undo: state.nodesPositionsBeforeDragStart,
-        redo: [{
-          type: REACTFLOW.TYPE.NODE_CHANGE,
-          value: afterChange
-        }]
+        redo: publishData
       })
+
+      state.socket.broadcastData(publishData)
 
       return {
         nodesPositionsBeforeDragStart: null

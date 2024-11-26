@@ -10,7 +10,9 @@ export namespace SOCKET {
     UNSUBSCRIBE = "user:unsubscribe",
     SUBSCRIBED = "user:subscribe",
     UNSUBSCRIBED = "user:ubsubscribe",
-    VIEWPORT_CHANGE = "user:viewport-change"
+    VIEWPORT_CHANGE = "user:viewport-change",
+    CURSOR_CHANGE = "user:cursor-change",
+    NODE_DRAG = "user:node-drag",
   }
 
   export enum DATA {
