@@ -1,3 +1,14 @@
+.tableRoot {
+  overflow-x: scroll;
+  width: calc(100%);
+  border-color: var(--mantine-primary-color-filled);
+  background-color: var(--mantine-color-dark-6);
+}
+
+.tableContent {
+  width: max-content;
+}
+
 .dragClass {
 }
 
@@ -6,4 +17,8 @@
 }
 
 .chosenClass {
+}
+
+.table {
+  overflow-x: scroll;
 }

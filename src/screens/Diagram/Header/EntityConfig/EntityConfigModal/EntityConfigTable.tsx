@@ -1,6 +1,6 @@
 import {ChangeEventHandler, forwardRef, memo, useCallback, useMemo} from "react";
 import {EntityColumn} from "@/types/diagram";
-import {Center, Checkbox, Input, Table, Text, Tooltip} from "@mantine/core";
+import {Box, Center, Checkbox, Input, Table, Text, Tooltip} from "@mantine/core";
 import {DragButton} from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/DragButton";
 import {TypeIcon} from "@/screens/Diagram/Main/NodeTypes/EntityNode/Content/Table/Row/TypeIcon";
 import {useEntityConfigContextForm,} from "@/screens/Diagram/Header/EntityConfig/EntityConfigModal/EntityContextForm";
@@ -50,14 +50,14 @@ export const Header = forwardRef<any, any>((props, ref) => {
             />
           </Td>
           <Td w={40}></Td>
-          <Td>Column</Td>
+          <Td w={150}>Column</Td>
           <Td w={150}>Data type</Td>
           <Td miw={40}><Tooltip position={"top"} label={"Primary key"}><Text>PK</Text></Tooltip></Td>
           <Td miw={40}><Tooltip position={"top"} label={"NOT NULL"}><Text>NN</Text></Tooltip></Td>
           <Td miw={40}><Tooltip position={"top"} label={"Unique"}><Text>UQ</Text></Tooltip></Td>
           <Td miw={40}><Tooltip position={"top"} label={"Unsigned"}><Text>UN</Text></Tooltip></Td>
           <Td miw={40}><Tooltip position={"top"} label={"Auto increment"}><Text>AI</Text></Tooltip></Td>
-          <Td miw={200}>Comment</Td>
+          <Td>Comment</Td>
         </Tr>
       </Thead>
       <Tbody ref={ref}>
@@ -164,18 +164,21 @@ export const EntityConfigTable = memo(({columns, patchColumn}: Props) => {
   }, [columns])
 
   return (
-    <ReactSortable
-      tag={Header}
-      list={columns}
-      dragClass={classes.dragClass}
-      ghostClass={classes.ghostClass}
-      chosenClass={classes.chosenClass}
-      setList={handleSetOrderedList}
-      handle={".handle"}
-    >
-      {columns.map((row) => (
-        <Row key={row.id} column={row} patchColumn={patchColumn}/>
-      ))}
-    </ReactSortable>
+    <Box className={classes.tableContent}>
+      <ReactSortable
+        tag={Header}
+        list={columns}
+        className={classes.table}
+        dragClass={classes.dragClass}
+        ghostClass={classes.ghostClass}
+        chosenClass={classes.chosenClass}
+        setList={handleSetOrderedList}
+        handle={".handle"}
+      >
+        {columns.map((row) => (
+          <Row key={row.id} column={row} patchColumn={patchColumn}/>
+        ))}
+      </ReactSortable>
+    </Box>
   )
 })

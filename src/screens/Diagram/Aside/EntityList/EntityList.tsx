@@ -56,7 +56,7 @@ export const EntityList = () => {
         </Tooltip>
       </Menu.Target>
       <Menu.Dropdown>
-        <Stack className={classes.listWrapper} miw={400}>
+        <Stack className={classes.listWrapper}>
           <Table stickyHeader highlightOnHover>
             <Table.Thead style={{zIndex: 1}}>
               <Table.Tr>
@@ -86,7 +86,6 @@ export const EntityList = () => {
               <Table.Tr bg={"var(--mantine-color-dark-7)"}>
                 <Table.Th></Table.Th>
                 <Table.Th>Name</Table.Th>
-                <Table.Th>Columns</Table.Th>
               </Table.Tr>
               <Table.Tr>
                 <Table.Td colSpan={3} p={0}>
@@ -135,9 +134,6 @@ export const EntityList = () => {
                   </Table.Td>
                   <Table.Td>
                     <Text>{entity.data.name}</Text>
-                  </Table.Td>
-                  <Table.Td>
-                    {Object.keys(entity.data.columns).length}
                   </Table.Td>
                 </Table.Tr>
               ))}

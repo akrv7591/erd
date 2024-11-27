@@ -1,10 +1,11 @@
 import {Stack} from "@mantine/core";
 import {EntityControls} from "./EntityControls";
 import {PaneControls} from "./PaneControls";
+import classes from "./style.module.css"
 
 export const Navbar = () => {
   return (
-    <Stack h={"100%"} w={"100%"} py={"5px"} gap={"5px"} align={"center"}>
+    <Stack className={classes.root}>
       <EntityControls/>
       <PaneControls />
     </Stack>
