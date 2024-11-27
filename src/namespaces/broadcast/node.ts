@@ -77,6 +77,22 @@ export namespace NODE {
       | COLUMN_ORDER_UPDATE;
   }
 
-  export type TYPE = ENTITY.TYPE;
-  export type DATA = ENTITY.DATA;
+  export namespace MEMO {
+    export enum TYPE {
+      CONTENT_UPDATE = "memo:content-update"
+    }
+
+    export type CONTENT_UPDATE = {
+      type: TYPE.CONTENT_UPDATE,
+      value: {
+        memoId: string,
+        content: string,
+      }
+    }
+
+    export type DATA = CONTENT_UPDATE
+  }
+
+  export type TYPE = ENTITY.TYPE | MEMO.TYPE;
+  export type DATA = ENTITY.DATA | MEMO.DATA;
 }

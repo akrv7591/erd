@@ -4,11 +4,11 @@
 }
 
 .accordionControl {
-    padding: 0 10px !important;
+    padding: 0 10px;
 }
 
 .accordionContent {
-    padding: 0 10px !important;
+    padding: 0 10px;
     margin-bottom: 10px;
 }
 
@@ -17,6 +17,6 @@
 }
 
 .accordionChevron {
-    margin-inline-start: 5px !important;
-    margin-inline-end: 5px !important;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px ;
 }

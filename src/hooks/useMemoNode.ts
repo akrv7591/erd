@@ -21,8 +21,6 @@ export const useMemoNode = () => {
   }
 
   return useMemo(() => {
-    return {
-      ...nodeData
-    }
+    return nodeData
   }, [nodeData])
 }

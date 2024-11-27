@@ -8,6 +8,7 @@ import { NODE } from "@/namespaces/broadcast/node";
 import { EntityUtils } from "@/utility/EntityUtils";
 import { notifications } from "@mantine/notifications";
 import { applyNodeChanges } from "@xyflow/react";
+import { MemoUtils } from "@/utility/MemoUtils";
 
 interface SocketIoState {
   socket: SocketIoService;
@@ -175,6 +176,11 @@ export const socketIoSlice: (
             case NODE.ENTITY.TYPE.COLUMN_ORDER_UPDATE:
               EntityUtils.updateColumnOrder(updatedState, state, change);
               break;
+
+            // Memo
+            case NODE.MEMO.TYPE.CONTENT_UPDATE:
+              MemoUtils.updateMemoContent(updatedState, state, change)
+              break
             default: {
               console.log(type, data);
             }

@@ -1,14 +1,14 @@
 .entity-container {
     transition: 0.1s;
-    padding: 5px !important;
-    outline: 1px solid var(--mantine-primary-color-filled-hover) !important;
-    overflow: visible !important;
+    padding: 5px;
+    outline: 1px solid var(--mantine-primary-color-filled-hover);
+    overflow: visible;
 }
 
 .entity-container:hover {
-    outline: 3px solid var(--mantine-primary-color-filled-hover) !important;
+    outline: 3px solid var(--mantine-primary-color-filled-hover);
 }
 
 .react-flow__node.react-flow__node-entity.selected .entity-container {
-    outline: 3px solid var(--mantine-primary-color-filled) !important;
+    outline: 3px solid var(--mantine-primary-color-filled);
 }

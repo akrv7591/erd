@@ -1,15 +1,5 @@
-.controls, .controlsHidden {
-    margin-bottom: 10px;
-    transition: 0.3s;
-}
-
-.controlsHidden {
-    opacity: 0;
-}
-
-.memoContent {
-    cursor: text;
-    min-width: 300px !important;
-    min-height: 300px !important;
-    background: var(--mantine-primary-color-filled) !important;
+.input {
+  background-color: #ffdc21;
+  color: #333333;
+  min-width: 300px;
 }

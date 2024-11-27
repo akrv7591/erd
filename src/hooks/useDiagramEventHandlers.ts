@@ -21,6 +21,7 @@ import { useUser } from "./useUser";
 import { useAddNode } from "./useAddNode";
 import { EdgeType } from "@/types/diagram/edge";
 import { REACTFLOW } from "@/namespaces/broadcast/reactflow";
+import { MemoUtils } from "@/utility/MemoUtils";
 
 type ReturnType = Pick<
   ReactFlowProps<NodeType, EdgeType>,
@@ -155,7 +156,7 @@ export const useDiagramEventHandlers = (): ReturnType => {
           node = EntityUtils.genNewEntityNode(position, userEntityConfig);
           break;
         case NODE_TYPES.MEMO:
-          node = EntityUtils.genNewEntityNode(position);
+          node = MemoUtils.genNewMemo(position);
           break;
       }
       addNode(node);

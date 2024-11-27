@@ -28,9 +28,9 @@
 }
 
 .react-flow__node.selected {
-    user-select: none !important;
+    user-select: none;
 }
 
 .react-flow__node-entity.dragging {
-    pointer-events: none !important;
+    pointer-events: none;
 }
