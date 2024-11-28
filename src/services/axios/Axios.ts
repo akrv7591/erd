@@ -24,10 +24,20 @@ export class Axios {
 
         if (authorization) {
           requestConfig.headers.Authorization = `Bearer ${authorization}`;
+        } else {
+          console.warn("Authentication required")
+          this.logTo?.signOut("/")
         }
       }
 
       return requestConfig;
+    })
+
+    this.api.interceptors.response.use(response => {
+      if (response.status === 401) {
+        this.logTo?.signOut("/")
+      }
+      return response
     })
 
   }
