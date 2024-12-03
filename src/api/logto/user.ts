@@ -1,11 +1,9 @@
 import { QueryFunction } from "@tanstack/react-query";
 import { UserTeam } from "@/types/log-to/user-team";
-import { Axios } from "@/services";
-
-const { api } = Axios.instance;
+import { axiosInstance } from "@/services";
 
 const userTeamListApi: QueryFunction<UserTeam[], [string]> = async () => {
-  return api
+  return axiosInstance
     .get<UserTeam[]>(`/v1/users/teams`)
     .then((response) => {
       return response.data;

@@ -1,63 +1,55 @@
-import axios, {AxiosInstance} from "axios";
+import axios from "axios";
 import { config } from "@/config/config";
 import { useLogtoStore } from "@/stores/logto-store";
 
-export class Axios {
-  api: AxiosInstance
+const baseURL = config.server.baseUrl;
 
-  constructor() {
-    const baseURL = config.server.baseUrl;
+if (!baseURL) {
+  throw new Error("BASE_URL in environment is required");
+}
 
-    if (!baseURL) {
-      throw new Error("BASE_URL in environment is required");
-    }
-
-    this.api = axios.create({
-      baseURL: baseURL + "/api",
-    });
-
-    this.api.interceptors.request.use(async (requestConfig) => {
-        const {logto} =  useLogtoStore.getState()
-
-        if (!logto) {
-          throw new Error("Logto is not initialized")
-        }
-
-        const authorization = await logto.getAccessToken(config.server.baseUrl);
-
-        if (authorization) {
-          requestConfig.headers.Authorization = `Bearer ${authorization}`;
-        } else {
-          console.warn("Authentication required")
-          logto.signOut(config.client.url)
-        }
+const axiosInstance = axios.create({
+  baseURL: baseURL + "/api",
+});
 
 
-      return requestConfig;
-    })
+axiosInstance.interceptors.response.use(response => {
+  return response
+}, (error) => {
 
-    this.api.interceptors.response.use(response => {
-      const {logto} =  useLogtoStore.getState()
+  const { logto } = useLogtoStore.getState()
 
-      if (!logto) {
-        throw new Error("Logto is not initialized")
-      }
-
-      if (response.status === 401) {
-        logto.signOut(config.client.url)
-      }
-      return response
-    })
-
+  if (!logto) {
+    throw new Error("Logto is not initialized")
   }
 
-  private static _instance: Axios
-
-  static get instance () {
-    if (!Axios._instance) {
-      Axios._instance = new Axios()
-    }
-
-    return Axios._instance
+  if (error.response.status === 401) {
+    console.log("Sign out")
+    logto.signOut(config.client.url)
   }
+
+  return Promise.reject(error);
+})
+
+axiosInstance.interceptors.request.use(async (requestConfig) => {
+  const { logto } = useLogtoStore.getState()
+
+  if (!logto) {
+    throw new Error("Logto is not initialized")
+  }
+
+  const authorization = await logto.getAccessToken(config.server.baseUrl);
+
+  if (authorization) {
+    requestConfig.headers.Authorization = `Bearer ${authorization}`;
+  } 
+
+  return requestConfig;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+
+export {
+  axiosInstance
 }
