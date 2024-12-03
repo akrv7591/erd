@@ -1,19 +1,23 @@
 import { RouterProvider } from "react-router-dom";
-import { useLogto } from "@logto/react";
 import { routes } from "@/routers/routes";
-import { memo, Suspense, useEffect, useState } from "react";
-import { Axios } from "@/services";
+import { memo, Suspense } from "react";
+import { useOnMount } from "@/hooks";
+import { useLogtoStore } from "@/stores/logto-store";
+import { useLogto } from "@logto/react";
 
 export const Router = memo(() => {
-  const [initialLoad, setInitialLoad] = useState(true);
-  const logTo = useLogto();
+  const logTo = useLogto()
+  const logtoStore = useLogtoStore(state => state.logto)
 
-  useEffect(() => {
-    Axios.instance.logTo = logTo;
-    setInitialLoad(false)
-  }, [logTo])
+  useOnMount(() => {
+    useLogtoStore.setState({ logto: logTo })
 
-  if (initialLoad) {
+    return () => {
+      useLogtoStore.setState({ logto: null })
+    }
+  })
+
+  if (!logtoStore) {
     return null
   }
 

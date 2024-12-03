@@ -7,15 +7,11 @@ const { api } = Axios.instance;
 
 const profileUpdate = (data: FormData) => api.patch(`/v1/users/${data.get("id")}`, data)
   .then(async (res) => {
-    // await useAuthStore.getState().fetchAndSetUser()
-
     return res
   })
 
 const passwordSet = (data: Partial<PasswordSetForm>) => api.post(`/v1/set-password`, data)
   .then(async (res) => {
-    // await useAuthStore.getState().fetchAndSetUser()
-
     return res
   })
 

@@ -26,7 +26,7 @@ export const routes = createBrowserRouter(
       <Route path={"library"} element={<ProtectedRoute/>}>
         <Route index element={<Library/>}/>
         <Route path={":erdId/*"} element={(
-          <ReactFlowProvider defaultNodes={[]} defaultEdges={[]}>
+          <ReactFlowProvider>
             <DiagramProvider>
               <Diagram/>
             </DiagramProvider>

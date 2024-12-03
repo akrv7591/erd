@@ -1,10 +1,9 @@
 import axios, {AxiosInstance} from "axios";
 import { config } from "@/config/config";
-import {useLogto} from "@logto/react"
+import { useLogtoStore } from "@/stores/logto-store";
 
 export class Axios {
   api: AxiosInstance
-  logTo: ReturnType<typeof useLogto> | undefined
 
   constructor() {
     const baseURL = config.server.baseUrl;
@@ -18,24 +17,34 @@ export class Axios {
     });
 
     this.api.interceptors.request.use(async (requestConfig) => {
+        const {logto} =  useLogtoStore.getState()
 
-      if (this.logTo) {
-        const authorization = await this.logTo.getAccessToken(config.server.baseUrl);
+        if (!logto) {
+          throw new Error("Logto is not initialized")
+        }
+
+        const authorization = await logto.getAccessToken(config.server.baseUrl);
 
         if (authorization) {
           requestConfig.headers.Authorization = `Bearer ${authorization}`;
         } else {
           console.warn("Authentication required")
-          this.logTo?.signOut(config.client.url)
+          logto.signOut(config.client.url)
         }
-      }
+
 
       return requestConfig;
     })
 
     this.api.interceptors.response.use(response => {
+      const {logto} =  useLogtoStore.getState()
+
+      if (!logto) {
+        throw new Error("Logto is not initialized")
+      }
+
       if (response.status === 401) {
-        this.logTo?.signOut(config.client.url)
+        logto.signOut(config.client.url)
       }
       return response
     })
