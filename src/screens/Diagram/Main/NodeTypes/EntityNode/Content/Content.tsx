@@ -8,9 +8,9 @@ import {NameOverlay} from "./NameOverlay";
 import {useEntityNode} from "@/hooks";
 import "./style.css"
 
-
 export const Content = memo(() => {
   const {id, data} = useEntityNode()
+  console.log("RENDERING")
 
   return (
     <CustomTheme color={data.color} id={id}>

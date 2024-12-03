@@ -16,7 +16,6 @@ export const EntityList = () => {
   const [search, setSearch] = React.useState("")
   const [selectedEntities, setSelectedEntities] = React.useState<EntityNode[]>([])
 
-
   const filteredEntities = React.useMemo(() => {
     return entities.filter(entity => entity.data?.name
       .toLowerCase()

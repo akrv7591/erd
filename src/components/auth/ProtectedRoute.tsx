@@ -5,6 +5,8 @@ import {memo, useEffect} from "react";
 import {config} from "@/config/config";
 import StorageUtils from "@/utility/StorageUtils";
 
+const redirectUri = `${config.client.url}/callback`
+
 export const ProtectedRoute = memo(() => {
   const {isAuthenticated, isLoading, signIn} = useLogto()
 
@@ -12,11 +14,9 @@ export const ProtectedRoute = memo(() => {
     if (!isAuthenticated && !isLoading) {
       StorageUtils.setDestination(location.pathname)
 
-      signIn({
-        redirectUri: `${config.client.url}/callback`,
-      })
+      signIn(redirectUri)
     }
-  }, [isAuthenticated, isLoading])
+  }, [isAuthenticated, isLoading, signIn])
 
   if (!isAuthenticated) {
     return <LoadingBackdrop/>

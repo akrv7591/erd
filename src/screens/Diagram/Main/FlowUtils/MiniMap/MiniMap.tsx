@@ -8,10 +8,10 @@ const nodeColorGetter = (node: EntityNode) => {
 }
 
 export const MiniMap = memo(() => {
-  const minimap = useDiagramStore(state => state.minimap)
+  const isMinimapVisible = useDiagramStore(state => state.isMinimapVisible)
 
 
-  if (!minimap) {
+  if (!isMinimapVisible) {
     return null
   }
 

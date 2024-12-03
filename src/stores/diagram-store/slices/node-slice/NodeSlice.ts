@@ -57,7 +57,8 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
     const afterChange: NodePositionChange[] = nodes.map(node => ({
       id: node.id,
       type: "position",
-      position: node.position
+      position: node.position,
+      dragging: false
     }))
 
     const publishData: REACTFLOW.NODE_CHANGE[] = [{

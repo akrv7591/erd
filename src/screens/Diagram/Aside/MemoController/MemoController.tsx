@@ -2,16 +2,16 @@ import {Tooltip} from "@mantine/core";
 import {IconNotes, IconNotesOff} from "@tabler/icons-react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
 import { useDiagramStore } from "@/hooks";
+import {memo} from "react";
 
-export const MemoController = () => {
-  const showMemos = useDiagramStore(state => state.memo)
-  const setShowMemos = useDiagramStore(state => state.setMemo)
-  const toggle = () => setShowMemos(!showMemos)
+export const MemoController = memo(() => {
+  const isMemosVisible = useDiagramStore(state => state.isMemosVisible)
+  const toggleMemosVisibility = useDiagramStore(state => state.toggleMemosVisibility)
   return (
-    <Tooltip label={showMemos ? "Hide memos" : "Show memos"} position={"left"}>
-      <PlaygroundActionIcon onClick={toggle}>
-        {showMemos ? <IconNotesOff/> : <IconNotes/>}
+    <Tooltip label={isMemosVisible ? "Hide memos" : "Show memos"} position={"left"}>
+      <PlaygroundActionIcon onClick={toggleMemosVisibility}>
+        {isMemosVisible ? <IconNotesOff/> : <IconNotes/>}
       </PlaygroundActionIcon>
     </Tooltip>
   )
-}
+})

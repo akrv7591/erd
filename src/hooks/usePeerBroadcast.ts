@@ -18,6 +18,7 @@ export const usePeerBroadcast = () => {
       type: "position",
       id: node.id,
       position: node.position,
+      dragging: true
     }))
 
     const cursor: XYPosition = {

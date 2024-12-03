@@ -54,7 +54,7 @@ export const Main: FC = memo(() => {
         panOnScroll
         fitView
         snapToGrid
-        snapGrid={[1,1]}
+        snapGrid={[1, 1]}
         style={style}
         selectionMode={SelectionMode.Partial}
         {...diagramEventHandlers}

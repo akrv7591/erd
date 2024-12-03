@@ -47,7 +47,6 @@ export const config = {
   logTo: {
     endpoint: validatedEnvValue.VITE_LOG_TO_ENDPOINT,
     appId: validatedEnvValue.VITE_LOG_TO_APP_ID,
-    organizationId: validatedEnvValue.VITE_ORGANIZATION_ID,
     resources: [validatedEnvValue.VITE_SERVER_URL],
     scopes: [
       UserScope.Email,

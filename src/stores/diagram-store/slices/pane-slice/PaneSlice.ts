@@ -3,7 +3,8 @@ import {Viewport} from "@xyflow/react";
 import type {Client, Tools} from "@/types/diagram";
 import {DiagramStore} from "@/stores/diagram-store/DiagramStore";
 import {DIAGRAM} from "@/namespaces";
-import { User } from "@/types/log-to/user";
+import {User} from "@/types/log-to/user";
+import {NODE_TYPES} from "@/screens/Diagram/Main/NodeTypes";
 
 export interface ConfirmModal {
   opened: boolean
@@ -16,16 +17,17 @@ export interface ConfirmModal {
 
 interface PaneSliceState {
   tool: Tools;
-  minimap: boolean;
   viewport: Viewport | null;
   confirmModal: ConfirmModal,
   subscribedTo: null | string,
   subscribers: string[],
   entityViewMode: DIAGRAM.ENTITY.VIEW_MODE,
   clients: Client[]
-  memo: boolean
   synced: boolean
   user: User
+  isMemosVisible: boolean
+  isMinimapVisible: boolean;
+
 }
 
 interface PaneSliceAction {
@@ -34,22 +36,25 @@ interface PaneSliceAction {
   setViewport: (viewport: Viewport) => void
   resetPaneStore: () => void
   setEntityViewMode: (mode: DIAGRAM.ENTITY.VIEW_MODE) => void
-  setMemo: (memo: boolean) => void
+  toggleMemosVisibility: () => void
+  setMemoVisibility: (visible: boolean) => void
+  toggleMinimapVisibility: () => void
+  toggleEntityViewMode: () => void
 }
 
 export type PaneSlice = PaneSliceState & PaneSliceAction
 
 const initialStore: Omit<PaneSliceState, 'confirmModal'| 'user' | 'reactflow'> = {
   tool: "hand-grab",
-  minimap: JSON.parse(localStorage.getItem("minimap") || "true"),
+  isMinimapVisible: JSON.parse(localStorage.getItem("isMinimapVisible") || "true"),
   viewport: null,
   subscribedTo: null,
   subscribers: [],
   clients: [],
   entityViewMode: DIAGRAM.ENTITY.VIEW_MODE.EDITOR,
-  memo: true,
   synced: false,
-}
+  isMemosVisible: true
+ }
 
 export const paneSlice: (user: User) => StateCreator<DiagramStore, [], [], PaneSlice> = (user) => ((set) => ({
   ...initialStore,
@@ -65,15 +70,39 @@ export const paneSlice: (user: User) => StateCreator<DiagramStore, [], [], PaneS
   //Actions
   setTool: (tool) => set({tool}),
 
-  setMinimap: (minimap) => {
-    set({minimap})
-    localStorage.setItem("minimap", JSON.stringify(minimap))
+  setMinimap: (isMinimapVisible) => {
+    set({isMinimapVisible})
+    localStorage.setItem("isMinimapVisible", JSON.stringify(isMinimapVisible))
   },
 
   setViewport: (viewport) => set({viewport}),
   setEntityViewMode: (mode) => set({entityViewMode: mode}),
-  setMemo: (memo) => set({memo}),
-
+  setMemoVisibility: (isMemosVisible) => set({isMemosVisible}),
+  toggleMemosVisibility: () => {
+    set(state => ({
+      nodes: state.nodes.map(node => {
+        if (node.type !== NODE_TYPES.MEMO) {
+          return node
+        } else {
+          return {
+            ...node,
+            hidden: state.isMemosVisible
+          }
+        }
+      }),
+      isMemosVisible: !state.isMemosVisible
+    }))
+  },
+  toggleMinimapVisibility: () => {
+    set(state => ({
+      isMinimapVisible: !state.isMinimapVisible
+    }))
+  },
+  toggleEntityViewMode: () => {
+    set(state => ({
+      entityViewMode: state.entityViewMode === DIAGRAM.ENTITY.VIEW_MODE.EDITOR ? DIAGRAM.ENTITY.VIEW_MODE.LOGICAL : DIAGRAM.ENTITY.VIEW_MODE.EDITOR
+    }))
+  },
   // Reset store
   resetPaneStore: () => set(initialStore)
 }))
