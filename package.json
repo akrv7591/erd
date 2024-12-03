@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@logto/browser": "^2.2.18",
     "@logto/react": "^3.0.15",
     "@lottiefiles/dotlottie-react": "^0.9.3",
     "@mantine/colors-generator": "^7.13.4",
