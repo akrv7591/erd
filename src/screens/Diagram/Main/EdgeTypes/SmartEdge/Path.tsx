@@ -1,5 +1,5 @@
 import {memo, useEffect, useState} from "react";
-import {useWorkerFunc, WorkerStatus} from "use-react-workers";
+import {useWorkerFunc} from "use-react-workers";
 import generateSmartPath from "@/utility/diagram/workers/generateSmartPath";
 import {BaseEdge, EdgeProps, Node,} from "@xyflow/react";
 import {getEdgeParams} from "@/screens/Diagram/Main/utils";
