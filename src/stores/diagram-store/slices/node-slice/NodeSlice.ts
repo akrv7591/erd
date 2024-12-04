@@ -7,6 +7,7 @@ import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 interface NodeSliceState {
   nodes: NodeType[];
   nodesPositionsBeforeDragStart: REACTFLOW.NODE_CHANGE[] | null
+  nodePositionChange: number
 }
 
 interface NodeStoreAction {
@@ -20,6 +21,7 @@ export type NodeSlice = NodeSliceState & NodeStoreAction;
 
 const initialStore: NodeSliceState = {
   nodes: [],
+  nodePositionChange: new Date().getTime(),
   nodesPositionsBeforeDragStart: null
 };
 
@@ -32,8 +34,12 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
   // Actions
   handleNodeChanges: (nodeChanges) => {
     set((state) => {
+      const isTherePositionChange = nodeChanges.some((nodeChange) => nodeChange.type === "position")
       return {
         nodes: applyNodeChanges<NodeType>(nodeChanges, state.nodes),
+        ...isTherePositionChange && {
+          nodePositionChange: new Date().getTime()
+        }
       };
     });
   },

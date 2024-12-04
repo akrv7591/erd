@@ -79,7 +79,8 @@ export class RelationUtils {
       type: EDGE_TYPES.ENTITY,
       source: sourceEntity.id,
       target: targetEntity.id,
-      markerEnd: RELATION.NAME.ONE_TO_ONE,
+      markerStart: RELATION.TYPE.ONE,
+      markerEnd: RELATION.TYPE.MANY,
       data: relationData
     }
     data.newRelations.push(foreignKeyRelation)
@@ -117,7 +118,8 @@ export class RelationUtils {
       type: EDGE_TYPES.ENTITY,
       source: sourceEntity.id,
       target: targetEntity.id,
-      markerEnd: RELATION.NAME.ONE_TO_MANY,
+      markerStart: RELATION.TYPE.ONE,
+      markerEnd: RELATION.TYPE.MANY,
       data: relationData
     }
     data.newRelations.push(foreignKeyRelation)
@@ -185,7 +187,8 @@ export class RelationUtils {
       type: EDGE_TYPES.ENTITY,
       source: sourceEntity.id,
       target: mnTable.id,
-      markerEnd: RELATION.NAME.ONE_TO_MANY,
+      markerStart: RELATION.TYPE.ONE,
+      markerEnd: RELATION.TYPE.MANY,
       data: sourceRelationData
     }
 
@@ -194,7 +197,8 @@ export class RelationUtils {
       type: EDGE_TYPES.ENTITY,
       source: targetEntity.id,
       target: mnTable.id,
-      markerEnd: RELATION.NAME.ONE_TO_MANY,
+      markerStart: RELATION.TYPE.ONE,
+      markerEnd: RELATION.TYPE.MANY,
       data: targetRelationData
     }
 

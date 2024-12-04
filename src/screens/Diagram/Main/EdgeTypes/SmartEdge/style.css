@@ -1,20 +1,24 @@
-.react-flow .react-flow__edge.react-flow__edge-entity .react-flow__edge-path
-{
+.react-flow .react-flow__edge.react-flow__edge-entity .react-flow__edge-path {
     stroke: #858585;
     stroke-width: 2;
     transition: stroke-width 0.2s;
 }
 
-.react-flow .react-flow__edge.react-flow__edge-entity.selected .react-flow__edge-path
-{
+.react-flow .react-flow__edge.react-flow__edge-entity.selected react-flow__edge-path {
     stroke: #ffffff;
     stroke-width: 2.5;
 }
 
+.react-flow .react-flow__edge.react-flow__edge-entity.selected .one-to-one {
+    stroke: #ffffff;
+    stroke-width: 2.5;
+    marker-end: url(#one-selected);
+    marker-start: url(#one-selected);
+}
 
-.react-flow .react-flow__edge.react-flow__edge-entity .react-flow__edge-interaction
-{
-    opacity: 0;
-    stroke: #858585;
-    stroke-width: 50;
+.react-flow .react-flow__edge.react-flow__edge-entity.selected .one-to-many {
+    stroke: #ffffff;
+    stroke-width: 2.5;
+    marker-start: url(#one-selected);
+    marker-end: url(#many-selected);
 }

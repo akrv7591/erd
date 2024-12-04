@@ -9,7 +9,14 @@ export class ReactflowUtils {
       updatedState.nodes = state.nodes
     }
 
+    const isTherePositionChange = data.some((nodeChange) => nodeChange.type === "position")
+
+    if (isTherePositionChange) {
+      updatedState.nodePositionChange = new Date().getTime()
+    }
+
     updatedState.nodes = applyNodeChanges<NodeType>(data, updatedState.nodes)
+    
   }
 
   static updateEdges(updatedState: Partial<DiagramStore>, state: DiagramStore, data: REACTFLOW.EDGE_CHANGE['value']) {

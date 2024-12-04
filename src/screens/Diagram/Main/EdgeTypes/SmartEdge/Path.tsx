@@ -1,9 +1,10 @@
-import {memo, useEffect, useMemo, useState} from "react";
-import {useWorkerFunc} from "use-react-workers";
+import {memo, useEffect, useState} from "react";
+import {useWorkerFunc, WorkerStatus} from "use-react-workers";
 import generateSmartPath from "@/utility/diagram/workers/generateSmartPath";
-import {RELATION} from "@/namespaces";
-import {BaseEdge, EdgeProps, Node, useReactFlow} from "@xyflow/react";
+import {BaseEdge, EdgeProps, Node,} from "@xyflow/react";
 import {getEdgeParams} from "@/screens/Diagram/Main/utils";
+import { EdgeType } from "@/types/diagram/edge";
+import { useDiagramStore } from "@/hooks";
 
 const workerOptions = {
   remoteDependencies: [
@@ -11,43 +12,25 @@ const workerOptions = {
   ]
 }
 
-const getMarkerEnd = (
-  markerEnd: string,
-  selected: boolean | undefined,
-  end: boolean,
-) => {
-  const parenthesisStart = markerEnd.indexOf("#");
-  const parenthesisEnd = markerEnd.indexOf(")");
-  const tool = markerEnd.slice(parenthesisStart + 1, parenthesisEnd - 1);
-
-  let relation = "";
-  switch (tool) {
-    case RELATION.NAME.ONE_TO_ONE:
-      relation = RELATION.TYPE.ONE;
-      break;
-    case RELATION.NAME.ONE_TO_MANY:
-      relation = end ? RELATION.TYPE.MANY : RELATION.TYPE.ONE;
-      break;
-    case RELATION.NAME.MANY_TO_MANY:
-      relation = RELATION.TYPE.MANY;
-  }
-
-  return `url(#${relation}${selected ? "-selected" : ""})`;
-};
-
-
 interface Props {
   sourceNode: Node,
   targetNode: Node,
-  edgeProps: EdgeProps
+  nodes: Node[],
+  edgeProps: EdgeProps<EdgeType>
 }
 
-export const Path = memo(({sourceNode, targetNode, edgeProps}: Props) => {
+export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => {
   const [sortWorker, controller] = useWorkerFunc(generateSmartPath, workerOptions);
-  const [path, setPath] = useState("");
-  const reactflow = useReactFlow()
+  const [path, setPath] = useState<string | null>("");
+  const nodePositionChange = useDiagramStore(state => state.nodePositionChange)
 
   useEffect(() => {
+    const isNodesBeingDragged = nodes.some(node => node.dragging)
+
+    if (isNodesBeingDragged) {
+      return
+    }
+    
     const params = getEdgeParams(sourceNode, targetNode)
     sortWorker({
       sourceX: params.sx,
@@ -56,9 +39,9 @@ export const Path = memo(({sourceNode, targetNode, edgeProps}: Props) => {
       targetPosition: params.targetPos,
       targetX: params.tx,
       targetY: params.ty,
-      nodes: reactflow.getNodes(),
+      nodes,
     }).then((result) => {
-      if (result) {
+      if (result?.svgPathString) {
         setPath(result.svgPathString);
       }
     });
@@ -66,22 +49,13 @@ export const Path = memo(({sourceNode, targetNode, edgeProps}: Props) => {
     return () => {
       controller.terminate()
     }
-  }, [sourceNode, targetNode])
-
-  const [markerEnd, markerStart] = useMemo(() => {
-    return [
-      getMarkerEnd(edgeProps.markerEnd || "", edgeProps.selected, true),
-      getMarkerEnd(edgeProps.markerEnd || "", edgeProps.selected, false),
-    ];
-  }, []);
+  }, [nodePositionChange])
 
   return (
     <BaseEdge
       {...edgeProps}
-      path={path}
-      markerStart={markerStart}
-      markerEnd={markerEnd}
-      className={"react-flow__edge-path"}
+      path={path || ""}
+      className={edgeProps.data?.relationName}
     />
   )
 })

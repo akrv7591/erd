@@ -47,6 +47,5 @@ export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
         </DiagramContext.Provider>
       )}
     </>
-
   );
 });
