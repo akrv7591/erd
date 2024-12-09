@@ -21,7 +21,7 @@ interface Props {
 
 export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => {
   const [sortWorker, controller] = useWorkerFunc(generateSmartPath, workerOptions);
-  const [path, setPath] = useState<string | null>("");
+  const [path, setPath] = useState<string>("");
   const nodePositionChange = useDiagramStore(state => state.nodePositionChange)
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => 
     if (isNodesBeingDragged) {
       return
     }
-    
+
     const params = getEdgeParams(sourceNode, targetNode)
     sortWorker({
       sourceX: params.sx,
@@ -49,13 +49,16 @@ export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => 
     return () => {
       controller.terminate()
     }
-  }, [nodePositionChange])
+  }, [nodePositionChange, sourceNode.measured, targetNode.measured])
+  const isSelected = edgeProps.selected || sourceNode.selected || targetNode.selected
+
+  const className = isSelected? edgeProps.data?.relationName + " selected" : edgeProps.data?.relationName
 
   return (
     <BaseEdge
       {...edgeProps}
-      path={path || ""}
-      className={edgeProps.data?.relationName}
+      path={path}
+      className={className}
     />
   )
 })
