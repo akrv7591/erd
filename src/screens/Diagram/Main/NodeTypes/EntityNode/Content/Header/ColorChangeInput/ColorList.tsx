@@ -12,14 +12,17 @@ export const ColorList = memo(() => {
   }, [changeColor])
 
   return (
-    <SimpleGrid spacing={"5px"} cols={5} className={classes.root}>
+    <SimpleGrid spacing={"5px"} cols={5} className={classes.root} p={0}>
       {DIAGRAM.ENTITY.COLORS.map(color => (
-        <ActionIcon key={color} variant={"default"} >
+        <ActionIcon
+          key={color}
+          variant={"default"}
+          onClick={handleColorClick(color)}
+        >
           <ColorSwatch
             size={20}
             radius={"xs"}
             className={classes.color}
-            onClick={handleColorClick(color)}
             color={color}
           />
         </ActionIcon>
