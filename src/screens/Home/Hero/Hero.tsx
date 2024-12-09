@@ -2,6 +2,7 @@ import {Button, Container, Image, List, rem, Text, ThemeIcon, Title} from "@mant
 import {PROJECT} from "@/constants/project";
 import {IconCheck} from "@tabler/icons-react";
 import classes from "./style.module.css";
+import {Link} from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -43,10 +44,10 @@ export const Hero = () => {
             </List.Item>
           </List>
           <div className={classes.btnContainer}>
-            <Button fullWidth size={"lg"} variant={"filled"}>Get started</Button>
+              <Button component={Link} to={"/library"} fullWidth size={"lg"} variant={"filled"}>Get started</Button>
           </div>
         </div>
-        <Image src={"/images/hero-image-transparent.png"} className={classes.image} />
+        <Image src={"/images/hero-image-transparent.png"} className={classes.image} alt={"erd-hero-image"} />
       </div>
     </Container>
   )

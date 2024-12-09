@@ -41,6 +41,10 @@
     margin-top: 20px;
     width: min-content;
 
+    & a {
+        text-decoration: none;
+    }
+
     @media (max-width: $mantine-breakpoint-xs) {
         width: 100%
     }
