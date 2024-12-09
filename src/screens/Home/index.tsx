@@ -2,6 +2,7 @@ import {AppShell, Button, Group} from "@mantine/core";
 import {Header} from "@/components/common/Header";
 import {IconBooks} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
+import {Hero} from "@/screens/Home/Hero/Hero";
 
 export default function Home() {
   return (
@@ -25,9 +26,7 @@ export default function Home() {
         </Header>
       </AppShell.Header>
       <AppShell.Main p={0} pt={"60"}>
-        {/* <ReactFlowProvider> */}
-        {/* <Main/> */}
-        {/* </ReactFlowProvider> */}
+        <Hero />
       </AppShell.Main>
     </AppShell>
 
