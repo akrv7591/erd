@@ -1,0 +1,17 @@
+.root {
+    padding: 0;
+}
+
+.react-flow__node.react-flow__node-memo {
+    border-radius: var(--mantine-radius-xs);
+    outline: 0 solid rgb(255, 255, 0);
+}
+
+.react-flow__node.react-flow__node-memo:hover {
+    outline-width: 1px;
+}
+
+.react-flow__node.react-flow__node-memo.selected {
+    outline-width: 2px;
+}
+
