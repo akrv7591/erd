@@ -22,6 +22,6 @@
 .react-flow .react-flow__edge.react-flow__edge-entity .one-to-one.selected,
 .react-flow .react-flow__edge.react-flow__edge-entity .one-to-many.selected
 {
-    stroke: #faf5f5;
+    stroke: #ffffff;
     stroke-width: 2;
 }

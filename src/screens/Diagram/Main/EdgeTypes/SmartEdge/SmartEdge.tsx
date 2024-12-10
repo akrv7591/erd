@@ -10,13 +10,9 @@ export const SmartEdge = memo((props: EdgeProps<EdgeType>) => {
   const sourceNode = useInternalNode(props.source)
   const targetNode = useInternalNode(props.target)
 
-  // const sourceNode = nodes.find(node => node.id === props.source)
-  // const targetNode = nodes.find(node => node.id === props.target)
-
   if (!sourceNode || !targetNode) {
     return null;
   }
-
 
   if (!sourceNode.measured || !targetNode.measured) {
     return null;
