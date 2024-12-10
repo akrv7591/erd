@@ -7,7 +7,7 @@ import {REACTFLOW} from "@/namespaces/broadcast/reactflow";
 interface NodeSliceState {
   nodes: NodeType[];
   nodesPositionsBeforeDragStart: REACTFLOW.NODE_CHANGE[] | null
-  nodePositionChange: number
+  nodeViewportChange: number
 }
 
 interface NodeStoreAction {
@@ -21,7 +21,7 @@ export type NodeSlice = NodeSliceState & NodeStoreAction;
 
 const initialStore: NodeSliceState = {
   nodes: [],
-  nodePositionChange: new Date().getTime(),
+  nodeViewportChange: new Date().getTime(),
   nodesPositionsBeforeDragStart: null
 };
 
@@ -34,12 +34,10 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
   // Actions
   handleNodeChanges: (nodeChanges) => {
     set((state) => {
-      const isTherePositionChange = nodeChanges.some((nodeChange) => nodeChange.type === "position")
+      const isDimensionChanged = nodeChanges.some(({type}) => type === "dimensions");
       return {
         nodes: applyNodeChanges<NodeType>(nodeChanges, state.nodes),
-        ...isTherePositionChange && {
-          nodePositionChange: new Date().getTime()
-        }
+        ...isDimensionChanged && {nodeViewportChange: new Date().getTime()},
       };
     });
   },
@@ -84,7 +82,8 @@ export const nodeSlice: StateCreator<DiagramStore, [], [], NodeSlice> = (
       state.socket.broadcastData(publishData)
 
       return {
-        nodesPositionsBeforeDragStart: null
+        nodesPositionsBeforeDragStart: null,
+        nodeViewportChange: new Date().getTime()
       }
     })
   },
