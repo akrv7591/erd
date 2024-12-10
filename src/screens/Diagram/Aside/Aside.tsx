@@ -4,8 +4,10 @@ import {MiniMapController} from "./MiniMapController";
 import {EntityViewController} from "./EntityViewController";
 import {MemoController} from "./MemoController";
 import classes from "./style.module.css"
+import { memo } from "react";
 
-export const Aside = () => {
+export const Aside = memo(() => {
+  console.log("RENDERING ASIDE")
   return (
     <Stack className={classes.root}>
       <EntityList/>
@@ -14,4 +16,4 @@ export const Aside = () => {
       <MiniMapController />
     </Stack>
   )
-}
+})
