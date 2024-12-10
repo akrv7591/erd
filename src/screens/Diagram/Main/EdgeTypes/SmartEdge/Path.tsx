@@ -1,10 +1,11 @@
 import {memo, useEffect, useState} from "react";
 import {useWorkerFunc} from "use-react-workers";
 import generateSmartPath from "@/utility/diagram/workers/generateSmartPath";
-import {BaseEdge, EdgeProps, Node,} from "@xyflow/react";
+import {BaseEdge, EdgeProps,} from "@xyflow/react";
 import {getEdgeParams} from "@/screens/Diagram/Main/utils";
 import { EdgeType } from "@/types/diagram/edge";
 import { useDiagramStore } from "@/hooks";
+import { EntityNode, NodeType } from "@/types/diagram";
 
 const workerOptions = {
   remoteDependencies: [
@@ -13,16 +14,16 @@ const workerOptions = {
 }
 
 interface Props {
-  sourceNode: Node,
-  targetNode: Node,
-  nodes: Node[],
+  sourceNode: EntityNode,
+  targetNode: EntityNode,
+  nodes: NodeType[],
   edgeProps: EdgeProps<EdgeType>
 }
 
 export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => {
   const [sortWorker, controller] = useWorkerFunc(generateSmartPath, workerOptions);
   const [path, setPath] = useState<string>("");
-  const nodePositionChange = useDiagramStore(state => state.nodePositionChange)
+  const nodeViewportChange = useDiagramStore(state => state.nodeViewportChange)
 
   useEffect(() => {
     const isNodesBeingDragged = nodes.some(node => node.dragging)
@@ -49,14 +50,29 @@ export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => 
     return () => {
       controller.terminate()
     }
-  }, [nodePositionChange, sourceNode.measured, targetNode.measured])
+  }, [nodeViewportChange])
   const isSelected = edgeProps.selected || sourceNode.selected || targetNode.selected
 
   const className = isSelected? edgeProps.data?.relationName + " selected" : edgeProps.data?.relationName
+  const {
+    selected, 
+    targetHandleId, 
+    sourceHandleId, 
+    pathOptions, 
+    targetPosition, 
+    sourcePosition, 
+    sourceX,
+    targetX,
+    sourceY,
+    targetY,
+    deletable,
+    selectable,
+    ...props
+  } = edgeProps
 
   return (
     <BaseEdge
-      {...edgeProps}
+      {...props}
       path={path}
       className={className}
     />

@@ -1,14 +1,15 @@
-import {EdgeProps, useInternalNode} from "@xyflow/react";
+import {EdgeProps} from "@xyflow/react";
 import {memo} from "react";
 import "./style.css";
 import {Path} from "@/screens/Diagram/Main/EdgeTypes/SmartEdge/Path";
 import { useDiagramStore } from "@/hooks";
 import { EdgeType } from "@/types/diagram/edge";
+import { EntityNode } from "@/types/diagram";
 
 export const SmartEdge = memo((props: EdgeProps<EdgeType>) => {
   const nodes = useDiagramStore(state => state.nodes)
-  const sourceNode = useInternalNode(props.source)
-  const targetNode = useInternalNode(props.target)
+  const sourceNode = nodes.find(node => node.id === props.source) as EntityNode
+  const targetNode = nodes.find(node => node.id === props.target) as EntityNode
 
   if (!sourceNode || !targetNode) {
     return null;
