@@ -25,9 +25,5 @@ WORKDIR /app
 # Copy built files from the previous stage
 COPY --from=builder /app/dist ./dist
 
-# Expose port 3001 (the default port used by serve)
-EXPOSE 3001
-
-
 # Command to serve the built files
-CMD ["serve", "-s", "dist", "-p", "3001"]
+CMD ["serve", "-s", "dist", "-p", "3000"]
