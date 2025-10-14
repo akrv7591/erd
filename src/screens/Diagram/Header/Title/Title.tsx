@@ -1,6 +1,6 @@
 import {Title as MantineTitle} from "@mantine/core";
 import classes from "./style.module.css";
-import { useErd } from "@/hooks";
+import { useErd } from "@/hooks/useErd";
 
 export const Title = () => {
   const {data, isLoading} = useErd()

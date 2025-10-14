@@ -2,8 +2,8 @@ import {Center, Overlay, Text} from "@mantine/core";
 import {RELATION} from "@/namespaces";
 import {memo} from "react";
 import {useStore} from "@xyflow/react";
-import {useDiagramStore} from "@/hooks";
-import {useEntityNode} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
+import {useEntityNode} from "@/hooks/useEntityNode";
 
 
 const getTextSize = (zoom: number) => {
@@ -24,7 +24,7 @@ export const NameOverlay = memo(() => {
   const textStyle = getTextSize(zoom)
 
   return (
-    <Overlay bg={"var(--mantine-primary-color-light)"} >
+    <Overlay bg={"var(--mantine-primary-color-light)"}>
       <Center h={"100%"}>
         <Text style={textStyle}>
           {data.name}

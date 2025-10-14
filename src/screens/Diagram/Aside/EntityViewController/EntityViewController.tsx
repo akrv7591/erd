@@ -1,9 +1,9 @@
 import {Tooltip} from "@mantine/core";
 import {IconLetterE, IconLetterL} from "@tabler/icons-react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import {useDiagramStore} from "@/hooks";
 import {DIAGRAM} from "@/namespaces";
 import {memo, useMemo} from "react";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 
 
 export const EntityViewController = memo(() => {

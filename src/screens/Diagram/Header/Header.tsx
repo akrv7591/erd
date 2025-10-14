@@ -4,7 +4,7 @@ import { Title } from "./Title";
 import { ExitButton } from "./ExitButton";
 import { memo } from "react";
 import { PlayerAvatar } from "@/screens/Diagram/Header/PlayerAvatar";
-import { useDiagramStore } from "@/hooks";
+import { useDiagramStore } from "@/hooks/useDiagramStore";
 import { UndoRedo } from "@/screens/Diagram/Header/UndoRedo";
 import { EntityConfig } from "@/screens/Diagram/Header/EntityConfig";
 import classes from "./style.module.css";

@@ -6,6 +6,7 @@ import { Group } from "@mantine/core";
 import { DeleteEntityButton } from "./DeleteEntityButton";
 
 export const Header = memo(() => {
+  console.log("RENDERING HEADER")
   return (
     <Group gap={5} h={50} align={"flex-start"}>
       <NameInput />

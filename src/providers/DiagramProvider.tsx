@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useReactFlow } from "@xyflow/react";
 import { createDiagramStore } from "@/stores/diagram-store";
 import { DiagramContext } from "@/contexts/DiagramContext";
-import { useUser } from "@/hooks";
+import {useUser} from "@/hooks/useUser";
 
 export const DiagramProvider: FC<PropsWithChildren> = memo((props) => {
   const reactflow = useReactFlow();

@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {FloatingCursor} from "@/screens/Diagram/Header/PlayerAvatar/FloatingCursor";
-import {useDiagramStore} from "@/hooks";
-import {useClient} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
+import {useClient} from "@/hooks/useClient";
 import {Client} from "@/types/diagram";
 import { useReactFlow } from "@xyflow/react";
 

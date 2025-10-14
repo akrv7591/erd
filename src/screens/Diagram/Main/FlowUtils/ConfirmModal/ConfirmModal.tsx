@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {Avatar, Button, Card, Group, Modal, Stack, Text} from '@mantine/core';
 import {IconExclamationCircle} from "@tabler/icons-react";
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 
 export const ConfirmModal = memo(() => {
   const modal = useDiagramStore(state => state.confirmModal)

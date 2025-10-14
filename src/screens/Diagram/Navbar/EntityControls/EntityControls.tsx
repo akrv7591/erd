@@ -6,7 +6,7 @@ import {IconButton} from "./IconButton";
 
 // Constants
 import {EntityActions} from "./constants";
-import {useEntities} from "@/hooks";
+import {useEntities} from "@/hooks/useEntities";
 import {memo} from "react";
 
 export const EntityControls = memo(() => {

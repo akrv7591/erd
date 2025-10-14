@@ -3,7 +3,7 @@ import {Link, Navigate, useParams} from "react-router-dom";
 import {useMutation} from "@tanstack/react-query";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Header from "@/screens/Library/Header";
-import {useOnMount} from "@/hooks";
+import {useOnMount} from "@/hooks/useOnMount";
 import {teamInvitationJoinApi} from "@/api/logto/team";
 import {memo} from "react";
 

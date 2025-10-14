@@ -2,7 +2,7 @@ import {memo} from "react";
 import {ButtonGroup, Tooltip} from "@mantine/core";
 import {IconArrowLeft, IconArrowRight} from "@tabler/icons-react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import {useUndoRedo} from "@/hooks";
+import {useUndoRedo} from "@/hooks/useUndoRedo";
 
 export const UndoRedo = memo(() => {
   const {canUndo, canRedo, undo: handleUndo, redo: handleRedo} = useUndoRedo()

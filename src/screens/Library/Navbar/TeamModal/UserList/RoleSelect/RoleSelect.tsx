@@ -1,9 +1,10 @@
 import {memo, useCallback, useMemo, useState} from "react";
 import {ComboboxData, ComboboxItem, Group, Loader, Select, Text, Tooltip} from "@mantine/core";
 import {IconCheck} from "@tabler/icons-react";
-import {useRoles, useUserTeam} from "@/hooks";
 import voca from "voca";
 import {useHover} from "@mantine/hooks";
+import {useRoles} from "@/hooks/useRoles";
+import {useUserTeam} from "@/hooks/useUserTeam";
 
 
 interface RenderOptionProps {

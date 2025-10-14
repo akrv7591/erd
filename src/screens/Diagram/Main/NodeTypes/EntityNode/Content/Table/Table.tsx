@@ -4,37 +4,38 @@ import {ReactSortable} from "react-sortablejs";
 import {Header} from "./Header";
 import styles from "./style.module.css"
 import {EntityColumn} from "@/types/diagram";
-import {useEntityColumns, useEntityNode} from "@/hooks";
+import {useEntityColumns} from "@/hooks/useEntityColumns";
 import { shallowEqual } from "@mantine/hooks";
+import { useEntityStoreData } from "@/hooks/useEntityData";
 
 export const Table = React.memo(() => {
-  const {data} = useEntityNode()
+  const columns = useEntityStoreData(state => state.columns)
   const {updateColumnsOrder} = useEntityColumns()
-
   const setSortedColumns = useCallback((updatedColumns: EntityColumn[]) => {
-    if (shallowEqual(data.columns, updatedColumns)) {
+    if (shallowEqual(columns, updatedColumns)) {
       return
     }
 
-    const oldOrder = data.columns.map(column => column.id)
+    const oldOrder = columns.map(column => column.id)
     const newOrder = updatedColumns.map(column => column.id)
 
     updateColumnsOrder(oldOrder, newOrder)
 
-  }, [data.columns, updateColumnsOrder])
+  }, [columns, updateColumnsOrder])
 
+  console.log("RENDERING TABLE")
 
   return (
     <ReactSortable
       tag={Header}
-      list={data.columns}
+      list={columns}
       dragClass={styles.ghostRowClass}
       ghostClass={styles.tableRowDrag}
       chosenClass={styles.tableRowDrag}
       setList={setSortedColumns}
       handle={".handle"}
     >
-      {data.columns.map((row) => (
+      {columns.map((row) => (
         <Row key={row.id} data={row}/>
       ))}
     </ReactSortable>

@@ -1,8 +1,8 @@
 import {Tooltip} from "@mantine/core";
 import {IconNotes, IconNotesOff} from "@tabler/icons-react";
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import { useDiagramStore } from "@/hooks";
 import {memo} from "react";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 
 export const MemoController = memo(() => {
   const isMemosVisible = useDiagramStore(state => state.isMemosVisible)

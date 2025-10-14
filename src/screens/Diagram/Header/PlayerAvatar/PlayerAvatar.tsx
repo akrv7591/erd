@@ -3,7 +3,8 @@ import classes from "./style.module.css";
 import { memo, useCallback, useMemo } from "react";
 import { IconUser } from "@tabler/icons-react";
 import { Client } from "@/types/diagram";
-import { useClient, useDiagramStore } from "@/hooks";
+import {useClient} from "@/hooks/useClient";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 
 interface Props {
   client: Client;

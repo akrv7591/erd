@@ -4,9 +4,9 @@ import {defaultEdgeOptions, edgeTypes} from "./EdgeTypes";
 import {nodeTypes} from "./NodeTypes";
 import '@xyflow/react/dist/style.css';
 import {FlowUtils} from "@/screens/Diagram/Main/FlowUtils";
-import {useDiagramEventHandlers} from "@/hooks";
+import {useDiagramEventHandlers} from "@/hooks/useDiagramEventHandlers";
 import "./style.css"
-import { useDiagramStore } from '@/hooks';
+import { useDiagramStore } from '@/hooks/useDiagramStore';
 import { LoadingBackdrop } from '@/components/common/LoadingBackdrop';
 
 export const Main: FC = memo(() => {
@@ -54,7 +54,7 @@ export const Main: FC = memo(() => {
         panOnScroll
         fitView
         snapToGrid
-        snapGrid={[1, 1]}
+        snapGrid={[5, 5]}
         style={style}
         selectionMode={SelectionMode.Partial}
         {...diagramEventHandlers}

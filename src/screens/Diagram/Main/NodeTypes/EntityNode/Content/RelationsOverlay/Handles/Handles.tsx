@@ -2,8 +2,9 @@ import {RELATION} from "@/namespaces";
 import {Handle, Position, useConnection} from "@xyflow/react";
 import {memo, useMemo} from "react";
 import classes from "../style.module.css"
-import {useDiagramStore, useEntityNode} from "@/hooks";
 import {Text} from "@mantine/core";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
+import {useEntityNode} from "@/hooks/useEntityNode";
 
 export const Handles = memo(() => {
   const tool = useDiagramStore(state => state.tool)

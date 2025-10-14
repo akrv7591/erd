@@ -22,13 +22,14 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {Erd} from "@/types/data/db-model-interfaces";
 import {IconInfoCircle, IconPhoto, IconPhotoX, IconUpload, IconX} from "@tabler/icons-react";
 import {memo, useCallback, useMemo} from "react";
-import {useTeamList, useUser} from "@/hooks";
 import {erdApis} from "@/api/erd";
 import {ErdNotification} from "@/screens/Library/Main/ErdModal/erd-notification";
 import {ColumnNameCases, EntityNameCases} from "@/constants/playground";
 import {Dropzone, FileWithPath, IMAGE_MIME_TYPE} from "@mantine/dropzone";
 import {ResourceProvider} from "@/components/common/ResourceProvider/ResourceProvider";
 import {ShortId} from "@/utility/ShortId";
+import {useUser} from "@/hooks/useUser";
+import {useTeamList} from "@/hooks/useTeamList";
 
 interface Props extends ModalBaseProps {
   data: Erd | null

@@ -1,8 +1,8 @@
 import {Button, Text} from "@mantine/core";
-import {useUser} from "@/hooks";
+import {useUser} from "@/hooks/useUser";
 import {useCallback} from "react";
 import {ProfilePicture} from "@/components/common/ProfilePicture";
-import { useSelectedTeam } from "@/hooks";
+import { useSelectedTeam } from "@/hooks/useSelectedTeam";
 
 export const Personal = () => {
   const { data: user } = useUser()

@@ -1,6 +1,6 @@
 import {memo} from "react";
 import {MiniMap as FlowMinimap} from "@xyflow/react"
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 import {EntityNode} from "@/types/diagram";
 
 const nodeColorGetter = (node: EntityNode) => {

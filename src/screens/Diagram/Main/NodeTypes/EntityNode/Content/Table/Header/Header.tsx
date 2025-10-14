@@ -1,9 +1,10 @@
 import {Checkbox, Table as MantineTable, Text, Tooltip} from "@mantine/core";
 import React from "react";
-import {useDiagramStore, useEntityColumns} from "@/hooks";
-import {useEntityNode} from "@/hooks";
+import {useEntityNode} from "@/hooks/useEntityNode";
 import {DIAGRAM} from "@/namespaces";
 import { NODE } from "@/namespaces/broadcast/node";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
+import {useEntityColumns} from "@/hooks/useEntityColumns";
 
 export const Header = React.forwardRef<any, any>((props, ref) => {
   const {data: nodeData} = useEntityNode()

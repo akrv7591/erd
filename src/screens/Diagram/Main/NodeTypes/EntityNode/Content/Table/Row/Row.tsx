@@ -1,14 +1,16 @@
 import {memo, useCallback} from "react";
 import {EditorModeColumns} from "./EditorModeColumns";
 import {SimplifiedModeColumns} from "./SimplifiedModeColumns";
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 import {EntityColumn} from "@/types/diagram";
-import {useUpdateEntityColumn} from "@/hooks";
+import {useUpdateEntityColumn} from "@/hooks/useUpdateEntityColumn";
 import {DIAGRAM} from "@/namespaces";
 
 export const Row = memo(({data}: { data: EntityColumn }) => {
   const viewMode = useDiagramStore(state => state.entityViewMode)
   const patchColumn = useUpdateEntityColumn(data.id)
+
+
 
   const handleChange = useCallback((key: keyof EntityColumn): React.ChangeEventHandler<HTMLInputElement> => (e) => {
     switch(e.target.type) {

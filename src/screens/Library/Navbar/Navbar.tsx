@@ -1,12 +1,13 @@
 import {ActionIcon, Divider, Group, Stack, Text, Tooltip} from '@mantine/core';
 import {IconPlus} from '@tabler/icons-react';
 import {TeamModal} from "./TeamModal";
-import {useModal, useTeamList} from "@/hooks";
 import {memo, Suspense, useCallback} from "react";
 import {Team} from "./Team";
 import {UserTeamProvider} from "@/providers/UserTeamProvider";
 import {Personal} from "@/screens/Library/Navbar/Personal";
 import {TeamUser} from "@/types/log-to/team-user";
+import {useModal} from "@/hooks/useModal";
+import {useTeamList} from "@/hooks/useTeamList";
 
 export const Navbar = memo(() => {
   const modal = useModal<TeamUser>({

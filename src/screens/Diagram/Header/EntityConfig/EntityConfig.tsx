@@ -1,13 +1,13 @@
 import { memo, useCallback } from "react";
-import { useDiagramStore } from "@/hooks";
 import { EntityData } from "@/types/diagram";
 import { PlaygroundActionIcon } from "@/components/common/PlaygroundActionIcon";
 import { IconTableOptions } from "@tabler/icons-react";
 import { Portal, Tooltip } from "@mantine/core";
-import { useModal } from "@/hooks";
 import { EntityConfigModal } from "./EntityConfigModal";
-import { useUser } from "@/hooks";
 import { CustomTheme } from "@/components/common/CustomTheme";
+import {useUser} from "@/hooks/useUser";
+import {useModal} from "@/hooks/useModal";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 
 export const EntityConfig = memo(() => {
   const modal = useModal({

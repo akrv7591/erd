@@ -1,6 +1,6 @@
 import {memo, useCallback} from "react";
 import {useOnViewportChange, Viewport} from "@xyflow/react";
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 import { SOCKET } from "@/namespaces";
 
 export const ViewportChangeHandler = memo(() => {

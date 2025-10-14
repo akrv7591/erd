@@ -1,10 +1,10 @@
 import {memo, useEffect, useState} from "react";
-import {useWorkerFunc} from "use-react-workers";
+import {useWorkerFunc, WorkerStatus} from "use-react-workers";
 import generateSmartPath from "@/utility/diagram/workers/generateSmartPath";
-import {BaseEdge, EdgeProps,} from "@xyflow/react";
+import {BaseEdge, EdgeProps, useNodesInitialized,} from "@xyflow/react";
 import {getEdgeParams} from "@/screens/Diagram/Main/utils";
 import { EdgeType } from "@/types/diagram/edge";
-import { useDiagramStore } from "@/hooks";
+import { useDiagramStore } from "@/hooks/useDiagramStore";
 import { EntityNode, NodeType } from "@/types/diagram";
 
 const workerOptions = {
@@ -24,12 +24,21 @@ export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => 
   const [sortWorker, controller] = useWorkerFunc(generateSmartPath, workerOptions);
   const [path, setPath] = useState<string>("");
   const nodeViewportChange = useDiagramStore(state => state.nodeViewportChange)
+  const isNodesInitialized = useNodesInitialized()
 
   useEffect(() => {
     const isNodesBeingDragged = nodes.some(node => node.dragging)
 
+    if (!isNodesInitialized) {
+      return
+    }
+
     if (isNodesBeingDragged) {
       return
+    }
+
+    if(controller.status === WorkerStatus.RUNNING) {
+      controller.terminate()
     }
 
     const params = getEdgeParams(sourceNode, targetNode)
@@ -50,17 +59,17 @@ export const Path = memo(({sourceNode, targetNode, edgeProps, nodes}: Props) => 
     return () => {
       controller.terminate()
     }
-  }, [nodeViewportChange])
-  const isSelected = edgeProps.selected || sourceNode.selected || targetNode.selected
+  }, [nodeViewportChange, isNodesInitialized])
 
+  const isSelected = edgeProps.selected || sourceNode.selected || targetNode.selected
   const className = isSelected? edgeProps.data?.relationName + " selected" : edgeProps.data?.relationName
   const {
-    selected, 
-    targetHandleId, 
-    sourceHandleId, 
-    pathOptions, 
-    targetPosition, 
-    sourcePosition, 
+    selected,
+    targetHandleId,
+    sourceHandleId,
+    pathOptions,
+    targetPosition,
+    sourcePosition,
     sourceX,
     targetX,
     sourceY,

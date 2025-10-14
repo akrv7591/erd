@@ -1,4 +1,4 @@
-import { useNodeId } from "@/hooks";
+import { useNodeId } from "@/hooks/useNodeId";
 import { ActionIcon, Group } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { useReactFlow } from "@xyflow/react";

@@ -29,7 +29,7 @@ import {
   useEntityConfigForm,
 } from "./EntityContextForm";
 import { ButtonWithConfirm } from "@/components/common/ButtonWithConfirm";
-import { useDiagramStore } from "@/hooks";
+import { useDiagramStore } from "@/hooks/useDiagramStore";
 import { DIAGRAM } from "@/namespaces";
 import classes from "./style.module.css";
 

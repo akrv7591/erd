@@ -1,9 +1,9 @@
 import { RouterProvider } from "react-router-dom";
 import { routes } from "@/routers/routes";
 import { memo, Suspense } from "react";
-import { useOnMount } from "@/hooks";
 import { useLogtoStore } from "@/stores/logto-store";
 import { useLogto } from "@logto/react";
+import {useOnMount} from "@/hooks/useOnMount";
 
 export const Router = memo(() => {
   const logTo = useLogto()

@@ -1,9 +1,10 @@
-import {type TablerIconsProps,IconLock,IconSettings} from "@tabler/icons-react";
+import {IconLock, IconSettings} from "@tabler/icons-react";
+
 
 interface Tab {
   label: string
   value: ProfileSettingTab.tab
-  Icon: (props: TablerIconsProps) => JSX.Element
+  Icon: typeof IconLock | typeof IconSettings
 }
 
 export namespace ProfileSettingTab {

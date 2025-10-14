@@ -5,7 +5,8 @@ import {erdApis} from "@/api/erd";
 import {memo} from "react";
 import {CreateErdButton} from "./CreateErdButton";
 import {ErdItem} from "@/screens/Library/Main/ErdItem";
-import { useSelectedTeam, useUser } from "@/hooks";
+import {useSelectedTeam} from "@/hooks/useSelectedTeam";
+import {useUser} from "@/hooks/useUser";
 
 export const Main = memo(() => {
   const {selectedTeam} = useSelectedTeam()

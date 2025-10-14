@@ -1,7 +1,7 @@
 import {memo} from "react";
 import { Handles } from "./Handles";
 import classes from "./style.module.css"
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 import {RELATION} from "@/namespaces";
 
 export const RelationsOverlay = memo(() => {

@@ -1,31 +1,41 @@
-import {memo, useCallback} from "react";
-import {ActionIcon, ColorSwatch, SimpleGrid} from "@mantine/core";
+import { FC, memo } from "react";
+import { ActionIcon, ColorSwatch, SimpleGrid } from "@mantine/core";
 import classes from "./style.module.css"
-import {useEntity} from "@/hooks";
-import {DIAGRAM} from "@/namespaces";
+import { DIAGRAM } from "@/namespaces";
+import { useUpdateEntityColor } from "@/hooks/useEntityData";
+
+interface ColorBtnProps {
+  color: string
+  onColorChange: (color: string) => void
+}
+
+const ColorBtn: FC<ColorBtnProps> = memo(({ color, onColorChange }) => {
+  const handleColorClick = () => {
+    onColorChange(color)
+  }
+
+  return (
+    <ActionIcon
+      variant={"default"}
+      onClick={handleColorClick}
+    >
+      <ColorSwatch
+        size={20}
+        radius={"xs"}
+        className={classes.color}
+        color={color}
+      />
+    </ActionIcon>
+  )
+})
 
 export const ColorList = memo(() => {
-  const {changeColor} = useEntity()
-
-  const handleColorClick = useCallback((color: string) => () => {
-    changeColor(color)
-  }, [changeColor])
+  const handleColorChange = useUpdateEntityColor()
 
   return (
     <SimpleGrid spacing={"5px"} cols={5} className={classes.root} p={0}>
       {DIAGRAM.ENTITY.COLORS.map(color => (
-        <ActionIcon
-          key={color}
-          variant={"default"}
-          onClick={handleColorClick(color)}
-        >
-          <ColorSwatch
-            size={20}
-            radius={"xs"}
-            className={classes.color}
-            color={color}
-          />
-        </ActionIcon>
+        <ColorBtn key={color} color={color} onColorChange={handleColorChange}/>
       ))}
     </SimpleGrid>
   )

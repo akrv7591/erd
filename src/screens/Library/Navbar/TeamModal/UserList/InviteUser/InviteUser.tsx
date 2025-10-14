@@ -4,8 +4,9 @@ import {useForm} from "@mantine/form";
 import {useMutation} from "@tanstack/react-query";
 import {teamInviteUserApi} from "@/api/logto/team";
 import {notifications} from "@mantine/notifications";
-import {useUserTeam, useRoles} from "@/hooks";
 import {RoleSelect} from "../RoleSelect";
+import {useUserTeam} from "@/hooks/useUserTeam";
+import {useRoles} from "@/hooks/useRoles";
 
 type Props = {
   onSuccessfulInvite: VoidFunction

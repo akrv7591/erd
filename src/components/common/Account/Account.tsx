@@ -1,11 +1,11 @@
 import { ActionIcon, Menu, rem } from "@mantine/core";
 import { IconLogout, IconUserCog } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "@/hooks";
 import { useLogto } from "@logto/react";
 import { memo, useCallback } from "react";
 import { config } from "@/config/config";
 import { ProfilePicture } from "@/components/common/ProfilePicture";
+import {useUser} from "@/hooks/useUser";
 
 export const Account = memo(() => {
   const { signOut } = useLogto();

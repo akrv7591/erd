@@ -7,7 +7,7 @@ import {EntityControl} from "../types";
 
 //Component imports
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 
 interface Props {
   data: EntityControl;

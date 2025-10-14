@@ -1,18 +1,20 @@
 import {TextInput} from "@mantine/core"
 import {IconTable} from "@tabler/icons-react"
-import {ChangeEventHandler, useCallback} from "react"
-import {useEntity, useEntityNode} from "@/hooks";
+import {ChangeEventHandler, FC, memo, useCallback} from "react"
+import { useEntityStoreData, useUpdateEntityName } from "@/hooks/useEntityData";
 
-export const NameInput = () => {
-  const {data} = useEntityNode()
-  const {changeName} = useEntity()
+interface Props {}
 
+export const NameInput: FC<Props> = memo(() => {
+  const name = useEntityStoreData(state => state.name)
+  const handleNameUpdate = useUpdateEntityName()
   const handleNameChange: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    changeName(e.target.value)
-  }, [changeName])
+    handleNameUpdate(e.target.value)
+  }, [])
+  
   return (
     <TextInput
-      value={data.name}
+      value={name}
       onChange={handleNameChange}
       autoFocus
       variant={"default"}
@@ -20,7 +22,7 @@ export const NameInput = () => {
       leftSection={(
         <IconTable/>
       )}
-      error={!data.name && "Entity name is required"}
+      error={!name && "Entity name is required"}
     />
   )
-}
+})

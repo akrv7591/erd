@@ -2,9 +2,10 @@ import {ActionIcon, Indicator, Tooltip} from "@mantine/core"
 import {IconRowInsertTop, IconTrash} from "@tabler/icons-react"
 import {ButtonWithConfirm} from "@/components/common/ButtonWithConfirm";
 import {memo, useCallback, useMemo} from "react";
-import {useEntityColumns, useEntityNode} from "@/hooks";
 import {DEFAULT_COLUMN_DATA} from "@/constants/diagram/column";
 import {ShortId} from "@/utility/ShortId";
+import {useEntityNode} from "@/hooks/useEntityNode";
+import {useEntityColumns} from "@/hooks/useEntityColumns";
 
 export const RowControls = memo(() => {
   const {data: entityData, id: entityId} = useEntityNode()

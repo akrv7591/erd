@@ -5,10 +5,12 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {notifications} from "@mantine/notifications";
 import {memo, useCallback, useMemo, useState} from "react";
 import {TeamUser} from "@/types/log-to/team-user";
-import {useRoles, useUser, useUserTeam} from "@/hooks";
 import {UserTeam} from "@/types/log-to/user-team";
 import {deleteUserFromTeamApi, updateTeamUserRoleApi} from "@/api/logto/team";
 import {RoleSelect} from "../RoleSelect";
+import {useUserTeam} from "@/hooks/useUserTeam";
+import {useUser} from "@/hooks/useUser";
+import {useRoles} from "@/hooks/useRoles";
 
 const UserAvatar = ({src}: { src: string }) => {
   return (

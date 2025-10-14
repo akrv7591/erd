@@ -2,7 +2,7 @@ import {Tooltip} from "@mantine/core";
 import Minimap from "@/assets/svgs/minimap.svg"
 import MinimapClosed from "@/assets/svgs/minimap-closed.svg"
 import {PlaygroundActionIcon} from "@/components/common/PlaygroundActionIcon";
-import {useDiagramStore} from "@/hooks";
+import {useDiagramStore} from "@/hooks/useDiagramStore";
 import {memo} from "react";
 
 export const MiniMapController = memo(() => {

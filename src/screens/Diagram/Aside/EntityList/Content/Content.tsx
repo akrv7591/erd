@@ -4,9 +4,9 @@ import classes from "./style.module.css";
 import React, { memo } from "react";
 import { SearchInput } from "@/components/common/SearchInput";
 import { useReactFlow } from "@xyflow/react";
-import { useEntities } from "@/hooks";
 import { EntityNode } from "@/types/diagram";
 import { EntitiesCount } from "./EntitiesCount";
+import {useEntities} from "@/hooks/useEntities";
 
 interface Props {
   onClose: () => void

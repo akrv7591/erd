@@ -1,8 +1,8 @@
-import {EdgeProps} from "@xyflow/react";
-import {memo} from "react";
+import { EdgeProps } from "@xyflow/react";
+import { memo } from "react";
 import "./style.css";
-import {Path} from "@/screens/Diagram/Main/EdgeTypes/SmartEdge/Path";
-import { useDiagramStore } from "@/hooks";
+import { Path } from "@/screens/Diagram/Main/EdgeTypes/SmartEdge/Path";
+import { useDiagramStore } from "@/hooks/useDiagramStore";
 import { EdgeType } from "@/types/diagram/edge";
 import { EntityNode } from "@/types/diagram";
 
